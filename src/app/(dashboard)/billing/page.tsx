@@ -248,24 +248,29 @@ export default function BillingPage() {
                 No paid invoice receipts found.
               </div>
             ) : (
-              invoices.map((inv) => (
-                <div key={inv.id} className="py-3 flex items-center justify-between">
-                  <div>
-                    <p className="text-xs font-bold text-white">{inv.number}</p>
-                    <p className="text-[10px] text-slate-400">{new Date(inv.created * 1000).toLocaleDateString()}</p>
+              invoices.map((inv) => {
+                const formattedDate = inv.dateFormatted || (typeof inv.created === 'number' ? new Date(inv.created * 1000).toLocaleDateString() : inv.created || 'N/A');
+                const formattedAmount = inv.amount || (typeof inv.amount_paid === 'number' ? (inv.amount_paid / 100).toFixed(2) : '0.00');
+
+                return (
+                  <div key={inv.id} className="py-3 flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-bold text-white">{inv.number}</p>
+                      <p className="text-[10px] text-slate-400">{formattedDate}</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs font-bold text-white">${formattedAmount} {inv.currency || 'USD'}</span>
+                      <button
+                        onClick={() => handleDownloadInvoice(inv.id, inv.number)}
+                        className="p-2 text-slate-400 hover:text-amber-500 hover:bg-slate-800 rounded transition"
+                        title="Download Invoice PDF"
+                      >
+                        <Download className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-white">${(inv.amount_paid / 100).toFixed(2)}</span>
-                    <button
-                      onClick={() => handleDownloadInvoice(inv.id, inv.number)}
-                      className="p-2 text-slate-400 hover:text-amber-500 hover:bg-slate-800 rounded transition"
-                      title="Download Invoice PDF"
-                    >
-                      <Download className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
