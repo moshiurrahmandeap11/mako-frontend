@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Navbar from '@/components/Navbar';
 import NetworkWave from '@/components/NetworkWave';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle, Mail, MessageSquare, ShieldCheck } from 'lucide-react';
@@ -30,7 +29,6 @@ export default function ContactPage() {
         <NetworkWave />
       </div>
 
-      <Navbar />
 
       <main className="relative z-10 flex-1 max-w-6xl mx-auto w-full px-6 pt-36 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         {/* Left Info Column */}

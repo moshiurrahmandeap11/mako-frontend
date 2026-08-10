@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
 import { Menu, X, User, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,7 +13,15 @@ export default function Navbar() {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const { data: session, isPending } = authClient.useSession();
   const router = useRouter();
+  const pathname = usePathname();
   const profileMenuRef = useRef<HTMLDivElement>(null);
+
+  const navLinks = [
+    { href: '/features', label: 'Features' },
+    { href: '/technology', label: 'Technology' },
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/contact', label: 'Contact' },
+  ];
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -55,18 +63,27 @@ export default function Navbar() {
           {/* Right Aligned Navigation and Action Buttons */}
           <div className="hidden md:flex items-center gap-6">
             <nav className="flex items-center gap-1 text-[11px] font-bold tracking-[0.15em] text-slate-400">
-              <Link href="/features" className="hover:text-amber-500 hover:bg-slate-900/50 transition-all px-3.5 py-2 rounded-full uppercase">
-                Features
-              </Link>
-              <Link href="/technology" className="hover:text-amber-500 hover:bg-slate-900/50 transition-all px-3.5 py-2 rounded-full uppercase">
-                Technology
-              </Link>
-              <Link href="/pricing" className="hover:text-amber-500 hover:bg-slate-900/50 transition-all px-3.5 py-2 rounded-full uppercase">
-                Pricing
-              </Link>
-              <Link href="/contact" className="hover:text-amber-500 hover:bg-slate-900/50 transition-all px-3.5 py-2 rounded-full uppercase">
-                Contact
-              </Link>
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`relative px-4 py-2 rounded-full uppercase transition-colors duration-300 ${
+                      isActive ? 'text-white font-extrabold' : 'hover:text-slate-200'
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="activeNavBackground"
+                        className="absolute inset-0 bg-slate-900 rounded-full -z-10 border border-slate-800/80"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                    {link.label}
+                  </Link>
+                );
+              })}
             </nav>
 
             <div className="flex items-center gap-4">
@@ -157,11 +174,24 @@ export default function Navbar() {
 
             {/* Drawer Content */}
             <div className="flex-1 overflow-y-auto px-6 py-8">
-              <div className="flex flex-col gap-6 text-sm font-bold tracking-wider text-slate-400">
-                <Link href="/features" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">FEATURES</Link>
-                <Link href="/technology" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">ABOUT TECHNOLOGY</Link>
-                <Link href="/pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">PRICING PLANS</Link>
-                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">CONTACT US</Link>
+              <div className="flex flex-col gap-4 text-sm font-bold tracking-wider text-slate-400">
+                {navLinks.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`px-4 py-3 rounded transition-colors duration-200 ${
+                        isActive
+                          ? 'text-white font-extrabold bg-slate-900 border border-slate-800'
+                          : 'hover:text-amber-500'
+                      }`}
+                    >
+                      {link.label.toUpperCase()}
+                    </Link>
+                  );
+                })}
                 <hr className="border-slate-800 my-2" />
                 <div className="flex flex-col gap-4">
                   {isPending ? (

@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
-import Navbar from '@/components/Navbar';
 import Button from '@/components/Button';
 import {
   Sparkles,
@@ -132,7 +131,6 @@ export default function LandingPage() {
       {/* Top Banner Accent */}
       <div className="h-1.5 w-full bg-gradient-to-r from-amber-500 via-orange-600 to-amber-400" />
 
-      <Navbar />
 
       {/* Hero Section matching the dark 3D structures and orange glowing brain theme */}
       <section className="relative min-h-screen flex items-center justify-center pt-32 pb-20 px-6 overflow-hidden">

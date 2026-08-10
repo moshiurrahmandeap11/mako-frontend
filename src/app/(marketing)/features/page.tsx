@@ -1,6 +1,5 @@
 'use client';
 
-import Navbar from '@/components/Navbar';
 import NetworkWave from '@/components/NetworkWave';
 import { motion } from 'framer-motion';
 import { Search, ShoppingCart, Sliders, Zap } from 'lucide-react';
@@ -37,7 +36,6 @@ export default function FeaturesPage() {
         <NetworkWave />
       </div>
 
-      <Navbar />
 
       <main className="relative z-10 flex-1 max-w-6xl mx-auto w-full px-6 pt-36 pb-20 flex flex-col justify-center">
         {/* Header */}
