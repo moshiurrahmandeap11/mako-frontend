@@ -19,6 +19,7 @@ import { api } from '@/lib/axios';
 import { authClient } from '@/lib/auth-client';
 import { fetchApi } from '@/lib/api-client';
 import { Skeleton } from '@/components/Skeleton';
+import { LogoMark } from '@/components/Logo';
 
 function CheckoutVerifier() {
   const searchParams = useSearchParams();
@@ -124,11 +125,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {/* Brand Header */}
           <div className="h-16 px-6 border-b border-slate-800/80 flex items-center gap-3">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative w-8 h-8 rounded bg-amber-500 text-slate-950 flex items-center justify-center font-black text-sm tracking-tighter">
-                <Zap className="w-4 h-4 text-slate-950" />
-              </div>
+              <LogoMark size="sm" />
               <div className="flex flex-col">
-                <span className="font-extrabold text-base tracking-[0.18em] text-white group-hover:text-amber-500 transition">
+                <span className="font-extrabold text-base tracking-[0.18em] text-white group-hover:text-amber-400 transition">
                   Labto AI
                 </span>
                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Merchant Console</span>

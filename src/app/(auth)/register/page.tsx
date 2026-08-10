@@ -7,6 +7,7 @@ import { Eye, EyeOff, Zap } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
 import NetworkWave from '@/components/NetworkWave';
 import Button from '@/components/Button';
+import Logo from '@/components/Logo';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -73,10 +74,7 @@ export default function RegisterPage() {
 
       {/* Header/Logo */}
       <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20">
-        <Link href="/" className="font-black text-xl text-white tracking-widest flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <Zap className="w-6 h-6 text-orange-500" />
-          Labto AI
-        </Link>
+        <Logo href="/" size="md" />
       </div>
 
       <div className="relative z-10 w-full max-w-md bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl p-8 shadow-2xl">

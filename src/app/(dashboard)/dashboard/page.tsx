@@ -17,6 +17,7 @@ import {
 import { fetchApi } from '@/lib/api-client';
 import Button from '@/components/Button';
 import { MetricCardSkeleton } from '@/components/Skeleton';
+import { LogoMark } from '@/components/Logo';
 
 export default function OverviewPage() {
   const [summary, setSummary] = useState<any>(null);
@@ -61,8 +62,8 @@ export default function OverviewPage() {
       {/* Welcome Hero Banner */}
       <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-8 shadow-xl">
         <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-amber-500/10 text-amber-500 text-[10px] font-bold uppercase tracking-widest border border-amber-500/20 mb-4">
-            <Zap className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 text-amber-400 text-[10px] font-bold uppercase tracking-widest border border-amber-500/20 mb-4">
+            <LogoMark size="sm" />
             <span>Labto AI Platform</span>
           </div>
           <h1 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
