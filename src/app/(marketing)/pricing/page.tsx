@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
+import toast from 'react-hot-toast';
 import NetworkWave from '@/components/NetworkWave';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
@@ -45,11 +46,11 @@ export default function PricingPage() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert(data.error || 'Failed to start checkout session. Please try again.');
+        toast.error(data.error || 'Failed to start checkout session. Please try again.');
       }
     } catch (err) {
       console.error('Checkout error:', err);
-      alert('Failed to connect to billing server.');
+      toast.error('Failed to connect to billing server.');
     } finally {
       setLoadingPlan(null);
     }
@@ -204,10 +205,9 @@ export default function PricingPage() {
               <Button
                 onClick={() => handleSelectPlan(plan.name, plan.href)}
                 disabled={loadingPlan !== null}
-                className={`w-full py-3 text-center text-xs font-bold tracking-[0.12em] ${
-                  plan.popular
-                    ? 'bg-amber-500 text-slate-950 hover:bg-amber-400 hover:text-slate-950 border-transparent shadow-lg shadow-orange-500/20'
-                    : 'bg-transparent text-amber-500 border-slate-800 hover:border-amber-500'
+                variant={plan.popular ? 'filled' : 'outline'}
+                className={`w-full py-3 ${
+                  plan.popular ? 'shadow-lg shadow-orange-500/20' : ''
                 }`}
               >
                 {loadingPlan === plan.name ? 'Connecting...' : plan.cta}

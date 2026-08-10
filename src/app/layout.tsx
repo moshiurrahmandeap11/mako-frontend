@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
 import QueryProvider from "@/components/QueryProvider";
 import Script from "next/script";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
@@ -23,6 +24,18 @@ export default function RootLayout({
         <QueryProvider>
           {children}
         </QueryProvider>
+        
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: {
+              background: '#0f172a',
+              color: '#fff',
+              border: '1px solid #1e293b',
+              fontSize: '13px',
+            },
+          }}
+        />
 
         <Script
           src="http://localhost:4000/widget.js"

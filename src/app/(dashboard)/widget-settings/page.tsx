@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { fetchApi } from '@/lib/api-client';
+import toast from 'react-hot-toast';
 
 export default function WidgetSettingsPage() {
   const [config, setConfig] = useState({
@@ -30,7 +31,6 @@ export default function WidgetSettingsPage() {
   const [savingConfig, setSavingConfig] = useState(false);
   const [savingDomains, setSavingDomains] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [message, setMessage] = useState('');
 
   useEffect(() => {
     // 1. Fetch Widget Config
@@ -59,19 +59,17 @@ export default function WidgetSettingsPage() {
       .catch(console.error);
   }, []);
 
-  const handleSaveConfig = async (e: React.FormEvent) => {
+  const handleSaveConfig = async (e: any) => {
     e.preventDefault();
     setSavingConfig(true);
-    setMessage('');
-
     try {
       await fetchApi('/api/widget-config', {
         method: 'PATCH',
         body: JSON.stringify(config),
       });
-      setMessage('Widget configuration saved successfully!');
+      toast.success('Widget configuration saved successfully!');
     } catch (err: any) {
-      alert(err.message || 'Failed to save config');
+      toast.error(err.message || 'Failed to save config');
     } finally {
       setSavingConfig(false);
     }
@@ -92,7 +90,7 @@ export default function WidgetSettingsPage() {
       setDomains(newDomains);
       setDomainInput('');
     } catch (err: any) {
-      alert(err.message || 'Failed to update domains');
+      toast.error(err.message || 'Failed to update domains');
     } finally {
       setSavingDomains(false);
     }
@@ -109,7 +107,7 @@ export default function WidgetSettingsPage() {
       });
       setDomains(newDomains);
     } catch (err: any) {
-      alert(err.message || 'Failed to update domains');
+      toast.error(err.message || 'Failed to update domains');
     } finally {
       setSavingDomains(false);
     }
@@ -132,12 +130,7 @@ export default function WidgetSettingsPage() {
         <p className="text-slate-400 text-xs mt-1">Customize your AI assistant styling, whitelisted domains, and embed snippet</p>
       </div>
 
-      {message && (
-        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2">
-          <Check className="w-4 h-4" />
-          <span>{message}</span>
-        </div>
-      )}
+
 
       {/* Main Grid: Customizer Controls + Live Interactive Preview */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
