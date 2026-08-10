@@ -39,7 +39,7 @@ export default function RootLayout({
 
         <Script
           src="http://localhost:4000/widget.js"
-          data-api-key="aiw_live_db2b1034ebb8c8e18c31bc9133914c847e8ff883795314ae"
+          data-api-key="aiw_live_b344e76ca39295a8cb438c3b45f71d4c6acbafadd59f6332"
           strategy="afterInteractive"
         />
       </body>
