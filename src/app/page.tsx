@@ -289,15 +289,6 @@ export default function LandingPage() {
           
           {/* Left Column: Hero Text Copy */}
           <div className="lg:col-span-5 space-y-6 text-center lg:text-left mt-8 lg:mt-0">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/80 text-orange-400 text-[10px] font-bold border border-orange-500/20 backdrop-blur-md"
-            >
-              <Sparkles className="w-3.5 h-3.5 animate-pulse" />
-              <span className="tracking-widest uppercase">AI Integration As A Service</span>
-            </motion.div>
             
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
@@ -425,13 +416,15 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 2.8, type: 'spring', boxShadow: { repeat: Infinity, duration: 2, delay: 1.2 } }}
               className="group relative w-56 md:w-40 lg:w-48 py-8 bg-slate-950/80 backdrop-blur border border-orange-500/60 rounded flex items-center justify-center text-[11px] lg:text-xs font-bold text-white z-10 hover:border-orange-500 transition-colors cursor-default overflow-visible"
             >
-              {/* Shine effect */}
-              <motion.div 
-                initial={{ x: '-100%' }}
-                animate={{ x: '200%' }}
-                transition={{ duration: 1.5, delay: 3.5, repeat: Infinity, repeatDelay: 3 }}
-                className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 pointer-events-none rounded"
-              />
+              {/* Shine effect wrapper */}
+              <div className="absolute inset-0 overflow-hidden rounded pointer-events-none">
+                <motion.div 
+                  initial={{ x: '-100%' }}
+                  animate={{ x: '200%' }}
+                  transition={{ duration: 1.5, delay: 3.5, repeat: Infinity, repeatDelay: 3 }}
+                  className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
+                />
+              </div>
               Integration Completed
 
               {/* Tooltip: Dummy Chatbot Scene */}
