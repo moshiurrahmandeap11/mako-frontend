@@ -7,7 +7,9 @@ import Link from 'next/link';
 
 export default function BillingPage() {
   const [merchant, setMerchant] = useState<any>(null);
+  const [invoices, setInvoices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingInvoices, setLoadingInvoices] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -23,8 +25,21 @@ export default function BillingPage() {
     }
   };
 
+  const loadInvoices = async () => {
+    setLoadingInvoices(true);
+    try {
+      const data = await fetchApi('/api/billing/invoices');
+      setInvoices(data.invoices || []);
+    } catch (err) {
+      console.error('Failed to load invoices:', err);
+    } finally {
+      setLoadingInvoices(false);
+    }
+  };
+
   useEffect(() => {
     loadProfile();
+    loadInvoices();
   }, []);
 
   const handleManageBilling = async () => {
@@ -203,6 +218,69 @@ export default function BillingPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Invoice History Section */}
+      <div className="p-8 bg-slate-900/40 border border-slate-800 rounded-2xl space-y-6">
+        <div>
+          <h3 className="text-lg font-bold text-white">Invoice History</h3>
+          <p className="text-slate-400 text-xs mt-1">Review your recent transaction payments and download official receipts.</p>
+        </div>
+
+        {loadingInvoices ? (
+          <div className="flex items-center gap-2 text-indigo-400 text-xs py-4">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>Fetching payment history...</span>
+          </div>
+        ) : invoices.length === 0 ? (
+          <div className="text-slate-500 text-xs py-4">No billing statements available. Upgrade to a paid plan to view history.</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-slate-800 text-slate-400 uppercase text-[10px] tracking-wider">
+                  <th className="py-3.5 px-4 font-semibold">Invoice Number</th>
+                  <th className="py-3.5 px-4 font-semibold">Date</th>
+                  <th className="py-3.5 px-4 font-semibold">Amount</th>
+                  <th className="py-3.5 px-4 font-semibold">Status</th>
+                  <th className="py-3.5 px-4 font-semibold text-right">Receipt</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60">
+                {invoices.map((inv) => (
+                  <tr key={inv.id} className="hover:bg-slate-900/20 text-slate-350 transition-colors">
+                    <td className="py-3.5 px-4 font-medium text-white">{inv.number}</td>
+                    <td className="py-3.5 px-4">{inv.created}</td>
+                    <td className="py-3.5 px-4 font-semibold">{inv.amount} {inv.currency}</td>
+                    <td className="py-3.5 px-4">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                        inv.status === 'paid'
+                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                          : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                      }`}>
+                        {inv.status}
+                      </span>
+                    </td>
+                    <td className="py-3.5 px-4 text-right">
+                      {inv.pdf ? (
+                        <a
+                          href={inv.pdf}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-amber-500 hover:text-amber-400 font-bold hover:underline"
+                        >
+                          PDF Receipt ↗
+                        </a>
+                      ) : (
+                        <span className="text-slate-650">-</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

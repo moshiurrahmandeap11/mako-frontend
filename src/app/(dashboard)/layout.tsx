@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
   LayoutDashboard,
   Package,
@@ -14,9 +14,30 @@ import {
   Sparkles,
   CreditCard,
 } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
 import { authClient } from '@/lib/auth-client';
+import { fetchApi } from '@/lib/api-client';
+
+function CheckoutVerifier() {
+  const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
+  const sessionId = searchParams.get('session_id');
+
+  useEffect(() => {
+    if (sessionId) {
+      fetchApi(`/api/billing/verify?session_id=${sessionId}`)
+        .then((data) => {
+          if (data.success) {
+            queryClient.invalidateQueries({ queryKey: ['merchantProfile'] });
+          }
+        })
+        .catch(console.error);
+    }
+  }, [sessionId, queryClient]);
+
+  return null;
+}
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -64,6 +85,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex">
+      <Suspense fallback={null}>
+        <CheckoutVerifier />
+      </Suspense>
       {/* Sidebar Navigation */}
       <aside className="w-64 border-r border-slate-800 bg-slate-900/50 flex flex-col justify-between shrink-0">
         <div>
