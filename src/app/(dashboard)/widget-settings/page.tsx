@@ -281,8 +281,46 @@ export default function WidgetSettingsPage() {
           </div>
         </div>
 
-        {/* Right Column: Live Preview & Code Generator */}
+        {/* Right Column: Code Generator & Live Preview */}
         <div className="lg:col-span-5 space-y-6">
+          {/* Embed Code Generator */}
+          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
+              <div className="flex items-center gap-2">
+                <Code2 className="w-5 h-5 text-amber-500" />
+                <h2 className="text-base font-bold text-white">Embed Code Snippet</h2>
+              </div>
+
+              <Button onClick={copyEmbedCode} variant="filled">
+                <span className="flex items-center gap-1.5">
+                  {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copied ? 'Copied!' : 'Copy Code'}</span>
+                </span>
+              </Button>
+            </div>
+
+            {/* Framework Select Tabs */}
+            <div className="flex items-center gap-1 overflow-x-auto pb-2 scrollbar-none">
+              {frameworks.map((fw) => (
+                <button
+                  key={fw}
+                  onClick={() => setSelectedFramework(fw)}
+                  className={`px-2.5 py-1 rounded text-[11px] font-bold tracking-wider uppercase transition ${
+                    selectedFramework === fw
+                      ? 'bg-amber-500 text-slate-950'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  }`}
+                >
+                  {fw}
+                </button>
+              ))}
+            </div>
+
+            <pre className="p-4 bg-slate-950 border border-slate-800 rounded-xl font-mono text-xs text-amber-400 overflow-x-auto">
+              {embedCode}
+            </pre>
+          </div>
+
           {/* Live Preview Device Box */}
           <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 shadow-xl flex flex-col items-center">
             <div className="w-full flex items-center justify-between border-b border-slate-800/80 pb-3 mb-4">
@@ -346,44 +384,6 @@ export default function WidgetSettingsPage() {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Embed Code Generator */}
-          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-              <div className="flex items-center gap-2">
-                <Code2 className="w-5 h-5 text-amber-500" />
-                <h2 className="text-base font-bold text-white">Embed Code Snippet</h2>
-              </div>
-
-              <Button onClick={copyEmbedCode} variant="filled">
-                <span className="flex items-center gap-1.5">
-                  {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copied ? 'Copied!' : 'Copy Code'}</span>
-                </span>
-              </Button>
-            </div>
-
-            {/* Framework Select Tabs */}
-            <div className="flex items-center gap-1 overflow-x-auto pb-2 scrollbar-none">
-              {frameworks.map((fw) => (
-                <button
-                  key={fw}
-                  onClick={() => setSelectedFramework(fw)}
-                  className={`px-2.5 py-1 rounded text-[11px] font-bold tracking-wider uppercase transition ${
-                    selectedFramework === fw
-                      ? 'bg-amber-500 text-slate-950'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-                  }`}
-                >
-                  {fw}
-                </button>
-              ))}
-            </div>
-
-            <pre className="p-4 bg-slate-950 border border-slate-800 rounded-xl font-mono text-xs text-amber-400 overflow-x-auto">
-              {embedCode}
-            </pre>
           </div>
         </div>
       </div>

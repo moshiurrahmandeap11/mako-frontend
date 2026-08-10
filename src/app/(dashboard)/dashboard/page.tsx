@@ -62,16 +62,9 @@ export default function OverviewPage() {
       {/* Welcome Hero Banner */}
       <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-8 shadow-xl">
         <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 text-amber-400 text-[10px] font-bold uppercase tracking-widest border border-amber-500/20 mb-4">
-            <LogoMark size="sm" />
-            <span>Labto AI Platform</span>
-          </div>
           <h1 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
-            Welcome to Labto AI Console
+            Labto AI Console
           </h1>
-          <p className="mt-3 text-slate-300 text-sm leading-relaxed">
-            Drive storefront conversions with an intelligent shopping assistant that interacts naturally with shoppers, recommends products via vector similarity search, tracks unique visitor traffic, and executes direct add-to-cart actions.
-          </p>
           <div className="mt-6 flex flex-wrap gap-4">
             <Button href="/widget-settings" variant="filled">
               <span className="flex items-center gap-2">
