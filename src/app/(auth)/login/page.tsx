@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authClient } from '@/lib/auth-client';
@@ -11,6 +11,14 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const { data: session, isPending } = authClient.useSession();
+
+  useEffect(() => {
+    if (!isPending && session) {
+      router.push('/dashboard');
+    }
+  }, [session, isPending, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,13 +60,8 @@ export default function LoginPage() {
     <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 mb-3 border border-indigo-500/30">
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Merchant Login</h1>
-          <p className="text-slate-400 text-sm mt-1">Access your AI Shopping Assistant Dashboard</p>
+          <h1 className="text-2xl font-semibold tracking-tight text-white">Get into Your Account</h1>
+          <p className="text-slate-400 text-sm mt-2">Access your MAKO Dashboard</p>
         </div>
 
         {error && (
@@ -76,7 +79,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="merchant@store.com"
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-white placeholder-slate-600 text-sm transition"
+              className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded focus:outline-none focus:border-slate-500 text-white placeholder-slate-600 text-sm transition-colors"
             />
           </div>
 
@@ -88,14 +91,14 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-white placeholder-slate-600 text-sm transition"
+              className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded focus:outline-none focus:border-slate-500 text-white placeholder-slate-600 text-sm transition-colors"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold rounded-xl transition shadow-lg shadow-indigo-500/25 disabled:opacity-50 active:scale-[0.98] cursor-pointer"
+            className="w-full cursor-pointer py-3.5 px-4 bg-transparent text-amber-500 hover:bg-amber-500 hover:text-slate-950 font-bold uppercase tracking-[0.12em] border border-amber-500/70 rounded transition-all duration-300 disabled:opacity-50"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
@@ -137,9 +140,9 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-6 text-center text-sm text-slate-400">
-          Don't have a merchant account?{' '}
-          <Link href="/register" className="text-indigo-400 hover:text-indigo-300 font-medium">
-            Register store
+          Don't have an account?{' '}
+          <Link href="/register" className="text-amber-500 hover:text-amber-400 font-medium">
+            Register Now
           </Link>
         </div>
       </div>
