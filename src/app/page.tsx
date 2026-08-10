@@ -294,25 +294,23 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-5xl font-black text-white leading-[1.15] tracking-tight"
+              className="text-4xl sm:text-5xl lg:text-5xl font-medium text-white leading-tight"
             >
               Intelligent AI Assistant <br className="hidden sm:inline" />
               for your website <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-500 to-amber-300">
-                in 3 simple steps
-              </span>
+              in 3 simple steps
             </motion.h1>
 
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            <div className="pt-6 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <Link
                 href="/register"
-                className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-slate-950 font-bold rounded-lg text-sm tracking-wide shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transition-all duration-300 transform hover:-translate-y-0.5"
+                className="w-full sm:w-auto px-8 py-3 bg-transparent text-amber-500 hover:bg-amber-500 hover:text-slate-950 font-bold uppercase tracking-[0.12em] border border-amber-500/70 rounded transition-all duration-300 text-xs sm:text-sm text-center"
               >
                 Start Free Trial
               </Link>
               <Link
                 href="#pricing"
-                className="w-full sm:w-auto px-8 py-4 bg-transparent text-amber-500 hover:text-white font-bold rounded-lg text-sm tracking-wide border border-amber-500/50 hover:border-white transition-all duration-300"
+                className="w-full sm:w-auto px-8 py-3 bg-transparent text-slate-300 hover:text-white hover:bg-slate-800 font-medium rounded text-sm border border-slate-700 hover:border-slate-500 transition-colors duration-200"
               >
                 Partner with us
               </Link>
