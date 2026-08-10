@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { fetchApi } from '@/lib/api-client';
 import { CreditCard, Check, ShieldAlert, Sparkles, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 export default function BillingPage() {
   const [merchant, setMerchant] = useState<any>(null);
@@ -56,6 +57,35 @@ export default function BillingPage() {
       setError(err.message || 'Failed to connect to billing server.');
     } finally {
       setActionLoading(false);
+    }
+  };
+
+  const handleDownloadInvoice = async (invoiceId: string, invoiceNumber: string) => {
+    toast.loading('Generating invoice receipt...', { id: 'download-invoice' });
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000';
+      const response = await fetch(`${apiBase}/api/billing/invoices/${invoiceId}/download`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to retrieve PDF file.');
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${invoiceNumber.replace(/\s+/g, '_')}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      toast.success('Invoice receipt downloaded!', { id: 'download-invoice' });
+    } catch (err) {
+      console.error('Invoice download error:', err);
+      toast.error('Failed to download invoice PDF.', { id: 'download-invoice' });
     }
   };
 
@@ -263,14 +293,12 @@ export default function BillingPage() {
                     </td>
                     <td className="py-3.5 px-4 text-right">
                       {inv.pdf ? (
-                        <a
-                          href={inv.pdf}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-amber-500 hover:text-amber-400 font-bold hover:underline"
+                        <button
+                          onClick={() => handleDownloadInvoice(inv.id, inv.number)}
+                          className="text-amber-500 hover:text-amber-400 font-bold hover:underline cursor-pointer bg-transparent border-none p-0 outline-none"
                         >
-                          PDF Receipt ↗
-                        </a>
+                          Download PDF ↙
+                        </button>
                       ) : (
                         <span className="text-slate-650">-</span>
                       )}
