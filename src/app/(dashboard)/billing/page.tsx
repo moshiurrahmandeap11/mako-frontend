@@ -252,9 +252,27 @@ export default function BillingPage() {
 
       {/* Invoice History Section */}
       <div className="p-8 bg-slate-900/40 border border-slate-800 rounded-2xl space-y-6">
-        <div>
-          <h3 className="text-lg font-bold text-white">Invoice History</h3>
-          <p className="text-slate-400 text-xs mt-1">Review your recent transaction payments and download official receipts.</p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-850 pb-6">
+          <div>
+            <h3 className="text-lg font-bold text-white">Invoice History</h3>
+            <p className="text-slate-400 text-xs mt-1">Review your recent transaction payments and download official receipts.</p>
+          </div>
+
+          {/* Labto AI Brand Logo Signature */}
+          <div className="flex flex-col items-start sm:items-end gap-1 shrink-0 bg-slate-950/40 border border-slate-800/80 px-4 py-2.5 rounded-xl">
+            <div className="flex items-center gap-2">
+              <div className="relative w-6 h-6 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/25">
+                <div className="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent" />
+                <div className="absolute w-1.5 h-1.5 rounded-full bg-amber-300" />
+              </div>
+              <span className="font-extrabold text-sm tracking-[0.15em] text-white">
+                Labto AI
+              </span>
+            </div>
+            <span className="text-[9px] text-slate-500 tracking-wider font-semibold uppercase">
+              a product of Labtobit
+            </span>
+          </div>
         </div>
 
         {loadingInvoices ? (
