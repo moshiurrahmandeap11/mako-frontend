@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 import QueryProvider from "@/components/QueryProvider";
+import Script from "next/script";
 
 export default function RootLayout({
   children,
@@ -22,6 +23,12 @@ export default function RootLayout({
         <QueryProvider>
           {children}
         </QueryProvider>
+
+        <Script
+          src="http://localhost:4000/widget.js"
+          data-api-key="aiw_live_db2b1034ebb8c8e18c31bc9133914c847e8ff883795314ae"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
