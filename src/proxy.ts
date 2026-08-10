@@ -2,17 +2,25 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function proxy(request: NextRequest) {
-  // Better Auth stores its session token in a cookie.
-  // The name can be better-auth.session_token or similar depending on the environment.
-  // We can do a simple check: if any auth cookie exists, or check a specific one.
-  const hasSessionCookie = 
-    request.cookies.has('better-auth.session_token') || 
-    request.cookies.has('__Secure-better-auth.session_token') ||
-    request.cookies.has('mako_auth_session'); // add any other known session cookies if needed
+  // Better Auth stores its session token in cookies.
+  // In production/HTTPS, browsers use __Secure- or __Host- prefixes.
+  const authCookieNames = [
+    'better-auth.session_token',
+    '__Secure-better-auth.session_token',
+    '__Host-better-auth.session_token',
+    'better_auth_session',
+    'mako_auth_session',
+  ];
 
-  // If the user does not have a session cookie, redirect them to the login page.
+  const hasSessionCookie = authCookieNames.some((cookieName) =>
+    request.cookies.has(cookieName)
+  );
+
+  // If the user does not have an active session cookie, redirect to login
   if (!hasSessionCookie) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('redirect', request.nextUrl.pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
@@ -20,13 +28,11 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all paths under /dashboard, /products, /widget-settings, /api-keys, /conversations
-     */
     '/dashboard/:path*',
     '/products/:path*',
     '/widget-settings/:path*',
     '/api-keys/:path*',
     '/conversations/:path*',
+    '/billing/:path*',
   ],
 };
