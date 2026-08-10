@@ -20,7 +20,7 @@ import {
   User,
   ArrowRightCircle
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import NetworkWave from '@/components/NetworkWave';
 
 export default function LandingPage() {
@@ -231,51 +231,77 @@ export default function LandingPage() {
           </button>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+      </motion.header>
+
+      {/* Full-Screen Mobile Navigation Drawer */}
+      <AnimatePresence>
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-slate-950/95 border-b border-slate-900 px-6 py-6 space-y-4 absolute top-20 left-0 w-full backdrop-blur-lg">
-            <div className="flex flex-col gap-4 text-xs font-bold tracking-wider text-slate-400">
-              <Link href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">FEATURES</Link>
-              <Link href="#about" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">ABOUT TECHNOLOGY</Link>
-              <Link href="#pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">PRICING PLANS</Link>
-              <Link href="#contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">CONTACT US</Link>
-              <hr className="border-slate-900" />
-              <div className="flex flex-col gap-3 pt-2">
-                {isPending ? (
-                   <div className="h-10 bg-slate-900 rounded animate-pulse" />
-                ) : session ? (
-                  <>
-                    <div className="flex items-center gap-3 px-2 py-2 mb-2 bg-slate-900/50 rounded-lg">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 p-[2px] flex items-center justify-center">
-                        <div className="w-full h-full bg-slate-950 rounded-full flex items-center justify-center overflow-hidden">
-                          {session.user.image ? (
-                            <img src={session.user.image} alt="Profile" className="w-full h-full object-cover" />
-                          ) : (
-                            <User className="w-5 h-5 text-amber-500" />
-                          )}
+          <motion.div 
+            initial={{ x: '-100%', opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: '-100%', opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="lg:hidden fixed inset-0 z-[60] bg-slate-950/95 backdrop-blur-xl flex flex-col"
+          >
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between px-6 py-6 border-b border-slate-900/60">
+              <span className="font-black text-xl text-white tracking-widest flex items-center gap-2">
+                <Zap className="w-6 h-6 text-orange-500" />
+                MAKO
+              </span>
+              <button 
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-900 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            {/* Drawer Content */}
+            <div className="flex-1 overflow-y-auto px-6 py-8">
+              <div className="flex flex-col gap-6 text-sm font-bold tracking-wider text-slate-400">
+                <Link href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">FEATURES</Link>
+                <Link href="#about" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">ABOUT TECHNOLOGY</Link>
+                <Link href="#pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">PRICING PLANS</Link>
+                <Link href="#contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500">CONTACT US</Link>
+                <hr className="border-slate-800 my-2" />
+                <div className="flex flex-col gap-4">
+                  {isPending ? (
+                     <div className="h-12 bg-slate-900 rounded animate-pulse" />
+                  ) : session ? (
+                    <>
+                      <div className="flex items-center gap-4 px-3 py-3 mb-2 bg-slate-900/50 rounded-lg">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 p-[2px] flex items-center justify-center">
+                          <div className="w-full h-full bg-slate-950 rounded-full flex items-center justify-center overflow-hidden">
+                            {session.user.image ? (
+                              <img src={session.user.image} alt="Profile" className="w-full h-full object-cover" />
+                            ) : (
+                              <User className="w-6 h-6 text-amber-500" />
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex flex-col overflow-hidden">
+                          <span className="text-base text-white font-bold truncate">{session.user.name || 'User'}</span>
+                          <span className="text-xs text-slate-400 truncate">{session.user.email}</span>
                         </div>
                       </div>
-                      <div className="flex flex-col overflow-hidden">
-                        <span className="text-sm text-white font-bold truncate">{session.user.name || 'User'}</span>
-                        <span className="text-[10px] text-slate-400 truncate">{session.user.email}</span>
-                      </div>
-                    </div>
-                    <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="py-2.5 text-center border border-slate-800 rounded font-semibold text-slate-300 hover:bg-slate-900 transition">PROFILE</Link>
-                    <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="py-2.5 text-center border border-slate-800 rounded font-semibold text-slate-300 hover:bg-slate-900 transition">DASHBOARD</Link>
-                    <Link href="/settings" onClick={() => setMobileMenuOpen(false)} className="py-2.5 text-center border border-slate-800 rounded font-semibold text-slate-300 hover:bg-slate-900 transition">SETTINGS</Link>
-                    <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="py-2.5 text-center bg-red-500/10 text-red-400 border border-red-500/20 rounded font-semibold hover:bg-red-500/20 transition">LOGOUT</button>
-                  </>
-                ) : (
-                  <>
-                    <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="py-2.5 text-center bg-slate-900 rounded font-semibold text-white hover:bg-slate-800 transition">SIGN IN</Link>
-                    <Link href="/register" onClick={() => setMobileMenuOpen(false)} className="py-2.5 text-center bg-amber-500 rounded font-semibold text-slate-950 hover:bg-amber-400 transition">GET STARTED</Link>
-                  </>
-                )}
+                      <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="py-3 text-center border border-slate-800 rounded font-semibold text-slate-300 hover:bg-slate-900 transition">PROFILE</Link>
+                      <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="py-3 text-center border border-slate-800 rounded font-semibold text-slate-300 hover:bg-slate-900 transition">DASHBOARD</Link>
+                      <Link href="/settings" onClick={() => setMobileMenuOpen(false)} className="py-3 text-center border border-slate-800 rounded font-semibold text-slate-300 hover:bg-slate-900 transition">SETTINGS</Link>
+                      <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="py-3 text-center bg-red-500/10 text-red-400 border border-red-500/20 rounded font-semibold hover:bg-red-500/20 transition mt-2">LOGOUT</button>
+                    </>
+                  ) : (
+                    <>
+                      <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="py-3 text-center bg-slate-900 rounded font-semibold text-white hover:bg-slate-800 transition">SIGN IN</Link>
+                      <Link href="/register" onClick={() => setMobileMenuOpen(false)} className="py-3 text-center bg-amber-500 rounded font-semibold text-slate-950 hover:bg-amber-400 transition mt-2">GET STARTED</Link>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
-      </motion.header>
+      </AnimatePresence>
 
       {/* Hero Section matching the dark 3D structures and orange glowing brain theme */}
       <section className="relative min-h-screen flex items-center justify-center pt-32 pb-20 px-6 overflow-hidden">
