@@ -31,6 +31,12 @@ export default function WidgetSettingsPage() {
   const [savingConfig, setSavingConfig] = useState(false);
   const [savingDomains, setSavingDomains] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [selectedFramework, setSelectedFramework] = useState('HTML');
+
+  const frameworks = [
+    'HTML', 'Next.js', 'React', 'Vue', 'Svelte', 
+    'Astro', 'Shopify', 'WordPress', 'PHP', 'Laravel'
+  ];
 
   useEffect(() => {
     // 1. Fetch Widget Config
@@ -115,10 +121,38 @@ export default function WidgetSettingsPage() {
 
   const scriptHost = process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL || 'http://localhost:4000/widget.js';
   const apiKeyToUse = selectedApiKey || 'YOUR_ACTIVE_API_KEY';
-  const embedCode = `<script\n  src="${scriptHost}"\n  data-api-key="${apiKeyToUse}"\n  async\n></script>`;
+
+  const getEmbedCode = () => {
+    const src = scriptHost;
+    const key = apiKeyToUse;
+    
+    switch (selectedFramework) {
+      case 'Next.js':
+        return `import Script from 'next/script';\n\nexport default function RootLayout({ children }) {\n  return (\n    <html lang="en">\n      <body>\n        {children}\n        <Script src="${src}" data-api-key="${key}" strategy="lazyOnload" />\n      </body>\n    </html>\n  );\n}`;
+      case 'React':
+        return `import { useEffect } from 'react';\n\nexport function Widget() {\n  useEffect(() => {\n    const script = document.createElement('script');\n    script.src = '${src}';\n    script.setAttribute('data-api-key', '${key}');\n    script.async = true;\n    document.body.appendChild(script);\n    \n    return () => {\n      document.body.removeChild(script);\n    };\n  }, []);\n  \n  return null;\n}`;
+      case 'Vue':
+        return `<script setup>\nimport { onMounted } from 'vue';\n\nonMounted(() => {\n  const script = document.createElement('script');\n  script.src = '${src}';\n  script.setAttribute('data-api-key', '${key}');\n  script.async = true;\n  document.body.appendChild(script);\n});\n</script>`;
+      case 'Svelte':
+        return `<svelte:head>\n  <script src="${src}" data-api-key="${key}" async></script>\n</svelte:head>`;
+      case 'Astro':
+        return `--- // Layout.astro ---\n<html>\n  <head>\n    <script src="${src}" data-api-key="${key}" is:inline async></script>\n  </head>\n  <body>\n    <slot />\n  </body>\n</html>`;
+      case 'Shopify':
+        return `<!-- Add to theme.liquid before </body> -->\n<script src="${src}" data-api-key="${key}" async></script>`;
+      case 'WordPress':
+        return `// Add to functions.php\nfunction add_ai_widget() {\n    echo '<script src="${src}" data-api-key="${key}" async></script>';\n}\nadd_action('wp_footer', 'add_ai_widget');`;
+      case 'PHP':
+        return `<!-- Add before closing </body> tag -->\n<script src="${src}" data-api-key="${key}" async></script>`;
+      case 'Laravel':
+        return `<!-- Add to resources/views/layouts/app.blade.php before </body> -->\n<script src="${src}" data-api-key="${key}" async></script>`;
+      case 'HTML':
+      default:
+        return `<script\n  src="${src}"\n  data-api-key="${key}"\n  async\n></script>`;
+    }
+  };
 
   const copyEmbedCode = () => {
-    navigator.clipboard.writeText(embedCode);
+    navigator.clipboard.writeText(getEmbedCode());
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -268,6 +302,46 @@ export default function WidgetSettingsPage() {
 
         {/* Right Column: Live Interactive Widget Preview & Embed Generator */}
         <div className="lg:col-span-5 space-y-6">
+          {/* Embed Code Snippet Generator */}
+          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="flex items-center gap-2">
+                <Code2 className="w-5 h-5 text-indigo-400" />
+                <h2 className="text-base font-bold text-white">Embed Snippet</h2>
+              </div>
+
+              <button
+                onClick={copyEmbedCode}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold shadow transition"
+              >
+                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copied ? 'Copied!' : 'Copy Code'}</span>
+              </button>
+            </div>
+
+            <p className="text-slate-400 text-xs">Select your platform to get the appropriate integration code:</p>
+
+            <div className="flex flex-wrap gap-1 border-b border-slate-800 pb-2">
+              {frameworks.map((fw) => (
+                <button
+                  key={fw}
+                  onClick={() => setSelectedFramework(fw)}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
+                    selectedFramework === fw
+                      ? 'bg-slate-800 text-white border border-slate-700'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  }`}
+                >
+                  {fw}
+                </button>
+              ))}
+            </div>
+
+            <pre className="p-4 bg-slate-950 border border-slate-800 rounded-xl font-mono text-xs text-indigo-300 overflow-x-auto whitespace-pre-wrap">
+              {getEmbedCode()}
+            </pre>
+          </div>
+
           {/* Live Preview Device Box */}
           <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col items-center">
             <div className="w-full flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
@@ -331,30 +405,6 @@ export default function WidgetSettingsPage() {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Embed Code Snippet Generator */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div className="flex items-center gap-2">
-                <Code2 className="w-5 h-5 text-indigo-400" />
-                <h2 className="text-base font-bold text-white">Embed Script</h2>
-              </div>
-
-              <button
-                onClick={copyEmbedCode}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold shadow transition"
-              >
-                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copied ? 'Copied!' : 'Copy Code'}</span>
-              </button>
-            </div>
-
-            <p className="text-slate-400 text-xs">Paste this script tag inside your store's HTML header or footer:</p>
-
-            <pre className="p-4 bg-slate-950 border border-slate-800 rounded-xl font-mono text-xs text-indigo-300 overflow-x-auto">
-              {embedCode}
-            </pre>
           </div>
         </div>
       </div>
