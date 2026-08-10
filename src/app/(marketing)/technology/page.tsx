@@ -20,7 +20,7 @@ export default function TechnologyPage() {
     {
       icon: Shield,
       title: 'Decoupled Edge Isolation',
-      desc: 'Mako loads asynchronously through a lightweight CDN script, ensuring no interference with your website’s initial page load speeds or core metrics.',
+      desc: 'Labto AI loads asynchronously through a lightweight CDN script, ensuring no interference with your website’s initial page load speeds or core metrics.',
     },
     {
       icon: Zap,

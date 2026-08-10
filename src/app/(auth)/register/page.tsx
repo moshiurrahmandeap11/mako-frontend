@@ -75,7 +75,7 @@ export default function RegisterPage() {
       <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20">
         <Link href="/" className="font-black text-xl text-white tracking-widest flex items-center gap-2 hover:opacity-80 transition-opacity">
           <Zap className="w-6 h-6 text-orange-500" />
-          MAKO
+          Labto AI
         </Link>
       </div>
 

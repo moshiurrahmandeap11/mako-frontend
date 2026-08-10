@@ -71,7 +71,7 @@ export default function LandingPage() {
         '1 whitelisted domain',
         'Standard database search',
         'Standard email support',
-        'Mako branding'
+        'Labto AI branding'
       ],
       cta: 'Get Started Free',
       popular: false,
@@ -102,7 +102,7 @@ export default function LandingPage() {
         'Full pgvector similarity search',
         'Storefront cart event bridge',
         'Priority SLA support (4h)',
-        'No Mako branding'
+        'No Labto AI branding'
       ],
       cta: 'Go Pro Now',
       popular: true,
@@ -305,7 +305,7 @@ export default function LandingPage() {
             <h2 className="text-xs uppercase font-extrabold tracking-[0.2em] text-orange-500">Core Features</h2>
             <p className="text-3xl font-extrabold text-white tracking-tight">Everything you need to automate e-commerce sales</p>
             <p className="text-slate-400 text-sm leading-relaxed">
-              MAKO combines cutting edge vector search with a standard storefront event bridge to give you zero-friction AI shopping support.
+              Labto AI combines cutting edge vector search with a standard storefront event bridge to give you zero-friction AI shopping support.
             </p>
           </div>
 
@@ -597,11 +597,11 @@ LIMIT 5;`}
           
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Mako Service Platform Online</span>
+            <span>Labto AI Service Platform Online</span>
           </div>
 
           <p className="text-center md:text-left">
-            © {new Date().getFullYear()} Mako AI Inc. All rights reserved. Decoupled AI Embeds.
+            © {new Date().getFullYear()} Labto AI Inc. All rights reserved. Decoupled AI Embeds.
           </p>
 
           <div className="flex gap-4">

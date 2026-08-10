@@ -1,11 +1,60 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { authClient } from '@/lib/auth-client';
 import NetworkWave from '@/components/NetworkWave';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import Button from '@/components/Button';
 
 export default function PricingPage() {
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  const handleSelectPlan = async (planName: string, defaultHref: string) => {
+    if (planName === 'Enterprise') {
+      router.push(defaultHref);
+      return;
+    }
+
+    if (!session) {
+      router.push(defaultHref);
+      return;
+    }
+
+    if (planName === 'Free') {
+      router.push('/dashboard');
+      return;
+    }
+
+    setLoadingPlan(planName);
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000';
+      const res = await fetch(`${apiBase}/api/billing/checkout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tier: planName.toUpperCase() }),
+        // Send Better Auth credential cookies
+        credentials: 'include',
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || 'Failed to start checkout session. Please try again.');
+      }
+    } catch (err) {
+      console.error('Checkout error:', err);
+      alert('Failed to connect to billing server.');
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
+
   const plans = [
     {
       name: 'Free',
@@ -16,7 +65,7 @@ export default function PricingPage() {
         '1 whitelisted domain',
         'Standard database search',
         'Standard email support',
-        'Mako branding',
+        'Labto AI branding',
       ],
       cta: 'Get Started Free',
       popular: false,
@@ -47,7 +96,7 @@ export default function PricingPage() {
         'Full pgvector similarity search',
         'Storefront cart event bridge',
         'Priority SLA support (4h)',
-        'No Mako branding',
+        'No Labto AI branding',
       ],
       cta: 'Go Pro Now',
       popular: true,
@@ -153,14 +202,15 @@ export default function PricingPage() {
               </div>
 
               <Button
-                href={plan.href}
+                onClick={() => handleSelectPlan(plan.name, plan.href)}
+                disabled={loadingPlan !== null}
                 className={`w-full py-3 text-center text-xs font-bold tracking-[0.12em] ${
                   plan.popular
                     ? 'bg-amber-500 text-slate-950 hover:bg-amber-400 hover:text-slate-950 border-transparent shadow-lg shadow-orange-500/20'
                     : 'bg-transparent text-amber-500 border-slate-800 hover:border-amber-500'
                 }`}
               >
-                {plan.cta}
+                {loadingPlan === plan.name ? 'Connecting...' : plan.cta}
               </Button>
             </motion.div>
           ))}

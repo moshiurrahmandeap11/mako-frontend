@@ -72,14 +72,14 @@ export default function LoginPage() {
       <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20">
         <Link href="/" className="font-black text-xl text-white tracking-widest flex items-center gap-2 hover:opacity-80 transition-opacity">
           <Zap className="w-6 h-6 text-orange-500" />
-          MAKO
+          Labto AI
         </Link>
       </div>
 
       <div className="relative z-10 w-full max-w-md bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl p-8 shadow-2xl">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-semibold tracking-tight text-white">Get into Your Account</h1>
-          <p className="text-slate-400 text-sm mt-2">Access your MAKO Dashboard</p>
+          <p className="text-slate-400 text-sm mt-2">Access your Labto AI Dashboard</p>
         </div>
 
         {error && (

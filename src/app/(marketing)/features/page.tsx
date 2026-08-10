@@ -10,7 +10,7 @@ export default function FeaturesPage() {
     {
       icon: Search,
       title: 'Contextual Semantic Search',
-      desc: 'Bypass rigid keyword matches. Mako understands conversational intents, synonyms, and natural phrasing to suggest the perfect products instantly.',
+      desc: 'Bypass rigid keyword matches. Labto AI understands conversational intents, synonyms, and natural phrasing to suggest the perfect products instantly.',
     },
     {
       icon: ShoppingCart,

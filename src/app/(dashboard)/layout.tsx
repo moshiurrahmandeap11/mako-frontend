@@ -12,6 +12,7 @@ import {
   LogOut,
   Store,
   Sparkles,
+  CreditCard,
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
@@ -47,6 +48,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { label: 'Widget Settings', href: '/widget-settings', icon: Settings },
     { label: 'API Keys', href: '/api-keys', icon: Key },
     { label: 'Conversations', href: '/conversations', icon: MessageSquare },
+    { label: 'Billing & Plans', href: '/billing', icon: CreditCard },
   ];
 
   if (isLoading) {

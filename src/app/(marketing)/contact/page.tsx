@@ -48,7 +48,7 @@ export default function ContactPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-3xl sm:text-4xl font-medium tracking-tight text-white leading-tight"
             >
-              Partner with Mako. <br />
+              Partner with Labto AI. <br />
               Let’s scale together.
             </motion.h1>
             <motion.p
@@ -68,7 +68,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="font-semibold text-white">Direct Email</p>
-                <p className="text-slate-400 mt-0.5">hello@makoai.com</p>
+                <p className="text-slate-400 mt-0.5">hello@labtoai.com</p>
               </div>
             </div>
             <div className="flex items-center gap-4 text-xs text-slate-300">

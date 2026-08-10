@@ -56,7 +56,7 @@ export default function Navbar() {
               <div className="absolute w-2 h-2 rounded-full bg-amber-300" />
             </div>
             <span className="font-extrabold text-xl tracking-[0.2em] text-white transition-colors duration-300 group-hover:text-amber-500">
-              MAKO
+              Labto AI
             </span>
           </Link>
 
@@ -162,7 +162,7 @@ export default function Navbar() {
             <div className="flex items-center justify-between px-6 py-6 border-b border-slate-900/60">
               <span className="font-black text-xl text-white tracking-widest flex items-center gap-2">
                 <Zap className="w-6 h-6 text-orange-500" />
-                MAKO
+                Labto AI
               </span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
