@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Zap } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
+import NetworkWave from '@/components/NetworkWave';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,8 +60,22 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+    <div className="relative min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
+      
+      {/* Background Wave */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <NetworkWave />
+      </div>
+
+      {/* Header/Logo */}
+      <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20">
+        <Link href="/" className="font-black text-xl text-white tracking-widest flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <Zap className="w-6 h-6 text-orange-500" />
+          MAKO
+        </Link>
+      </div>
+
+      <div className="relative z-10 w-full max-w-md bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl p-8 shadow-2xl">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-semibold tracking-tight text-white">Get into Your Account</h1>
           <p className="text-slate-400 text-sm mt-2">Access your MAKO Dashboard</p>
