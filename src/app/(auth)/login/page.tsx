@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Eye, EyeOff, Zap } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
 import NetworkWave from '@/components/NetworkWave';
+import Button from '@/components/Button';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -121,13 +122,13 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <button
+          <Button
             type="submit"
             disabled={loading}
-            className="w-full cursor-pointer py-3.5 px-4 bg-transparent text-amber-500 hover:bg-amber-500 hover:text-slate-950 font-bold uppercase tracking-[0.12em] border border-amber-500/70 rounded transition-all duration-300 disabled:opacity-50"
+            className="w-full py-3.5"
           >
             {loading ? 'Signing in...' : 'Sign In'}
-          </button>
+          </Button>
         </form>
 
         <div className="relative my-6">
