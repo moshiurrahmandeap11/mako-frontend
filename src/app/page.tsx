@@ -303,23 +303,14 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.15] tracking-tight"
+              className="text-4xl sm:text-5xl lg:text-5xl font-black text-white leading-[1.15] tracking-tight"
             >
-              Intelligent Shopping <br className="hidden sm:inline" />
-              Assistant <br />
+              Intelligent AI Assistant <br className="hidden sm:inline" />
+              for your website <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-500 to-amber-300">
-                In 3 Simple Steps
+                in 3 simple steps
               </span>
             </motion.h1>
-            
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto lg:mx-0 leading-relaxed font-light"
-            >
-              Integrate an autonomous, AI-driven shopping assistant directly into your e-commerce platform. Enhance product discovery, answer customer queries instantly, and boost sales without writing complex backend logic.
-            </motion.p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <Link
@@ -336,21 +327,6 @@ export default function LandingPage() {
               </Link>
             </div>
 
-            {/* Micro Stats */}
-            <div className="pt-8 border-t border-slate-900/80 grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0">
-              <div>
-                <p className="text-xl font-extrabold text-white">99.9%</p>
-                <p className="text-[10px] uppercase font-semibold text-slate-500 tracking-wider">Uptime SLA</p>
-              </div>
-              <div>
-                <p className="text-xl font-extrabold text-white">&lt;50ms</p>
-                <p className="text-[10px] uppercase font-semibold text-slate-500 tracking-wider">Search Latency</p>
-              </div>
-              <div>
-                <p className="text-xl font-extrabold text-white">4.8x</p>
-                <p className="text-[10px] uppercase font-semibold text-slate-500 tracking-wider">Conversion Boost</p>
-              </div>
-            </div>
           </div>
 
           {/* Right Column: Animated Flowchart */}
@@ -407,8 +383,8 @@ export default function LandingPage() {
             >
               Connect with script
               {/* Tooltip */}
-              <div className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none w-max max-w-[250px] bg-slate-900 border border-slate-700 px-3 py-1.5 rounded shadow-2xl">
-                <code className="text-[10px] text-sky-400 font-mono break-all block">
+              <div className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none w-max max-w-[300px] bg-slate-900 border border-slate-700 px-4 py-3 rounded shadow-2xl">
+                <code className="text-xs text-sky-400 font-mono break-all block leading-relaxed">
                   &lt;script src="widget.js" data-api-key="***"&gt;&lt;/script&gt;
                 </code>
                 {/* Tooltip triangle */}
@@ -459,17 +435,17 @@ export default function LandingPage() {
               Integration Completed
 
               {/* Tooltip: Dummy Chatbot Scene */}
-              <div className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none w-48 bg-white border border-slate-200 rounded-lg shadow-2xl flex flex-col overflow-hidden">
-                <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white p-2.5 text-[10px] font-bold flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">🤖</div>
+              <div className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none w-64 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl flex flex-col overflow-hidden">
+                <div className="bg-gradient-to-r from-orange-600 to-amber-600 text-white p-3 text-xs font-bold flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">🤖</div>
                   <span>Shopping Assistant</span>
                 </div>
-                <div className="p-3 bg-slate-50 space-y-2 h-28 flex flex-col justify-end text-left">
-                  <div className="self-end bg-slate-200 text-slate-700 p-2 rounded-lg rounded-br-none text-[9px] max-w-[85%] font-medium">Looking for active headphones!</div>
-                  <div className="self-start bg-orange-100 text-orange-800 p-2 rounded-lg rounded-bl-none text-[9px] max-w-[90%] font-medium">I have great options in stock. Should I add the Pro version to your cart?</div>
+                <div className="p-4 bg-slate-950/50 space-y-3 h-32 flex flex-col justify-end text-left">
+                  <div className="self-end bg-slate-800 text-slate-300 p-2.5 rounded-lg rounded-br-none text-[10px] max-w-[85%] font-medium shadow-md">Looking for active headphones!</div>
+                  <div className="self-start bg-orange-500/20 border border-orange-500/30 text-orange-200 p-2.5 rounded-lg rounded-bl-none text-[10px] max-w-[90%] font-medium shadow-md">I have great options in stock. Should I add the Pro version to your cart?</div>
                 </div>
                 {/* Tooltip triangle */}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-white"></div>
+                <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-slate-700"></div>
               </div>
             </motion.div>
           </div>
