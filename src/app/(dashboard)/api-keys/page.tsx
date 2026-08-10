@@ -7,15 +7,12 @@ import {
   Copy,
   Check,
   ShieldAlert,
-  Trash2,
   Bot,
-  Settings,
   Globe,
-  HelpCircle,
-  Sparkles,
-  Info
 } from 'lucide-react';
 import { fetchApi } from '@/lib/api-client';
+import Button from '@/components/Button';
+import { TableRowSkeleton } from '@/components/Skeleton';
 
 const TEMPLATE_PROMPTS: Record<string, string> = {
   'Customer Support': 'You are a professional customer support agent. Answer questions about our products, services, and policies. If you don\'t know the answer, politely redirect the user to a human agent. Always be polite and concise.',
@@ -107,7 +104,7 @@ export default function ApiKeysPage() {
   };
 
   const handleRevokeKey = async (id: string) => {
-    if (!confirm('Are you sure you want to revoke this chatbot API key? Embedded widgets using this key will stop functioning.')) return;
+    if (!confirm('Are you sure you want to revoke this API key? Embedded widgets using this key will stop functioning.')) return;
 
     try {
       await fetchApi(`/api/keys/${id}`, { method: 'DELETE' });
@@ -129,251 +126,184 @@ export default function ApiKeysPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Chatbot Configurator & Keys</h1>
-          <p className="text-slate-400 text-xs mt-1">Manage, template, and secure your storefront AI chatbot assistants</p>
+          <h1 className="text-2xl font-bold text-white tracking-tight">API Key Security</h1>
+          <p className="text-slate-400 text-xs mt-1">Manage API keys used to authenticate widget requests from your storefront</p>
         </div>
 
-        {!showConfig && (
-          <button
-            onClick={() => {
-              setShowConfig(true);
-              setNewKeyData(null);
-            }}
-            className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-500/20 transition"
-          >
+        <Button onClick={() => setShowConfig(!showConfig)} variant="filled">
+          <span className="flex items-center gap-2">
             <Plus className="w-4 h-4" />
-            <span>Create New Chatbot</span>
-          </button>
-        )}
+            <span>{showConfig ? 'Cancel' : 'Create New API Key'}</span>
+          </span>
+        </Button>
       </div>
 
-      {/* Configuration Form Card (from user screenshot) */}
+      {/* Interactive Chatbot Creation Form */}
       {showConfig && (
-        <form onSubmit={handleCreateChatbot} className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 max-w-2xl">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <span className="text-sm font-bold text-white flex items-center gap-2">
-              <Bot className="w-5 h-5 text-indigo-400" />
-              Chatbot Configuration
-            </span>
-            <button
-              type="button"
-              onClick={() => setShowConfig(false)}
-              className="text-slate-400 hover:text-white text-xs font-semibold"
-            >
-              Cancel
-            </button>
+        <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-6">
+          <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+            <Bot className="w-5 h-5 text-amber-500" />
+            <h2 className="text-base font-bold text-white">Configure New Chatbot API Key</h2>
           </div>
 
-          {/* Name Field */}
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-slate-350 uppercase tracking-wider">
-              Name <span className="text-rose-500">*</span>
-            </label>
-            <input
-              type="text"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. My Support Bot"
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-850 rounded-xl text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition"
-            />
-          </div>
+          <form onSubmit={handleCreateChatbot} className="space-y-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Chatbot Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Sales Assistant"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
+                />
+              </div>
 
-          {/* Template Selection Dropdown */}
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-slate-350 uppercase tracking-wider">
-              Start from a template
-            </label>
-            <select
-              value={template}
-              onChange={(e) => handleTemplateChange(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-850 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500 transition cursor-pointer"
-            >
-              {Object.keys(TEMPLATE_PROMPTS).map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-          </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Persona Template</label>
+                <select
+                  value={template}
+                  onChange={(e) => handleTemplateChange(e.target.value)}
+                  className="w-full px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
+                >
+                  {Object.keys(TEMPLATE_PROMPTS).map((t) => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
-          {/* System Prompt Instruction Editor */}
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-slate-350 uppercase tracking-wider flex items-center gap-1.5">
-              <span>System Prompt Instructions</span>
-              <Info className="w-3.5 h-3.5 text-slate-500" />
-            </label>
-            <textarea
-              rows={4}
-              required
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Enter system prompt instructions for the AI..."
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-850 rounded-xl text-xs font-sans leading-relaxed text-slate-200 focus:outline-none focus:border-indigo-500 transition"
-            />
-            <p className="text-[10px] text-slate-500 italic">
-              * The prompt will instruct Groq / OpenRouter / Claude on how to answer visitors.
-            </p>
-          </div>
-
-          {/* Allowed Whitelist Domains Tag Builder */}
-          <div className="space-y-2">
-            <label className="block text-xs font-bold text-slate-350 uppercase tracking-wider">
-              Allowed Domains <span className="text-rose-500">*</span>
-            </label>
-            <p className="text-[10px] text-slate-500">At least one domain is required (e.g. localhost, mysite.com):</p>
-            
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="e.g. shop.example.com"
-                value={domainInput}
-                onChange={(e) => setDomainInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddDomain())}
-                className="flex-1 px-3 py-2 bg-slate-950 border border-slate-850 rounded-xl text-xs text-white placeholder-slate-700 focus:outline-none focus:border-indigo-500"
+            <div>
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">System Instructions / Prompt</label>
+              <textarea
+                rows={3}
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500 font-mono"
               />
-              <button
-                type="button"
-                onClick={handleAddDomain}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 text-xs font-semibold rounded-xl"
-              >
-                + Add
-              </button>
             </div>
 
-            <div className="flex flex-wrap gap-2 pt-1.5">
-              {domains.map((dom) => (
-                <span key={dom} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/25 text-indigo-300 text-xs font-mono">
-                  {dom}
-                  <button type="button" onClick={() => handleRemoveDomain(dom)} className="hover:text-rose-450 font-bold ml-1">✕</button>
-                </span>
-              ))}
-            </div>
-          </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Allowed Host Domains</label>
+              <div className="flex gap-2 mb-2">
+                <input
+                  type="text"
+                  placeholder="e.g. shop.mystore.com or *.mystore.com"
+                  value={domainInput}
+                  onChange={(e) => setDomainInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddDomain())}
+                  className="flex-1 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500"
+                />
+                <Button type="button" onClick={handleAddDomain} variant="outline">
+                  Add
+                </Button>
+              </div>
 
-          {/* Form Actions */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
-            <button
-              type="button"
-              onClick={() => setShowConfig(false)}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-350 text-xs font-semibold rounded-xl"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={generating || domains.length === 0}
-              className="px-5 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-700 text-white text-xs font-semibold rounded-xl disabled:opacity-50 shadow-lg shadow-indigo-500/25"
-            >
-              {generating ? 'Creating...' : 'Create Chatbot'}
-            </button>
-          </div>
-        </form>
+              <div className="flex flex-wrap gap-2">
+                {domains.map((dom) => (
+                  <span key={dom} className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-mono font-bold">
+                    <Globe className="w-3 h-3 text-amber-500" />
+                    {dom}
+                    <button type="button" onClick={() => handleRemoveDomain(dom)} className="hover:text-rose-400">✕</button>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-2 border-t border-slate-800">
+              <Button type="submit" disabled={generating} variant="filled">
+                {generating ? 'Generating...' : 'Save & Generate Key'}
+              </Button>
+            </div>
+          </form>
+        </div>
       )}
 
-      {/* Generated Key Security Modal */}
+      {/* Generated Key Security Alert Modal */}
       {newKeyData && (
-        <div className="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 space-y-3 shadow-2xl max-w-2xl">
-          <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
-            <ShieldAlert className="w-5 h-5 animate-bounce" />
-            <span>Chatbot Connected Successfully! Save Your API Key Now</span>
+        <div className="p-6 rounded-2xl bg-slate-900 border border-amber-500/40 text-amber-400 space-y-3 shadow-xl">
+          <div className="flex items-center gap-2 font-bold text-sm">
+            <ShieldAlert className="w-5 h-5 text-amber-500" />
+            <span>Save Your API Key Now!</span>
           </div>
-          <p className="text-xs text-amber-300/80 leading-relaxed">
-            This is the only time your chatbot's API key will be shown in raw text. Copy and store it safely in a secure location:
+          <p className="text-xs text-slate-300">
+            This is the only time your unhashed API key will be displayed. Copy and save it safely:
           </p>
 
           <div className="flex items-center gap-3">
-            <code className="flex-1 p-3 bg-slate-950 border border-amber-500/30 rounded-xl font-mono text-xs text-amber-300 select-all overflow-x-auto">
+            <code className="flex-1 p-3 bg-slate-950 border border-amber-500/30 rounded font-mono text-xs text-amber-400 select-all overflow-x-auto">
               {newKeyData.fullKey}
             </code>
-            <button
-              onClick={copyFullKey}
-              className="flex items-center gap-1.5 px-4 py-3 bg-amber-500 text-slate-950 font-bold rounded-xl text-xs hover:bg-amber-400 transition"
-            >
-              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              <span>{copied ? 'Copied' : 'Copy'}</span>
-            </button>
+            <Button onClick={copyFullKey} variant="filled">
+              <span className="flex items-center gap-1.5">
+                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                <span>{copied ? 'Copied' : 'Copy'}</span>
+              </span>
+            </Button>
           </div>
         </div>
       )}
 
-      {/* Active Chatbots Table List */}
-      <div className="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-        <div className="p-4 border-b border-slate-800 bg-slate-950/30 flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-            Active Chatbots & API Whitelists
-          </span>
-        </div>
-
+      {/* Keys Table List */}
+      <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl overflow-hidden shadow-xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-800 bg-slate-950/50 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                <th className="py-4 px-6">Chatbot Name</th>
-                <th className="py-4 px-6">Template type</th>
-                <th className="py-4 px-6">API Key Prefix</th>
-                <th className="py-4 px-6">Whitelisted Domains</th>
+              <tr className="border-b border-slate-800 bg-slate-950/60 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                <th className="py-4 px-6">Name / Key Prefix</th>
+                <th className="py-4 px-6">Template</th>
                 <th className="py-4 px-6">Status</th>
+                <th className="py-4 px-6">Created Date</th>
+                <th className="py-4 px-6">Last Used</th>
                 <th className="py-4 px-6 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 text-sm text-slate-300">
               {loading ? (
-                <tr>
-                  <td colSpan={6} className="text-center py-12 text-slate-500">
-                    Loading active chatbots...
-                  </td>
-                </tr>
+                <>
+                  <TableRowSkeleton columns={6} />
+                  <TableRowSkeleton columns={6} />
+                  <TableRowSkeleton columns={6} />
+                </>
               ) : keys.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-12 text-slate-500">
-                    <Key className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                    No active chatbots found. Create a chatbot configurator above!
+                  <td colSpan={6} className="text-center py-12 text-slate-500 text-xs">
+                    <Key className="w-8 h-8 mx-auto mb-2 opacity-40 text-amber-500" />
+                    No API keys found. Click "Create New API Key" to generate your first key!
                   </td>
                 </tr>
               ) : (
                 keys.map((k) => (
-                  <tr key={k.id} className="hover:bg-slate-850/50 transition">
+                  <tr key={k.id} className="hover:bg-slate-850/40 transition">
                     <td className="py-4 px-6">
-                      <div className="flex items-center gap-2">
-                        <Bot className="w-4 h-4 text-indigo-400" />
-                        <span className="font-semibold text-white">{k.name || 'My Chatbot'}</span>
-                      </div>
+                      <p className="font-bold text-white text-xs">{k.name || 'Chatbot API Key'}</p>
+                      <p className="font-mono text-[11px] text-amber-500 font-bold">{k.keyPrefix}****************</p>
                     </td>
                     <td className="py-4 px-6">
-                      <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-xs text-slate-300">
+                      <span className="inline-block px-2.5 py-1 rounded text-xs font-semibold bg-slate-950 text-slate-300 border border-slate-800">
                         {k.template || 'Customer Support'}
                       </span>
                     </td>
-                    <td className="py-4 px-6 font-mono text-xs text-slate-400">
-                      {k.keyPrefix}****************
-                    </td>
                     <td className="py-4 px-6">
-                      <div className="flex flex-wrap gap-1 max-w-xs">
-                        {k.allowedDomains && k.allowedDomains.length > 0 ? (
-                          k.allowedDomains.map((d: string) => (
-                            <span key={d} className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-slate-400">
-                              {d}
-                            </span>
-                          ))
-                        ) : (
-                          <span className="text-slate-500 italic text-xs">All (*)</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${k.isActive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-800 text-slate-400 border border-slate-700'}`}>
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${k.isActive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-800 text-slate-400 border border-slate-700'}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${k.isActive ? 'bg-emerald-400' : 'bg-slate-500'}`} />
                         {k.isActive ? 'Active' : 'Revoked'}
                       </span>
+                    </td>
+                    <td className="py-4 px-6 text-xs text-slate-400">
+                      {new Date(k.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="py-4 px-6 text-xs text-slate-400">
+                      {k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleString() : 'Never'}
                     </td>
                     <td className="py-4 px-6 text-right">
                       {k.isActive && (
                         <button
                           onClick={() => handleRevokeKey(k.id)}
-                          className="px-3 py-1.5 text-xs text-rose-450 hover:bg-rose-500/10 border border-rose-500/20 rounded-lg transition font-medium"
+                          className="px-3 py-1.5 text-xs text-rose-400 hover:bg-rose-500/10 border border-rose-500/20 rounded transition font-medium"
                         >
-                          Revoke
+                          Revoke Key
                         </button>
                       )}
                     </td>

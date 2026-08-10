@@ -9,10 +9,11 @@ import {
   Check,
   Bot,
   MessageSquare,
-  Sparkles,
+  Zap,
 } from 'lucide-react';
 import { fetchApi } from '@/lib/api-client';
 import toast from 'react-hot-toast';
+import Button from '@/components/Button';
 
 export default function WidgetSettingsPage() {
   const [config, setConfig] = useState({
@@ -122,38 +123,29 @@ export default function WidgetSettingsPage() {
   const scriptHost = process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL || 'http://localhost:4000/widget.js';
   const apiKeyToUse = selectedApiKey || 'YOUR_ACTIVE_API_KEY';
 
-  const getEmbedCode = () => {
-    const src = scriptHost;
-    const key = apiKeyToUse;
-    
+  const getSnippet = () => {
     switch (selectedFramework) {
       case 'Next.js':
-        return `import Script from 'next/script';\n\nexport default function RootLayout({ children }) {\n  return (\n    <html lang="en">\n      <body>\n        {children}\n        <Script src="${src}" data-api-key="${key}" strategy="lazyOnload" />\n      </body>\n    </html>\n  );\n}`;
+        return `import Script from 'next/script';\n\nexport default function RootLayout({ children }) {\n  return (\n    <html>\n      <body>\n        {children}\n        <Script\n          src="${scriptHost}"\n          data-api-key="${apiKeyToUse}"\n          strategy="afterInteractive"\n        />\n      </body>\n    </html>\n  );\n}`;
       case 'React':
-        return `import { useEffect } from 'react';\n\nexport function Widget() {\n  useEffect(() => {\n    const script = document.createElement('script');\n    script.src = '${src}';\n    script.setAttribute('data-api-key', '${key}');\n    script.async = true;\n    document.body.appendChild(script);\n    \n    return () => {\n      document.body.removeChild(script);\n    };\n  }, []);\n  \n  return null;\n}`;
+        return `import { useEffect } from 'react';\n\nexport default function App() {\n  useEffect(() => {\n    const script = document.createElement('script');\n    script.src = "${scriptHost}";\n    script.setAttribute('data-api-key', "${apiKeyToUse}");\n    script.async = true;\n    document.body.appendChild(script);\n  }, []);\n\n  return <div>My Store</div>;\n}`;
       case 'Vue':
-        return `<script setup>\nimport { onMounted } from 'vue';\n\nonMounted(() => {\n  const script = document.createElement('script');\n  script.src = '${src}';\n  script.setAttribute('data-api-key', '${key}');\n  script.async = true;\n  document.body.appendChild(script);\n});\n</script>`;
-      case 'Svelte':
-        return `<svelte:head>\n  <script src="${src}" data-api-key="${key}" async></script>\n</svelte:head>`;
-      case 'Astro':
-        return `--- // Layout.astro ---\n<html>\n  <head>\n    <script src="${src}" data-api-key="${key}" is:inline async></script>\n  </head>\n  <body>\n    <slot />\n  </body>\n</html>`;
+        return `<script setup>\nimport { onMounted } from 'vue';\n\nonMounted(() => {\n  const script = document.createElement('script');\n  script.src = "${scriptHost}";\n  script.setAttribute('data-api-key', "${apiKeyToUse}");\n  script.async = true;\n  document.body.appendChild(script);\n});\n</script>`;
       case 'Shopify':
-        return `<!-- Add to theme.liquid before </body> -->\n<script src="${src}" data-api-key="${key}" async></script>`;
+        return `<!-- Paste in theme.liquid before </body> tag -->\n<script\n  src="${scriptHost}"\n  data-api-key="${apiKeyToUse}"\n  async\n></script>`;
       case 'WordPress':
-        return `// Add to functions.php\nfunction add_ai_widget() {\n    echo '<script src="${src}" data-api-key="${key}" async></script>';\n}\nadd_action('wp_footer', 'add_ai_widget');`;
-      case 'PHP':
-        return `<!-- Add before closing </body> tag -->\n<script src="${src}" data-api-key="${key}" async></script>`;
-      case 'Laravel':
-        return `<!-- Add to resources/views/layouts/app.blade.php before </body> -->\n<script src="${src}" data-api-key="${key}" async></script>`;
-      case 'HTML':
+        return `// Add to functions.php\nfunction add_labto_ai_widget() {\n    echo '<script src="${scriptHost}" data-api-key="${apiKeyToUse}" async></script>';\n}\nadd_action('wp_footer', 'add_labto_ai_widget');`;
       default:
-        return `<script\n  src="${src}"\n  data-api-key="${key}"\n  async\n></script>`;
+        return `<script\n  src="${scriptHost}"\n  data-api-key="${apiKeyToUse}"\n  async\n></script>`;
     }
   };
 
+  const embedCode = getSnippet();
+
   const copyEmbedCode = () => {
-    navigator.clipboard.writeText(getEmbedCode());
+    navigator.clipboard.writeText(embedCode);
     setCopied(true);
+    toast.success('Snippet copied to clipboard!');
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -161,24 +153,22 @@ export default function WidgetSettingsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-white tracking-tight">Widget Settings & Customization</h1>
-        <p className="text-slate-400 text-xs mt-1">Customize your AI assistant styling, whitelisted domains, and embed snippet</p>
+        <p className="text-slate-400 text-xs mt-1">Configure assistant branding, whitelisted domains, and copy embed code</p>
       </div>
 
-
-
-      {/* Main Grid: Customizer Controls + Live Interactive Preview */}
+      {/* Main Grid: Settings Controls + Live Interactive Preview */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Form Controls */}
         <div className="lg:col-span-7 space-y-6">
-          {/* Section A: Appearance & Behavior */}
-          <form onSubmit={handleSaveConfig} className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
-            <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
-              <Palette className="w-5 h-5 text-indigo-400" />
-              <h2 className="text-base font-bold text-white">Appearance & Branding</h2>
+          {/* Appearance Section */}
+          <form onSubmit={handleSaveConfig} className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-5">
+            <div className="flex items-center gap-2 border-b border-slate-800/80 pb-3">
+              <Palette className="w-5 h-5 text-amber-500" />
+              <h2 className="text-base font-bold text-white">Branding & Aesthetics</h2>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Assistant Bot Name</label>
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Assistant Bot Name</label>
               <div className="relative">
                 <Bot className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
@@ -186,13 +176,13 @@ export default function WidgetSettingsPage() {
                   required
                   value={config.botName}
                   onChange={(e) => setConfig({ ...config, botName: e.target.value })}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Greeting Message</label>
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Greeting Message</label>
               <div className="relative">
                 <MessageSquare className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                 <textarea
@@ -200,20 +190,20 @@ export default function WidgetSettingsPage() {
                   required
                   value={config.greetingMessage}
                   onChange={(e) => setConfig({ ...config, greetingMessage: e.target.value })}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Primary Color</label>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Primary Accent Color</label>
                 <div className="flex items-center gap-3">
                   <input
                     type="color"
                     value={config.primaryColor}
                     onChange={(e) => setConfig({ ...config, primaryColor: e.target.value })}
-                    className="w-10 h-10 rounded-lg cursor-pointer bg-slate-950 border border-slate-800"
+                    className="w-10 h-10 rounded-xl cursor-pointer bg-slate-950 border border-slate-800 p-0.5"
                   />
                   <input
                     type="text"
@@ -225,11 +215,11 @@ export default function WidgetSettingsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Widget Position</label>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Widget Position</label>
                 <select
                   value={config.position}
                   onChange={(e) => setConfig({ ...config, position: e.target.value as any })}
-                  className="w-full px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
                 >
                   <option value="bottom-right">Bottom Right</option>
                   <option value="bottom-left">Bottom Left</option>
@@ -243,28 +233,24 @@ export default function WidgetSettingsPage() {
                   type="checkbox"
                   checked={config.addToCartEnabled}
                   onChange={(e) => setConfig({ ...config, addToCartEnabled: e.target.checked })}
-                  className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 bg-slate-950 border-slate-800"
+                  className="w-4 h-4 rounded text-amber-500 focus:ring-amber-500 bg-slate-950 border-slate-800"
                 />
-                <span className="text-sm font-medium text-slate-200">Enable direct "Add to Cart" actions in Widget</span>
+                <span className="text-xs font-semibold text-slate-200">Enable direct "+ Add to Cart" actions in Widget</span>
               </label>
             </div>
 
-            <button
-              type="submit"
-              disabled={savingConfig}
-              className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-xs rounded-xl shadow-lg shadow-indigo-500/20 disabled:opacity-50 transition"
-            >
+            <Button type="submit" disabled={savingConfig} variant="filled" className="w-full">
               {savingConfig ? 'Saving Settings...' : 'Save Appearance Settings'}
-            </button>
+            </Button>
           </form>
 
-          {/* Section B: Allowed Domain Whitelist */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-            <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
-              <Globe className="w-5 h-5 text-indigo-400" />
-              <h2 className="text-base font-bold text-white">Whitelisted Domains</h2>
+          {/* Domain Whitelist */}
+          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4">
+            <div className="flex items-center gap-2 border-b border-slate-800/80 pb-3">
+              <Globe className="w-5 h-5 text-amber-500" />
+              <h2 className="text-base font-bold text-white">Whitelisted Store Domains</h2>
             </div>
-            <p className="text-slate-400 text-xs">Specify website domains allowed to make widget API requests for your account:</p>
+            <p className="text-slate-400 text-xs">Specify website domains authorized to make widget API requests:</p>
 
             <div className="flex gap-2">
               <input
@@ -273,16 +259,11 @@ export default function WidgetSettingsPage() {
                 value={domainInput}
                 onChange={(e) => setDomainInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddDomain())}
-                className="flex-1 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                className="flex-1 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500"
               />
-              <button
-                type="button"
-                onClick={handleAddDomain}
-                disabled={savingDomains || !domainInput.trim()}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 disabled:opacity-50"
-              >
+              <Button type="button" onClick={handleAddDomain} disabled={savingDomains || !domainInput.trim()} variant="outline">
                 Add Domain
-              </button>
+              </Button>
             </div>
 
             <div className="flex flex-wrap gap-2 pt-2">
@@ -290,7 +271,7 @@ export default function WidgetSettingsPage() {
                 <span className="text-xs text-slate-500 italic">No domain restrictions set (all domains allowed for dev testing).</span>
               ) : (
                 domains.map((dom) => (
-                  <span key={dom} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-mono">
+                  <span key={dom} className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-mono font-bold">
                     {dom}
                     <button onClick={() => handleRemoveDomain(dom)} className="hover:text-rose-400">✕</button>
                   </span>
@@ -300,74 +281,33 @@ export default function WidgetSettingsPage() {
           </div>
         </div>
 
-        {/* Right Column: Live Interactive Widget Preview & Embed Generator */}
+        {/* Right Column: Live Preview & Code Generator */}
         <div className="lg:col-span-5 space-y-6">
-          {/* Embed Code Snippet Generator */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div className="flex items-center gap-2">
-                <Code2 className="w-5 h-5 text-indigo-400" />
-                <h2 className="text-base font-bold text-white">Embed Snippet</h2>
-              </div>
-            </div>
-
-            <p className="text-slate-400 text-xs">Select your platform to get the appropriate integration code:</p>
-
-            <div className="flex flex-wrap gap-1 border-b border-slate-800 pb-2">
-              {frameworks.map((fw) => (
-                <button
-                  key={fw}
-                  onClick={() => setSelectedFramework(fw)}
-                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
-                    selectedFramework === fw
-                      ? 'bg-slate-800 text-white border border-slate-700'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-                  }`}
-                >
-                  {fw}
-                </button>
-              ))}
-            </div>
-
-            <div className="relative group">
-              <pre className="p-4 bg-slate-950 border border-slate-800 rounded-xl font-mono text-xs text-indigo-300 overflow-x-auto whitespace-pre-wrap pr-12">
-                {getEmbedCode()}
-              </pre>
-              <button
-                onClick={copyEmbedCode}
-                className="absolute top-3 right-3 p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 backdrop-blur-sm transition-all duration-200 opacity-0 group-hover:opacity-100 flex items-center justify-center border border-slate-700"
-                title="Copy snippet"
-              >
-                {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-              </button>
-            </div>
-          </div>
-
           {/* Live Preview Device Box */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col items-center">
-            <div className="w-full flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 shadow-xl flex flex-col items-center">
+            <div className="w-full flex items-center justify-between border-b border-slate-800/80 pb-3 mb-4">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-indigo-400" />
+                <Zap className="w-4 h-4 text-amber-500" />
                 Live Widget Preview
               </span>
-              <span className="text-[10px] text-slate-500 font-mono">Interactive UI</span>
+              <span className="text-[10px] text-amber-500 font-mono font-bold">Real-time UI</span>
             </div>
 
-            {/* Rendered Visual Mockup of Widget */}
+            {/* Rendered Mockup Container */}
             <div className="w-full bg-slate-950 rounded-2xl border border-slate-800 p-4 h-[440px] relative overflow-hidden flex flex-col justify-between">
-              {/* Simulated Merchant Page Header */}
+              {/* Header */}
               <div className="border-b border-slate-800/80 pb-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-rose-500/60" />
                   <div className="w-3 h-3 rounded-full bg-amber-500/60" />
                   <div className="w-3 h-3 rounded-full bg-emerald-500/60" />
                 </div>
-                <span className="text-[10px] text-slate-600 font-mono">myshopify-store.com</span>
+                <span className="text-[10px] text-slate-600 font-mono">mystore.com</span>
               </div>
 
-              {/* Simulated Page Body */}
-              <div className="flex-1 p-4 flex flex-col justify-center items-center text-center opacity-30">
-                <div className="w-16 h-16 rounded-2xl bg-slate-800 mb-3" />
+              {/* Skeleton Page Body */}
+              <div className="flex-1 p-4 flex flex-col justify-center items-center text-center opacity-25">
+                <div className="w-14 h-14 rounded-2xl bg-slate-800 mb-3" />
                 <div className="h-3 w-32 bg-slate-800 rounded mb-2" />
                 <div className="h-2 w-48 bg-slate-800 rounded" />
               </div>
@@ -393,7 +333,7 @@ export default function WidgetSettingsPage() {
                   <span>✕</span>
                 </div>
                 <div className="p-3 bg-slate-50 text-[11px] text-slate-700 min-h-[100px]">
-                  <div style={{ backgroundColor: '#ffffff' }} className="p-2.5 rounded-xl border border-slate-200 shadow-sm mb-2 text-slate-800">
+                  <div className="p-2.5 rounded-xl border border-slate-200 bg-white shadow-sm mb-2 text-slate-800">
                     {config.greetingMessage}
                   </div>
                   <div className="bg-white p-2 rounded-lg border border-slate-200 flex items-center gap-2">
@@ -406,6 +346,44 @@ export default function WidgetSettingsPage() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Embed Code Generator */}
+          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
+              <div className="flex items-center gap-2">
+                <Code2 className="w-5 h-5 text-amber-500" />
+                <h2 className="text-base font-bold text-white">Embed Code Snippet</h2>
+              </div>
+
+              <Button onClick={copyEmbedCode} variant="filled">
+                <span className="flex items-center gap-1.5">
+                  {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copied ? 'Copied!' : 'Copy Code'}</span>
+                </span>
+              </Button>
+            </div>
+
+            {/* Framework Select Tabs */}
+            <div className="flex items-center gap-1 overflow-x-auto pb-2 scrollbar-none">
+              {frameworks.map((fw) => (
+                <button
+                  key={fw}
+                  onClick={() => setSelectedFramework(fw)}
+                  className={`px-2.5 py-1 rounded text-[11px] font-bold tracking-wider uppercase transition ${
+                    selectedFramework === fw
+                      ? 'bg-amber-500 text-slate-950'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  }`}
+                >
+                  {fw}
+                </button>
+              ))}
+            </div>
+
+            <pre className="p-4 bg-slate-950 border border-slate-800 rounded-xl font-mono text-xs text-amber-400 overflow-x-auto">
+              {embedCode}
+            </pre>
           </div>
         </div>
       </div>
