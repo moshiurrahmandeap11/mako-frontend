@@ -114,6 +114,17 @@ export default function ApiKeysPage() {
     }
   };
 
+  const handleDeleteKey = async (id: string) => {
+    if (!confirm('Are you sure you want to permanently delete this API key? This cannot be undone.')) return;
+
+    try {
+      await fetchApi(`/api/keys/${id}/delete`, { method: 'DELETE' });
+      loadKeys();
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete key');
+    }
+  };
+
   const copyFullKey = () => {
     if (newKeyData?.fullKey) {
       navigator.clipboard.writeText(newKeyData.fullKey);
@@ -298,14 +309,22 @@ export default function ApiKeysPage() {
                       {k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleString() : 'Never'}
                     </td>
                     <td className="py-4 px-6 text-right">
-                      {k.isActive && (
+                      <div className="flex justify-end gap-2">
+                        {k.isActive && (
+                          <button
+                            onClick={() => handleRevokeKey(k.id)}
+                            className="px-3 py-1.5 text-xs text-amber-400 hover:bg-amber-500/10 border border-amber-500/20 rounded transition font-medium"
+                          >
+                            Revoke
+                          </button>
+                        )}
                         <button
-                          onClick={() => handleRevokeKey(k.id)}
+                          onClick={() => handleDeleteKey(k.id)}
                           className="px-3 py-1.5 text-xs text-rose-400 hover:bg-rose-500/10 border border-rose-500/20 rounded transition font-medium"
                         >
-                          Revoke Key
+                          Delete
                         </button>
-                      )}
+                      </div>
                     </td>
                   </tr>
                 ))
