@@ -1,7 +1,7 @@
 import { createAuthClient } from 'better-auth/react';
 import { inferAdditionalFields } from 'better-auth/client/plugins';
 
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000').replace(/\/$/, '');
+const API_BASE_URL = ''; // Proxied via Next.js rewrites
 
 export const authClient = createAuthClient({
   baseURL: API_BASE_URL,

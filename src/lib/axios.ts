@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000').replace(/\/$/, '');
+const API_BASE_URL = ''; // Proxied via Next.js rewrites
 
 export const api = axios.create({
   baseURL: API_BASE_URL,

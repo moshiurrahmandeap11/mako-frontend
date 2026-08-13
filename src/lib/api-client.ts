@@ -1,4 +1,4 @@
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000').replace(/\/$/, '');
+const API_BASE_URL = ''; // Proxied via Next.js rewrites
 
 export async function fetchApi<T = any>(path: string, options: RequestInit = {}): Promise<T> {
   const headers = {

@@ -32,7 +32,7 @@ export default function PricingPage() {
 
     setLoadingPlan(planName);
     try {
-      const apiBase = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000').replace(/\/$/, '');
+      const apiBase = ''; // Proxied via Next.js rewrites
       const res = await fetch(`${apiBase}/api/billing/checkout`, {
         method: 'POST',
         headers: {
