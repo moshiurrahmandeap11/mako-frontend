@@ -12,6 +12,7 @@ import {
 import { fetchApi } from '@/lib/api-client';
 import Button from '@/components/Button';
 import { TableRowSkeleton } from '@/components/Skeleton';
+import swal from '@/lib/swal';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -93,12 +94,34 @@ export default function ProductsPage() {
   };
 
   const handleDeleteProduct = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this product?')) return;
+    const result = await swal.fire({
+      icon: 'warning',
+      title: 'Delete Product?',
+      text: 'This product will be permanently removed from the catalog and AI recommendations.',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete',
+      cancelButtonText: 'Cancel',
+    });
+    if (!result.isConfirmed) return;
+
     try {
       await fetchApi(`/api/products/${id}`, { method: 'DELETE' });
       loadProducts();
+      swal.fire({
+        icon: 'success',
+        title: 'Product Deleted',
+        text: 'The product has been removed from your catalog.',
+        confirmButtonText: 'OK',
+        timer: 2000,
+        timerProgressBar: true,
+      });
     } catch (err: any) {
-      alert(err.message || 'Failed to delete product');
+      swal.fire({
+        icon: 'error',
+        title: 'Delete Failed',
+        text: err.message || 'Failed to delete product.',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
@@ -116,7 +139,12 @@ export default function ProductsPage() {
       setImportResult(res);
       loadProducts();
     } catch (err: any) {
-      alert(err.message || 'Invalid JSON input array format');
+      swal.fire({
+        icon: 'error',
+        title: 'Import Failed',
+        text: err.message || 'Invalid JSON input. Please check the array format and try again.',
+        confirmButtonText: 'OK',
+      });
     } finally {
       setImporting(false);
     }

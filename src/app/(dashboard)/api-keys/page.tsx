@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { fetchApi } from '@/lib/api-client';
 import Button from '@/components/Button';
+import swal from '@/lib/swal';
 import { TableRowSkeleton } from '@/components/Skeleton';
 
 const TEMPLATE_PROMPTS: Record<string, string> = {
@@ -76,7 +77,12 @@ export default function ApiKeysPage() {
   const handleCreateChatbot = async (e: React.FormEvent) => {
     e.preventDefault();
     if (domains.length === 0) {
-      alert('At least one allowed domain is required (e.g. localhost or shop.yourstore.com)');
+      swal.fire({
+        icon: 'warning',
+        title: 'Domain Required',
+        text: 'At least one allowed domain is required (e.g. localhost or shop.yourstore.com).',
+        confirmButtonText: 'Got it',
+      });
       return;
     }
     setGenerating(true);
@@ -97,31 +103,78 @@ export default function ApiKeysPage() {
       setDomains(['localhost', '127.0.0.1']);
       loadKeys();
     } catch (err: any) {
-      alert(err.message || 'Failed to generate API Key');
+      swal.fire({
+        icon: 'error',
+        title: 'Generation Failed',
+        text: err.message || 'Failed to generate API Key.',
+        confirmButtonText: 'OK',
+      });
     } finally {
       setGenerating(false);
     }
   };
 
   const handleRevokeKey = async (id: string) => {
-    if (!confirm('Are you sure you want to revoke this API key? Embedded widgets using this key will stop functioning.')) return;
+    const result = await swal.fire({
+      icon: 'warning',
+      title: 'Revoke API Key?',
+      text: 'Embedded widgets using this key will immediately stop functioning.',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Revoke It',
+      cancelButtonText: 'Cancel',
+    });
+    if (!result.isConfirmed) return;
 
     try {
       await fetchApi(`/api/keys/${id}`, { method: 'DELETE' });
       loadKeys();
+      swal.fire({
+        icon: 'success',
+        title: 'Key Revoked',
+        text: 'The API key has been successfully revoked.',
+        confirmButtonText: 'OK',
+        timer: 2500,
+        timerProgressBar: true,
+      });
     } catch (err: any) {
-      alert(err.message || 'Failed to revoke key');
+      swal.fire({
+        icon: 'error',
+        title: 'Revoke Failed',
+        text: err.message || 'Failed to revoke key.',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
   const handleDeleteKey = async (id: string) => {
-    if (!confirm('Are you sure you want to permanently delete this API key? This cannot be undone.')) return;
+    const result = await swal.fire({
+      icon: 'error',
+      title: 'Delete API Key?',
+      text: 'This action is permanent and cannot be undone. All widgets using this key will break.',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete',
+      cancelButtonText: 'Cancel',
+    });
+    if (!result.isConfirmed) return;
 
     try {
       await fetchApi(`/api/keys/${id}/delete`, { method: 'DELETE' });
       loadKeys();
+      swal.fire({
+        icon: 'success',
+        title: 'Key Deleted',
+        text: 'The API key has been permanently removed.',
+        confirmButtonText: 'OK',
+        timer: 2500,
+        timerProgressBar: true,
+      });
     } catch (err: any) {
-      alert(err.message || 'Failed to delete key');
+      swal.fire({
+        icon: 'error',
+        title: 'Delete Failed',
+        text: err.message || 'Failed to delete key.',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
