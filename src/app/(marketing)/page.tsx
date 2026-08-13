@@ -284,7 +284,7 @@ export default function LandingPage() {
               <div className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none w-64 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl flex flex-col overflow-hidden">
                 <div className="bg-gradient-to-r from-orange-600 to-amber-600 text-white p-3 text-xs font-bold flex items-center gap-2">
                   <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">🤖</div>
-                  <span>Shopping Assistant</span>
+                  <span>Labto AI Assistant</span>
                 </div>
                 <div className="p-4 bg-slate-950/50 space-y-3 h-32 flex flex-col justify-end text-left">
                   <div className="self-end bg-slate-800 text-slate-300 p-2.5 rounded-lg rounded-br-none text-[10px] max-w-[85%] font-medium shadow-md">Looking for active headphones!</div>
@@ -305,7 +305,7 @@ export default function LandingPage() {
             <h2 className="text-xs uppercase font-extrabold tracking-[0.2em] text-orange-500">Core Features</h2>
             <p className="text-3xl font-extrabold text-white tracking-tight">Everything you need to automate e-commerce sales</p>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Labto AI combines cutting edge vector search with a standard storefront event bridge to give you zero-friction AI shopping support.
+              Labto AI combines cutting edge vector search with a standard event bridge to give you zero-friction AI support and lead generation.
             </p>
           </div>
 

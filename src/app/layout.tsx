@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AI Shopping Assistant — Merchant Dashboard",
-  description: "Manage your AI-powered shopping assistant widget, products, API keys, and visitor chat analytics.",
+  title: "Labto AI Assistant — Merchant Dashboard",
+  description: "Manage your AI-powered assistant widget, products, API keys, and visitor chat analytics.",
 };
 
 import QueryProvider from "@/components/QueryProvider";
