@@ -1,5 +1,5 @@
 import { createAuthClient } from 'better-auth/react';
-import { inferAdditionalFields } from 'better-auth/client/plugins';
+import { inferAdditionalFields, emailOTPClient } from 'better-auth/client/plugins';
 
 const API_BASE_URL = ''; // Proxied via Next.js rewrites
 
@@ -9,6 +9,7 @@ export const authClient = createAuthClient({
     credentials: 'include',
   },
   plugins: [
+    emailOTPClient(),
     inferAdditionalFields({
       user: {
         allowedDomains: { type: 'string[]', required: false },

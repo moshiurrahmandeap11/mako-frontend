@@ -43,7 +43,7 @@ export default function RegisterPage() {
         throw new Error(error.message || 'Failed to create merchant account');
       }
 
-      router.push('/dashboard');
+      router.push(`/verify-email?email=${encodeURIComponent(email)}`);
       router.refresh();
     } catch (err: any) {
       setError(err.message || 'Failed to create merchant account');
