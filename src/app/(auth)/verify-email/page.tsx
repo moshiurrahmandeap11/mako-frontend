@@ -85,9 +85,8 @@ function VerifyEmailForm() {
 
       setSuccess('Email verified successfully! Redirecting to dashboard...');
       setTimeout(() => {
-        router.push('/dashboard');
-        router.refresh();
-      }, 1500);
+        window.location.href = '/dashboard';
+      }, 1000);
     } catch (err: any) {
       setError(err.message || 'Invalid or expired OTP code');
     } finally {
