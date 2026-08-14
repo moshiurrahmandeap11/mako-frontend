@@ -15,6 +15,8 @@ import Button from '@/components/Button';
 import swal from '@/lib/swal';
 import { TableRowSkeleton } from '@/components/Skeleton';
 
+import Link from 'next/link';
+
 const TEMPLATE_PROMPTS: Record<string, string> = {
   'Customer Support': 'You are a professional customer support agent. Answer questions about our products, services, and policies. If you don\'t know the answer, politely redirect the user to a human agent. Always be polite and concise.',
   'FAQ / Knowledge Base': 'You are a knowledgeable FAQ assistant. Answer user questions using only the provided store information and policy facts. Be direct and avoid conversation filler.',
@@ -31,8 +33,6 @@ export default function ApiKeysPage() {
   const [name, setName] = useState('');
   const [template, setTemplate] = useState('Customer Support');
   const [prompt, setPrompt] = useState(TEMPLATE_PROMPTS['Customer Support']);
-  const [domains, setDomains] = useState<string[]>(['localhost', '127.0.0.1']);
-  const [domainInput, setDomainInput] = useState('');
 
   // Response UI State
   const [newKeyData, setNewKeyData] = useState<any>(null);
@@ -60,29 +60,8 @@ export default function ApiKeysPage() {
     setPrompt(TEMPLATE_PROMPTS[selectedTemplate] || '');
   };
 
-  const handleAddDomain = () => {
-    const val = domainInput.trim().toLowerCase();
-    if (val && !domains.includes(val)) {
-      setDomains([...domains, val]);
-      setDomainInput('');
-    }
-  };
-
-  const handleRemoveDomain = (domainToRemove: string) => {
-    setDomains(domains.filter((d) => d !== domainToRemove));
-  };
-
   const handleCreateChatbot = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (domains.length === 0) {
-      swal.fire({
-        icon: 'warning',
-        title: 'Domain Required',
-        text: 'At least one allowed domain is required (e.g. localhost or shop.yourstore.com).',
-        confirmButtonText: 'Got it',
-      });
-      return;
-    }
     setGenerating(true);
     setNewKeyData(null);
     try {
@@ -92,13 +71,12 @@ export default function ApiKeysPage() {
           name: name || 'My Support Bot',
           template,
           systemPrompt: prompt,
-          allowedDomains: domains,
+          allowedDomains: [],
         }),
       });
       setNewKeyData(data.apiKey);
       setShowConfig(false);
       setName('');
-      setDomains(['localhost', '127.0.0.1']);
       loadKeys();
     } catch (err: any) {
       swal.fire({
@@ -246,31 +224,14 @@ export default function ApiKeysPage() {
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Allowed Host Domains</label>
-              <div className="flex gap-2 mb-2">
-                <input
-                  type="text"
-                  placeholder="e.g. shop.mystore.com or *.mystore.com"
-                  value={domainInput}
-                  onChange={(e) => setDomainInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddDomain())}
-                  className="flex-1 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500"
-                />
-                <Button type="button" onClick={handleAddDomain} variant="outline">
-                  Add
-                </Button>
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2 text-slate-300">
+                <Globe className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                <span>Allowed host domains are managed globally under <strong>Widget Settings</strong>.</span>
               </div>
-
-              <div className="flex flex-wrap gap-2">
-                {domains.map((dom) => (
-                  <span key={dom} className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-mono font-bold">
-                    <Globe className="w-3 h-3 text-amber-500" />
-                    {dom}
-                    <button type="button" onClick={() => handleRemoveDomain(dom)} className="hover:text-rose-400">✕</button>
-                  </span>
-                ))}
-              </div>
+              <Link href="/widget-settings" className="text-amber-500 hover:text-amber-400 font-bold ml-2">
+                Manage →
+              </Link>
             </div>
 
             <div className="flex justify-end pt-2 border-t border-slate-800">

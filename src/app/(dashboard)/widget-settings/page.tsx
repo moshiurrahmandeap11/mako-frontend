@@ -82,8 +82,16 @@ export default function WidgetSettingsPage() {
     }
   };
 
+function normalizeDomain(input: string): string {
+  if (!input) return '';
+  let str = input.trim().toLowerCase();
+  str = str.replace(/^https?:\/\//i, '');
+  str = str.split('/')[0].split('?')[0].split('#')[0].split(':')[0];
+  return str;
+}
+
   const handleAddDomain = async () => {
-    const val = domainInput.trim().toLowerCase();
+    const val = normalizeDomain(domainInput);
     if (!val || domains.includes(val)) return;
 
     const newDomains = [...domains, val];
@@ -255,7 +263,7 @@ export default function WidgetSettingsPage() {
             <div className="flex gap-2">
               <input
                 type="text"
-                placeholder="e.g. shop.example.com or *.example.com"
+                placeholder="e.g. https://labtobit-frontend.vercel.app or my-store.com"
                 value={domainInput}
                 onChange={(e) => setDomainInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddDomain())}
