@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Users,
@@ -17,6 +18,7 @@ import {
   ChevronRight,
   Sparkles,
   Zap,
+  Lock,
 } from 'lucide-react';
 import { api } from '@/lib/axios';
 
@@ -47,6 +49,7 @@ interface MerchantClient {
 }
 
 export default function AdminPage() {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTier, setSelectedTier] = useState<string>('ALL');
@@ -54,16 +57,36 @@ export default function AdminPage() {
   const [newTier, setNewTier] = useState<string>('PRO');
   const [successMsg, setSuccessMsg] = useState('');
 
-  // 1. Fetch Admin Overview Stats
+  // 0. Fetch Current User Profile to verify Admin Access
+  const { data: merchantData, isLoading: isMerchantLoading } = useQuery({
+    queryKey: ['merchantProfile'],
+    queryFn: () => api.get('/api/merchant/me') as Promise<any>,
+  });
+
+  const merchant = merchantData?.merchant;
+  const adminEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@ahsanul.dev').trim().toLowerCase();
+  const userEmail = merchant?.email?.trim().toLowerCase();
+  const isAdmin = Boolean(merchant && (merchant.isAdmin === true || (userEmail && userEmail === adminEmail)));
+
+  // Redirect non-admin users immediately
+  useEffect(() => {
+    if (!isMerchantLoading && merchant && !isAdmin) {
+      router.replace('/dashboard');
+    }
+  }, [isMerchantLoading, merchant, isAdmin, router]);
+
+  // 1. Fetch Admin Overview Stats (only if admin)
   const { data: overviewData, isLoading: isOverviewLoading } = useQuery({
     queryKey: ['adminOverview'],
     queryFn: () => api.get('/api/admin/overview') as Promise<any>,
+    enabled: isAdmin,
   });
 
-  // 2. Fetch All Registered Merchants
+  // 2. Fetch All Registered Merchants (only if admin)
   const { data: merchantsData, isLoading: isMerchantsLoading } = useQuery({
     queryKey: ['adminMerchants'],
     queryFn: () => api.get('/api/admin/merchants') as Promise<any>,
+    enabled: isAdmin,
   });
 
   // 3. Update Merchant Plan Mutation
@@ -79,6 +102,35 @@ export default function AdminPage() {
       setEditingMerchant(null);
     },
   });
+
+  if (isMerchantLoading) {
+    return (
+      <div className="p-12 text-center text-slate-400">
+        <div className="w-8 h-8 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p className="text-xs uppercase tracking-wider font-bold">Verifying Administrator Privileges...</p>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="p-8 sm:p-12 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-center max-w-lg mx-auto my-12 space-y-4">
+        <div className="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto">
+          <Lock className="w-6 h-6" />
+        </div>
+        <h2 className="text-lg font-bold text-white">Restricted Access</h2>
+        <p className="text-xs text-slate-300">
+          This area is strictly restricted to master administrators. You do not have permissions to view this console.
+        </p>
+        <button
+          onClick={() => router.replace('/dashboard')}
+          className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition"
+        >
+          Return to Dashboard
+        </button>
+      </div>
+    );
+  }
 
   const metrics = overviewData?.metrics || {
     totalMerchants: 0,

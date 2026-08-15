@@ -56,7 +56,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   });
 
   const merchant = merchantData?.merchant;
-  const isAdmin = merchant?.role === 'ADMIN' || merchant?.email === 'admin@ahsanul.dev';
+  const adminEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@ahsanul.dev').trim().toLowerCase();
+  const userEmail = merchant?.email?.trim().toLowerCase();
+  const isAdmin = Boolean(merchant && (merchant.isAdmin === true || (userEmail && userEmail === adminEmail)));
 
   // Automatically close mobile nav on route change
   useEffect(() => {
