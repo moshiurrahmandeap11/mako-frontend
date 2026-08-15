@@ -37,11 +37,13 @@ export default function RootLayout({
           }}
         />
 
-        <Script
-          src="http://localhost:4000/widget.js"
-          data-api-key="aiw_live_b344e76ca39295a8cb438c3b45f71d4c6acbafadd59f6332"
-          strategy="afterInteractive"
-        />
+        {process.env.NEXT_PUBLIC_DEMO_WIDGET_SCRIPT && process.env.NEXT_PUBLIC_DEMO_WIDGET_KEY && (
+          <Script
+            src={process.env.NEXT_PUBLIC_DEMO_WIDGET_SCRIPT}
+            data-api-key={process.env.NEXT_PUBLIC_DEMO_WIDGET_KEY}
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   );

@@ -26,8 +26,8 @@ export default function WidgetSettingsPage() {
 
   const [domains, setDomains] = useState<string[]>([]);
   const [domainInput, setDomainInput] = useState('');
-  const [apiKeys, setApiKeys] = useState<any[]>([]);
-  const [selectedApiKey, setSelectedApiKey] = useState('');
+  const [apiKeys, setApiKeys] = useState<{ id: string; name: string; keyPrefix: string; isActive: boolean }[]>([]);
+  const [selectedKeyPrefix, setSelectedKeyPrefix] = useState('');
 
   const [savingConfig, setSavingConfig] = useState(false);
   const [savingDomains, setSavingDomains] = useState(false);
@@ -60,7 +60,7 @@ export default function WidgetSettingsPage() {
         const activeKeys = (data.keys || []).filter((k: any) => k.isActive);
         setApiKeys(activeKeys);
         if (activeKeys.length > 0) {
-          setSelectedApiKey(activeKeys[0].keyPrefix);
+          setSelectedKeyPrefix(activeKeys[0].keyPrefix);
         }
       })
       .catch(console.error);
@@ -129,7 +129,8 @@ function normalizeDomain(input: string): string {
   };
 
   const scriptHost = process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL || 'http://localhost:4000/widget.js';
-  const apiKeyToUse = selectedApiKey || 'YOUR_ACTIVE_API_KEY';
+  const [customKeyInput, setCustomKeyInput] = useState('');
+  const apiKeyToUse = customKeyInput.trim() || 'YOUR_API_KEY_SECRET';
 
   const getSnippet = () => {
     switch (selectedFramework) {
@@ -243,7 +244,7 @@ function normalizeDomain(input: string): string {
                   onChange={(e) => setConfig({ ...config, addToCartEnabled: e.target.checked })}
                   className="w-4 h-4 rounded text-amber-500 focus:ring-amber-500 bg-slate-950 border-slate-800"
                 />
-                <span className="text-xs font-semibold text-slate-200">Enable direct "+ Add to Cart" actions in Widget</span>
+                <span className="text-xs font-semibold text-slate-200">Enable direct &quot;+ Add to Cart&quot; actions in Widget</span>
               </label>
             </div>
 
@@ -305,6 +306,23 @@ function normalizeDomain(input: string): string {
                   <span>{copied ? 'Copied!' : 'Copy Code'}</span>
                 </span>
               </Button>
+            </div>
+
+            {/* API Key Input Option */}
+            <div className="space-y-1.5 pb-2">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                Insert Full API Key (Optional — auto-populates below)
+              </label>
+              <input
+                type="text"
+                value={customKeyInput}
+                onChange={(e) => setCustomKeyInput(e.target.value)}
+                placeholder="Paste your secret key (e.g. aiw_live_...)"
+                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 font-mono"
+              />
+              <p className="text-[10px] text-slate-500">
+                Tip: Your secret API key was shown when you created it in the <a href="/api-keys" className="text-amber-500 underline">API Keys</a> tab.
+              </p>
             </div>
 
             {/* Framework Select Tabs */}
