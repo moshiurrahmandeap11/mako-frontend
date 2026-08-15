@@ -13,6 +13,7 @@ import {
   Store,
   Zap,
   CreditCard,
+  BookOpen,
 } from 'lucide-react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
@@ -67,6 +68,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const navItems = [
     { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+    { label: 'Knowledge Base', href: '/knowledge-base', icon: BookOpen },
     { label: 'Product Catalog', href: '/products', icon: Package },
     { label: 'Widget Settings', href: '/widget-settings', icon: Settings },
     { label: 'API Keys', href: '/api-keys', icon: Key },
