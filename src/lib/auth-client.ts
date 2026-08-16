@@ -1,14 +1,8 @@
 import { createAuthClient } from 'better-auth/react';
 import { inferAdditionalFields, emailOTPClient } from 'better-auth/client/plugins';
 
-const getBaseUrl = () => {
-  const envUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  if (!envUrl) return '';
-  return `${envUrl.replace(/\/$/, '')}/api/auth`;
-};
-
 export const authClient = createAuthClient({
-  baseURL: getBaseUrl(),
+  baseURL: '', // Proxied via Next.js rewrites for first-party cookie support
   fetchOptions: {
     credentials: 'include',
   },
