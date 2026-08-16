@@ -166,6 +166,40 @@ export default function KnowledgeBasePage() {
     }
   };
 
+  const handleDeleteAllChunks = async () => {
+    const result = await swal.fire({
+      icon: 'warning',
+      title: 'Clear ALL Knowledge Base Chunks?',
+      text: 'This will permanently wipe all scraped & indexed content. You can click Re-crawl Store anytime to refresh.',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Clear All',
+      confirmButtonColor: '#ef4444',
+      cancelButtonText: 'Cancel',
+      background: '#0f172a',
+      color: '#f8fafc',
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await fetchApi('/api/knowledge/clear-all', { method: 'DELETE' });
+        loadKnowledge();
+        swal.fire({
+          icon: 'success',
+          title: 'Cleared',
+          text: 'All knowledge base data has been cleared.',
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (err: any) {
+        swal.fire({
+          icon: 'error',
+          title: 'Failed to clear',
+          text: err.message,
+        });
+      }
+    }
+  };
+
   const handleRescrapeAll = async () => {
     const result = await swal.fire({
       icon: 'question',
@@ -226,6 +260,15 @@ export default function KnowledgeBasePage() {
         </div>
 
         <div className="flex items-center gap-3 flex-wrap">
+          <Button
+            variant="outline"
+            onClick={handleDeleteAllChunks}
+            className="flex items-center gap-2 border-rose-800/60 bg-rose-950/30 hover:bg-rose-900/50 text-rose-300 text-sm"
+          >
+            <Trash2 className="w-4 h-4 text-rose-400" />
+            Clear All Data
+          </Button>
+
           <Button
             variant="outline"
             onClick={handleRescrapeAll}
