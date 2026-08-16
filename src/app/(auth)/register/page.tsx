@@ -52,15 +52,16 @@ export default function RegisterPage() {
     }
   };
 
-  const handleSocialLogin = async (provider: 'google' | 'github') => {
+  const handleSocialLogin = async (provider: 'google') => {
     setError('');
     try {
+      const origin = typeof window !== 'undefined' ? window.location.origin : '';
       await authClient.signIn.social({
         provider,
-        callbackURL: '/dashboard',
+        callbackURL: `${origin}/dashboard`,
       });
     } catch (err: any) {
-      setError(err.message || `Failed to sign up with ${provider}`);
+      setError(err.message || `Failed to sign in with ${provider}`);
     }
   };
 
