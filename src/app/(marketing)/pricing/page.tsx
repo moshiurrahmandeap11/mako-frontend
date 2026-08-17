@@ -62,7 +62,8 @@ export default function PricingPage() {
       price: '$0',
       description: 'Ideal for testing and small development environments.',
       features: [
-        '100 messages / day limit',
+        '100 messages / month limit',
+        '1 API key',
         '1 whitelisted domain',
         'Standard database search',
         'Standard email support',
@@ -74,10 +75,11 @@ export default function PricingPage() {
     },
     {
       name: 'Starter',
-      price: '$29',
+      price: '$2',
       description: 'Perfect for growing boutique stores starting with AI.',
       features: [
-        '1,000 messages / day limit',
+        '500 messages / month limit',
+        '2 API keys',
         '2 whitelisted domains',
         'pgvector Similarity Search',
         'Custom widget appearance',
@@ -89,15 +91,16 @@ export default function PricingPage() {
     },
     {
       name: 'Pro',
-      price: '$79',
+      price: '$5',
       description: 'Our most popular plan for scaling e-commerce stores.',
       features: [
-        '10,000 messages / day limit',
+        '1,500 messages / month limit',
+        '4 API keys',
         '5 whitelisted domains',
         'Full pgvector similarity search',
         'Storefront cart event bridge',
         'Priority SLA support (4h)',
-        'No Labto AI branding',
+        'No Labto AI branding (White-label)',
       ],
       cta: 'Go Pro Now',
       popular: true,
@@ -109,6 +112,7 @@ export default function PricingPage() {
       description: 'Dedicated orchestration for high-traffic retailers.',
       features: [
         'Unlimited message limits',
+        'Unlimited API keys',
         'Unlimited whitelisted domains',
         'Dedicated LLM instances',
         'Custom embeddings pipeline',
