@@ -26,12 +26,8 @@ export default function ConversationsPage() {
     if (!selectedConversation?.sessionId) return;
     setDownloadingPdf(true);
     try {
-      const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') || localStorage.getItem('token') || '' : '';
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://mako-api.ahsanul.dev';
-      const res = await fetch(`${apiUrl}/api/analytics/conversations/${selectedConversation.sessionId}/pdf`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const res = await fetch(`/api/analytics/conversations/${selectedConversation.sessionId}/pdf`, {
+        credentials: 'include',
       });
 
       if (!res.ok) throw new Error('Failed to generate PDF');
