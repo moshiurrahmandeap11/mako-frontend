@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MessageSquare, Calendar, User, Bot, ShoppingBag } from 'lucide-react';
+import { MessageSquare, Calendar, User, Bot, ShoppingBag, Download } from 'lucide-react';
 import { fetchApi } from '@/lib/api-client';
 import { SessionListSkeleton } from '@/components/Skeleton';
 
@@ -9,6 +9,7 @@ export default function ConversationsPage() {
   const [conversations, setConversations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedConversation, setSelectedConversation] = useState<any>(null);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
 
   useEffect(() => {
     fetchApi('/api/analytics/conversations')
@@ -20,6 +21,37 @@ export default function ConversationsPage() {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
+
+  const handleDownloadPdf = async () => {
+    if (!selectedConversation?.sessionId) return;
+    setDownloadingPdf(true);
+    try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') || localStorage.getItem('token') || '' : '';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://mako-api.ahsanul.dev';
+      const res = await fetch(`${apiUrl}/api/analytics/conversations/${selectedConversation.sessionId}/pdf`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error('Failed to generate PDF');
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `transcript-${selectedConversation.sessionId}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Download PDF error:', err);
+      alert('Failed to download PDF transcript. Please try again.');
+    } finally {
+      setDownloadingPdf(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -97,9 +129,21 @@ export default function ConversationsPage() {
                   <p className="text-[11px] text-slate-400">Started on {new Date(selectedConversation.createdAt).toLocaleString()}</p>
                 </div>
 
-                <span className="px-2.5 py-1 rounded text-xs font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20">
-                  {selectedConversation.messages?.length || 0} Messages
-                </span>
+                <div className="flex items-center gap-3">
+                  <span className="px-2.5 py-1 rounded text-xs font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                    {selectedConversation.messages?.length || 0} Messages
+                  </span>
+
+                  <button
+                    onClick={handleDownloadPdf}
+                    disabled={downloadingPdf}
+                    className="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow-sm active:scale-95 disabled:opacity-50"
+                    title="Download conversation transcript as PDF for research"
+                  >
+                    <Download className="w-3.5 h-3.5 text-amber-400" />
+                    <span>{downloadingPdf ? 'Exporting...' : 'Export PDF'}</span>
+                  </button>
+                </div>
               </div>
 
               {/* Transcript Messages List */}
