@@ -23,7 +23,7 @@ export default function PricingSection() {
     },
     {
       name: 'Starter',
-      price: '$19',
+      price: '$2',
       description: 'Perfect for growing boutique stores starting with AI.',
       features: [
         '500 messages / month limit',
@@ -39,10 +39,10 @@ export default function PricingSection() {
     },
     {
       name: 'Pro',
-      price: '$49',
+      price: '$5',
       description: 'Our most popular plan for scaling e-commerce stores.',
       features: [
-        '1,500 messages / month limit',
+        '1,200 messages / month limit',
         '4 API keys',
         '5 whitelisted domains',
         'Full pgvector similarity search',
@@ -59,7 +59,7 @@ export default function PricingSection() {
       price: 'Custom',
       description: 'Dedicated orchestration for high-traffic retailers.',
       features: [
-        'Unlimited message limits',
+        'All Unlimited message limits',
         'Unlimited API keys',
         'Unlimited whitelisted domains',
         'Dedicated LLM instances',
@@ -87,7 +87,7 @@ export default function PricingSection() {
             Transparent, Scalable Plans
           </h2>
           <p className="text-slate-400 text-xs sm:text-sm font-normal">
-            Predictable monthly billing based on your storefront chat volume.
+            Predictable monthly billing powered by Polar.sh.
           </p>
         </div>
 
@@ -98,40 +98,34 @@ export default function PricingSection() {
               className={`p-6 rounded-2xl bg-[#0F172A]/70 border flex flex-col justify-between relative overflow-hidden backdrop-blur-md transition-all duration-200 text-left ${
                 p.popular
                   ? 'border-[#39FF88]/50 shadow-lg shadow-[#39FF88]/10'
-                  : 'border-white/[0.08] hover:border-white/20'
+                  : 'border-white/[0.08] hover:border-white/[0.15]'
               }`}
             >
               {p.popular && (
-                <div className="absolute top-0 right-0 bg-[#39FF88] text-[#0B132B] text-[8px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-bl-lg">
-                  Popular
-                </div>
+                <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#39FF88]/15 text-[#39FF88] border border-[#39FF88]/30">
+                  Most Popular
+                </span>
               )}
 
-              <div className="space-y-3.5">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  {p.name}
-                </h3>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-white">
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-white">{p.name}</h3>
+                  <p className="text-xs text-slate-400 mt-1 min-h-[32px]">{p.description}</p>
+                </div>
+
+                <div className="flex items-baseline gap-1 py-1 border-b border-white/[0.06]">
+                  <span className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
                     {p.price}
                   </span>
                   {p.price !== 'Custom' && (
-                    <span className="text-[11px] text-slate-400 font-normal">
-                      / month
-                    </span>
+                    <span className="text-xs text-slate-400 font-medium">/ month</span>
                   )}
                 </div>
-                <p className="text-slate-400 text-xs leading-relaxed font-normal">
-                  {p.description}
-                </p>
-                <hr className="border-white/[0.06]" />
-                <ul className="space-y-2.5">
+
+                <ul className="space-y-2.5 text-xs text-slate-300">
                   {p.features.map((feat) => (
-                    <li
-                      key={feat}
-                      className="text-[11px] text-slate-300 font-normal flex items-center gap-2"
-                    >
-                      <Check className="w-3 h-3 text-[#39FF88] shrink-0" />
+                    <li key={feat} className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#39FF88] shrink-0" />
                       <span>{feat}</span>
                     </li>
                   ))}
@@ -141,9 +135,9 @@ export default function PricingSection() {
               <div className="pt-6">
                 <Button
                   href={p.href}
-                  variant={p.popular ? 'primary' : 'ghost'}
-                  size="sm"
-                  className="w-full"
+                  variant={p.popular ? 'primary' : 'outline'}
+                  size="md"
+                  className="w-full justify-center text-xs font-semibold"
                 >
                   {p.cta}
                 </Button>

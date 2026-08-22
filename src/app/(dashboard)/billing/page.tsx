@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { fetchApi } from '@/lib/api-client';
-import { CreditCard, ShieldAlert, Zap, ArrowRight, ShieldCheck, Loader2, Download } from 'lucide-react';
-import Link from 'next/link';
+import { CreditCard, ShieldAlert, Zap, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Button from '@/components/Button';
 import { Skeleton } from '@/components/Skeleton';
@@ -62,37 +61,9 @@ export default function BillingPage() {
     }
   };
 
-  const handleDownloadInvoice = async (invoiceId: string, invoiceNumber: string) => {
-    toast.loading('Generating invoice receipt...', { id: 'download-invoice' });
-    try {
-      const response = await fetch(`/api/billing/invoices/${invoiceId}/download`, {
-        method: 'GET',
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to retrieve PDF file.');
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${invoiceNumber.replace(/\s+/g, '_')}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-      toast.success('Invoice receipt downloaded!', { id: 'download-invoice' });
-    } catch (err) {
-      console.error('Invoice download error:', err);
-      toast.error('Failed to download invoice PDF.', { id: 'download-invoice' });
-    }
-  };
-
   const planLimits: Record<string, { desc: string; features: string[] }> = {
     FREE: {
-      desc: 'Great for testing and development.',
+      desc: 'Great for testing and development ($0/mo).',
       features: [
         '100 messages / month limit',
         '1 API key',
@@ -115,13 +86,23 @@ export default function BillingPage() {
     PRO: {
       desc: 'Our most popular plan for scaling stores & agencies ($5/mo).',
       features: [
-        '1,500 messages / month limit',
+        '1,200 messages / month limit',
         '4 API keys',
         '5 whitelisted domains',
         'Full pgvector similarity search',
         'Storefront cart event bridge integrations',
         'Priority SLA support (4h)',
         'No Labto AI branding (completely white-labeled)',
+      ],
+    },
+    ENTERPRISE: {
+      desc: 'Dedicated high-traffic infrastructure & custom SLAs.',
+      features: [
+        'All Unlimited message limits',
+        'Unlimited API keys & domains',
+        'Dedicated LLM instances',
+        'Custom vector embeddings pipeline',
+        '99.9% uptime SLA guarantee',
       ],
     },
   };
@@ -147,11 +128,11 @@ export default function BillingPage() {
       {/* Page Header */}
       <div>
         <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-          <CreditCard className="w-6 h-6 text-amber-500" />
+          <CreditCard className="w-6 h-6 text-[#39FF88]" />
           Billing & Subscription Plan
         </h1>
         <p className="text-slate-400 text-xs mt-1">
-          Manage your Labto AI subscription, billing portal, and payment history.
+          Manage your Labto AI subscription, Polar.sh billing portal, and quota limits.
         </p>
       </div>
 
@@ -166,10 +147,10 @@ export default function BillingPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Active Subscription Card */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="p-8 bg-slate-900/60 border border-slate-800/80 rounded-2xl relative overflow-hidden shadow-2xl">
+          <div className="p-8 bg-[#0B132B]/80 border border-white/[0.08] rounded-2xl relative overflow-hidden shadow-2xl backdrop-blur-sm">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-bold text-amber-500 uppercase tracking-widest bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded">
+                <span className="text-[10px] font-bold text-[#39FF88] uppercase tracking-widest bg-[#39FF88]/10 border border-[#39FF88]/20 px-3 py-1 rounded">
                   Current active plan
                 </span>
                 <h2 className="text-3xl font-extrabold text-white tracking-tight mt-4">
@@ -189,12 +170,12 @@ export default function BillingPage() {
             </div>
 
             {/* Current Tier Features List */}
-            <div className="mt-8 pt-8 border-t border-slate-800/80 space-y-4">
+            <div className="mt-8 pt-8 border-t border-white/[0.08] space-y-4">
               <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">Plan Inclusions:</h3>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {limits.features.map((feat, idx) => (
                   <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-300 leading-relaxed">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <ShieldCheck className="w-4 h-4 text-[#39FF88] shrink-0 mt-0.5" />
                     <span>{feat}</span>
                   </li>
                 ))}
@@ -202,9 +183,9 @@ export default function BillingPage() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="mt-8 pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center gap-4">
+            <div className="mt-8 pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center gap-4">
               {isFree ? (
-                <Button href="/pricing" variant="filled">
+                <Button href="/pricing" variant="primary">
                   <span className="flex items-center gap-2">
                     <span>Upgrade Subscription</span>
                     <ArrowRight className="w-4 h-4" />
@@ -215,12 +196,12 @@ export default function BillingPage() {
                   <span className="flex items-center gap-2">
                     {actionLoading ? (
                       <>
-                        <Loader2 className="w-4 h-4 animate-spin text-amber-500" />
+                        <Loader2 className="w-4 h-4 animate-spin text-[#39FF88]" />
                         <span>Opening Portal...</span>
                       </>
                     ) : (
                       <>
-                        <span>Manage Stripe Billing</span>
+                        <span>Manage Polar.sh Subscription</span>
                         <ArrowRight className="w-4 h-4" />
                       </>
                     )}
@@ -232,15 +213,15 @@ export default function BillingPage() {
         </div>
 
         {/* Invoice & Payment History */}
-        <div className="lg:col-span-5 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
+        <div className="lg:col-span-5 bg-[#0B132B]/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-4">
+          <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
             <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Zap className="w-4 h-4 text-amber-500" />
-              Payment Receipts
+              <Zap className="w-4 h-4 text-[#39FF88]" />
+              Polar.sh Subscription Summary
             </h2>
           </div>
 
-          <div className="divide-y divide-slate-800/60">
+          <div className="divide-y divide-white/[0.06]">
             {loadingInvoices ? (
               <div className="space-y-3 py-2">
                 <Skeleton className="h-10 w-full rounded-lg" />
@@ -248,7 +229,7 @@ export default function BillingPage() {
               </div>
             ) : invoices.length === 0 ? (
               <div className="py-8 text-center text-xs text-slate-500">
-                No paid invoice receipts found.
+                No active subscription invoices found.
               </div>
             ) : (
               invoices.map((inv) => {
@@ -263,13 +244,9 @@ export default function BillingPage() {
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-xs font-bold text-white">${formattedAmount} {inv.currency || 'USD'}</span>
-                      <button
-                        onClick={() => handleDownloadInvoice(inv.id, inv.number)}
-                        className="p-2 text-slate-400 hover:text-amber-500 hover:bg-slate-800 rounded transition"
-                        title="Download Invoice PDF"
-                      >
-                        <Download className="w-4 h-4" />
-                      </button>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#39FF88]/15 text-[#39FF88]">
+                        {inv.status.toUpperCase()}
+                      </span>
                     </div>
                   </div>
                 );
