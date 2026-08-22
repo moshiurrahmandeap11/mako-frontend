@@ -14,22 +14,18 @@ export function LogoMark({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
     lg: 'w-11 h-11',
   };
 
-  const innerCircleClasses = {
-    sm: 'w-4 h-4 border-[2px]',
-    md: 'w-5 h-5 border-[3px]',
-    lg: 'w-6.5 h-6.5 border-[3px]',
-  };
-
-  const dotClasses = {
-    sm: 'w-1.5 h-1.5',
-    md: 'w-2 h-2',
-    lg: 'w-2.5 h-2.5',
-  };
-
   return (
-    <div className={`relative ${sizeClasses[size]} rounded-full bg-[#39FF88] flex items-center justify-center shadow-lg shadow-[#39FF88]/30 shrink-0 transition-transform duration-300 group-hover:scale-105`}>
-      <div className={`${innerCircleClasses[size]} rounded-full border-[#0B132B] border-t-transparent`} />
-      <div className={`absolute ${dotClasses[size]} rounded-full bg-[#0B132B]`} />
+    <div className={`relative ${sizeClasses[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" className="w-full h-full">
+        <g stroke="#39FF88" strokeWidth="28" strokeLinecap="round" strokeLinejoin="round" fill="none">
+          {/* Chat Bubble Outline */}
+          <path d="M 120,90 H 380 A 50,50 0 0 1 430,140 V 310 A 50,50 0 0 1 380,360 H 350 L 380,415 L 310,360 H 120 A 50,50 0 0 1 70,310 V 140 A 50,50 0 0 1 120,90 Z" />
+          {/* Hollow Letter L */}
+          <path d="M 155,160 V 290 H 235" />
+          {/* Hollow AI Sparkle Star */}
+          <path d="M 315,165 Q 315,225 375,225 Q 315,225 315,285 Q 315,225 255,225 Q 315,225 315,165 Z" />
+        </g>
+      </svg>
     </div>
   );
 }

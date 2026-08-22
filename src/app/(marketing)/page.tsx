@@ -109,9 +109,6 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-[#0B132B] text-slate-100 flex flex-col font-sans overflow-x-hidden">
-      {/* Top Banner Accent */}
-      <div className="h-1.5 w-full bg-gradient-to-r from-[#39FF88] via-[#00CC66] to-[#39FF88]" />
-
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-32 pb-20 px-6 overflow-hidden">
         {/* Background Gradients & Glows */}
