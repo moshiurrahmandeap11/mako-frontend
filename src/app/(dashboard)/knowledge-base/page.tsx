@@ -54,6 +54,7 @@ export default function KnowledgeBasePage() {
   // Upload Doc / PDF Modal State
   const [showDocModal, setShowDocModal] = useState(false);
   const [docFile, setDocFile] = useState<File | null>(null);
+  const [isDraggingDoc, setIsDraggingDoc] = useState(false);
   const [uploadingDoc, setUploadingDoc] = useState(false);
   const [docError, setDocError] = useState('');
 
@@ -668,7 +669,28 @@ export default function KnowledgeBasePage() {
                 </div>
               )}
 
-              <div className="border-2 border-dashed border-slate-800 hover:border-emerald-500/50 rounded-2xl p-6 text-center transition cursor-pointer bg-slate-950/40">
+              <div
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setIsDraggingDoc(true);
+                }}
+                onDragLeave={(e) => {
+                  e.preventDefault();
+                  setIsDraggingDoc(false);
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setIsDraggingDoc(false);
+                  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    setDocFile(e.dataTransfer.files[0]);
+                  }
+                }}
+                className={`border-2 border-dashed rounded-2xl p-8 text-center transition cursor-pointer ${
+                  isDraggingDoc
+                    ? 'border-emerald-400 bg-emerald-500/10 scale-[1.01]'
+                    : 'border-slate-800 hover:border-emerald-500/50 bg-slate-950/40'
+                }`}
+              >
                 <input
                   type="file"
                   accept=".pdf, .docx, .doc, .txt, .md"
@@ -677,9 +699,9 @@ export default function KnowledgeBasePage() {
                   id="docFileInput"
                 />
                 <label htmlFor="docFileInput" className="cursor-pointer space-y-2 block">
-                  <Upload className="w-10 h-10 mx-auto text-emerald-400 opacity-80" />
+                  <Upload className={`w-12 h-12 mx-auto transition ${isDraggingDoc ? 'text-emerald-300 scale-110' : 'text-emerald-400 opacity-80'}`} />
                   <p className="text-sm font-semibold text-white">
-                    {docFile ? docFile.name : 'Click to browse PDF or Document'}
+                    {docFile ? docFile.name : isDraggingDoc ? 'Drop your Document here!' : 'Click or Drag & Drop PDF / Document here'}
                   </p>
                   <p className="text-xs text-slate-500">Supports .pdf, .docx, .txt, .md files up to 15MB</p>
                 </label>

@@ -43,6 +43,7 @@ export default function ProductsPage() {
   // Excel Bulk Import Modal State
   const [showImportModal, setShowImportModal] = useState(false);
   const [importFile, setImportFile] = useState<File | null>(null);
+  const [isDraggingExcel, setIsDraggingExcel] = useState(false);
   const [importing, setImporting] = useState(false);
   const [importResult, setImportResult] = useState<any>(null);
 
@@ -501,7 +502,28 @@ export default function ProductsPage() {
             )}
 
             <form onSubmit={handleExcelImport} className="space-y-4">
-              <div className="border-2 border-dashed border-slate-800 hover:border-amber-500/50 rounded-2xl p-6 text-center transition cursor-pointer bg-slate-950/40">
+              <div
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setIsDraggingExcel(true);
+                }}
+                onDragLeave={(e) => {
+                  e.preventDefault();
+                  setIsDraggingExcel(false);
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setIsDraggingExcel(false);
+                  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    setImportFile(e.dataTransfer.files[0]);
+                  }
+                }}
+                className={`border-2 border-dashed rounded-2xl p-8 text-center transition cursor-pointer ${
+                  isDraggingExcel
+                    ? 'border-amber-500 bg-amber-500/10 scale-[1.01]'
+                    : 'border-slate-800 hover:border-amber-500/50 bg-slate-950/40'
+                }`}
+              >
                 <input
                   type="file"
                   accept=".xlsx, .xls, .csv"
@@ -510,9 +532,9 @@ export default function ProductsPage() {
                   id="excelFileInput"
                 />
                 <label htmlFor="excelFileInput" className="cursor-pointer space-y-2 block">
-                  <FileSpreadsheet className="w-10 h-10 mx-auto text-emerald-400 opacity-80" />
+                  <FileSpreadsheet className={`w-12 h-12 mx-auto transition ${isDraggingExcel ? 'text-amber-400 scale-110' : 'text-emerald-400 opacity-80'}`} />
                   <p className="text-sm font-semibold text-white">
-                    {importFile ? importFile.name : 'Click to browse Excel or CSV file'}
+                    {importFile ? importFile.name : isDraggingExcel ? 'Drop your Excel file here!' : 'Click or Drag & Drop Excel / CSV file here'}
                   </p>
                   <p className="text-xs text-slate-500">Supports .xlsx, .xls, .csv files up to 10MB</p>
                 </label>
