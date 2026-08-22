@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 import QueryProvider from "@/components/QueryProvider";
+import SmoothScroll from "@/components/SmoothScroll";
 import Script from "next/script";
 import { Toaster } from "react-hot-toast";
 
@@ -21,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full dark">
       <body className={`${inter.className} min-h-full bg-slate-950 text-slate-100 antialiased`}>
-        <QueryProvider>
-          {children}
-        </QueryProvider>
+        <SmoothScroll>
+          <QueryProvider>
+            {children}
+          </QueryProvider>
+        </SmoothScroll>
 
         <Toaster
           position="top-center"
