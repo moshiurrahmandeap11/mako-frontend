@@ -8,7 +8,10 @@ import {
   Trash2,
   Package,
   Check,
+  FileSpreadsheet,
+  Download,
 } from 'lucide-react';
+import * as XLSX from 'xlsx';
 import { fetchApi } from '@/lib/api-client';
 import Button from '@/components/Button';
 import { TableRowSkeleton } from '@/components/Skeleton';
@@ -37,9 +40,9 @@ export default function ProductsPage() {
   const [submitting, setSubmitting] = useState(false);
   const [modalError, setModalError] = useState('');
 
-  // Bulk Import Modal State
+  // Excel Bulk Import Modal State
   const [showImportModal, setShowImportModal] = useState(false);
-  const [importJsonText, setImportJsonText] = useState('');
+  const [importFile, setImportFile] = useState<File | null>(null);
   const [importing, setImporting] = useState(false);
   const [importResult, setImportResult] = useState<any>(null);
 
@@ -125,24 +128,87 @@ export default function ProductsPage() {
     }
   };
 
-  const handleBulkImport = async (e: React.FormEvent) => {
+  const handleDownloadSampleExcel = () => {
+    const sampleData = [
+      {
+        externalId: 'SKU-101',
+        title: 'Premium Wireless Headphones',
+        price: 149.99,
+        currency: 'USD',
+        category: 'Electronics',
+        description: 'Noise-cancelling over-ear headphones with 30-hour battery life.',
+        productUrl: 'https://mystore.com/products/headphones',
+        imageUrl: 'https://mystore.com/images/headphones.jpg',
+        inStock: true,
+      },
+      {
+        externalId: 'SKU-102',
+        title: 'Minimalist Leather Watch',
+        price: 89.50,
+        currency: 'USD',
+        category: 'Accessories',
+        description: 'Water-resistant analog watch with genuine leather strap.',
+        productUrl: 'https://mystore.com/products/leather-watch',
+        imageUrl: 'https://mystore.com/images/watch.jpg',
+        inStock: true,
+      },
+    ];
+
+    const worksheet = XLSX.utils.json_to_sheet(sampleData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Products');
+    XLSX.writeFile(workbook, 'products_import_template.xlsx');
+  };
+
+  const handleExcelImport = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!importFile) {
+      swal.fire({ icon: 'error', title: 'No File Selected', text: 'Please select an Excel (.xlsx, .xls) or CSV file.' });
+      return;
+    }
+
     setImporting(true);
     setImportResult(null);
 
     try {
-      const parsedArray = JSON.parse(importJsonText);
+      const buffer = await importFile.arrayBuffer();
+      const workbook = XLSX.read(buffer, { type: 'array' });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+      const rawRows: any[] = XLSX.utils.sheet_to_json(worksheet);
+
+      if (rawRows.length === 0) {
+        throw new Error('The selected Excel file is empty.');
+      }
+
+      const productsToImport = rawRows.map((row, idx) => ({
+        externalId: String(row.externalId || row.SKU || row.sku || row.id || `ext_${Date.now()}_${idx}`),
+        title: String(row.title || row.Title || row.Name || row.name || ''),
+        price: parseFloat(row.price || row.Price || 0),
+        currency: String(row.currency || row.Currency || 'USD'),
+        category: String(row.category || row.Category || 'General'),
+        description: String(row.description || row.Description || ''),
+        productUrl: String(row.productUrl || row.ProductUrl || row.url || row.Link || ''),
+        imageUrl: String(row.imageUrl || row.ImageUrl || row.image || ''),
+        inStock: row.inStock !== undefined ? Boolean(row.inStock) : true,
+      })).filter((p) => p.title && !isNaN(p.price));
+
+      if (productsToImport.length === 0) {
+        throw new Error('No valid product rows found. Make sure columns contain "title" and "price".');
+      }
+
       const res = await fetchApi('/api/products/import', {
         method: 'POST',
-        body: JSON.stringify({ products: parsedArray }),
+        body: JSON.stringify({ products: productsToImport }),
       });
+
       setImportResult(res);
       loadProducts();
     } catch (err: any) {
       swal.fire({
         icon: 'error',
         title: 'Import Failed',
-        text: err.message || 'Invalid JSON input. Please check the array format and try again.',
+        text: err.message || 'Failed to parse Excel file. Please download and check the sample template.',
         confirmButtonText: 'OK',
       });
     } finally {
@@ -162,8 +228,8 @@ export default function ProductsPage() {
         <div className="flex items-center gap-3">
           <Button onClick={() => setShowImportModal(true)} variant="outline">
             <span className="flex items-center gap-2">
-              <Upload className="w-4 h-4" />
-              <span>Bulk JSON Import</span>
+              <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
+              <span>Bulk Excel / CSV Import</span>
             </span>
           </Button>
 
@@ -217,7 +283,7 @@ export default function ProductsPage() {
                 <tr>
                   <td colSpan={6} className="text-center py-12 text-slate-500 text-xs">
                     <Package className="w-8 h-8 mx-auto mb-2 opacity-40 text-amber-500" />
-                    No products found in catalog. Add your first item or upload a JSON feed!
+                    No products found in catalog. Add your first item or upload an Excel/CSV spreadsheet!
                   </td>
                 </tr>
               ) : (
@@ -404,52 +470,68 @@ export default function ProductsPage() {
         </div>
       )}
 
-      {/* Bulk JSON Import Modal */}
+      {/* Bulk Excel / CSV Import Modal */}
       {showImportModal && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-2xl shadow-2xl space-y-4">
-            <h2 className="text-lg font-bold text-white">Bulk Import Products (JSON Feed)</h2>
-            <p className="text-slate-400 text-xs">Paste an array of product JSON objects matching your catalog schema:</p>
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-xl shadow-2xl space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                  <FileSpreadsheet className="w-5 h-5 text-emerald-400" />
+                  <span>Bulk Excel / CSV Product Import</span>
+                </h2>
+                <p className="text-slate-400 text-xs mt-1">Upload an Excel (.xlsx, .xls) or CSV spreadsheet to populate your catalog and pgvector memory:</p>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleDownloadSampleExcel}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-xs font-semibold text-amber-400 border border-amber-500/20 transition"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Sample Template</span>
+              </button>
+            </div>
 
             {importResult && (
               <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2">
                 <Check className="w-4 h-4" />
-                <span>Import successful! Processed: {importResult.totalProcessed} (Created: {importResult.createdCount}, Updated: {importResult.updatedCount})</span>
+                <span>Import complete! Processed: {importResult.totalProcessed} (Created: {importResult.createdCount}, Updated: {importResult.updatedCount})</span>
               </div>
             )}
 
-            <form onSubmit={handleBulkImport} className="space-y-4">
-              <textarea
-                rows={10}
-                required
-                value={importJsonText}
-                onChange={(e) => setImportJsonText(e.target.value)}
-                placeholder={`[
-  {
-    "externalId": "SKU-100",
-    "title": "Classic White T-Shirt",
-    "description": "100% organic cotton t-shirt",
-    "price": 29.99,
-    "productUrl": "https://mystore.com/products/white-tshirt",
-    "category": "Apparel"
-  }
-]`}
-                className="w-full p-3 font-mono text-xs bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-              />
+            <form onSubmit={handleExcelImport} className="space-y-4">
+              <div className="border-2 border-dashed border-slate-800 hover:border-amber-500/50 rounded-2xl p-6 text-center transition cursor-pointer bg-slate-950/40">
+                <input
+                  type="file"
+                  accept=".xlsx, .xls, .csv"
+                  onChange={(e) => setImportFile(e.target.files?.[0] || null)}
+                  className="hidden"
+                  id="excelFileInput"
+                />
+                <label htmlFor="excelFileInput" className="cursor-pointer space-y-2 block">
+                  <FileSpreadsheet className="w-10 h-10 mx-auto text-emerald-400 opacity-80" />
+                  <p className="text-sm font-semibold text-white">
+                    {importFile ? importFile.name : 'Click to browse Excel or CSV file'}
+                  </p>
+                  <p className="text-xs text-slate-500">Supports .xlsx, .xls, .csv files up to 10MB</p>
+                </label>
+              </div>
 
-              <div className="flex justify-end gap-3">
+              <div className="flex justify-end gap-3 pt-2 border-t border-slate-800">
                 <Button
                   type="button"
                   onClick={() => {
                     setShowImportModal(false);
+                    setImportFile(null);
                     setImportResult(null);
                   }}
                   variant="outline"
                 >
                   Close
                 </Button>
-                <Button type="submit" disabled={importing} variant="filled">
-                  {importing ? 'Importing...' : 'Start Import'}
+                <Button type="submit" disabled={importing || !importFile} variant="filled">
+                  {importing ? 'Processing & Vectorizing...' : 'Upload & Import'}
                 </Button>
               </div>
             </form>

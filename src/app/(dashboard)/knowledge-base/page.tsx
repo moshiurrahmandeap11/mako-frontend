@@ -14,6 +14,7 @@ import {
   CheckCircle2,
   Clock,
   Sparkles,
+  Upload,
 } from 'lucide-react';
 import { fetchApi } from '@/lib/api-client';
 import Button from '@/components/Button';
@@ -50,6 +51,12 @@ export default function KnowledgeBasePage() {
   const [savingNote, setSavingNote] = useState(false);
   const [noteError, setNoteError] = useState('');
 
+  // Upload Doc / PDF Modal State
+  const [showDocModal, setShowDocModal] = useState(false);
+  const [docFile, setDocFile] = useState<File | null>(null);
+  const [uploadingDoc, setUploadingDoc] = useState(false);
+  const [docError, setDocError] = useState('');
+
   const [rescapingAll, setRescrapingAll] = useState(false);
 
   const loadKnowledge = async () => {
@@ -67,6 +74,55 @@ export default function KnowledgeBasePage() {
   useEffect(() => {
     loadKnowledge();
   }, []);
+
+  const handleUploadDoc = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!docFile) return;
+    setDocError('');
+    setUploadingDoc(true);
+
+    try {
+      const reader = new FileReader();
+      reader.readAsDataURL(docFile);
+      reader.onload = async () => {
+        try {
+          const base64Data = reader.result as string;
+          const ext = docFile.name.split('.').pop()?.toLowerCase() || 'pdf';
+
+          const res = await fetchApi('/api/knowledge/upload-doc', {
+            method: 'POST',
+            body: JSON.stringify({
+              filename: docFile.name,
+              fileData: base64Data,
+              fileType: ext,
+            }),
+          });
+
+          setShowDocModal(false);
+          setDocFile(null);
+          swal.fire({
+            icon: 'success',
+            title: 'Document Indexed',
+            text: `Indexed ${res.chunksCreated || 0} chunks from "${docFile.name}" into pgvector memory.`,
+            timer: 3000,
+            showConfirmButton: false,
+          });
+          loadKnowledge();
+        } catch (err: any) {
+          setDocError(err.message || 'Failed to upload document');
+        } finally {
+          setUploadingDoc(false);
+        }
+      };
+      reader.onerror = () => {
+        setDocError('Failed to read document file');
+        setUploadingDoc(false);
+      };
+    } catch (err: any) {
+      setDocError(err.message || 'Failed to upload document');
+      setUploadingDoc(false);
+    }
+  };
 
   const handleScrapeSingleUrl = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -277,6 +333,15 @@ export default function KnowledgeBasePage() {
           >
             <RefreshCw className={`w-4 h-4 ${rescapingAll ? 'animate-spin text-indigo-400' : ''}`} />
             {rescapingAll ? 'Crawling Website...' : 'Re-crawl Store'}
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={() => setShowDocModal(true)}
+            className="flex items-center gap-2 border-emerald-500/40 bg-emerald-950/30 hover:bg-emerald-900/50 text-emerald-300 text-sm"
+          >
+            <Upload className="w-4 h-4 text-emerald-400" />
+            Upload Doc / PDF
           </Button>
 
           <Button
@@ -568,6 +633,73 @@ export default function KnowledgeBasePage() {
                   className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm"
                 >
                   {savingNote ? 'Saving...' : 'Save Knowledge Note'}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Upload Doc / PDF Modal */}
+      {showDocModal && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                <Upload className="w-5 h-5 text-emerald-400" />
+                Upload Document or PDF
+              </h2>
+              <button
+                onClick={() => setShowDocModal(false)}
+                className="text-slate-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-400">
+              Upload brand guidelines, return policies, user manuals, or FAQs (.pdf, .docx, .txt, .md). The backend will extract, chunk, and index vector embeddings into pgvector memory.
+            </p>
+
+            <form onSubmit={handleUploadDoc} className="space-y-4">
+              {docError && (
+                <div className="p-3 bg-rose-950/50 border border-rose-800 text-rose-300 text-xs rounded-xl">
+                  {docError}
+                </div>
+              )}
+
+              <div className="border-2 border-dashed border-slate-800 hover:border-emerald-500/50 rounded-2xl p-6 text-center transition cursor-pointer bg-slate-950/40">
+                <input
+                  type="file"
+                  accept=".pdf, .docx, .doc, .txt, .md"
+                  onChange={(e) => setDocFile(e.target.files?.[0] || null)}
+                  className="hidden"
+                  id="docFileInput"
+                />
+                <label htmlFor="docFileInput" className="cursor-pointer space-y-2 block">
+                  <Upload className="w-10 h-10 mx-auto text-emerald-400 opacity-80" />
+                  <p className="text-sm font-semibold text-white">
+                    {docFile ? docFile.name : 'Click to browse PDF or Document'}
+                  </p>
+                  <p className="text-xs text-slate-500">Supports .pdf, .docx, .txt, .md files up to 15MB</p>
+                </label>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-2 border-t border-slate-800">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setShowDocModal(false)}
+                  className="text-sm"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={uploadingDoc || !docFile}
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm"
+                >
+                  {uploadingDoc ? 'Parsing & Vectorizing...' : 'Upload & Index Doc'}
                 </Button>
               </div>
             </form>
