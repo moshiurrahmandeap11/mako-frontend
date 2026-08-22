@@ -37,7 +37,7 @@ export function LogoMark({ size = 'md', id }: { size?: 'sm' | 'md' | 'lg'; id?: 
 }
 
 export default function Logo({
-  href = '#',
+  href = '/',
   size = 'md',
   showText = true,
   className = '',

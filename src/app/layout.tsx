@@ -20,8 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full dark">
-      <body className={`${inter.className} min-h-full bg-slate-950 text-slate-100 antialiased`}>
+    <html lang="en" className="h-full dark" suppressHydrationWarning>
+      <body
+        suppressHydrationWarning
+        className={`${inter.className} min-h-full bg-slate-950 text-slate-100 antialiased`}
+      >
         <SmoothScroll>
           <QueryProvider>
             {children}

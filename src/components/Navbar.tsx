@@ -10,6 +10,7 @@ import Button from "./Button";
 import Logo from "./Logo";
 
 export default function Navbar() {
+  const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const { data: session, isPending } = authClient.useSession();
@@ -25,6 +26,7 @@ export default function Navbar() {
   ];
 
   useEffect(() => {
+    setMounted(true);
     function handleClickOutside(event: MouseEvent) {
       if (
         profileMenuRef.current &&
@@ -60,8 +62,8 @@ export default function Navbar() {
         className="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl bg-prompt-blue/80 backdrop-blur-xl border border-ai-green/10 rounded-md z-50 "
       >
         <div className="px-6 md:px-8 h-16 flex items-center justify-between">
-          {/* Brand Logo with Smooth Scroll to Top */}
-          <Logo id="navbar-brand-logo" markId="navbar-logomark-target" href="#" onClick={handleLogoClick} />
+          {/* Brand Logo with Smooth Scroll to Top on Home & Route Navigation on Subpages */}
+          <Logo id="navbar-brand-logo" markId="navbar-logomark-target" href="/" onClick={handleLogoClick} />
 
           {/* Right Aligned Navigation and Action Buttons */}
           <div className="hidden md:flex items-center gap-6">
@@ -96,7 +98,7 @@ export default function Navbar() {
             </nav>
 
             <div className="flex items-center gap-4">
-              {isPending ? (
+              {!mounted || isPending ? (
                 <div className="w-8 h-8 rounded-full bg-[#131D38] animate-pulse" />
               ) : session ? (
                 <div className="relative" ref={profileMenuRef}>
@@ -226,7 +228,7 @@ export default function Navbar() {
                 })}
                 <hr className="border-slate-800 my-2" />
                 <div className="flex flex-col gap-4">
-                  {isPending ? (
+                  {!mounted || isPending ? (
                     <div className="h-12 bg-slate-900 rounded animate-pulse" />
                   ) : session ? (
                     <>
