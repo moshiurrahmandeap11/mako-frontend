@@ -23,11 +23,11 @@ export default function Button({
   children,
 }: ButtonProps) {
   const baseStyle =
-    'px-5 py-2.5 font-bold text-xs tracking-[0.12em] rounded transition-all duration-300 uppercase select-none text-center inline-flex items-center justify-center';
+    'px-5 py-2.5 font-extrabold text-xs tracking-[0.12em] rounded-lg transition-all duration-300 uppercase select-none text-center inline-flex items-center justify-center';
   
   const variantStyles = {
-    outline: 'bg-transparent text-amber-500 border border-amber-500/70 hover:bg-amber-500 hover:text-slate-950',
-    filled: 'bg-amber-500 text-slate-950 border border-transparent hover:bg-amber-400 hover:text-slate-950',
+    outline: 'bg-transparent text-[#39FF88] border border-[#39FF88]/60 hover:bg-[#39FF88] hover:text-[#0B132B] shadow-md shadow-[#39FF88]/10',
+    filled: 'bg-[#39FF88] text-[#0B132B] border border-transparent hover:bg-[#00CC66] shadow-lg shadow-[#39FF88]/20',
   };
 
   const combinedClass = `${baseStyle} ${variantStyles[variant]} ${className} ${disabled ? 'opacity-50 pointer-events-none' : ''}`;

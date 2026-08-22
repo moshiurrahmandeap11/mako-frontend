@@ -43,9 +43,9 @@ export default function NetworkWave() {
 
     particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    // Particle material
+    // Particle material (#39FF88 AI Green)
     const particleMaterial = new THREE.PointsMaterial({
-      color: 0xf97316, // Orange/Amber tone
+      color: 0x39ff88,
       size: 1.5,
       transparent: true,
       opacity: 0.8,
@@ -56,13 +56,12 @@ export default function NetworkWave() {
 
     // Lines geometry (updated dynamically)
     const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0xf97316,
+      color: 0x39ff88,
       transparent: true,
-      opacity: 0.15,
+      opacity: 0.25,
     });
     
     // We will use a lines object with a maximum possible number of segments
-    // Max lines = n * (n - 1) / 2
     const maxLines = (particleCount * (particleCount - 1)) / 2;
     const linePositions = new Float32Array(maxLines * 6);
     const lineGeometry = new THREE.BufferGeometry();
@@ -79,9 +78,7 @@ export default function NetworkWave() {
       animationFrameId = requestAnimationFrame(animate);
       time += 0.005;
 
-      // Update Particle Positions (Wave motion + slight drift)
       const positions = pointCloud.geometry.attributes.position.array as Float32Array;
-      
       let lineIndex = 0;
 
       for (let i = 0; i < particleCount; i++) {
@@ -98,35 +95,39 @@ export default function NetworkWave() {
         if (positions[i * 3 + 1] > 100 || positions[i * 3 + 1] < -100) velocities[i].y *= -1;
         if (positions[i * 3 + 2] > 200 || positions[i * 3 + 2] < -200) velocities[i].z *= -1;
       }
+
       pointCloud.geometry.attributes.position.needsUpdate = true;
 
-      // Rotate scene slowly
-      scene.rotation.y = time * 0.1;
+      // Connect close particles with lines
+      const linePosArray = lineMesh.geometry.attributes.position.array as Float32Array;
+      const maxDistance = 50;
 
-      // Connect lines if particles are close
       for (let i = 0; i < particleCount; i++) {
         for (let j = i + 1; j < particleCount; j++) {
           const dx = positions[i * 3] - positions[j * 3];
           const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
           const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
-          const distSq = dx * dx + dy * dy + dz * dz;
+          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-          // Connect if distance squared < 2500 (dist < 50)
-          if (distSq < 2500) {
-            linePositions[lineIndex++] = positions[i * 3];
-            linePositions[lineIndex++] = positions[i * 3 + 1];
-            linePositions[lineIndex++] = positions[i * 3 + 2];
+          if (dist < maxDistance) {
+            linePosArray[lineIndex * 6] = positions[i * 3];
+            linePosArray[lineIndex * 6 + 1] = positions[i * 3 + 1];
+            linePosArray[lineIndex * 6 + 2] = positions[i * 3 + 2];
 
-            linePositions[lineIndex++] = positions[j * 3];
-            linePositions[lineIndex++] = positions[j * 3 + 1];
-            linePositions[lineIndex++] = positions[j * 3 + 2];
+            linePosArray[lineIndex * 6 + 3] = positions[j * 3];
+            linePosArray[lineIndex * 6 + 4] = positions[j * 3 + 1];
+            linePosArray[lineIndex * 6 + 5] = positions[j * 3 + 2];
+
+            lineIndex++;
           }
         }
       }
-      
-      // Update only the drawn range of lines
-      lineMesh.geometry.setDrawRange(0, lineIndex / 3);
+
+      lineMesh.geometry.setDrawRange(0, lineIndex * 2);
       lineMesh.geometry.attributes.position.needsUpdate = true;
+
+      // Slow rotation of entire scene
+      scene.rotation.y = time * 0.1;
 
       renderer.render(scene, camera);
     };
@@ -135,33 +136,24 @@ export default function NetworkWave() {
 
     // Handle Resize
     const handleResize = () => {
+      if (!mountRef.current) return;
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
+
     window.addEventListener('resize', handleResize);
 
-    // Cleanup
+    const currentMount = mountRef.current;
     return () => {
-      window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
-      if (mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement);
+      window.removeEventListener('resize', handleResize);
+      if (currentMount && renderer.domElement) {
+        currentMount.removeChild(renderer.domElement);
       }
-      // Dispose materials/geometries
-      particleMaterial.dispose();
-      particles.dispose();
-      lineMaterial.dispose();
-      lineGeometry.dispose();
       renderer.dispose();
     };
   }, []);
 
-  return (
-    <div 
-      ref={mountRef} 
-      className="absolute inset-0 z-0 pointer-events-none"
-      style={{ opacity: 0.6 }}
-    />
-  );
+  return <div ref={mountRef} className="absolute inset-0 pointer-events-none z-0" />;
 }

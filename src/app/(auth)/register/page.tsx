@@ -66,10 +66,9 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
-      
+    <div className="relative min-h-screen bg-[#0B132B] text-slate-100 flex items-center justify-center p-4">
       {/* Background Wave */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-30">
         <NetworkWave />
       </div>
 
@@ -78,58 +77,58 @@ export default function RegisterPage() {
         <Logo href="/" size="md" />
       </div>
 
-      <div className="relative z-10 w-full max-w-md bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl p-8 shadow-2xl">
+      <div className="relative z-10 w-full max-w-md bg-[#131D38] backdrop-blur-md border border-[#39FF88]/25 rounded-2xl p-8 shadow-2xl">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold tracking-tight text-white">Create New Account</h1>
-          <p className="text-slate-400 text-sm mt-2">Start engaging shoppers with AI in minutes</p>
+          <h1 className="text-2xl font-extrabold tracking-tight text-white">Create Merchant Account</h1>
+          <p className="text-slate-300 text-sm mt-2">Start engaging store visitors with AI in 2 minutes</p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm">
+          <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-sm font-semibold">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Store / Business Name</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Store / Business Name</label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Trendy Fashion Hub"
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded focus:outline-none focus:border-slate-500 text-white placeholder-slate-600 text-sm transition-colors"
+              placeholder="Aura Fashion Store"
+              className="w-full px-4 py-3 bg-[#0B132B] border border-[#39FF88]/20 rounded-xl focus:outline-none focus:border-[#39FF88] text-white placeholder-slate-500 text-sm transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Work Email</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Work Email Address</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="owner@store.com"
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded focus:outline-none focus:border-slate-500 text-white placeholder-slate-600 text-sm transition-colors"
+              placeholder="merchant@store.com"
+              className="w-full px-4 py-3 bg-[#0B132B] border border-[#39FF88]/20 rounded-xl focus:outline-none focus:border-[#39FF88] text-white placeholder-slate-500 text-sm transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Password</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Password</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Minimum 6 characters"
-                className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded focus:outline-none focus:border-slate-500 text-white placeholder-slate-600 text-sm transition-colors pr-12"
+                placeholder="••••••••"
+                className="w-full px-4 py-3 bg-[#0B132B] border border-[#39FF88]/20 rounded-xl focus:outline-none focus:border-[#39FF88] text-white placeholder-slate-500 text-sm transition-colors pr-10"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors focus:outline-none"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -139,43 +138,53 @@ export default function RegisterPage() {
           <Button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5"
+            className="w-full py-3.5 bg-[#39FF88] text-[#0B132B] hover:bg-[#00CC66] font-bold shadow-lg shadow-[#39FF88]/20"
           >
-            {loading ? 'Creating Account...' : 'Get Started Free'}
+            {loading ? 'Creating Account...' : 'Create Account Free'}
           </Button>
         </form>
 
-        <div className="relative my-6">
+        <div className="relative my-6 text-center text-xs text-slate-400">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-slate-800" />
+            <div className="w-full border-t border-[#39FF88]/15" />
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-slate-900 px-3 text-slate-500 font-semibold tracking-wider">Or continue with</span>
-          </div>
+          <span className="relative px-3 bg-[#131D38] text-slate-400 uppercase tracking-widest text-[10px] font-bold">
+            Or continue with
+          </span>
         </div>
 
-        <div className="flex justify-center">
-          <button
-            type="button"
-            onClick={() => handleSocialLogin('google')}
-            className="w-full flex items-center justify-center gap-2.5 px-4 py-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl font-medium text-sm text-slate-200 transition active:scale-[0.98] cursor-pointer"
-          >
-            <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
-              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
-            </svg>
-            <span>Continue with Google</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => handleSocialLogin('google')}
+          className="w-full py-3 bg-[#0B132B] text-white border border-[#39FF88]/30 hover:border-[#39FF88] rounded-xl text-xs font-bold transition flex items-center justify-center gap-2"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24">
+            <path
+              fill="#EA4335"
+              d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.2 8.9 5 12 5z"
+            />
+            <path
+              fill="#4285F4"
+              d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"
+            />
+            <path
+              fill="#FBBC05"
+              d="M5.3 14.7c-.3-.8-.4-1.7-.4-2.7s.1-1.9.4-2.7L1.6 6.4C.6 8.4 0 10.1 0 12s.6 3.6 1.6 5.6l3.7-2.9z"
+            />
+            <path
+              fill="#34A853"
+              d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.2-6.7-5.3L1.6 16C3.5 19.8 7.4 23 12 23z"
+            />
+          </svg>
+          Sign Up with Google
+        </button>
 
-        <div className="mt-6 text-center text-sm text-slate-400">
+        <p className="text-center text-xs text-slate-400 mt-6">
           Already have an account?{' '}
-          <Link href="/login" className="text-amber-500 hover:text-amber-400 font-medium">
+          <Link href="/login" className="text-[#39FF88] font-bold hover:underline">
             Sign In
           </Link>
-        </div>
+        </p>
       </div>
     </div>
   );

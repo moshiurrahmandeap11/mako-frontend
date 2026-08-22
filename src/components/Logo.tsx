@@ -27,9 +27,9 @@ export function LogoMark({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   };
 
   return (
-    <div className={`relative ${sizeClasses[size]} rounded-full bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/20 shrink-0 transition-transform duration-300 group-hover:scale-105`}>
-      <div className={`${innerCircleClasses[size]} rounded-full border-slate-950 border-t-transparent`} />
-      <div className={`absolute ${dotClasses[size]} rounded-full bg-slate-950`} />
+    <div className={`relative ${sizeClasses[size]} rounded-full bg-[#39FF88] flex items-center justify-center shadow-lg shadow-[#39FF88]/30 shrink-0 transition-transform duration-300 group-hover:scale-105`}>
+      <div className={`${innerCircleClasses[size]} rounded-full border-[#0B132B] border-t-transparent`} />
+      <div className={`absolute ${dotClasses[size]} rounded-full bg-[#0B132B]`} />
     </div>
   );
 }
@@ -45,7 +45,7 @@ export default function Logo({ href = '/', size = 'md', showText = true, classNa
     <div className={`flex items-center gap-3 group ${className}`}>
       <LogoMark size={size} />
       {showText && (
-        <span className={`font-extrabold text-white transition-colors duration-300 group-hover:text-amber-400 ${textSizes[size]}`}>
+        <span className={`font-extrabold text-white transition-colors duration-300 group-hover:text-[#39FF88] ${textSizes[size]}`}>
           Labto AI
         </span>
       )}

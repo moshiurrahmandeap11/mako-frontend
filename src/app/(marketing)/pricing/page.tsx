@@ -39,7 +39,6 @@ export default function PricingPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ tier: planName.toUpperCase() }),
-        // Send Better Auth credential cookies
         credentials: 'include',
       });
       const data = await res.json();
@@ -75,7 +74,7 @@ export default function PricingPage() {
     },
     {
       name: 'Starter',
-      price: '$2',
+      price: '$19',
       description: 'Perfect for growing boutique stores starting with AI.',
       features: [
         '500 messages / month limit',
@@ -91,7 +90,7 @@ export default function PricingPage() {
     },
     {
       name: 'Pro',
-      price: '$5',
+      price: '$49',
       description: 'Our most popular plan for scaling e-commerce stores.',
       features: [
         '1,500 messages / month limit',
@@ -126,12 +125,11 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-slate-950 text-slate-100 flex flex-col overflow-hidden">
+    <div className="relative min-h-screen bg-[#0B132B] text-slate-100 flex flex-col overflow-hidden">
       {/* Background Wave */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-20">
         <NetworkWave />
       </div>
-
 
       <main className="relative z-10 flex-1 max-w-6xl mx-auto w-full px-6 pt-36 pb-20 flex flex-col justify-center">
         {/* Header */}
@@ -140,7 +138,7 @@ export default function PricingPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-xs font-bold tracking-[0.2em] text-orange-500 uppercase mb-3"
+            className="text-xs font-bold tracking-[0.2em] text-[#39FF88] uppercase mb-3"
           >
             Pricing & Plans
           </motion.div>
@@ -148,7 +146,7 @@ export default function PricingPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-4xl font-medium tracking-tight text-white mb-4"
+            className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-4"
           >
             Flexible plans for stores of all sizes.
           </motion.h1>
@@ -156,7 +154,7 @@ export default function PricingPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-slate-400 text-sm leading-relaxed"
+            className="text-slate-300 text-sm leading-relaxed"
           >
             No hidden fees. Scale up, down, or cancel at any time. Start converting visitors with a free trial today.
           </motion.p>
@@ -170,27 +168,27 @@ export default function PricingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className={`relative flex flex-col p-6 rounded bg-slate-900/40 backdrop-blur-md border transition-all duration-300 ${
+              className={`relative flex flex-col p-6 rounded-xl bg-[#131D38] backdrop-blur-md border transition-all duration-300 shadow-xl ${
                 plan.popular
-                  ? 'border-amber-500/70 shadow-lg shadow-orange-500/5'
-                  : 'border-slate-800 hover:border-slate-700'
+                  ? 'border-[#39FF88] shadow-lg shadow-[#39FF88]/20 scale-105 z-10'
+                  : 'border-[#39FF88]/20 hover:border-[#39FF88]/50'
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-slate-950 font-extrabold text-[10px] tracking-wider px-3.5 py-0.5 rounded-full uppercase shadow">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#39FF88] text-[#0B132B] font-extrabold text-[10px] tracking-wider px-3.5 py-0.5 rounded-full uppercase shadow">
                   Most Popular
                 </div>
               )}
 
               <div className="mb-6">
-                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest">
+                <h3 className="text-sm font-bold text-slate-300 uppercase tracking-widest">
                   {plan.name}
                 </h3>
                 <div className="mt-4 flex items-baseline text-white">
-                  <span className="text-3xl font-semibold tracking-tight">{plan.price}</span>
-                  {plan.price !== 'Custom' && <span className="ml-1 text-xs text-slate-500">/month</span>}
+                  <span className="text-3xl font-extrabold tracking-tight">{plan.price}</span>
+                  {plan.price !== 'Custom' && <span className="ml-1 text-xs text-slate-400">/month</span>}
                 </div>
-                <p className="mt-3 text-xs text-slate-400 leading-relaxed min-h-[36px]">
+                <p className="mt-3 text-xs text-slate-300 leading-relaxed min-h-[36px]">
                   {plan.description}
                 </p>
               </div>
@@ -198,8 +196,8 @@ export default function PricingPage() {
               <div className="flex-1 mb-8">
                 <ul className="space-y-3.5">
                   {plan.features.map((feat, fIdx) => (
-                    <li key={fIdx} className="flex items-start gap-2.5 text-xs text-slate-300">
-                      <Check className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
+                    <li key={fIdx} className="flex items-start gap-2.5 text-xs text-slate-200">
+                      <Check className="w-3.5 h-3.5 text-[#39FF88] shrink-0 mt-0.5" />
                       <span>{feat}</span>
                     </li>
                   ))}
@@ -209,9 +207,10 @@ export default function PricingPage() {
               <Button
                 onClick={() => handleSelectPlan(plan.name, plan.href)}
                 disabled={loadingPlan !== null}
-                variant={plan.popular ? 'filled' : 'outline'}
-                className={`w-full py-3 ${
-                  plan.popular ? 'shadow-lg shadow-orange-500/20' : ''
+                className={`w-full py-3 font-bold transition-all ${
+                  plan.popular
+                    ? 'bg-[#39FF88] text-[#0B132B] hover:bg-[#00CC66] shadow-lg shadow-[#39FF88]/20'
+                    : 'bg-[#0B132B] text-[#39FF88] border border-[#39FF88]/40 hover:bg-[#39FF88] hover:text-[#0B132B]'
                 }`}
               >
                 {loadingPlan === plan.name ? 'Connecting...' : plan.cta}
