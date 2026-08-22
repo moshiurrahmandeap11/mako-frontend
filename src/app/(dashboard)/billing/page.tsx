@@ -40,7 +40,25 @@ export default function BillingPage() {
   };
 
   useEffect(() => {
-    loadProfile();
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    const tier = params.get('tier');
+
+    if (sessionId || tier) {
+      fetchApi(`/api/billing/verify?session_id=${sessionId || ''}&tier=${tier || ''}`)
+        .then(() => {
+          if (tier) {
+            toast.success(`Successfully upgraded to ${tier} Plan! 🎉`);
+          }
+          loadProfile();
+          window.history.replaceState({}, '', window.location.pathname);
+        })
+        .catch(() => {
+          loadProfile();
+        });
+    } else {
+      loadProfile();
+    }
     loadInvoices();
   }, []);
 
