@@ -21,6 +21,7 @@ import {
   Lock,
 } from 'lucide-react';
 import { api } from '@/lib/axios';
+import Button from '@/components/Button';
 
 interface MerchantClient {
   id: string;
@@ -339,15 +340,16 @@ export default function AdminPage() {
                       <span className="font-bold text-white">{m._count?.apiKeys || 0}</span> keys
                     </td>
                     <td className="p-4 text-right">
-                      <button
+                      <Button
+                        size="sm"
+                        variant="secondary"
                         onClick={() => {
                           setEditingMerchant(m);
                           setNewTier(m.planTier);
                         }}
-                        className="px-3 py-1.5 rounded-lg bg-[#39FF88]/10 text-[#39FF88] border border-[#39FF88]/30 hover:bg-[#39FF88] hover:text-[#0B132B] font-bold text-xs transition"
                       >
                         Change Tier
-                      </button>
+                      </Button>
                     </td>
                   </tr>
                 ))
@@ -381,19 +383,21 @@ export default function AdminPage() {
             </div>
 
             <div className="flex gap-3 pt-4 justify-end">
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => setEditingMerchant(null)}
-                className="px-4 py-2 rounded-xl bg-[#0B132B] text-slate-300 hover:text-white border border-slate-700 text-xs font-bold transition"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                isLoading={updatePlanMutation.isPending}
                 onClick={() => updatePlanMutation.mutate({ merchantId: editingMerchant.id, planTier: newTier })}
-                disabled={updatePlanMutation.isPending}
-                className="px-4 py-2 rounded-xl bg-[#39FF88] text-[#0B132B] hover:bg-[#00CC66] text-xs font-extrabold transition shadow-lg shadow-[#39FF88]/20"
               >
-                {updatePlanMutation.isPending ? 'Updating...' : 'Save Plan Tier'}
-              </button>
+                Save Plan Tier
+              </Button>
             </div>
           </div>
         </div>

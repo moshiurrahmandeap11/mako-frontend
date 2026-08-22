@@ -106,7 +106,7 @@ export default function FeaturesPage() {
             <p className="text-slate-400 text-sm mt-1">Get started for free or partner with us for high-volume stores.</p>
           </div>
           <div className="flex gap-4 w-full sm:w-auto">
-            <Button href="/register" className="w-full sm:w-auto px-6 py-3 bg-[#39FF88] text-[#0B132B] hover:bg-[#00CC66] font-bold">
+            <Button href="/register" variant="primary" size="md">
               Start Free Trial
             </Button>
           </div>

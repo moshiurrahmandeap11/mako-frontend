@@ -127,10 +127,12 @@ export default function LoginPage() {
 
           <Button
             type="submit"
-            disabled={loading}
-            className="w-full py-3.5 bg-[#39FF88] text-[#0B132B] hover:bg-[#00CC66] font-bold shadow-lg shadow-[#39FF88]/20"
+            isLoading={loading}
+            variant="primary"
+            size="lg"
+            className="w-full"
           >
-            {loading ? 'Authenticating...' : 'Sign In to Console'}
+            Sign In to Console
           </Button>
         </form>
 
@@ -143,31 +145,35 @@ export default function LoginPage() {
           </span>
         </div>
 
-        <button
+        <Button
           type="button"
+          variant="secondary"
+          size="lg"
+          className="w-full"
           onClick={() => handleSocialLogin('google')}
-          className="w-full py-3 bg-[#0B132B] text-white border border-[#39FF88]/30 hover:border-[#39FF88] rounded-xl text-xs font-bold transition flex items-center justify-center gap-2"
+          icon={
+            <svg className="w-4 h-4" viewBox="0 0 24 24">
+              <path
+                fill="#EA4335"
+                d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.2 8.9 5 12 5z"
+              />
+              <path
+                fill="#4285F4"
+                d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.3 14.7c-.3-.8-.4-1.7-.4-2.7s.1-1.9.4-2.7L1.6 6.4C.6 8.4 0 10.1 0 12s.6 3.6 1.6 5.6l3.7-2.9z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.2-6.7-5.3L1.6 16C3.5 19.8 7.4 23 12 23z"
+              />
+            </svg>
+          }
         >
-          <svg className="w-4 h-4" viewBox="0 0 24 24">
-            <path
-              fill="#EA4335"
-              d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.2 8.9 5 12 5z"
-            />
-            <path
-              fill="#4285F4"
-              d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"
-            />
-            <path
-              fill="#FBBC05"
-              d="M5.3 14.7c-.3-.8-.4-1.7-.4-2.7s.1-1.9.4-2.7L1.6 6.4C.6 8.4 0 10.1 0 12s.6 3.6 1.6 5.6l3.7-2.9z"
-            />
-            <path
-              fill="#34A853"
-              d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.2-6.7-5.3L1.6 16C3.5 19.8 7.4 23 12 23z"
-            />
-          </svg>
           Google SSO
-        </button>
+        </Button>
 
         <p className="text-center text-xs text-slate-400 mt-6">
           Don't have an account?{' '}

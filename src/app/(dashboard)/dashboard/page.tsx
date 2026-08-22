@@ -73,17 +73,20 @@ export default function OverviewPage() {
             Monitor real-time AI conversation volume, index store product catalogs, manage API keys, and export transcript reports.
           </p>
           <div className="pt-2 flex flex-wrap gap-4">
-            <Button href="/widget-settings" variant="filled" className="bg-[#39FF88] text-[#0B132B] hover:bg-[#00CC66] font-bold">
-              <span className="flex items-center gap-2">
-                <Code2 className="w-4 h-4" />
-                <span>Get Embed Code</span>
-              </span>
+            <Button
+              href="/widget-settings"
+              variant="primary"
+              icon={<Code2 className="w-4 h-4" />}
+            >
+              Get Embed Code
             </Button>
-            <Button href="/products" variant="outline" className="text-[#39FF88] border-[#39FF88]/40 hover:bg-[#39FF88] hover:text-[#0B132B] font-bold">
-              <span className="flex items-center gap-2">
-                <span>Manage Catalog</span>
-                <ArrowRight className="w-4 h-4" />
-              </span>
+            <Button
+              href="/products"
+              variant="secondary"
+              icon={<ArrowRight className="w-4 h-4" />}
+              iconPosition="right"
+            >
+              Manage Catalog
             </Button>
           </div>
         </div>
