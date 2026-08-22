@@ -24,7 +24,7 @@ export default function RootLayout({
         <QueryProvider>
           {children}
         </QueryProvider>
-        
+
         <Toaster
           position="top-center"
           toastOptions={{
@@ -44,6 +44,13 @@ export default function RootLayout({
             strategy="afterInteractive"
           />
         )}
+
+        <Script
+          src="https://labto.ahsanul.dev/widget.js"
+          data-api-key="aiw_live_37e16a770e7a1a89d8eb23c662614f3b00dcfa5f0659dbd5"
+          strategy="afterInteractive"
+        />
+
       </body>
     </html>
   );
