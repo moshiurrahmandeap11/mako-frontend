@@ -44,6 +44,13 @@ export default function Navbar() {
     router.push("/");
   };
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <motion.header
@@ -53,8 +60,8 @@ export default function Navbar() {
         className="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl bg-prompt-blue/80 backdrop-blur-xl border border-ai-green/10 rounded-md z-50 "
       >
         <div className="px-6 md:px-8 h-16 flex items-center justify-between">
-          {/* Brand Logo */}
-          <Logo href="/" />
+          {/* Brand Logo with Smooth Scroll to Top */}
+          <Logo href="#" onClick={handleLogoClick} />
 
           {/* Right Aligned Navigation and Action Buttons */}
           <div className="hidden md:flex items-center gap-6">

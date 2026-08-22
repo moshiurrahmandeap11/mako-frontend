@@ -1,15 +1,9 @@
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { FEATURES_DATA } from '@/data/features';
-import Button from '@/components/Button';
-import {
-  ArrowLeft,
-  ArrowRight,
-  Code2,
-  Sparkles,
-  Youtube,
-} from 'lucide-react';
-import NetworkWave from '@/components/NetworkWave';
+import Button from "@/components/Button";
+import NetworkWave from "@/components/NetworkWave";
+import { FEATURES_DATA } from "@/data/features";
+import { ArrowLeft, ArrowRight, Code2, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 // Generate static routes for all 5 features
 export function generateStaticParams() {
@@ -41,8 +35,7 @@ export default async function FeatureDetailPage({
         <NetworkWave />
       </div>
 
-      <main className="relative z-10 flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 pt-32 pb-24 space-y-10">
-        
+      <main className="relative z-10 flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 pt-32 pb-24 space-y-10">
         {/* Back Navigation Bar */}
         <div className="flex items-center justify-between">
           <Link
@@ -69,37 +62,12 @@ export default async function FeatureDetailPage({
           </p>
         </div>
 
-        {/* ========================================================================= */}
-        {/* YOUTUBE VIDEO DEMO EMBED PLAYER (MINIMAL FRAME) */}
-        {/* ========================================================================= */}
-        <div className="rounded-2xl overflow-hidden bg-[#0F172A]/70 border border-white/[0.08] shadow-xl p-2 sm:p-3 space-y-2.5">
-          <div className="flex items-center justify-between px-2 pt-1">
-            <div className="flex items-center gap-2 text-xs font-medium text-slate-200">
-              <Youtube className="w-3.5 h-3.5 text-red-400" />
-              <span>Feature Demonstration</span>
-            </div>
-            <span className="text-[10px] font-mono text-slate-400">
-              HD Video
-            </span>
-          </div>
-
-          <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-[#060B18] border border-white/[0.04]">
-            <iframe
-              src={`https://www.youtube.com/embed/${feature.youtubeId}?rel=0&modestbranding=1`}
-              title={`${feature.title} Video Walkthrough`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="absolute inset-0 w-full h-full"
-            />
-          </div>
-        </div>
-
         {/* Key Metrics Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {feature.stats.map((stat, idx) => (
             <div
               key={idx}
-              className="p-5 rounded-xl bg-[#0F172A]/70 border border-white/[0.08] text-center"
+              className="p-5 rounded-xl bg-[#0F172A]/70 border border-white/[0.08] text-center shadow-md"
             >
               <span className="block text-xl sm:text-2xl font-bold text-[#39FF88]">
                 {stat.value}
@@ -135,7 +103,9 @@ export default async function FeatureDetailPage({
                   0{i + 1}
                 </div>
                 <h4 className="text-xs font-semibold text-white">{pt.title}</h4>
-                <p className="text-[11px] text-slate-400 leading-relaxed font-normal">{pt.desc}</p>
+                <p className="text-[11px] text-slate-400 leading-relaxed font-normal">
+                  {pt.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -148,11 +118,15 @@ export default async function FeatureDetailPage({
               <Code2 className="w-3.5 h-3.5 text-[#39FF88]" />
               <span>Implementation Snippet</span>
             </div>
-            <span className="text-[10px] font-mono text-slate-400">JavaScript / TypeScript</span>
+            <span className="text-[10px] font-mono text-slate-400">
+              JavaScript / TypeScript
+            </span>
           </div>
 
           <div className="bg-[#060B18] border border-white/[0.04] rounded-xl p-4 font-mono text-xs text-slate-300 overflow-x-auto leading-relaxed">
-            <pre><code>{feature.codeSnippet}</code></pre>
+            <pre>
+              <code>{feature.codeSnippet}</code>
+            </pre>
           </div>
         </div>
 
@@ -173,7 +147,9 @@ export default async function FeatureDetailPage({
             className="group flex items-center gap-2.5 p-2.5 px-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-white/20 transition text-right"
           >
             <div>
-              <span className="block text-[9px] uppercase font-medium text-slate-500">Next</span>
+              <span className="block text-[9px] uppercase font-medium text-slate-500">
+                Next
+              </span>
               <span className="text-xs font-medium text-slate-200 group-hover:text-[#39FF88] transition">
                 {nextFeature.title}
               </span>
@@ -181,7 +157,6 @@ export default async function FeatureDetailPage({
             <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#39FF88] group-hover:translate-x-0.5 transition" />
           </Link>
         </div>
-
       </main>
     </div>
   );

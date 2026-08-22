@@ -92,7 +92,7 @@ export default function FeaturesPage() {
                 </div>
 
                 <div className="pt-6 mt-6 border-t border-[#39FF88]/15 flex items-center justify-between text-xs font-bold text-[#39FF88]">
-                  <span>Watch Video & Details</span>
+                  <span>View Architecture & Specs</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>

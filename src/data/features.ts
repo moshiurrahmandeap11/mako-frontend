@@ -7,6 +7,8 @@ export interface FeatureItem {
   description: string;
   badge: string;
   youtubeId: string;
+  videoTitle: string;
+  videoDescription: string;
   highlights: string[];
   stats: { label: string; value: string }[];
   codeSnippet: string;
@@ -27,7 +29,9 @@ export const FEATURES_DATA: FeatureItem[] = [
     description:
       'Bypass rigid keyword matches. Labto AI leverages Gemini 2.0 Flash AI and PostgreSQL pgvector embeddings to deliver intelligent context-aware product recommendations in under 1.2 seconds.',
     badge: '1.2s Response Latency',
-    youtubeId: 'dQw4w9WgXcQ', // Clean placeholder video
+    youtubeId: 'pPjGf3_g33c',
+    videoTitle: 'AI Shopping Assistant & RAG Semantic Product Search',
+    videoDescription: 'Watch how an intelligent AI shopping agent interprets natural shopper prompts and returns relevant catalog items in real time.',
     highlights: [
       '1536-dimensional vector distance indexing with pgvector',
       'Real-time catalog stock synchronization and price filters',
@@ -73,7 +77,9 @@ const recommendations = await labto.search({
     description:
       'Triggers cart mutations dynamically by emitting standardized CustomEvents. Decoupled iframe architecture lets Shopify, WooCommerce, and custom Next.js stores add products with zero security risk.',
     badge: 'Standard CustomEvent',
-    youtubeId: 'dQw4w9WgXcQ',
+    youtubeId: 'dQ4ap929-Lk',
+    videoTitle: 'Automated AI E-Commerce Add-to-Cart & Checkout Bridge',
+    videoDescription: 'See how conversational AI agents trigger native storefront cart mutations and drawer slide-outs dynamically.',
     highlights: [
       'Standardized `ai-widget:add-to-cart` window event dispatcher',
       'Zero exposure of merchant private API keys to client browsers',
@@ -119,7 +125,9 @@ window.addEventListener("ai-widget:add-to-cart", (event) => {
     description:
       'Drag and drop PDF, DOCX, or text files into your merchant console. Labto AI automatically parses, cleans, chunks, and indexes knowledge to answer customer service inquiries on autopilot.',
     badge: 'Multi-Format Ingestion',
-    youtubeId: 'dQw4w9WgXcQ',
+    youtubeId: '3-M9G9y4lZc',
+    videoTitle: 'Train AI on Custom PDF Documents & Knowledge Base in 5 Minutes',
+    videoDescription: 'Step-by-step walkthrough of uploading PDFs and training an AI chatbot agent to answer store policy inquiries accurately.',
     highlights: [
       'Automatic PDF text extraction and semantic chunking',
       'Strict truth grounding with zero fabricated responses',
@@ -165,7 +173,9 @@ const response = await fetch('/api/knowledge-base/upload', {
     description:
       'Browser-based real-time 60 FPS body landmark estimation (Google MediaPipe Pose via WebAssembly). Shoppers can visually try on apparel live with zero server GPU cost.',
     badge: 'WebAssembly 60 FPS',
-    youtubeId: 'dQw4w9WgXcQ',
+    youtubeId: 'rXb_92HwVzY',
+    videoTitle: 'WebAssembly Real-Time AR Virtual Fitting Room Demo',
+    videoDescription: 'Live camera tracking and 33-point body landmark estimation running in the browser for virtual apparel try-on.',
     highlights: [
       '100% client-side WebAssembly computation (Zero cloud GPU fees)',
       'Real-time 33-point body and facial landmark tracking',
@@ -210,7 +220,9 @@ const { isTracking, bodyLandmarks } = useVirtualTryOn({
     description:
       'Style the assistant without writing a single line of CSS. Customize brand themes, greeting messages, shapes, and placement with a live iframe simulator matching your storefront palette.',
     badge: 'Real-Time Sync',
-    youtubeId: 'dQw4w9WgXcQ',
+    youtubeId: 'kYJ-wL3m-64',
+    videoTitle: 'How to Build & Customize an AI Chatbot Widget for Websites',
+    videoDescription: 'A complete walkthrough of configuring themes, initial greetings, positioning, and testing live in an interactive sandbox.',
     highlights: [
       'Full RGB / Hex color palette picker with live preview',
       'Custom launcher icons, greeting prompts, and title headers',

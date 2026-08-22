@@ -3,17 +3,7 @@
 import Button from "@/components/Button";
 import { FEATURES_DATA, FeatureItem } from "@/data/features";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowRight,
-  Camera,
-  ChevronLeft,
-  ChevronRight,
-  FileText,
-  Search,
-  ShoppingCart,
-  Sliders,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -58,23 +48,6 @@ export default function FeaturesSection() {
     setCurrentIndex(
       (prev) => (prev - 1 + filteredFeatures.length) % filteredFeatures.length,
     );
-  };
-
-  const getIcon = (slug: string) => {
-    switch (slug) {
-      case "rag-search":
-        return <Search className="w-4 h-4" />;
-      case "cart-bridge":
-        return <ShoppingCart className="w-4 h-4" />;
-      case "knowledge-base":
-        return <FileText className="w-4 h-4" />;
-      case "ar-tryon":
-        return <Camera className="w-4 h-4" />;
-      case "widget-customizer":
-        return <Sliders className="w-4 h-4" />;
-      default:
-        return <Sparkles className="w-4 h-4" />;
-    }
   };
 
   return (
@@ -198,7 +171,7 @@ export default function FeaturesSection() {
                     href={`/features/${activeFeature.slug}`}
                     className="inline-flex items-center gap-1 text-[11px] font-medium text-[#39FF88] hover:underline"
                   >
-                    <span>Watch Video & Specifications</span>
+                    <span>View Architecture & Specifications</span>
                     <ArrowRight className="w-3 h-3" />
                   </Link>
 

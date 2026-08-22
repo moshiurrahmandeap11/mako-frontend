@@ -5,6 +5,7 @@ interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
   showText?: boolean;
   className?: string;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 export function LogoMark({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
@@ -30,7 +31,13 @@ export function LogoMark({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   );
 }
 
-export default function Logo({ href = '/', size = 'md', showText = true, className = '' }: LogoProps) {
+export default function Logo({
+  href = '#',
+  size = 'md',
+  showText = true,
+  className = '',
+  onClick,
+}: LogoProps) {
   const textSizes = {
     sm: 'text-sm tracking-[0.16em]',
     md: 'text-xl tracking-[0.2em]',
@@ -38,7 +45,7 @@ export default function Logo({ href = '/', size = 'md', showText = true, classNa
   };
 
   const content = (
-    <div className={`flex items-center gap-3 group ${className}`}>
+    <div className={`flex items-center gap-3 group cursor-pointer ${className}`}>
       <LogoMark size={size} />
       {showText && (
         <span className={`font-extrabold text-white transition-colors duration-300 group-hover:text-[#39FF88] ${textSizes[size]}`}>
@@ -49,8 +56,12 @@ export default function Logo({ href = '/', size = 'md', showText = true, classNa
   );
 
   if (href) {
-    return <Link href={href}>{content}</Link>;
+    return (
+      <Link href={href} onClick={onClick}>
+        {content}
+      </Link>
+    );
   }
 
-  return content;
+  return <div onClick={onClick}>{content}</div>;
 }
