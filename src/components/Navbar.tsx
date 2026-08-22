@@ -61,7 +61,7 @@ export default function Navbar() {
       >
         <div className="px-6 md:px-8 h-16 flex items-center justify-between">
           {/* Brand Logo with Smooth Scroll to Top */}
-          <Logo href="#" onClick={handleLogoClick} />
+          <Logo id="navbar-brand-logo" markId="navbar-logomark-target" href="#" onClick={handleLogoClick} />
 
           {/* Right Aligned Navigation and Action Buttons */}
           <div className="hidden md:flex items-center gap-6">

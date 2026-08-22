@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import SplashIntro from "@/components/SplashIntro";
 
 export default function MarketingLayout({
   children,
@@ -7,6 +8,7 @@ export default function MarketingLayout({
 }) {
   return (
     <>
+      <SplashIntro />
       <Navbar />
       {children}
     </>

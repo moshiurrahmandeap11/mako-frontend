@@ -6,9 +6,11 @@ interface LogoProps {
   showText?: boolean;
   className?: string;
   onClick?: (e: React.MouseEvent) => void;
+  id?: string;
+  markId?: string;
 }
 
-export function LogoMark({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
+export function LogoMark({ size = 'md', id }: { size?: 'sm' | 'md' | 'lg'; id?: string }) {
   const sizeClasses = {
     sm: 'w-7 h-7',
     md: 'w-9 h-9',
@@ -16,7 +18,10 @@ export function LogoMark({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   };
 
   return (
-    <div className={`relative ${sizeClasses[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`}>
+    <div
+      id={id}
+      className={`relative ${sizeClasses[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`}
+    >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" className="w-full h-full">
         <g stroke="#39FF88" strokeWidth="28" strokeLinecap="round" strokeLinejoin="round" fill="none">
           {/* Chat Bubble Outline */}
@@ -37,6 +42,8 @@ export default function Logo({
   showText = true,
   className = '',
   onClick,
+  id,
+  markId,
 }: LogoProps) {
   const textSizes = {
     sm: 'text-sm tracking-[0.16em]',
@@ -45,8 +52,8 @@ export default function Logo({
   };
 
   const content = (
-    <div className={`flex items-center gap-3 group cursor-pointer ${className}`}>
-      <LogoMark size={size} />
+    <div id={id} className={`flex items-center gap-3 group cursor-pointer ${className}`}>
+      <LogoMark size={size} id={markId} />
       {showText && (
         <span className={`font-extrabold text-white transition-colors duration-300 group-hover:text-[#39FF88] ${textSizes[size]}`}>
           Labto AI
