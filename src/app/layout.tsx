@@ -41,7 +41,7 @@ export default function RootLayout({
         />
 
         <Script
-          src={process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL || "http://localhost:4000/widget.js"}
+          src={process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL || "https://labto.ahsanul.dev/widget.js" || "http://localhost:4000/widget.js"}
           data-api-key="cm7dfl2k000033b6t12345678"
           strategy="lazyOnload"
         />
