@@ -65,14 +65,18 @@ export default function BillingPage() {
   const handleManageBilling = async () => {
     setActionLoading(true);
     setError('');
+    const toastId = toast.loading('Opening Polar.sh Customer Portal...');
     try {
       const data = await fetchApi('/api/billing/portal', { method: 'POST' });
       if (data.url) {
+        toast.success('Redirecting to billing portal...', { id: toastId });
         window.location.href = data.url;
       } else {
+        toast.error('Billing portal session failed.', { id: toastId });
         setError('Billing portal session failed.');
       }
     } catch (err: any) {
+      toast.error(err.message || 'Failed to connect to billing server.', { id: toastId });
       setError(err.message || 'Failed to connect to billing server.');
     } finally {
       setActionLoading(false);
@@ -213,21 +217,29 @@ export default function BillingPage() {
                   </span>
                 </Button>
               ) : (
-                <Button onClick={handleManageBilling} disabled={actionLoading} variant="outline">
-                  <span className="flex items-center gap-2">
-                    {actionLoading ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin text-[#39FF88]" />
-                        <span>Opening Portal...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Manage Polar.sh Subscription</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </>
-                    )}
-                  </span>
-                </Button>
+                <>
+                  <Button onClick={handleManageBilling} disabled={actionLoading} variant="outline">
+                    <span className="flex items-center gap-2">
+                      {actionLoading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin text-[#39FF88]" />
+                          <span>Opening Portal...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Manage Polar.sh Subscription</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
+                    </span>
+                  </Button>
+                  <Button href="/pricing" variant="secondary">
+                    <span className="flex items-center gap-2">
+                      <span>Change Plan / Upgrade</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </Button>
+                </>
               )}
             </div>
           </div>
