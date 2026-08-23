@@ -1,40 +1,40 @@
-'use client';
+"use client";
 
-import { useState, useEffect, Suspense } from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { LogoMark } from "@/components/Logo";
+import { Skeleton } from "@/components/Skeleton";
+import { fetchApi } from "@/lib/api-client";
+import { authClient } from "@/lib/auth-client";
+import { api } from "@/lib/axios";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  BookOpen,
+  CreditCard,
+  Key,
   LayoutDashboard,
+  LogOut,
+  Menu,
+  MessageSquare,
   Package,
   Settings,
-  Key,
-  MessageSquare,
-  LogOut,
-  Store,
-  CreditCard,
-  BookOpen,
   ShieldCheck,
-  Menu,
+  Store,
   X,
-} from 'lucide-react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { api } from '@/lib/axios';
-import { authClient } from '@/lib/auth-client';
-import { fetchApi } from '@/lib/api-client';
-import { Skeleton } from '@/components/Skeleton';
-import { LogoMark } from '@/components/Logo';
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 function CheckoutVerifier() {
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
-  const sessionId = searchParams.get('session_id');
+  const sessionId = searchParams.get("session_id");
 
   useEffect(() => {
     if (sessionId) {
       fetchApi(`/api/billing/verify?session_id=${sessionId}`)
         .then((data) => {
           if (data.success) {
-            queryClient.invalidateQueries({ queryKey: ['merchantProfile'] });
+            queryClient.invalidateQueries({ queryKey: ["merchantProfile"] });
           }
         })
         .catch(console.error);
@@ -44,21 +44,36 @@ function CheckoutVerifier() {
   return null;
 }
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
-  const { data: merchantData, isLoading, isError } = useQuery({
-    queryKey: ['merchantProfile'],
-    queryFn: () => api.get('/api/merchant/me') as Promise<any>,
+  const {
+    data: merchantData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["merchantProfile"],
+    queryFn: () => api.get("/api/merchant/me") as Promise<any>,
     retry: false,
   });
 
   const merchant = merchantData?.merchant;
-  const adminEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@ahsanul.dev').trim().toLowerCase();
+  const adminEmail = (
+    process.env.NEXT_PUBLIC_ADMIN_EMAIL || "admin@ahsanul.dev"
+  )
+    .trim()
+    .toLowerCase();
   const userEmail = merchant?.email?.trim().toLowerCase();
-  const isAdmin = Boolean(merchant && (merchant.isAdmin === true || (userEmail && userEmail === adminEmail)));
+  const isAdmin = Boolean(
+    merchant &&
+    (merchant.isAdmin === true || (userEmail && userEmail === adminEmail)),
+  );
 
   // Automatically close mobile nav on route change
   useEffect(() => {
@@ -66,7 +81,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, [pathname]);
 
   if (isError) {
-    router.push('/login');
+    router.push("/login");
     return null;
   }
 
@@ -74,18 +89,27 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     try {
       await authClient.signOut();
     } catch {}
-    router.push('/login');
+    router.push("/login");
   };
 
   const navItems = [
-    ...(isAdmin ? [{ label: 'Admin Console', href: '/admin', icon: ShieldCheck, isAdmin: true }] : []),
-    { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
-    { label: 'Knowledge Base', href: '/knowledge-base', icon: BookOpen },
-    { label: 'Product Catalog', href: '/products', icon: Package },
-    { label: 'Widget Settings', href: '/widget-settings', icon: Settings },
-    { label: 'API Keys', href: '/api-keys', icon: Key },
-    { label: 'Conversations', href: '/conversations', icon: MessageSquare },
-    { label: 'Billing & Plans', href: '/billing', icon: CreditCard },
+    ...(isAdmin
+      ? [
+          {
+            label: "Admin Console",
+            href: "/admin",
+            icon: ShieldCheck,
+            isAdmin: true,
+          },
+        ]
+      : []),
+    { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+    { label: "Knowledge Base", href: "/knowledge-base", icon: BookOpen },
+    { label: "Product Catalog", href: "/products", icon: Package },
+    { label: "Widget Settings", href: "/widget-settings", icon: Settings },
+    { label: "API Keys", href: "/api-keys", icon: Key },
+    { label: "Conversations", href: "/conversations", icon: MessageSquare },
+    { label: "Billing & Plans", href: "/billing", icon: CreditCard },
   ];
 
   if (isLoading) {
@@ -139,7 +163,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 Labto AI
               </span>
               <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
-                {isAdmin ? 'Super Admin Console' : 'Merchant Console'}
+                {isAdmin ? "Super Admin Console" : "Merchant Console"}
               </span>
             </div>
           </Link>
@@ -156,18 +180,26 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Merchant Store Info */}
         <div className="p-3.5 mx-3 my-4 rounded-xl bg-[#0B132B] border border-[#39FF88]/20 flex items-center gap-3">
           <div className="w-8 h-8 rounded bg-[#131D38] border border-[#39FF88]/30 flex items-center justify-center text-[#39FF88] shrink-0">
-            {isAdmin ? <ShieldCheck className="w-4 h-4 text-[#39FF88]" /> : <Store className="w-4 h-4" />}
+            {isAdmin ? (
+              <ShieldCheck className="w-4 h-4 text-[#39FF88]" />
+            ) : (
+              <Store className="w-4 h-4" />
+            )}
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
-              <p className="text-xs font-bold text-white truncate">{merchant?.name || 'My Store'}</p>
+              <p className="text-xs font-bold text-white truncate">
+                {merchant?.name || "My Store"}
+              </p>
               {isAdmin && (
                 <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-[#39FF88] text-[#0B132B]">
                   ADMIN
                 </span>
               )}
             </div>
-            <p className="text-[10px] text-slate-400 truncate">{merchant?.email}</p>
+            <p className="text-[10px] text-slate-400 truncate">
+              {merchant?.email}
+            </p>
           </div>
         </div>
 
@@ -183,10 +215,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 href={item.href}
                 className={`flex items-center justify-between px-3.5 py-2.5 rounded text-xs font-bold tracking-[0.08em] uppercase transition ${
                   isActive
-                    ? 'bg-[#39FF88] text-[#0B132B] shadow-lg shadow-[#39FF88]/20 font-extrabold'
+                    ? "bg-[#39FF88] text-[#0B132B] shadow-lg shadow-[#39FF88]/20 font-extrabold"
                     : item.isAdmin
-                    ? 'text-[#39FF88] bg-[#39FF88]/10 border border-[#39FF88]/20 hover:bg-[#39FF88]/20'
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-[#1C2B4E]/60'
+                      ? "text-[#39FF88] bg-[#39FF88]/10 border border-[#39FF88]/20 hover:bg-[#39FF88]/20"
+                      : "text-slate-400 hover:text-slate-100 hover:bg-[#1C2B4E]/60"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -207,9 +239,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Footer Account & Tier Info */}
       <div className="p-4 border-t border-[#39FF88]/15">
         <div className="mb-3 px-3 py-2.5 rounded bg-[#0B132B] border border-[#39FF88]/20 text-slate-300 text-xs font-semibold flex items-center justify-between">
-          <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">TIER</span>
+          <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">
+            TIER
+          </span>
           <span className="bg-[#39FF88] text-[#0B132B] text-[10px] px-2 py-0.5 rounded uppercase font-extrabold tracking-wider">
-            {merchant?.planTier || 'FREE'}
+            {merchant?.planTier || "FREE"}
           </span>
         </div>
 
@@ -246,7 +280,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Mobile Slide-in Drawer */}
       <div
         className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] bg-[#131D38] border-r border-[#39FF88]/20 shadow-2xl transform transition-transform duration-200 ease-in-out md:hidden ${
-          isMobileNavOpen ? 'translate-x-0' : '-translate-x-full'
+          isMobileNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {sidebarContent}
@@ -267,14 +301,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </button>
 
             <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
-              <span className="uppercase tracking-wider font-bold text-[10px] hidden sm:inline">Console</span>
+              <span className="uppercase tracking-wider font-bold text-[10px] hidden sm:inline">
+                Console
+              </span>
               <span className="hidden sm:inline">/</span>
               <span className="text-white font-bold uppercase tracking-wider text-[10px] truncate max-w-[140px] sm:max-w-none">
-                {pathname === '/dashboard'
-                  ? 'Overview'
-                  : pathname === '/admin'
-                  ? 'Admin Console'
-                  : pathname.replace('/', '').replace('-', ' ')}
+                {pathname === "/dashboard"
+                  ? "Overview"
+                  : pathname === "/admin"
+                    ? "Admin Console"
+                    : pathname.replace("/", "").replace("-", " ")}
               </span>
             </div>
           </div>
@@ -297,8 +333,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </header>
 
-        {/* Page Content Container */}
-        <div className="p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">{children}</div>
+        {/* Page Content Container - Full Width */}
+        <div className="p-4 sm:p-6 lg:p-8 w-full max-w-full mx-auto">
+          {children}
+        </div>
       </main>
     </div>
   );
