@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 };
 
 import QueryProvider from "@/components/QueryProvider";
-import SmoothScroll from "@/components/SmoothScroll";
 import Script from "next/script";
 import { Toaster } from "react-hot-toast";
 
@@ -25,11 +24,9 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${inter.className} min-h-full bg-slate-950 text-slate-100 antialiased`}
       >
-        <SmoothScroll>
-          <QueryProvider>
-            {children}
-          </QueryProvider>
-        </SmoothScroll>
+        <QueryProvider>
+          {children}
+        </QueryProvider>
 
         <Toaster
           position="top-center"
@@ -43,20 +40,11 @@ export default function RootLayout({
           }}
         />
 
-        {process.env.NEXT_PUBLIC_DEMO_WIDGET_SCRIPT && process.env.NEXT_PUBLIC_DEMO_WIDGET_KEY && (
-          <Script
-            src={process.env.NEXT_PUBLIC_DEMO_WIDGET_SCRIPT}
-            data-api-key={process.env.NEXT_PUBLIC_DEMO_WIDGET_KEY}
-            strategy="afterInteractive"
-          />
-        )}
-
         <Script
-          src="https://labto.ahsanul.dev/widget.js"
-          data-api-key="aiw_live_37e16a770e7a1a89d8eb23c662614f3b00dcfa5f0659dbd5"
-          strategy="afterInteractive"
+          src={process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL || "http://localhost:4000/widget.js"}
+          data-api-key="cm7dfl2k000033b6t12345678"
+          strategy="lazyOnload"
         />
-
       </body>
     </html>
   );

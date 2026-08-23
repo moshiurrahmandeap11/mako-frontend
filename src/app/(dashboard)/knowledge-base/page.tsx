@@ -305,61 +305,62 @@ export default function KnowledgeBasePage() {
   return (
     <div className="space-y-8">
       {/* Top Banner & Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
-            <BookOpen className="w-6 h-6 text-indigo-400" />
-            AI Knowledge Base & Content
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
+            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400 shrink-0" />
+            <span>AI Knowledge Base & Content</span>
           </h1>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-slate-400 text-xs sm:text-sm mt-1">
             Manage scraped website content, indexed URLs, and custom notes powering your AI assistant.
           </p>
         </div>
 
-        <div className="flex items-center gap-3 flex-wrap">
+        {/* Responsive Action Buttons Bar */}
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-2.5">
           <Button
             variant="outline"
             onClick={handleDeleteAllChunks}
-            className="flex items-center gap-2 border-rose-800/60 bg-rose-950/30 hover:bg-rose-900/50 text-rose-300 text-sm"
+            className="flex items-center justify-center gap-2 border-rose-800/60 bg-rose-950/30 hover:bg-rose-900/50 text-rose-300 text-xs sm:text-sm px-3 py-2"
           >
-            <Trash2 className="w-4 h-4 text-rose-400" />
-            Clear All Data
+            <Trash2 className="w-4 h-4 text-rose-400 shrink-0" />
+            <span className="truncate">Clear All Data</span>
           </Button>
 
           <Button
             variant="outline"
             onClick={handleRescrapeAll}
             disabled={rescapingAll}
-            className="flex items-center gap-2 border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-slate-200 text-sm"
+            className="flex items-center justify-center gap-2 border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-slate-200 text-xs sm:text-sm px-3 py-2"
           >
-            <RefreshCw className={`w-4 h-4 ${rescapingAll ? 'animate-spin text-indigo-400' : ''}`} />
-            {rescapingAll ? 'Crawling Website...' : 'Re-crawl Store'}
+            <RefreshCw className={`w-4 h-4 shrink-0 ${rescapingAll ? 'animate-spin text-indigo-400' : ''}`} />
+            <span className="truncate">{rescapingAll ? 'Crawling...' : 'Re-crawl Store'}</span>
           </Button>
 
           <Button
             variant="outline"
             onClick={() => setShowDocModal(true)}
-            className="flex items-center gap-2 border-emerald-500/40 bg-emerald-950/30 hover:bg-emerald-900/50 text-emerald-300 text-sm"
+            className="flex items-center justify-center gap-2 border-emerald-500/40 bg-emerald-950/30 hover:bg-emerald-900/50 text-emerald-300 text-xs sm:text-sm px-3 py-2"
           >
-            <Upload className="w-4 h-4 text-emerald-400" />
-            Upload Doc / PDF
+            <Upload className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span className="truncate">Upload Doc / PDF</span>
           </Button>
 
           <Button
             variant="outline"
             onClick={() => setShowUrlModal(true)}
-            className="flex items-center gap-2 border-indigo-500/40 bg-indigo-950/30 hover:bg-indigo-900/50 text-indigo-300 text-sm"
+            className="flex items-center justify-center gap-2 border-indigo-500/40 bg-indigo-950/30 hover:bg-indigo-900/50 text-indigo-300 text-xs sm:text-sm px-3 py-2"
           >
-            <Globe className="w-4 h-4" />
-            Add Custom URL
+            <Globe className="w-4 h-4 text-indigo-400 shrink-0" />
+            <span className="truncate">Add Custom URL</span>
           </Button>
 
           <Button
             onClick={() => setShowNoteModal(true)}
-            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm"
+            className="col-span-2 sm:col-span-1 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm px-3 py-2"
           >
-            <Plus className="w-4 h-4" />
-            Add Custom Note / FAQ
+            <Plus className="w-4 h-4 shrink-0" />
+            <span className="truncate">Add Custom Note / FAQ</span>
           </Button>
         </div>
       </div>
