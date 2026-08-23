@@ -305,10 +305,10 @@ export default function KnowledgeBasePage() {
   return (
     <div className="space-y-8">
       {/* Top Banner & Header */}
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
-            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400 shrink-0" />
+            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-[#39FF88] shrink-0" />
             <span>AI Knowledge Base & Content</span>
           </h1>
           <p className="text-slate-400 text-xs sm:text-sm mt-1">
@@ -316,53 +316,54 @@ export default function KnowledgeBasePage() {
           </p>
         </div>
 
-        {/* Responsive Action Buttons Bar */}
-        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-2.5">
-          <Button
-            variant="outline"
-            onClick={handleDeleteAllChunks}
-            className="flex items-center justify-center gap-2 border-rose-800/60 bg-rose-950/30 hover:bg-rose-900/50 text-rose-300 text-xs sm:text-sm px-3 py-2"
-          >
-            <Trash2 className="w-4 h-4 text-rose-400 shrink-0" />
-            <span className="truncate">Clear All Data</span>
-          </Button>
-
-          <Button
-            variant="outline"
-            onClick={handleRescrapeAll}
-            disabled={rescapingAll}
-            className="flex items-center justify-center gap-2 border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-slate-200 text-xs sm:text-sm px-3 py-2"
-          >
-            <RefreshCw className={`w-4 h-4 shrink-0 ${rescapingAll ? 'animate-spin text-indigo-400' : ''}`} />
-            <span className="truncate">{rescapingAll ? 'Crawling...' : 'Re-crawl Store'}</span>
-          </Button>
-
-          <Button
-            variant="outline"
-            onClick={() => setShowDocModal(true)}
-            className="flex items-center justify-center gap-2 border-emerald-500/40 bg-emerald-950/30 hover:bg-emerald-900/50 text-emerald-300 text-xs sm:text-sm px-3 py-2"
-          >
-            <Upload className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span className="truncate">Upload Doc / PDF</span>
-          </Button>
-
-          <Button
-            variant="outline"
-            onClick={() => setShowUrlModal(true)}
-            className="flex items-center justify-center gap-2 border-indigo-500/40 bg-indigo-950/30 hover:bg-indigo-900/50 text-indigo-300 text-xs sm:text-sm px-3 py-2"
-          >
-            <Globe className="w-4 h-4 text-indigo-400 shrink-0" />
-            <span className="truncate">Add Custom URL</span>
-          </Button>
-
+        {/* Primary CTA button on the right */}
+        <div className="flex items-center gap-2 sm:gap-3">
           <Button
             onClick={() => setShowNoteModal(true)}
-            className="col-span-2 sm:col-span-1 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm px-3 py-2"
+            variant="primary"
+            size="md"
+            className="w-full sm:w-auto justify-center font-bold text-xs sm:text-sm"
           >
             <Plus className="w-4 h-4 shrink-0" />
-            <span className="truncate">Add Custom Note / FAQ</span>
+            <span>Add Custom Note / FAQ</span>
           </Button>
         </div>
+      </div>
+
+      {/* Responsive Action Toolbar Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+        <button
+          onClick={() => setShowUrlModal(true)}
+          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#131D38] border border-white/[0.08] hover:border-[#39FF88]/40 hover:bg-[#1A264A] text-slate-200 text-xs sm:text-sm font-medium transition group shadow-sm"
+        >
+          <Globe className="w-4 h-4 text-[#39FF88] group-hover:scale-110 transition-transform shrink-0" />
+          <span className="truncate">Add Custom URL</span>
+        </button>
+
+        <button
+          onClick={() => setShowDocModal(true)}
+          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#131D38] border border-white/[0.08] hover:border-[#39FF88]/40 hover:bg-[#1A264A] text-slate-200 text-xs sm:text-sm font-medium transition group shadow-sm"
+        >
+          <Upload className="w-4 h-4 text-[#39FF88] group-hover:scale-110 transition-transform shrink-0" />
+          <span className="truncate">Upload Doc / PDF</span>
+        </button>
+
+        <button
+          onClick={handleRescrapeAll}
+          disabled={rescapingAll}
+          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#131D38] border border-white/[0.08] hover:border-[#39FF88]/40 hover:bg-[#1A264A] text-slate-200 text-xs sm:text-sm font-medium transition group shadow-sm disabled:opacity-50"
+        >
+          <RefreshCw className={`w-4 h-4 text-[#39FF88] shrink-0 ${rescapingAll ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
+          <span className="truncate">{rescapingAll ? 'Crawling...' : 'Re-crawl Store'}</span>
+        </button>
+
+        <button
+          onClick={handleDeleteAllChunks}
+          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-rose-950/20 border border-rose-500/20 hover:border-rose-500/50 hover:bg-rose-950/40 text-rose-300 text-xs sm:text-sm font-medium transition group shadow-sm"
+        >
+          <Trash2 className="w-4 h-4 text-rose-400 group-hover:scale-110 transition-transform shrink-0" />
+          <span className="truncate">Clear All Data</span>
+        </button>
       </div>
 
       {/* Metrics Cards */}
