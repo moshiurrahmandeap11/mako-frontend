@@ -6,18 +6,17 @@ import {
   Package,
   MessageSquare,
   Key,
-  TrendingUp,
   ArrowRight,
   Zap,
-  CheckCircle2,
   Code2,
   Users,
   Globe,
+  RefreshCw,
+  Sparkles,
 } from 'lucide-react';
 import { fetchApi } from '@/lib/api-client';
 import Button from '@/components/Button';
 import { MetricCardSkeleton } from '@/components/Skeleton';
-import { LogoMark } from '@/components/Logo';
 
 export default function OverviewPage() {
   const [summary, setSummary] = useState<any>(null);
@@ -69,6 +68,13 @@ export default function OverviewPage() {
     },
   ];
 
+  const credits = summary?.credits;
+  const isEnterprise = summary?.planTier === 'ENTERPRISE';
+  const totalCredits = credits?.totalAllowedCredits || 1500;
+  const usedCredits = credits?.creditsUsedThisMonth || 0;
+  const remainingCredits = isEnterprise ? 'Unlimited' : (credits?.creditsRemaining ?? totalCredits).toLocaleString();
+  const usagePercentage = isEnterprise ? 5 : Math.min(100, Math.round((usedCredits / totalCredits) * 100));
+
   return (
     <div className="space-y-8">
       {/* Welcome Hero Banner */}
@@ -102,6 +108,60 @@ export default function OverviewPage() {
             </Button>
           </div>
         </div>
+      </div>
+
+      {/* AI Smart Credits Card */}
+      <div className="p-6 rounded-2xl bg-[#0F172A]/90 border border-white/[0.08] shadow-xl relative overflow-hidden backdrop-blur-md">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/[0.06] pb-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#39FF88]" />
+              <h2 className="text-base font-bold text-white">AI Smart Credits Balance</h2>
+              {credits?.rolloverEnabled && (
+                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-400 bg-amber-400/10 border border-amber-400/20 px-2 py-0.5 rounded-full">
+                  <RefreshCw className="w-2.5 h-2.5" /> Rollover Active
+                </span>
+              )}
+            </div>
+            <p className="text-slate-400 text-xs mt-1">
+              Plan Tier: <strong className="text-white uppercase">{summary?.planTier || 'FREE'}</strong>
+              {credits?.rolloverCredits > 0 && (
+                <span className="text-amber-300 ml-2">
+                  (+{credits.rolloverCredits.toLocaleString()} rolled over from last month)
+                </span>
+              )}
+            </p>
+          </div>
+          <div className="text-left sm:text-right">
+            <span className="text-2xl font-extrabold text-white tracking-tight">
+              {remainingCredits}
+            </span>
+            <span className="text-xs text-slate-400 block">
+              {isEnterprise ? 'Turbo Credits' : `of ${totalCredits.toLocaleString()} Total Credits Available`}
+            </span>
+          </div>
+        </div>
+
+        {!isEnterprise && (
+          <div className="mt-4 space-y-2">
+            <div className="flex justify-between text-xs font-semibold text-slate-300">
+              <span>Current Month Usage ({usedCredits.toLocaleString()} credits used)</span>
+              <span className={usagePercentage > 80 ? 'text-amber-400' : 'text-[#39FF88]'}>
+                {usagePercentage}% used
+              </span>
+            </div>
+            <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${
+                  usagePercentage > 90
+                    ? 'bg-gradient-to-r from-amber-500 to-rose-500'
+                    : 'bg-gradient-to-r from-emerald-500 to-[#39FF88]'
+                }`}
+                style={{ width: `${usagePercentage}%` }}
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Metrics Cards Grid */}
