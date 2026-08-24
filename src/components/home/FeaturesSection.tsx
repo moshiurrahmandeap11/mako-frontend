@@ -48,7 +48,7 @@ export default function FeaturesSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="rounded-2xl bg-white border border-border-light shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-8 items-center"
+              className="rounded-md bg-white border border-border-light overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-8 items-center"
             >
               {/* Left Column: Feature Info (5 cols) */}
               <div className="lg:col-span-5 space-y-5 text-left">
@@ -114,7 +114,7 @@ export default function FeaturesSection() {
               </div>
 
               {/* Right Column: Clean Light Code & Canvas Preview (7 cols) */}
-              <div className="lg:col-span-7 relative w-full h-full min-h-70 sm:min-h-85 rounded-2xl bg-surface-light border border-border-light p-4 sm:p-6 flex flex-col justify-between overflow-hidden shadow-sm">
+              <div className="lg:col-span-7 relative w-full h-full min-h-70 sm:min-h-85 rounded-md bg-surface-light border border-border-light p-4 sm:p-6 flex flex-col justify-between overflow-hidden">
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-border-light pb-3">
                   <div className="flex items-center gap-1.5">
@@ -129,7 +129,7 @@ export default function FeaturesSection() {
 
                 {/* Body */}
                 <div className="py-4 flex-1 flex flex-col justify-center space-y-3">
-                  <div className="w-full bg-white border border-border-light rounded-xl p-3.5 font-mono text-left text-[11px] sm:text-xs overflow-x-auto text-text-main leading-relaxed shadow-sm">
+                  <div className="w-full bg-white border border-border-light rounded-xl p-3.5 text-left text-[11px] sm:text-xs overflow-x-auto text-text-main leading-relaxed">
                     <pre>
                       <code>{activeFeature.codeSnippet}</code>
                     </pre>
