@@ -1,9 +1,15 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import Button from '@/components/Button';
-import { Volume2, VolumeX, Sparkles, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import Button from "@/components/Button";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  ArrowRight,
+  CheckCircle2,
+  ShieldCheck,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 export default function HeroSection() {
   const dynamicWords = ["E-Commerce", "Blog", "Portfolio", "Website"];
@@ -27,19 +33,8 @@ export default function HeroSection() {
   }, [dynamicWords.length]);
 
   return (
-    <section className="relative pt-28 sm:pt-32 pb-16 overflow-hidden bg-white">
+    <section className="relative pt-6 pb-16 overflow-hidden bg-white">
       <div className="w-11/12 lg:w-9/12 max-w-9/12 max-w-7xl mx-auto space-y-10 text-center">
-        {/* Top Feature Tag */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E8F8F0] border border-[#1DBF73]/30 text-[#1DBF73] text-xs font-bold uppercase tracking-wider"
-        >
-          <Sparkles className="w-3.5 h-3.5 text-[#1DBF73]" />
-          <span>Next-Gen Autonomous E-Commerce</span>
-        </motion.div>
-
         {/* Commanding Fiverr-Style Headline */}
         <div className="max-w-4xl mx-auto space-y-4">
           <motion.h1
@@ -48,7 +43,7 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#222325] tracking-tight leading-[1.12]"
           >
-            Find the right AI assistant for your{' '}
+            Find the right AI assistant for your{" "}
             <span className="relative inline-block text-[#1DBF73]">
               <AnimatePresence mode="wait">
                 <motion.span
@@ -71,7 +66,8 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-base sm:text-lg text-[#62646A] max-w-2xl mx-auto font-normal leading-relaxed"
           >
-            Convert more visitors with sub-second pgvector search, zero-hallucination policy answers, and 1-click cart injection.
+            Convert more visitors with sub-second pgvector search,
+            zero-hallucination policy answers, and 1-click cart injection.
           </motion.p>
         </div>
 

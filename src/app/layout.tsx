@@ -9,10 +9,9 @@ const fontSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Labto AI Assistant — Next-Gen AI Shopping Concierge",
-  description: "Manage your AI-powered assistant widget, products, API keys, and visitor chat analytics.",
-};
+import { constructMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = constructMetadata();
 
 import QueryProvider from "@/components/QueryProvider";
 import Script from "next/script";

@@ -1,117 +1,50 @@
-'use client';
+import { Metadata } from "next";
+import FeaturesCatalogClient from "@/components/features/FeaturesCatalogClient";
+import { FEATURES_DATA } from "@/data/features";
+import { constructMetadata, SITE_CONFIG } from "@/lib/seo";
 
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Search, ShoppingCart, Sliders, Zap, FileText, Camera, ArrowRight, Sparkles } from 'lucide-react';
-import Button from '@/components/Button';
-import { FEATURES_DATA } from '@/data/features';
+export const metadata: Metadata = constructMetadata({
+  title: "Autonomous E-Commerce Features & Architecture | Labto AI",
+  description:
+    "Explore Labto AI's enterprise e-commerce capabilities: Sub-second RAG vector search, dynamic cart event bridge, PDF knowledge base ingestion, and no-code customizer.",
+  canonicalUrl: "/features",
+  keywords: [
+    "RAG Vector Search",
+    "E-Commerce Cart Bridge",
+    "Storefront Document Indexer",
+    "Shopify AI Assistant Features",
+    "Conversational AI E-Commerce",
+    "AI Product Recommendation",
+  ],
+});
 
 export default function FeaturesPage() {
-  const getIcon = (slug: string) => {
-    switch (slug) {
-      case 'rag-search':
-        return <Search className="w-6 h-6" />;
-      case 'cart-bridge':
-        return <ShoppingCart className="w-6 h-6" />;
-      case 'knowledge-base':
-        return <FileText className="w-6 h-6" />;
-      case 'ar-tryon':
-        return <Camera className="w-6 h-6" />;
-      case 'widget-customizer':
-        return <Sliders className="w-6 h-6" />;
-      default:
-        return <Sparkles className="w-6 h-6" />;
-    }
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Enterprise E-Commerce AI Features — Labto AI",
+    description:
+      "Explore enterprise AI capabilities engineered for high-converting online stores.",
+    url: `${SITE_CONFIG.url}/features`,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: FEATURES_DATA.map((feat, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: feat.title,
+        description: feat.description,
+        url: `${SITE_CONFIG.url}/features/${feat.slug}`,
+      })),
+    },
   };
 
   return (
-    <div className="relative min-h-screen bg-white text-[#222325] flex flex-col overflow-hidden">
-      <main className="relative z-10 flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 pt-36 pb-20 flex flex-col justify-center space-y-12">
-        {/* Header */}
-        <div className="max-w-3xl text-left space-y-4">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E8F8F0] border border-[#1DBF73]/30 text-[#1DBF73] text-xs font-bold uppercase tracking-wider"
-          >
-            <Zap className="w-3.5 h-3.5" />
-            <span>Autonomous Storefront Capabilities</span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#222325] leading-tight"
-          >
-            Enterprise AI Features Built for Modern E-Commerce.
-          </motion.h1>
-
-          <p className="text-[#62646A] text-sm sm:text-base leading-relaxed">
-            Click on any feature card below to watch the live video demonstration, inspect architectural mechanics, and copy integration SDK snippets.
-          </p>
-        </div>
-
-        {/* Features Interactive Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {FEATURES_DATA.map((feat, idx) => (
-            <motion.div
-              key={feat.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-            >
-              <Link
-                href={`/features/${feat.slug}`}
-                className="group h-full p-8 bg-white border border-[#E4E5E7] rounded-2xl hover:border-[#1DBF73] hover:shadow-lg transition-all duration-300 flex flex-col justify-between block relative overflow-hidden shadow-sm"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-xl border border-[#1DBF73]/20 flex items-center justify-center text-[#1DBF73] bg-[#E8F8F0] group-hover:bg-[#1DBF73] group-hover:text-white transition-all duration-300 font-bold">
-                      {getIcon(feat.slug)}
-                    </div>
-                    <span className="text-[10px] font-mono font-bold text-[#1DBF73] bg-[#E8F8F0] px-2.5 py-1 rounded-full border border-[#1DBF73]/20">
-                      {feat.badge}
-                    </span>
-                  </div>
-
-                  <h3 className="text-lg font-bold text-[#222325] group-hover:text-[#1DBF73] transition-colors duration-300">
-                    {feat.title}
-                  </h3>
-
-                  <p className="text-[#62646A] text-xs sm:text-sm leading-relaxed line-clamp-3">
-                    {feat.description}
-                  </p>
-                </div>
-
-                <div className="pt-6 mt-6 border-t border-[#E4E5E7] flex items-center justify-between text-xs font-bold text-[#1DBF73]">
-                  <span>View Architecture & Specs</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-16 p-8 rounded-3xl bg-[#F7F7F7] border border-[#E4E5E7] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-sm"
-        >
-          <div>
-            <h4 className="text-lg font-bold text-[#222325]">Ready to automate your online store?</h4>
-            <p className="text-[#62646A] text-xs sm:text-sm mt-1">Get started in under 2 minutes with our 1-click script snippet.</p>
-          </div>
-          <div className="flex gap-4 w-full sm:w-auto">
-            <Button href="/register" variant="primary" size="lg">
-              Start Free Trial
-            </Button>
-          </div>
-        </motion.div>
-      </main>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
+      <FeaturesCatalogClient features={FEATURES_DATA} />
+    </>
   );
 }
