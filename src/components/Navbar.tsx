@@ -130,20 +130,20 @@ export default function Navbar() {
                             ease: [0.16, 1, 0.3, 1],
                           }}
                           style={{ transformOrigin: "top right" }}
-                          className="absolute right-0 mt-3 w-64 bg-white border border-[#E4E5E7] rounded-xl shadow-2xl shadow-black/10 py-3 z-50 text-left"
+                          className="absolute right-0 mt-3 w-64 bg-white border border-border-light rounded-md shadow-2xl shadow-black/10 py-3 z-50 text-left"
                         >
                           {/* User Profile Header */}
                           <div className="px-4 pb-3">
-                            <p className="text-[14px] font-bold text-[#222325] leading-tight truncate">
+                            <p className="text-[14px] font-bold text-text-main leading-tight truncate">
                               {session.user.name || "User"}
                             </p>
-                            <p className="text-[12px] text-[#74767E] truncate mt-0.5">
+                            <p className="text-[12px] text-text-muted truncate mt-0.5">
                               {session.user.email}
                             </p>
                             <Link
                               href="/dashboard"
                               onClick={() => setProfileMenuOpen(false)}
-                              className="mt-3 block w-full py-1.5 px-3 text-center border border-[#222325] rounded-md text-xs font-bold text-[#222325] hover:bg-[#F7F7F7] transition"
+                              className="mt-3 block w-full py-1.5 px-3 text-center border border-border-light rounded-md text-xs font-bold text-text-main hover:bg-bg-hover transition"
                             >
                               Switch to Dashboard
                             </Link>
