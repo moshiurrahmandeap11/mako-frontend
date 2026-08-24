@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import {
   Plus,
-  Upload,
   Search,
   Trash2,
   Package,
@@ -101,7 +100,7 @@ export default function ProductsPage() {
     const result = await swal.fire({
       icon: 'warning',
       title: 'Delete Product?',
-      text: 'This product will be permanently removed from the catalog and AI recommendations.',
+      text: 'This will remove the product and its pgvector embedding.',
       showCancelButton: true,
       confirmButtonText: 'Yes, Delete',
       cancelButtonText: 'Cancel',
@@ -114,16 +113,15 @@ export default function ProductsPage() {
       swal.fire({
         icon: 'success',
         title: 'Product Deleted',
-        text: 'The product has been removed from your catalog.',
+        text: 'The product has been removed from catalog.',
         confirmButtonText: 'OK',
         timer: 2000,
-        timerProgressBar: true,
       });
     } catch (err: any) {
       swal.fire({
         icon: 'error',
         title: 'Delete Failed',
-        text: err.message || 'Failed to delete product.',
+        text: err.message || 'Failed to delete product',
         confirmButtonText: 'OK',
       });
     }
@@ -132,71 +130,64 @@ export default function ProductsPage() {
   const handleDownloadSampleExcel = () => {
     const sampleData = [
       {
-        externalId: 'SKU-101',
-        title: 'Premium Wireless Headphones',
-        price: 149.99,
+        externalId: 'PROD-001',
+        title: 'Wireless Active Noise-Cancelling Headphones',
+        description: 'Over-ear Bluetooth headphones with 30-hour battery life and spatial audio.',
+        price: 199.99,
         currency: 'USD',
-        category: 'Electronics',
-        description: 'Noise-cancelling over-ear headphones with 30-hour battery life.',
-        productUrl: 'https://mystore.com/products/headphones',
-        imageUrl: 'https://mystore.com/images/headphones.jpg',
-        inStock: true,
+        imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500',
+        productUrl: 'https://mystore.com/products/wireless-headphones',
+        category: 'Audio & Electronics',
+        inStock: 'TRUE',
       },
       {
-        externalId: 'SKU-102',
-        title: 'Minimalist Leather Watch',
-        price: 89.50,
+        externalId: 'PROD-002',
+        title: 'Smart Fitness Tracker & Heart Rate Monitor',
+        description: 'Waterproof sports watch with step counter, sleep tracking, and OLED touch display.',
+        price: 49.99,
         currency: 'USD',
-        category: 'Accessories',
-        description: 'Water-resistant analog watch with genuine leather strap.',
-        productUrl: 'https://mystore.com/products/leather-watch',
-        imageUrl: 'https://mystore.com/images/watch.jpg',
-        inStock: true,
+        imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',
+        productUrl: 'https://mystore.com/products/fitness-tracker',
+        category: 'Wearables',
+        inStock: 'TRUE',
       },
     ];
 
     const worksheet = XLSX.utils.json_to_sheet(sampleData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Products');
-    XLSX.writeFile(workbook, 'products_import_template.xlsx');
+    XLSX.writeFile(workbook, 'labto_ai_products_sample.xlsx');
   };
 
   const handleExcelImport = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!importFile) {
-      swal.fire({ icon: 'error', title: 'No File Selected', text: 'Please select an Excel (.xlsx, .xls) or CSV file.' });
-      return;
-    }
+    if (!importFile) return;
 
     setImporting(true);
     setImportResult(null);
 
     try {
       const buffer = await importFile.arrayBuffer();
-      const workbook = XLSX.read(buffer, { type: 'array' });
-      const firstSheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheetName];
-      const rawRows: any[] = XLSX.utils.sheet_to_json(worksheet);
+      const workbook = XLSX.read(buffer, { type: 'buffer' });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const rows: any[] = XLSX.utils.sheet_to_json(sheet);
 
-      if (rawRows.length === 0) {
-        throw new Error('The selected Excel file is empty.');
+      if (!rows || rows.length === 0) {
+        throw new Error('Spreadsheet contains no product rows or has invalid headers.');
       }
 
-      const productsToImport = rawRows.map((row, idx) => ({
-        externalId: String(row.externalId || row.SKU || row.sku || row.id || `ext_${Date.now()}_${idx}`),
-        title: String(row.title || row.Title || row.Name || row.name || ''),
-        price: parseFloat(row.price || row.Price || 0),
-        currency: String(row.currency || row.Currency || 'USD'),
-        category: String(row.category || row.Category || 'General'),
-        description: String(row.description || row.Description || ''),
-        productUrl: String(row.productUrl || row.ProductUrl || row.url || row.Link || ''),
-        imageUrl: String(row.imageUrl || row.ImageUrl || row.image || ''),
-        inStock: row.inStock !== undefined ? Boolean(row.inStock) : true,
-      })).filter((p) => p.title && !isNaN(p.price));
-
-      if (productsToImport.length === 0) {
-        throw new Error('No valid product rows found. Make sure columns contain "title" and "price".');
-      }
+      const productsToImport = rows.map((r) => ({
+        externalId: String(r.externalId || r.SKU || r.id || `EXT_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`).trim(),
+        title: String(r.title || r.name || r.Title || 'Untitled Product').trim(),
+        description: String(r.description || r.Description || '').trim(),
+        price: parseFloat(r.price || r.Price || 0),
+        currency: String(r.currency || r.Currency || 'USD').toUpperCase().trim(),
+        imageUrl: String(r.imageUrl || r.image_url || r.image || '').trim(),
+        productUrl: String(r.productUrl || r.product_url || r.url || 'https://mystore.com').trim(),
+        category: String(r.category || r.Category || 'General').trim(),
+        inStock: String(r.inStock || r.in_stock || 'TRUE').toUpperCase() !== 'FALSE',
+      }));
 
       const res = await fetchApi('/api/products/import', {
         method: 'POST',
@@ -222,19 +213,19 @@ export default function ProductsPage() {
       {/* Header & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Product Catalog</h1>
-          <p className="text-slate-400 text-xs mt-1">Manage catalog items available for Labto AI recommendations</p>
+          <h1 className="text-2xl font-bold text-[#222325] tracking-tight">Product Catalog</h1>
+          <p className="text-[#62646A] text-xs mt-1">Manage catalog items available for Labto AI recommendations</p>
         </div>
 
         <div className="flex items-center gap-3">
-          <Button onClick={() => setShowImportModal(true)} variant="outline">
+          <Button onClick={() => setShowImportModal(true)} variant="outline" className="text-[#222325] border-[#E4E5E7] hover:bg-slate-50">
             <span className="flex items-center gap-2">
-              <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
+              <FileSpreadsheet className="w-4 h-4 text-[#1DBF73]" />
               <span>Bulk Excel / CSV Import</span>
             </span>
           </Button>
 
-          <Button onClick={() => setShowAddModal(true)} variant="filled">
+          <Button onClick={() => setShowAddModal(true)} variant="primary">
             <span className="flex items-center gap-2">
               <Plus className="w-4 h-4" />
               <span>Add Product</span>
@@ -245,7 +236,7 @@ export default function ProductsPage() {
 
       {/* Search Input Filter */}
       <div className="relative">
-        <Search className="w-4 h-4 text-slate-500 absolute left-4 top-1/2 -translate-y-1/2" />
+        <Search className="w-4 h-4 text-[#74767E] absolute left-4 top-1/2 -translate-y-1/2" />
         <input
           type="text"
           placeholder="Search products by title, category, or description..."
@@ -254,16 +245,16 @@ export default function ProductsPage() {
             setSearch(e.target.value);
             setPage(1);
           }}
-          className="w-full pl-11 pr-4 py-3 bg-slate-900/60 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition"
+          className="w-full pl-11 pr-4 py-3 bg-white border border-[#E4E5E7] rounded-xl text-sm text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73] shadow-sm transition"
         />
       </div>
 
       {/* Product Table List */}
-      <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl overflow-hidden shadow-xl">
+      <div className="bg-white border border-[#E4E5E7] rounded-2xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-800 bg-slate-950/60 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <tr className="border-b border-[#E4E5E7] bg-[#F7F7F7] text-[10px] font-bold text-[#74767E] uppercase tracking-wider">
                 <th className="py-4 px-6">Product</th>
                 <th className="py-4 px-6">Category</th>
                 <th className="py-4 px-6">Price</th>
@@ -272,7 +263,7 @@ export default function ProductsPage() {
                 <th className="py-4 px-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 text-sm text-slate-300">
+            <tbody className="divide-y divide-[#E4E5E7] text-sm text-[#404145]">
               {loading ? (
                 <>
                   <TableRowSkeleton columns={6} />
@@ -282,48 +273,48 @@ export default function ProductsPage() {
                 </>
               ) : products.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-12 text-slate-500 text-xs">
-                    <Package className="w-8 h-8 mx-auto mb-2 opacity-40 text-amber-500" />
+                  <td colSpan={6} className="text-center py-12 text-[#74767E] text-xs">
+                    <Package className="w-8 h-8 mx-auto mb-2 opacity-40 text-[#1DBF73]" />
                     No products found in catalog. Add your first item or upload an Excel/CSV spreadsheet!
                   </td>
                 </tr>
               ) : (
                 products.map((p) => (
-                  <tr key={p.id} className="hover:bg-slate-850/40 transition">
+                  <tr key={p.id} className="hover:bg-[#F7F7F7] transition">
                     <td className="py-4 px-6 flex items-center gap-3">
                       {p.imageUrl ? (
-                        <img src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded-lg object-cover bg-slate-950 border border-slate-800" />
+                        <img src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded-lg object-cover bg-slate-100 border border-[#E4E5E7]" />
                       ) : (
-                        <div className="w-10 h-10 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-400 text-xs">
+                        <div className="w-10 h-10 rounded-lg bg-slate-100 border border-[#E4E5E7] flex items-center justify-center text-[#74767E] text-xs">
                           📦
                         </div>
                       )}
                       <div>
-                        <p className="font-bold text-white text-sm line-clamp-1">{p.title}</p>
-                        <a href={p.productUrl} target="_blank" rel="noreferrer" className="text-xs text-amber-500 hover:underline line-clamp-1 font-medium">
+                        <p className="font-bold text-[#222325] text-sm line-clamp-1">{p.title}</p>
+                        <a href={p.productUrl} target="_blank" rel="noreferrer" className="text-xs text-[#1DBF73] hover:underline line-clamp-1 font-medium">
                           {p.productUrl}
                         </a>
                       </div>
                     </td>
                     <td className="py-4 px-6">
-                      <span className="inline-block px-2.5 py-1 rounded text-xs font-semibold bg-slate-950 text-slate-300 border border-slate-800">
+                      <span className="inline-block px-2.5 py-1 rounded text-xs font-semibold bg-[#F7F7F7] text-[#404145] border border-[#E4E5E7]">
                         {p.category || 'General'}
                       </span>
                     </td>
-                    <td className="py-4 px-6 font-bold text-white">
+                    <td className="py-4 px-6 font-bold text-[#222325]">
                       ${Number(p.price).toFixed(2)} {p.currency}
                     </td>
                     <td className="py-4 px-6">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${p.inStock ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${p.inStock ? 'bg-emerald-400' : 'bg-rose-400'}`} />
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${p.inStock ? 'bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/20' : 'bg-rose-50 text-rose-600 border border-rose-200'}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${p.inStock ? 'bg-[#1DBF73]' : 'bg-rose-500'}`} />
                         {p.inStock ? 'In Stock' : 'Out of Stock'}
                       </span>
                     </td>
-                    <td className="py-4 px-6 font-mono text-xs text-slate-400">{p.externalId}</td>
+                    <td className="py-4 px-6 font-mono text-xs text-[#74767E]">{p.externalId}</td>
                     <td className="py-4 px-6 text-right">
                       <button
                         onClick={() => handleDeleteProduct(p.id)}
-                        className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded transition"
+                        className="p-2 text-[#74767E] hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -337,20 +328,20 @@ export default function ProductsPage() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="p-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+          <div className="p-4 border-t border-[#E4E5E7] flex items-center justify-between text-xs text-[#74767E]">
             <span>Page {page} of {totalPages}</span>
             <div className="space-x-2">
               <button
                 disabled={page <= 1}
                 onClick={() => setPage(page - 1)}
-                className="px-3 py-1.5 rounded bg-slate-950 border border-slate-800 disabled:opacity-50 text-white font-medium"
+                className="px-3 py-1.5 rounded bg-white border border-[#E4E5E7] disabled:opacity-50 text-[#222325] font-semibold hover:bg-[#F7F7F7]"
               >
                 Previous
               </button>
               <button
                 disabled={page >= totalPages}
                 onClick={() => setPage(page + 1)}
-                className="px-3 py-1.5 rounded bg-slate-950 border border-slate-800 disabled:opacity-50 text-white font-medium"
+                className="px-3 py-1.5 rounded bg-white border border-[#E4E5E7] disabled:opacity-50 text-[#222325] font-semibold hover:bg-[#F7F7F7]"
               >
                 Next
               </button>
@@ -361,12 +352,12 @@ export default function ProductsPage() {
 
       {/* Add Product Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-xl shadow-2xl space-y-4">
-            <h2 className="text-lg font-bold text-white">Add New Product</h2>
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E4E5E7] rounded-2xl p-6 w-full max-w-xl shadow-2xl space-y-4">
+            <h2 className="text-lg font-bold text-[#222325]">Add New Product</h2>
 
             {modalError && (
-              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
+              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs">
                 {modalError}
               </div>
             )}
@@ -374,33 +365,33 @@ export default function ProductsPage() {
             <form onSubmit={handleCreateProduct} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">SKU / External ID *</label>
+                  <label className="block text-xs font-bold text-[#62646A] uppercase tracking-wider mb-1">SKU / External ID *</label>
                   <input
                     type="text"
                     required
                     value={formData.externalId}
                     onChange={(e) => setFormData({ ...formData, externalId: e.target.value })}
                     placeholder="PROD-001"
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
+                    className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-xl text-sm text-[#222325] focus:outline-none focus:border-[#1DBF73]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Title *</label>
+                  <label className="block text-xs font-bold text-[#62646A] uppercase tracking-wider mb-1">Title *</label>
                   <input
                     type="text"
                     required
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     placeholder="Wireless Headphones"
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
+                    className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-xl text-sm text-[#222325] focus:outline-none focus:border-[#1DBF73]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Price ($) *</label>
+                  <label className="block text-xs font-bold text-[#62646A] uppercase tracking-wider mb-1">Price ($) *</label>
                   <input
                     type="number"
                     step="0.01"
@@ -408,61 +399,61 @@ export default function ProductsPage() {
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                     placeholder="99.99"
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
+                    className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-xl text-sm text-[#222325] focus:outline-none focus:border-[#1DBF73]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Category</label>
+                  <label className="block text-xs font-bold text-[#62646A] uppercase tracking-wider mb-1">Category</label>
                   <input
                     type="text"
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     placeholder="Electronics"
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
+                    className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-xl text-sm text-[#222325] focus:outline-none focus:border-[#1DBF73]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Product Page Link (URL) *</label>
+                <label className="block text-xs font-bold text-[#62646A] uppercase tracking-wider mb-1">Product Page Link (URL) *</label>
                 <input
                   type="url"
                   required
                   value={formData.productUrl}
                   onChange={(e) => setFormData({ ...formData, productUrl: e.target.value })}
                   placeholder="https://myshop.com/products/headphones"
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
+                  className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-xl text-sm text-[#222325] focus:outline-none focus:border-[#1DBF73]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Image Thumbnail Link (URL)</label>
+                <label className="block text-xs font-bold text-[#62646A] uppercase tracking-wider mb-1">Image Thumbnail Link (URL)</label>
                 <input
                   type="url"
                   value={formData.imageUrl}
                   onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                   placeholder="https://myshop.com/images/headphones.jpg"
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
+                  className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-xl text-sm text-[#222325] focus:outline-none focus:border-[#1DBF73]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Description</label>
+                <label className="block text-xs font-bold text-[#62646A] uppercase tracking-wider mb-1">Description</label>
                 <textarea
                   rows={3}
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Premium active noise cancelling bluetooth headphones..."
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"
+                  className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-xl text-sm text-[#222325] focus:outline-none focus:border-[#1DBF73]"
                 />
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
-                <Button type="button" onClick={() => setShowAddModal(false)} variant="outline">
+              <div className="flex justify-end gap-3 pt-4 border-t border-[#E4E5E7]">
+                <Button type="button" onClick={() => setShowAddModal(false)} variant="outline" className="text-[#222325] border-[#E4E5E7]">
                   Cancel
                 </Button>
-                <Button type="submit" disabled={submitting} variant="filled">
+                <Button type="submit" disabled={submitting} variant="primary">
                   {submitting ? 'Saving...' : 'Create Product'}
                 </Button>
               </div>
@@ -473,21 +464,21 @@ export default function ProductsPage() {
 
       {/* Bulk Excel / CSV Import Modal */}
       {showImportModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-xl shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E4E5E7] rounded-2xl p-6 w-full max-w-xl shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                  <FileSpreadsheet className="w-5 h-5 text-emerald-400" />
+                <h2 className="text-lg font-bold text-[#222325] flex items-center gap-2">
+                  <FileSpreadsheet className="w-5 h-5 text-[#1DBF73]" />
                   <span>Bulk Excel / CSV Product Import</span>
                 </h2>
-                <p className="text-slate-400 text-xs mt-1">Upload an Excel (.xlsx, .xls) or CSV spreadsheet to populate your catalog and pgvector memory:</p>
+                <p className="text-[#62646A] text-xs mt-1">Upload an Excel (.xlsx, .xls) or CSV spreadsheet to populate your catalog:</p>
               </div>
 
               <button
                 type="button"
                 onClick={handleDownloadSampleExcel}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-xs font-semibold text-amber-400 border border-amber-500/20 transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#E8F8F0] hover:bg-[#d5f3e4] text-xs font-bold text-[#1DBF73] border border-[#1DBF73]/20 transition"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Sample Template</span>
@@ -495,7 +486,7 @@ export default function ProductsPage() {
             </div>
 
             {importResult && (
-              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2">
+              <div className="p-3 rounded-xl bg-[#E8F8F0] border border-[#1DBF73]/30 text-[#1DBF73] text-xs flex items-center gap-2 font-bold">
                 <Check className="w-4 h-4" />
                 <span>Import complete! Processed: {importResult.totalProcessed} (Created: {importResult.createdCount}, Updated: {importResult.updatedCount})</span>
               </div>
@@ -520,8 +511,8 @@ export default function ProductsPage() {
                 }}
                 className={`border-2 border-dashed rounded-2xl p-8 text-center transition cursor-pointer ${
                   isDraggingExcel
-                    ? 'border-amber-500 bg-amber-500/10 scale-[1.01]'
-                    : 'border-slate-800 hover:border-amber-500/50 bg-slate-950/40'
+                    ? 'border-[#1DBF73] bg-[#E8F8F0] scale-[1.01]'
+                    : 'border-[#E4E5E7] hover:border-[#1DBF73] bg-[#F7F7F7]'
                 }`}
               >
                 <input
@@ -532,15 +523,15 @@ export default function ProductsPage() {
                   id="excelFileInput"
                 />
                 <label htmlFor="excelFileInput" className="cursor-pointer space-y-2 block">
-                  <FileSpreadsheet className={`w-12 h-12 mx-auto transition ${isDraggingExcel ? 'text-amber-400 scale-110' : 'text-emerald-400 opacity-80'}`} />
-                  <p className="text-sm font-semibold text-white">
+                  <FileSpreadsheet className={`w-12 h-12 mx-auto transition ${isDraggingExcel ? 'text-[#1DBF73] scale-110' : 'text-[#1DBF73] opacity-80'}`} />
+                  <p className="text-sm font-semibold text-[#222325]">
                     {importFile ? importFile.name : isDraggingExcel ? 'Drop your Excel file here!' : 'Click or Drag & Drop Excel / CSV file here'}
                   </p>
-                  <p className="text-xs text-slate-500">Supports .xlsx, .xls, .csv files up to 10MB</p>
+                  <p className="text-xs text-[#74767E]">Supports .xlsx, .xls, .csv files up to 10MB</p>
                 </label>
               </div>
 
-              <div className="flex justify-end gap-3 pt-2 border-t border-slate-800">
+              <div className="flex justify-end gap-3 pt-2 border-t border-[#E4E5E7]">
                 <Button
                   type="button"
                   onClick={() => {
@@ -549,10 +540,11 @@ export default function ProductsPage() {
                     setImportResult(null);
                   }}
                   variant="outline"
+                  className="text-[#222325] border-[#E4E5E7]"
                 >
                   Close
                 </Button>
-                <Button type="submit" disabled={importing || !importFile} variant="filled">
+                <Button type="submit" disabled={importing || !importFile} variant="primary">
                   {importing ? 'Processing & Vectorizing...' : 'Upload & Import'}
                 </Button>
               </div>
