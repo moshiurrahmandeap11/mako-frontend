@@ -3,9 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Eye, EyeOff, Zap } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
-import NetworkWave from '@/components/NetworkWave';
 import Button from '@/components/Button';
 import Logo from '@/components/Logo';
 
@@ -66,56 +65,51 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0B132B] text-slate-100 flex items-center justify-center p-4">
-      {/* Background Wave */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-30">
-        <NetworkWave />
-      </div>
-
+    <div className="relative min-h-screen bg-[#F7F7F7] text-[#222325] flex items-center justify-center p-4">
       {/* Header/Logo */}
       <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20">
         <Logo href="/" size="md" />
       </div>
 
-      <div className="relative z-10 w-full max-w-md bg-[#131D38] backdrop-blur-md border border-[#39FF88]/25 rounded-2xl p-8 shadow-2xl">
+      <div className="relative z-10 w-full max-w-md bg-white border border-[#E4E5E7] rounded-2xl p-8 shadow-xl">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-extrabold tracking-tight text-white">Create Merchant Account</h1>
-          <p className="text-slate-300 text-sm mt-2">Start engaging store visitors with AI in 2 minutes</p>
+          <h1 className="text-2xl font-extrabold tracking-tight text-[#222325]">Create Merchant Account</h1>
+          <p className="text-[#62646A] text-sm mt-2">Start engaging store visitors with AI in 2 minutes</p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-sm font-semibold">
+          <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-sm font-semibold">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Store / Business Name</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-2">Store / Business Name</label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Aura Fashion Store"
-              className="w-full px-4 py-3 bg-[#0B132B] border border-[#39FF88]/20 rounded-xl focus:outline-none focus:border-[#39FF88] text-white placeholder-slate-500 text-sm transition-colors"
+              className="w-full px-4 py-3 bg-white border border-[#E4E5E7] rounded-xl focus:outline-none focus:border-[#1DBF73] text-[#222325] placeholder-[#74767E] text-sm transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Work Email Address</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-2">Work Email Address</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="merchant@store.com"
-              className="w-full px-4 py-3 bg-[#0B132B] border border-[#39FF88]/20 rounded-xl focus:outline-none focus:border-[#39FF88] text-white placeholder-slate-500 text-sm transition-colors"
+              className="w-full px-4 py-3 bg-white border border-[#E4E5E7] rounded-xl focus:outline-none focus:border-[#1DBF73] text-[#222325] placeholder-[#74767E] text-sm transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Password</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-2">Password</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -123,12 +117,12 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 bg-[#0B132B] border border-[#39FF88]/20 rounded-xl focus:outline-none focus:border-[#39FF88] text-white placeholder-slate-500 text-sm transition-colors pr-10"
+                className="w-full px-4 py-3 bg-white border border-[#E4E5E7] rounded-xl focus:outline-none focus:border-[#1DBF73] text-[#222325] placeholder-[#74767E] text-sm transition-colors pr-10"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#74767E] hover:text-[#222325]"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -140,17 +134,17 @@ export default function RegisterPage() {
             isLoading={loading}
             variant="primary"
             size="lg"
-            className="w-full"
+            className="w-full justify-center"
           >
             Create Account Free
           </Button>
         </form>
 
-        <div className="relative my-6 text-center text-xs text-slate-400">
+        <div className="relative my-6 text-center text-xs text-[#74767E]">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-[#39FF88]/15" />
+            <div className="w-full border-t border-[#E4E5E7]" />
           </div>
-          <span className="relative px-3 bg-[#131D38] text-slate-400 uppercase tracking-widest text-[10px] font-bold">
+          <span className="relative px-3 bg-white text-[#74767E] uppercase tracking-widest text-[10px] font-bold">
             Or continue with
           </span>
         </div>
@@ -159,7 +153,7 @@ export default function RegisterPage() {
           type="button"
           variant="secondary"
           size="lg"
-          className="w-full"
+          className="w-full justify-center text-[#222325] border-[#E4E5E7] hover:bg-slate-50"
           onClick={() => handleSocialLogin('google')}
           icon={
             <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -185,9 +179,9 @@ export default function RegisterPage() {
           Google SSO
         </Button>
 
-        <p className="text-center text-xs text-slate-400 mt-6">
+        <p className="text-center text-xs text-[#62646A] mt-6">
           Already have an account?{' '}
-          <Link href="/login" className="text-[#39FF88] font-bold hover:underline">
+          <Link href="/login" className="text-[#1DBF73] font-bold hover:underline">
             Sign In
           </Link>
         </p>
