@@ -152,17 +152,17 @@ export default function BillingPage() {
     <div className="space-y-8">
       {/* Page Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-          <CreditCard className="w-6 h-6 text-[#39FF88]" />
+        <h1 className="text-2xl font-bold text-[#222325] flex items-center gap-2">
+          <CreditCard className="w-6 h-6 text-[#1DBF73]" />
           Billing & Subscription Plan
         </h1>
-        <p className="text-slate-400 text-xs mt-1">
+        <p className="text-[#62646A] text-xs mt-1">
           Manage your Labto AI subscription, Polar.sh billing portal, and quota limits.
         </p>
       </div>
 
       {error && (
-        <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs rounded-xl flex items-center gap-3">
+        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-600 text-xs rounded-xl flex items-center gap-3">
           <ShieldAlert className="w-5 h-5 shrink-0" />
           <span>{error}</span>
         </div>
@@ -172,35 +172,35 @@ export default function BillingPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Active Subscription Card */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="p-8 bg-[#0B132B]/80 border border-white/[0.08] rounded-2xl relative overflow-hidden shadow-2xl backdrop-blur-sm">
+          <div className="p-8 bg-white border border-[#E4E5E7] rounded-2xl relative overflow-hidden shadow-sm">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-bold text-[#39FF88] uppercase tracking-widest bg-[#39FF88]/10 border border-[#39FF88]/20 px-3 py-1 rounded">
+                <span className="text-[10px] font-bold text-[#1DBF73] uppercase tracking-widest bg-[#E8F8F0] border border-[#1DBF73]/20 px-3 py-1 rounded-full">
                   Current active plan
                 </span>
-                <h2 className="text-3xl font-extrabold text-white tracking-tight mt-4">
+                <h2 className="text-3xl font-extrabold text-[#222325] tracking-tight mt-4">
                   {currentTier} PLAN
                 </h2>
-                <p className="text-slate-300 text-xs mt-2 leading-relaxed max-w-md">
+                <p className="text-[#62646A] text-xs mt-2 leading-relaxed max-w-md">
                   {limits.desc}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Status</p>
-                <p className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mt-1 uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <p className="text-[10px] text-[#74767E] font-bold uppercase tracking-wider">Status</p>
+                <p className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/20 mt-1 uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#1DBF73] animate-pulse" />
                   {merchant?.subscriptionStatus || 'Active'}
                 </p>
               </div>
             </div>
 
             {/* Current Tier Features List */}
-            <div className="mt-8 pt-8 border-t border-white/[0.08] space-y-4">
-              <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">Plan Inclusions:</h3>
+            <div className="mt-8 pt-8 border-t border-[#E4E5E7] space-y-4">
+              <h3 className="text-xs font-bold text-[#222325] uppercase tracking-wider">Plan Inclusions:</h3>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {limits.features.map((feat, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-300 leading-relaxed">
-                    <ShieldCheck className="w-4 h-4 text-[#39FF88] shrink-0 mt-0.5" />
+                  <li key={idx} className="flex items-start gap-2.5 text-xs text-[#404145] leading-relaxed">
+                    <ShieldCheck className="w-4 h-4 text-[#1DBF73] shrink-0 mt-0.5" />
                     <span>{feat}</span>
                   </li>
                 ))}
@@ -208,7 +208,7 @@ export default function BillingPage() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="mt-8 pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center gap-4">
+            <div className="mt-8 pt-8 border-t border-[#E4E5E7] flex flex-col sm:flex-row items-center gap-4">
               {isFree ? (
                 <Button href="/pricing" variant="primary">
                   <span className="flex items-center gap-2">
@@ -218,11 +218,11 @@ export default function BillingPage() {
                 </Button>
               ) : (
                 <>
-                  <Button onClick={handleManageBilling} disabled={actionLoading} variant="outline">
+                  <Button onClick={handleManageBilling} disabled={actionLoading} variant="outline" className="text-[#222325] border-[#E4E5E7]">
                     <span className="flex items-center gap-2">
                       {actionLoading ? (
                         <>
-                          <Loader2 className="w-4 h-4 animate-spin text-[#39FF88]" />
+                          <Loader2 className="w-4 h-4 animate-spin text-[#1DBF73]" />
                           <span>Opening Portal...</span>
                         </>
                       ) : (
@@ -233,7 +233,7 @@ export default function BillingPage() {
                       )}
                     </span>
                   </Button>
-                  <Button href="/pricing" variant="secondary">
+                  <Button href="/pricing" variant="secondary" className="text-[#222325] border-[#E4E5E7]">
                     <span className="flex items-center gap-2">
                       <span>Change Plan / Upgrade</span>
                       <ArrowRight className="w-4 h-4" />
@@ -246,22 +246,22 @@ export default function BillingPage() {
         </div>
 
         {/* Invoice & Payment History */}
-        <div className="lg:col-span-5 bg-[#0B132B]/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-4">
-          <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#39FF88]" />
+        <div className="lg:col-span-5 bg-white border border-[#E4E5E7] rounded-2xl p-6 shadow-sm space-y-4">
+          <div className="flex items-center justify-between border-b border-[#E4E5E7] pb-3">
+            <h2 className="text-base font-bold text-[#222325] flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#1DBF73]" />
               Polar.sh Subscription Summary
             </h2>
           </div>
 
-          <div className="divide-y divide-white/[0.06]">
+          <div className="divide-y divide-[#E4E5E7]">
             {loadingInvoices ? (
               <div className="space-y-3 py-2">
                 <Skeleton className="h-10 w-full rounded-lg" />
                 <Skeleton className="h-10 w-full rounded-lg" />
               </div>
             ) : invoices.length === 0 ? (
-              <div className="py-8 text-center text-xs text-slate-500">
+              <div className="py-8 text-center text-xs text-[#74767E]">
                 No active subscription invoices found.
               </div>
             ) : (
@@ -272,12 +272,12 @@ export default function BillingPage() {
                 return (
                   <div key={inv.id} className="py-3 flex items-center justify-between">
                     <div>
-                      <p className="text-xs font-bold text-white">{inv.number}</p>
-                      <p className="text-[10px] text-slate-400">{formattedDate}</p>
+                      <p className="text-xs font-bold text-[#222325]">{inv.number}</p>
+                      <p className="text-[10px] text-[#74767E]">{formattedDate}</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xs font-bold text-white">${formattedAmount} {inv.currency || 'USD'}</span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#39FF88]/15 text-[#39FF88]">
+                      <span className="text-xs font-bold text-[#222325]">${formattedAmount} {inv.currency || 'USD'}</span>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#E8F8F0] text-[#1DBF73]">
                         {inv.status.toUpperCase()}
                       </span>
                     </div>
