@@ -4,11 +4,9 @@ import Button from "@/components/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
-  Camera,
   Database,
   FileText,
   ShoppingCart,
-  Sliders,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -98,47 +96,6 @@ LIMIT 5;`,
       footnote:
         "* Strict truth grounding ensuring zero fabricated responses for store policies.",
     },
-    {
-      id: "ar-tryon",
-      tabLabel: "WebAssembly AR Fitting Room",
-      tabBadge: "60 FPS",
-      icon: Camera,
-      title: "Client-Side AR Engine",
-      headline: "Real-time 60 FPS body landmark estimation.",
-      description:
-        "Executes 33-point body and pose landmark tracking 100% inside the customer’s browser GPU via WebAssembly with zero remote cloud server costs.",
-      ctaText: "Test AR Sandbox",
-      ctaHref: "/features/ar-tryon",
-      secondaryText: "$0.00 Server GPU Fees",
-      codeHeader: "MediaPipe Pose WASM Hook",
-      codeSnippet: `const { isTracking, bodyLandmarks } = useVirtualTryOn({
-  modelPath: '/models/mediapipe-pose.wasm',
-  targetCategory: 'apparel-upper-body'
-});`,
-      footnote:
-        "* Real-time browser computer vision with total camera stream privacy.",
-    },
-    {
-      id: "customizer",
-      tabLabel: "No-Code Widget Customizer",
-      tabBadge: "Real-Time",
-      icon: Sliders,
-      title: "Visual Theme Simulator",
-      headline: "Brand colors and placement with live simulator.",
-      description:
-        "Customize launcher icons, brand color themes, greeting messages, and corner placement in real time with an instant iframe test sandbox.",
-      ctaText: "Open Customizer",
-      ctaHref: "/features/widget-customizer",
-      secondaryText: "0 Lines CSS Needed",
-      codeHeader: "Widget Configuration Payload",
-      codeSnippet: `const settings = {
-  primaryColor: '#39FF88',
-  backgroundColor: '#0B132B',
-  title: 'Store Concierge AI',
-  position: 'bottom-right'
-};`,
-      footnote: "* Instant synchronization to active live shopper sessions.",
-    },
   ];
 
   const activeItem =
@@ -147,63 +104,91 @@ LIMIT 5;`,
 
   return (
     <section
-      id="about"
-      className=" px-4 sm:px-6 border-t border-white/[0.06] bg-[#080E21] relative"
+      id="technology"
+      className="py-20 px-4 sm:px-6 bg-white border-t border-[#E4E5E7] relative"
     >
-      <div className="max-w-7xl mx-auto space-y-10 relative z-10">
+      <div className="w-11/12 lg:w-10/12 max-w-10/12 max-w-7xl mx-auto space-y-10 relative z-10">
         {/* Section Header */}
-        <div className="text-left max-w-7xl mx-auto space-y-3">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight">
-            Built on the Modern AI Stack
+        <div className="text-left max-w-7xl mx-auto space-y-2">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#222325] tracking-tight">
+            Next-Gen Architecture & Integration
           </h2>
-          <p className="text-slate-400 text-xs sm:text-sm font-normal">
-            Select a core engine module to explore its underlying architecture.
+          <p className="text-[#62646A] text-xs sm:text-sm font-normal leading-relaxed">
+            Engineered with pgvector indexing, decoupled iframe security, and
+            Gemini 2.0 Flash speed.
           </p>
         </div>
 
-        {/* ========================================================================= */}
-        {/* TABBED COMPONENT (FOLLOWING USER'S SCREENSHOT REFERENCE DESIGN) */}
-        {/* ========================================================================= */}
-        <div className="rounded-3xl bg-[#0B132B] border border-white/[0.08] p-3 sm:p-4 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-stretch">
-          {/* Left Column: Vertical Stack of Pills/Tabs (4 cols) */}
-          <div className="lg:col-span-4 flex flex-col justify-between gap-2">
-            {techItems.map((item) => {
-              const isActive = item.id === activeTabId;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTabId(item.id)}
-                  className={`w-full text-left p-3.5 sm:p-4 rounded-2xl transition-all duration-200 flex items-center justify-between gap-3 cursor-pointer ${
-                    isActive
-                      ? "bg-[#131D38] border border-[#39FF88]/40 shadow-lg text-white font-medium scale-[1.01]"
-                      : "bg-white/[0.02] border border-white/[0.04] text-slate-400 hover:text-slate-200 hover:bg-white/[0.04] hover:border-white/[0.08]"
-                  }`}
-                >
-                  <span className="text-xs sm:text-sm font-medium">
-                    {item.tabLabel}
-                  </span>
+        {/* Interactive Workspace Container */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-[#F7F7F7] border border-[#E4E5E7] shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Left Column: Vertical Selection Tabs (4 cols) */}
+          <div className="lg:col-span-4 flex flex-col justify-between space-y-2">
+            <div className="space-y-2">
+              {techItems.map((item) => {
+                const ItemIcon = item.icon;
+                const isActive = item.id === activeTabId;
 
-                  <span
-                    className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shrink-0 ${
-                      item.badgeType === "popular"
-                        ? "bg-[#39FF88] text-[#0B132B]"
-                        : isActive
-                          ? "bg-[#39FF88]/15 text-[#39FF88] border border-[#39FF88]/30"
-                          : "bg-white/[0.05] text-slate-400"
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTabId(item.id)}
+                    className={`w-full text-left p-4 rounded-2xl transition-all duration-200 flex items-center justify-between border cursor-pointer ${
+                      isActive
+                        ? "bg-white border-2 border-[#1DBF73] shadow-md shadow-[#1DBF73]/10"
+                        : "bg-white/60 border-[#E4E5E7] hover:bg-white text-[#62646A]"
                     }`}
                   >
-                    {item.tabBadge}
-                  </span>
-                </button>
-              );
-            })}
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                          isActive
+                            ? "bg-[#E8F8F0] text-[#1DBF73] font-bold"
+                            : "bg-[#F7F7F7] text-[#74767E]"
+                        }`}
+                      >
+                        <ItemIcon className="w-4.5 h-4.5" />
+                      </div>
+                      <div>
+                        <p
+                          className={`text-xs font-bold ${
+                            isActive ? "text-[#222325]" : "text-[#404145]"
+                          }`}
+                        >
+                          {item.tabLabel}
+                        </p>
+                      </div>
+                    </div>
+
+                    <span
+                      className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+                        item.badgeType === "popular"
+                          ? "bg-[#E8F8F0] text-[#1DBF73] border-[#1DBF73]/30 font-bold"
+                          : isActive
+                            ? "bg-[#E8F8F0] text-[#1DBF73] border-[#1DBF73]/20 font-bold"
+                            : "bg-[#F7F7F7] text-[#74767E] border-[#E4E5E7]"
+                      }`}
+                    >
+                      {item.tabBadge}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Quick Summary Footnote */}
+            <div className="p-4 rounded-2xl bg-white border border-[#E4E5E7] text-[11px] text-[#62646A] space-y-1.5 shadow-sm hidden lg:block">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#1DBF73] block">
+                Store Integration SLA
+              </span>
+              <p>
+                Asynchronous lightweight script payload under 40KB gzip with
+                instant hydration.
+              </p>
+            </div>
           </div>
 
           {/* Right Column: Active Item Panel (8 cols) */}
-          <div className="lg:col-span-8 rounded-2xl bg-[#131D38] border border-white/[0.06] p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden text-left shadow-inner">
-            {/* Subtle background radial ambient */}
-            <div className="absolute top-0 right-0 w-80 h-80 bg-[#39FF88]/5 rounded-full blur-3xl pointer-events-none" />
-
+          <div className="lg:col-span-8 rounded-2xl bg-white border border-[#E4E5E7] p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden text-left shadow-sm">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeItem.id}
@@ -216,46 +201,46 @@ LIMIT 5;`,
                 {/* Header Icon + Module Title */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#0B132B] border border-[#39FF88]/30 flex items-center justify-center text-[#39FF88]">
+                    <div className="w-10 h-10 rounded-xl bg-[#E8F8F0] border border-[#1DBF73]/30 flex items-center justify-center text-[#1DBF73]">
                       <IconComponent className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#39FF88]">
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#1DBF73]">
                         {activeItem.title}
                       </span>
                     </div>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white tracking-tight">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#222325] tracking-tight">
                     {activeItem.headline}
                   </h3>
 
-                  <p className="text-slate-300 text-xs sm:text-sm font-normal leading-relaxed max-w-2xl">
+                  <p className="text-[#62646A] text-xs sm:text-sm font-normal leading-relaxed max-w-2xl">
                     {activeItem.description}
                   </p>
                 </div>
 
-                {/* Code / Architecture Box */}
-                <div className="bg-[#080E21] border border-white/[0.06] rounded-xl p-4 font-mono text-xs overflow-hidden shadow-inner">
-                  <div className="flex items-center justify-between border-b border-white/[0.06] pb-2 mb-3">
-                    <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">
+                {/* Code / Architecture Box (Clean Light Theme) */}
+                <div className="bg-[#F7F7F7] border border-[#E4E5E7] rounded-xl p-4 font-mono text-xs overflow-hidden shadow-inner">
+                  <div className="flex items-center justify-between border-b border-[#E4E5E7] pb-2 mb-3">
+                    <span className="text-[10px] uppercase tracking-wider text-[#74767E] font-bold">
                       {activeItem.codeHeader}
                     </span>
-                    <span className="text-[10px] font-mono text-[#39FF88]">
+                    <span className="text-[10px] font-mono text-[#1DBF73] font-bold bg-[#E8F8F0] px-2 py-0.5 rounded-full border border-[#1DBF73]/20">
                       Production Ready
                     </span>
                   </div>
 
-                  <pre className="text-[11px] text-slate-300 overflow-x-auto leading-relaxed select-all">
+                  <pre className="text-[11px] text-[#222325] overflow-x-auto leading-relaxed select-all bg-white p-3 rounded-lg border border-[#E4E5E7]">
                     <code>{activeItem.codeSnippet}</code>
                   </pre>
 
-                  <div className="mt-3 pt-2 border-t border-white/[0.04] text-[10px] text-slate-400 font-sans">
+                  <div className="mt-3 pt-2 border-t border-[#E4E5E7] text-[10px] text-[#74767E] font-sans">
                     {activeItem.footnote}
                   </div>
                 </div>
 
-                {/* Action CTA & Badge (Matching Screenshot's "Start Free Trial + Price/Note" pattern) */}
+                {/* Action CTA & Badge */}
                 <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <Button
@@ -269,9 +254,9 @@ LIMIT 5;`,
                     </Button>
                   </div>
 
-                  <span className="text-xs text-slate-400 font-normal">
+                  <span className="text-xs text-[#74767E] font-normal">
                     Performance:{" "}
-                    <strong className="text-[#39FF88] font-semibold">
+                    <strong className="text-[#1DBF73] font-bold">
                       {activeItem.secondaryText}
                     </strong>
                   </span>
