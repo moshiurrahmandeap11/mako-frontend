@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Button from '@/components/Button';
-import { Volume2, VolumeX } from 'lucide-react';
+import { Volume2, VolumeX, Sparkles, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function HeroSection() {
@@ -22,19 +22,117 @@ export default function HeroSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setWordIndex((prev) => (prev + 1) % dynamicWords.length);
-    }, 2200);
+    }, 2400);
     return () => clearInterval(interval);
   }, [dynamicWords.length]);
 
   return (
-    <section className="relative pt-24 sm:pt-28 pb-12 px-2 overflow-hidden">
-      {/* Background Radial Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(57,255,136,0.08),transparent_70%)] pointer-events-none" />
+    <section className="relative pt-28 sm:pt-32 pb-16 overflow-hidden bg-white">
+      <div className="w-11/12 lg:w-10/12 max-w-10/12 max-w-7xl mx-auto space-y-10 text-center">
+        {/* Top Feature Tag */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E8F8F0] border border-[#1DBF73]/30 text-[#1DBF73] text-xs font-bold uppercase tracking-wider"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-[#1DBF73]" />
+          <span>Next-Gen Autonomous E-Commerce</span>
+        </motion.div>
 
-      <div className="max-w-7xl mx-auto w-full relative z-10">
-        {/* Full-Width Video Frame Container */}
-        <div className="relative w-full rounded-md overflow-hidden p-1.5 sm:p-2">
-          {/* HTML5 Video with ref */}
+        {/* Commanding Fiverr-Style Headline */}
+        <div className="max-w-4xl mx-auto space-y-4">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#222325] tracking-tight leading-[1.12]"
+          >
+            Find the right AI assistant for your{' '}
+            <span className="relative inline-block text-[#1DBF73]">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={wordIndex}
+                  initial={{ y: 15, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -15, opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="inline-block"
+                >
+                  {dynamicWords[wordIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-base sm:text-lg text-[#62646A] max-w-2xl mx-auto font-normal leading-relaxed"
+          >
+            Convert more visitors with sub-second pgvector search, zero-hallucination policy answers, and 1-click cart injection.
+          </motion.p>
+        </div>
+
+        {/* Fiverr-Style Action Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex flex-wrap items-center justify-center gap-3 pt-2"
+        >
+          <Button
+            href="/register"
+            variant="primary"
+            size="lg"
+            className="px-8 py-3.5 text-sm font-bold shadow-md shadow-[#1DBF73]/20"
+          >
+            <span className="flex items-center gap-2">
+              Start Free Trial
+              <ArrowRight className="w-4 h-4" />
+            </span>
+          </Button>
+
+          <Button
+            href="/contact"
+            variant="secondary"
+            size="lg"
+            className="px-7 py-3.5 text-sm font-bold bg-white text-[#222325] border-[#E4E5E7] hover:border-[#1DBF73] hover:text-[#1DBF73]"
+          >
+            Partner with us
+          </Button>
+        </motion.div>
+
+        {/* Feature Trust Badges */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="flex flex-wrap items-center justify-center gap-6 text-xs text-[#74767E] pt-1 font-medium"
+        >
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="w-4 h-4 text-[#1DBF73]" />
+            Free 1,500 credits to test
+          </span>
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="w-4 h-4 text-[#1DBF73]" />
+            1-minute script embed
+          </span>
+          <span className="flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-[#1DBF73]" />
+            Zero credit expiration rollover
+          </span>
+        </motion.div>
+
+        {/* Full-Width Showcase Video Frame */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.45 }}
+          className="relative w-full rounded-2xl overflow-hidden p-2 bg-white border border-[#E4E5E7] shadow-2xl shadow-black/[0.06] text-left"
+        >
+          {/* HTML5 Showcase Video */}
           <video
             ref={videoRef}
             src="/hero.mp4"
@@ -42,57 +140,30 @@ export default function HeroSection() {
             loop
             muted={isMuted}
             playsInline
-            className="w-full h-115 sm:h-135 lg:h-150 object-cover rounded-md"
+            className="w-full h-[360px] sm:h-[480px] lg:h-[580px] object-cover rounded-xl"
           />
-          <div className="absolute bottom-5 sm:bottom-8 left-5 sm:left-8 right-16 sm:right-auto z-20 space-y-2.5 max-w-lg text-left">
-            {/* Dynamic Rotating Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-base sm:text-lg lg:text-xl text-white tracking-tight flex flex-wrap items-center gap-x-1.5"
-            >
-              <span>AI Assistant for your</span>
-              <span className="relative inline-block text-ai-green underline decoration-ai-green/60 underline-offset-4 font-bold">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={wordIndex}
-                    initial={{ y: 10, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -10, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="inline-block"
-                  >
-                    {dynamicWords[wordIndex]}
-                  </motion.span>
-                </AnimatePresence>
-              </span>
-            </motion.h1>
 
-            {/* Action CTAs */}
-            <div className="flex flex-wrap items-center gap-2.5">
-              <Button href="/register" variant="primary" size="sm">
-                Start Free Trial
-              </Button>
-              <Button href="/contact" variant="secondary" size="sm">
-                Partner with us
-              </Button>
-            </div>
+          {/* Video Bottom Left Live Status Pill */}
+          <div className="absolute bottom-6 left-6 z-20 hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-xl border border-[#E4E5E7] shadow-lg">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#1DBF73] animate-pulse" />
+            <span className="text-xs font-bold text-[#222325]">
+              Live Storefront AI Assistant Active
+            </span>
           </div>
 
           {/* Sound Mute/Unmute Toggle Button */}
           <button
             onClick={toggleSound}
-            className="absolute bottom-5 sm:bottom-8 right-5 sm:right-8 z-20 p-2.5 rounded-full bg-prompt-blue/80 text-ai-green transition-all backdrop-blur-md shadow-2xl flex items-center gap-2 group cursor-pointer"
+            className="absolute bottom-6 right-6 z-20 p-3 rounded-full bg-white/95 text-[#222325] hover:text-[#1DBF73] transition-all backdrop-blur-md shadow-lg border border-[#E4E5E7] flex items-center gap-2 group cursor-pointer"
             title={isMuted ? "Unmute Audio" : "Mute Audio"}
           >
             {isMuted ? (
               <VolumeX className="w-4 h-4" />
             ) : (
-              <Volume2 className="w-4 h-4" />
+              <Volume2 className="w-4 h-4 text-[#1DBF73]" />
             )}
           </button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
