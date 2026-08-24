@@ -43,9 +43,9 @@ export default function NetworkWave() {
 
     particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    // Particle material (#39FF88 AI Green)
+    // Particle material (#1DBF73 Fiverr Green)
     const particleMaterial = new THREE.PointsMaterial({
-      color: 0x39ff88,
+      color: 0x1dbf73,
       size: 1.5,
       transparent: true,
       opacity: 0.8,
@@ -56,9 +56,9 @@ export default function NetworkWave() {
 
     // Lines geometry (updated dynamically)
     const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0x39ff88,
+      color: 0x1dbf73,
       transparent: true,
-      opacity: 0.25,
+      opacity: 0.2,
     });
     
     // We will use a lines object with a maximum possible number of segments
