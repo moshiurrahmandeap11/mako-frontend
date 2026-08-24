@@ -41,8 +41,8 @@ export default function HeroSection() {
   }, [dynamicWords.length]);
 
   return (
-    <section className="relative pt-6 pb-20 overflow-hidden bg-white">
-      <div className="w-11/12 lg:w-9/12 max-w-9/12 mx-auto space-y-10 text-center">
+    <section className="relative pt-6 overflow-hidden bg-white">
+      <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto space-y-10 text-center">
         {/* Commanding Fiverr-Style Headline */}
         <div className="max-w-4xl mx-auto space-y-4">
           <motion.h1
@@ -84,7 +84,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-wrap items-center justify-center gap-3 pt-2"
+          className="flex flex-wrap items-center justify-center gap-3"
         >
           <Button
             href="/pricing"
