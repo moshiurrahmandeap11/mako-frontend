@@ -2,12 +2,7 @@
 
 import Button from "@/components/Button";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowRight,
-  Database,
-  FileText,
-  ShoppingCart,
-} from "lucide-react";
+import { ArrowRight, Database, FileText, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
 interface TechItem {
@@ -103,24 +98,21 @@ LIMIT 5;`,
   const IconComponent = activeItem.icon;
 
   return (
-    <section
-      id="technology"
-      className="py-20 px-4 sm:px-6 bg-white border-t border-[#E4E5E7] relative"
-    >
-      <div className="w-11/12 lg:w-9/12 max-w-9/12 max-w-7xl mx-auto space-y-10 relative z-10">
+    <section id="technology" className="py-6 bg-white relative">
+      <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto space-y-10 relative z-10">
         {/* Section Header */}
-        <div className="text-left max-w-7xl mx-auto space-y-2">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#222325] tracking-tight">
+        <div className="text-left space-y-2">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-text-main tracking-tight">
             Next-Gen Architecture & Integration
           </h2>
-          <p className="text-[#62646A] text-xs sm:text-sm font-normal leading-relaxed">
+          <p className="text-[#62646A] text-xs sm:text-sm leading-relaxed">
             Engineered with pgvector indexing, decoupled iframe security, and
             Gemini 2.0 Flash speed.
           </p>
         </div>
 
         {/* Interactive Workspace Container */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#F7F7F7] border border-[#E4E5E7] shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="p-6 sm:p-8 rounded-md bg-surface-light grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left Column: Vertical Selection Tabs (4 cols) */}
           <div className="lg:col-span-4 flex flex-col justify-between space-y-2">
             <div className="space-y-2">
@@ -132,52 +124,40 @@ LIMIT 5;`,
                   <button
                     key={item.id}
                     onClick={() => setActiveTabId(item.id)}
-                    className={`w-full text-left p-4 rounded-2xl transition-all duration-200 flex items-center justify-between border cursor-pointer ${
+                    className={`w-full text-left p-4 rounded-md transition-all duration-200 flex items-center justify-between border cursor-pointer ${
                       isActive
                         ? "bg-white border-2 border-[#1DBF73] shadow-md shadow-[#1DBF73]/10"
-                        : "bg-white/60 border-[#E4E5E7] hover:bg-white text-[#62646A]"
+                        : "bg-white/60 border-border-light hover:bg-white text-[#62646A]"
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <div
-                        className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                        className={`w-9 h-9 rounded-md flex items-center justify-center transition-colors ${
                           isActive
-                            ? "bg-[#E8F8F0] text-[#1DBF73] font-bold"
-                            : "bg-[#F7F7F7] text-[#74767E]"
+                            ? "text-[#1DBF73]"
+                            : "bg-surface-light text-text-muted"
                         }`}
                       >
                         <ItemIcon className="w-4.5 h-4.5" />
                       </div>
                       <div>
                         <p
-                          className={`text-xs font-bold ${
-                            isActive ? "text-[#222325]" : "text-[#404145]"
+                          className={`text-sm ${
+                            isActive ? "text-text-main" : "text-text-body"
                           }`}
                         >
                           {item.tabLabel}
                         </p>
                       </div>
                     </div>
-
-                    <span
-                      className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
-                        item.badgeType === "popular"
-                          ? "bg-[#E8F8F0] text-[#1DBF73] border-[#1DBF73]/30 font-bold"
-                          : isActive
-                            ? "bg-[#E8F8F0] text-[#1DBF73] border-[#1DBF73]/20 font-bold"
-                            : "bg-[#F7F7F7] text-[#74767E] border-[#E4E5E7]"
-                      }`}
-                    >
-                      {item.tabBadge}
-                    </span>
                   </button>
                 );
               })}
             </div>
 
             {/* Quick Summary Footnote */}
-            <div className="p-4 rounded-2xl bg-white border border-[#E4E5E7] text-[11px] text-[#62646A] space-y-1.5 shadow-sm hidden lg:block">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#1DBF73] block">
+            <div className="p-4 rounded-md bg-white text-[11px] text-[#62646A] space-y-1.5  hidden lg:block">
+              <span className="text-sm font-semibold tracking-wider  block">
                 Store Integration SLA
               </span>
               <p>
@@ -188,7 +168,7 @@ LIMIT 5;`,
           </div>
 
           {/* Right Column: Active Item Panel (8 cols) */}
-          <div className="lg:col-span-8 rounded-2xl bg-white border border-[#E4E5E7] p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden text-left shadow-sm">
+          <div className="lg:col-span-8 rounded-md bg-white p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden text-left">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeItem.id}
@@ -201,41 +181,38 @@ LIMIT 5;`,
                 {/* Header Icon + Module Title */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#E8F8F0] border border-[#1DBF73]/30 flex items-center justify-center text-[#1DBF73]">
+                    <div className="w-10 h-10 rounded-md flex items-center justify-center">
                       <IconComponent className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#1DBF73]">
+                      <span className="text-sm tracking-widest">
                         {activeItem.title}
                       </span>
                     </div>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#222325] tracking-tight">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-medium text-text-main tracking-tight">
                     {activeItem.headline}
                   </h3>
 
-                  <p className="text-[#62646A] text-xs sm:text-sm font-normal leading-relaxed max-w-2xl">
+                  <p className="text-[#62646A] text-xs sm:text-sm leading-relaxed max-w-2xl">
                     {activeItem.description}
                   </p>
                 </div>
 
                 {/* Code / Architecture Box (Clean Light Theme) */}
-                <div className="bg-[#F7F7F7] border border-[#E4E5E7] rounded-xl p-4 font-mono text-xs overflow-hidden shadow-inner">
-                  <div className="flex items-center justify-between border-b border-[#E4E5E7] pb-2 mb-3">
-                    <span className="text-[10px] uppercase tracking-wider text-[#74767E] font-bold">
+                <div className="bg-surface-light rounded-md p-4 text-xs overflow-hidden">
+                  <div className="flex items-center justify-between border-b border-border-light pb-2 mb-3">
+                    <span className="text-xs tracking-wider text-text-muted font-medium">
                       {activeItem.codeHeader}
-                    </span>
-                    <span className="text-[10px] font-mono text-[#1DBF73] font-bold bg-[#E8F8F0] px-2 py-0.5 rounded-full border border-[#1DBF73]/20">
-                      Production Ready
                     </span>
                   </div>
 
-                  <pre className="text-[11px] text-[#222325] overflow-x-auto leading-relaxed select-all bg-white p-3 rounded-lg border border-[#E4E5E7]">
+                  <pre className="text-[11px] text-text-main overflow-x-auto leading-relaxed select-all bg-white p-3 rounded-md">
                     <code>{activeItem.codeSnippet}</code>
                   </pre>
 
-                  <div className="mt-3 pt-2 border-t border-[#E4E5E7] text-[10px] text-[#74767E] font-sans">
+                  <div className="mt-3 pt-2 border-t border-border-light text-[10px] text-text-muted">
                     {activeItem.footnote}
                   </div>
                 </div>
@@ -246,20 +223,13 @@ LIMIT 5;`,
                     <Button
                       href={activeItem.ctaHref}
                       variant="primary"
-                      size="sm"
+                      size="md"
                       icon={<ArrowRight className="w-3.5 h-3.5" />}
                       iconPosition="right"
                     >
                       {activeItem.ctaText}
                     </Button>
                   </div>
-
-                  <span className="text-xs text-[#74767E] font-normal">
-                    Performance:{" "}
-                    <strong className="text-[#1DBF73] font-bold">
-                      {activeItem.secondaryText}
-                    </strong>
-                  </span>
                 </div>
               </motion.div>
             </AnimatePresence>

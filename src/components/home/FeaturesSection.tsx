@@ -24,10 +24,7 @@ export default function FeaturesSection() {
   };
 
   return (
-    <section
-      id="features"
-      className="py-6 border-t border-border-light bg-surface-light relative"
-    >
+    <section id="features" className="py-6 bg-surface-light relative">
       <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto space-y-10 relative z-10">
         {/* Section Header */}
         <div className="text-left space-y-2">
@@ -48,7 +45,7 @@ export default function FeaturesSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="rounded-md bg-white border border-border-light overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-8 items-center"
+              className="rounded-md bg-white overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-8 items-center"
             >
               {/* Left Column: Feature Info (5 cols) */}
               <div className="lg:col-span-5 space-y-5 text-left">
@@ -96,7 +93,7 @@ export default function FeaturesSection() {
                   <Button
                     href={`/features/${activeFeature.slug}`}
                     variant="primary"
-                    size="sm"
+                    size="md"
                     icon={<ArrowRight className="w-3.5 h-3.5" />}
                     iconPosition="right"
                   >
@@ -105,7 +102,7 @@ export default function FeaturesSection() {
                   <Button
                     href="/register"
                     variant="secondary"
-                    size="sm"
+                    size="md"
                     className="text-text-body border-border-light hover:bg-slate-50"
                   >
                     Try in Sandbox
