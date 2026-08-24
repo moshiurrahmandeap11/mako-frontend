@@ -1,26 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0B132B;
-  --foreground: #F8FAFC;
-  --prompt-blue: #0B132B;
-  --surface-navy: #131D38;
-  --surface-hover: #1C2B4E;
-  --ai-green: #39FF88;
-  --ai-green-dark: #00CC66;
-  --ai-green-glow: rgba(57, 255, 136, 0.15);
-  --text-muted: #94A3B8;
+  --background: #FFFFFF;
+  --foreground: #222325;
+  --surface-white: #FFFFFF;
+  --surface-light: #F7F7F7;
+  --surface-hover: #F0F2F5;
+  --border-light: #E4E5E7;
+  --border-subtle: #EDEDED;
+  --ai-green: #1DBF73;
+  --ai-green-dark: #19A463;
+  --ai-green-darker: #14844E;
+  --ai-green-glow: rgba(29, 191, 115, 0.15);
+  --ai-green-tint: #E8F8F0;
+  --text-main: #222325;
+  --text-body: #404145;
+  --text-muted: #74767E;
+  --fiverr-green: #1DBF73;
+  --fiverr-dark: #19A463;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-prompt-blue: #0B132B;
-  --color-surface-navy: #131D38;
-  --color-surface-hover: #1C2B4E;
-  --color-ai-green: #39FF88;
-  --color-ai-green-dark: #00CC66;
-  --color-text-muted: #94A3B8;
+  --color-surface-white: #FFFFFF;
+  --color-surface-light: #F7F7F7;
+  --color-surface-hover: #F0F2F5;
+  --color-border-light: #E4E5E7;
+  --color-ai-green: #1DBF73;
+  --color-ai-green-dark: #19A463;
+  --color-ai-green-darker: #14844E;
+  --color-ai-green-glow: rgba(29, 191, 115, 0.15);
+  --color-ai-green-tint: #E8F8F0;
+  --color-text-main: #222325;
+  --color-text-body: #404145;
+  --color-text-muted: #74767E;
+  --color-fiverr-green: #1DBF73;
+  --color-fiverr-dark: #19A463;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -32,18 +48,18 @@ body {
   min-height: 100vh;
 }
 
-/* Custom Scrollbar for Cyberpunk Dark Theme */
+/* Custom Scrollbar for Fiverr Theme */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B132B;
+  background: #F7F7F7;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1C2B4E;
+  background: #DADBDD;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #39FF88;
+  background: #1DBF73;
 }
