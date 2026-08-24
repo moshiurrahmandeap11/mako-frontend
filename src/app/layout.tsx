@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Labto AI Assistant — Merchant Dashboard",
+  title: "Labto AI Assistant — Next-Gen AI Shopping Concierge",
   description: "Manage your AI-powered assistant widget, products, API keys, and visitor chat analytics.",
 };
 
@@ -19,10 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full dark" suppressHydrationWarning>
+    <html lang="en" className="h-full light" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`${inter.className} min-h-full bg-slate-950 text-slate-100 antialiased`}
+        className={`${inter.className} min-h-full bg-white text-[#222325] antialiased`}
       >
         <QueryProvider>
           {children}
@@ -32,10 +32,12 @@ export default function RootLayout({
           position="top-center"
           toastOptions={{
             style: {
-              background: '#0f172a',
-              color: '#fff',
-              border: '1px solid #1e293b',
+              background: '#FFFFFF',
+              color: '#222325',
+              border: '1px solid #E4E5E7',
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
               fontSize: '13px',
+              fontWeight: '600',
             },
           }}
         />
