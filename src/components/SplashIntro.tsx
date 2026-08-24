@@ -1,10 +1,12 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function SplashIntro() {
-  const [showSplash, setShowSplash] = useState(true);
+  const pathname = usePathname();
+  const [showSplash, setShowSplash] = useState(false);
   const [stage, setStage] = useState<"drawing" | "flying" | "done">("drawing");
   const [targetCoords, setTargetCoords] = useState<{
     x: number;
@@ -19,7 +21,20 @@ export default function SplashIntro() {
   const splashIconRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Dynamic measurement of the exact LogoMark target in the Navbar
+    // Only run splash on homepage on initial visit
+    if (pathname !== "/") {
+      setShowSplash(false);
+      return;
+    }
+
+    const hasAnimated = sessionStorage.getItem("splash_animated");
+    if (hasAnimated) {
+      setShowSplash(false);
+      return;
+    }
+
+    setShowSplash(true);
+
     const updateTargetCoords = () => {
       const targetEl = document.getElementById("navbar-logomark-target");
       const splashEl = splashIconRef.current;
@@ -46,29 +61,28 @@ export default function SplashIntro() {
       }
     };
 
-    // Calculate once on mount and on window resize
     updateTargetCoords();
     window.addEventListener("resize", updateTargetCoords);
 
-    // Sequence timing:
-    // Step 1: Draw vector lines in center (0 - 1.2s)
     const flyTimer = setTimeout(() => {
       updateTargetCoords();
       setStage("flying");
-    }, 1200);
+    }, 900);
 
-    // Step 2: Settle pixel-perfect onto navbar logo (1.2s - 2.05s)
     const doneTimer = setTimeout(() => {
       setStage("done");
       setShowSplash(false);
-    }, 2050);
+      sessionStorage.setItem("splash_animated", "true");
+    }, 1500);
 
     return () => {
       window.removeEventListener("resize", updateTargetCoords);
       clearTimeout(flyTimer);
       clearTimeout(doneTimer);
     };
-  }, []);
+  }, [pathname]);
+
+  if (!showSplash) return null;
 
   return (
     <AnimatePresence>
@@ -78,12 +92,12 @@ export default function SplashIntro() {
           initial={{ opacity: 1 }}
           animate={{ opacity: stage === "flying" ? 0.9 : 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: "easeInOut" }}
-          className="fixed inset-0 z-[9999] bg-[#0B132B] flex flex-col items-center justify-center pointer-events-none select-none overflow-hidden"
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center pointer-events-none select-none overflow-hidden"
         >
           {/* Central Anchor Container */}
           <div className="relative flex flex-col items-center gap-4 z-10">
-            {/* Morphing Logo Icon (Moves directly to navbar-logomark-target) */}
+            {/* Morphing Logo Icon */}
             <motion.div
               ref={splashIconRef}
               initial={{ scale: 1, x: 0, y: 0, opacity: 1 }}
@@ -96,8 +110,8 @@ export default function SplashIntro() {
                       y: targetCoords.y,
                       opacity: 1,
                       transition: {
-                        duration: 0.82,
-                        ease: [0.16, 1, 0.3, 1], // Apple-grade cubic-bezier easeOut
+                        duration: 0.55,
+                        ease: [0.16, 1, 0.3, 1],
                       },
                     }
               }
@@ -109,7 +123,7 @@ export default function SplashIntro() {
                 className="w-full h-full"
               >
                 <g
-                  stroke="#39FF88"
+                  stroke="#1DBF73"
                   strokeWidth="28"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -121,7 +135,7 @@ export default function SplashIntro() {
                     initial={{ pathLength: 0, opacity: 0 }}
                     animate={{ pathLength: 1, opacity: 1 }}
                     transition={{
-                      duration: 1.0,
+                      duration: 0.7,
                       ease: "easeInOut",
                     }}
                   />
@@ -132,8 +146,8 @@ export default function SplashIntro() {
                     initial={{ pathLength: 0, opacity: 0 }}
                     animate={{ pathLength: 1, opacity: 1 }}
                     transition={{
-                      delay: 0.35,
-                      duration: 0.65,
+                      delay: 0.2,
+                      duration: 0.45,
                       ease: "easeOut",
                     }}
                   />
@@ -144,8 +158,8 @@ export default function SplashIntro() {
                     initial={{ pathLength: 0, opacity: 0, scale: 0.8 }}
                     animate={{ pathLength: 1, opacity: 1, scale: 1 }}
                     transition={{
-                      delay: 0.55,
-                      duration: 0.7,
+                      delay: 0.35,
+                      duration: 0.5,
                       ease: "easeOut",
                     }}
                   />
