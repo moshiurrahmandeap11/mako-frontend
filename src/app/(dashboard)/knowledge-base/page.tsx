@@ -12,7 +12,6 @@ import {
   Layers,
   FileText,
   CheckCircle2,
-  Clock,
   Sparkles,
   Upload,
 } from 'lucide-react';
@@ -198,8 +197,6 @@ export default function KnowledgeBasePage() {
       confirmButtonText: 'Yes, Delete',
       confirmButtonColor: '#ef4444',
       cancelButtonText: 'Cancel',
-      background: '#0f172a',
-      color: '#f8fafc',
     });
 
     if (result.isConfirmed) {
@@ -232,8 +229,6 @@ export default function KnowledgeBasePage() {
       confirmButtonText: 'Yes, Clear All',
       confirmButtonColor: '#ef4444',
       cancelButtonText: 'Cancel',
-      background: '#0f172a',
-      color: '#f8fafc',
     });
 
     if (result.isConfirmed) {
@@ -265,8 +260,6 @@ export default function KnowledgeBasePage() {
       showCancelButton: true,
       confirmButtonText: 'Start Crawl',
       cancelButtonText: 'Cancel',
-      background: '#0f172a',
-      color: '#f8fafc',
     });
 
     if (result.isConfirmed) {
@@ -277,8 +270,6 @@ export default function KnowledgeBasePage() {
           icon: 'success',
           title: 'Crawl Completed!',
           text: `Crawled ${res.pagesCrawled || 0} pages and created ${res.chunksCreated || 0} knowledge chunks.`,
-          background: '#0f172a',
-          color: '#f8fafc',
         });
         loadKnowledge();
       } catch (err: any) {
@@ -307,11 +298,11 @@ export default function KnowledgeBasePage() {
       {/* Top Banner & Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
-            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-[#39FF88] shrink-0" />
+          <h1 className="text-xl sm:text-2xl font-bold text-[#222325] tracking-tight flex items-center gap-2.5">
+            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-[#1DBF73] shrink-0" />
             <span>AI Knowledge Base & Content</span>
           </h1>
-          <p className="text-slate-400 text-xs sm:text-sm mt-1">
+          <p className="text-[#62646A] text-xs sm:text-sm mt-1">
             Manage scraped website content, indexed URLs, and custom notes powering your AI assistant.
           </p>
         </div>
@@ -334,83 +325,83 @@ export default function KnowledgeBasePage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
         <button
           onClick={() => setShowUrlModal(true)}
-          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#131D38] border border-white/[0.08] hover:border-[#39FF88]/40 hover:bg-[#1A264A] text-slate-200 text-xs sm:text-sm font-medium transition group shadow-sm"
+          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-white border border-[#E4E5E7] hover:border-[#1DBF73] hover:bg-[#F7F7F7] text-[#222325] text-xs sm:text-sm font-semibold transition group shadow-sm cursor-pointer"
         >
-          <Globe className="w-4 h-4 text-[#39FF88] group-hover:scale-110 transition-transform shrink-0" />
+          <Globe className="w-4 h-4 text-[#1DBF73] group-hover:scale-110 transition-transform shrink-0" />
           <span className="truncate">Add Custom URL</span>
         </button>
 
         <button
           onClick={() => setShowDocModal(true)}
-          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#131D38] border border-white/[0.08] hover:border-[#39FF88]/40 hover:bg-[#1A264A] text-slate-200 text-xs sm:text-sm font-medium transition group shadow-sm"
+          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-white border border-[#E4E5E7] hover:border-[#1DBF73] hover:bg-[#F7F7F7] text-[#222325] text-xs sm:text-sm font-semibold transition group shadow-sm cursor-pointer"
         >
-          <Upload className="w-4 h-4 text-[#39FF88] group-hover:scale-110 transition-transform shrink-0" />
+          <Upload className="w-4 h-4 text-[#1DBF73] group-hover:scale-110 transition-transform shrink-0" />
           <span className="truncate">Upload Doc / PDF</span>
         </button>
 
         <button
           onClick={handleRescrapeAll}
           disabled={rescapingAll}
-          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#131D38] border border-white/[0.08] hover:border-[#39FF88]/40 hover:bg-[#1A264A] text-slate-200 text-xs sm:text-sm font-medium transition group shadow-sm disabled:opacity-50"
+          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-white border border-[#E4E5E7] hover:border-[#1DBF73] hover:bg-[#F7F7F7] text-[#222325] text-xs sm:text-sm font-semibold transition group shadow-sm disabled:opacity-50 cursor-pointer"
         >
-          <RefreshCw className={`w-4 h-4 text-[#39FF88] shrink-0 ${rescapingAll ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
+          <RefreshCw className={`w-4 h-4 text-[#1DBF73] shrink-0 ${rescapingAll ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
           <span className="truncate">{rescapingAll ? 'Crawling...' : 'Re-crawl Store'}</span>
         </button>
 
         <button
           onClick={handleDeleteAllChunks}
-          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-rose-950/20 border border-rose-500/20 hover:border-rose-500/50 hover:bg-rose-950/40 text-rose-300 text-xs sm:text-sm font-medium transition group shadow-sm"
+          className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-rose-50 border border-rose-200 hover:border-rose-300 hover:bg-rose-100 text-rose-600 text-xs sm:text-sm font-semibold transition group shadow-sm cursor-pointer"
         >
-          <Trash2 className="w-4 h-4 text-rose-400 group-hover:scale-110 transition-transform shrink-0" />
+          <Trash2 className="w-4 h-4 text-rose-600 group-hover:scale-110 transition-transform shrink-0" />
           <span className="truncate">Clear All Data</span>
         </button>
       </div>
 
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden">
+        <div className="bg-white border border-[#E4E5E7] rounded-2xl p-5 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Knowledge Chunks</span>
-            <Layers className="w-5 h-5 text-indigo-400" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#74767E]">Total Knowledge Chunks</span>
+            <Layers className="w-5 h-5 text-[#1DBF73]" />
           </div>
-          <div className="text-3xl font-bold text-white mt-3">{loading ? '...' : knowledgeData.totalChunks}</div>
-          <p className="text-xs text-slate-400 mt-1">Vector embeddings indexed in pgvector memory</p>
+          <div className="text-3xl font-extrabold text-[#222325] mt-3">{loading ? '...' : knowledgeData.totalChunks}</div>
+          <p className="text-xs text-[#62646A] mt-1">Vector embeddings indexed in pgvector memory</p>
         </div>
 
-        <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden">
+        <div className="bg-white border border-[#E4E5E7] rounded-2xl p-5 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Indexed Sources & Pages</span>
-            <Globe className="w-5 h-5 text-emerald-400" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#74767E]">Indexed Sources & Pages</span>
+            <Globe className="w-5 h-5 text-[#1DBF73]" />
           </div>
-          <div className="text-3xl font-bold text-white mt-3">{loading ? '...' : knowledgeData.totalPages}</div>
-          <p className="text-xs text-slate-400 mt-1">Discovered via Sitemaps, SPA routes & DOM links</p>
+          <div className="text-3xl font-extrabold text-[#222325] mt-3">{loading ? '...' : knowledgeData.totalPages}</div>
+          <p className="text-xs text-[#62646A] mt-1">Discovered via Sitemaps, SPA routes & DOM links</p>
         </div>
 
-        <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden">
+        <div className="bg-white border border-[#E4E5E7] rounded-2xl p-5 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Automated Syncing</span>
-            <Sparkles className="w-5 h-5 text-purple-400" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#74767E]">Automated Syncing</span>
+            <Sparkles className="w-5 h-5 text-[#1DBF73]" />
           </div>
           <div className="flex items-center gap-2 mt-3">
-            <CheckCircle2 className="w-6 h-6 text-emerald-400" />
-            <span className="text-lg font-bold text-white">Daily 12:00 PM BST</span>
+            <CheckCircle2 className="w-6 h-6 text-[#1DBF73]" />
+            <span className="text-lg font-bold text-[#222325]">Daily 12:00 PM BST</span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">Automated background crawler keeps knowledge fresh</p>
+          <p className="text-xs text-[#62646A] mt-1">Automated background crawler keeps knowledge fresh</p>
         </div>
       </div>
 
       {/* Main Table / Explorer */}
-      <div className="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 space-y-6">
+      <div className="bg-white border border-[#E4E5E7] rounded-2xl p-6 space-y-6 shadow-sm">
         {/* Filters */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#74767E]" />
             <input
               type="text"
               placeholder="Search in knowledge base contents or URLs..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+              className="w-full bg-white border border-[#E4E5E7] rounded-xl pl-10 pr-4 py-2 text-sm text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73] transition-colors"
             />
           </div>
 
@@ -418,7 +409,7 @@ export default function KnowledgeBasePage() {
             <select
               value={selectedSource}
               onChange={(e) => setSelectedSource(e.target.value)}
-              className="bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition-colors"
+              className="bg-white border border-[#E4E5E7] rounded-xl px-3.5 py-2 text-sm text-[#404145] focus:outline-none focus:border-[#1DBF73] transition-colors"
             >
               <option value="all">All Indexed Sources ({knowledgeData.sources.length})</option>
               {knowledgeData.sources.map((s, idx) => (
@@ -432,8 +423,8 @@ export default function KnowledgeBasePage() {
 
         {/* Chunks List */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-slate-950/50 text-xs font-semibold uppercase text-slate-400 border-b border-slate-800">
+          <table className="w-full text-left text-sm text-[#404145]">
+            <thead className="bg-[#F7F7F7] text-xs font-semibold uppercase text-[#74767E] border-b border-[#E4E5E7]">
               <tr>
                 <th className="py-3 px-4">Source / Origin</th>
                 <th className="py-3 px-4">Knowledge Chunk Content</th>
@@ -441,48 +432,48 @@ export default function KnowledgeBasePage() {
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-[#E4E5E7]">
               {loading ? (
                 Array.from({ length: 5 }).map((_, i) => <TableRowSkeleton key={i} />)
               ) : filteredChunks.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="py-12 text-center text-slate-500">
-                    <FileText className="w-10 h-10 mx-auto mb-2 opacity-40 text-slate-400" />
+                  <td colSpan={4} className="py-12 text-center text-[#74767E]">
+                    <FileText className="w-10 h-10 mx-auto mb-2 opacity-40 text-[#1DBF73]" />
                     No knowledge chunks found. Click &quot;Add Custom URL&quot; or &quot;Re-crawl Store&quot; to populate your AI memory.
                   </td>
                 </tr>
               ) : (
                 filteredChunks.map((chunk) => (
-                  <tr key={chunk.id} className="hover:bg-slate-800/30 transition-colors">
+                  <tr key={chunk.id} className="hover:bg-[#F7F7F7] transition-colors">
                     <td className="py-4 px-4 align-top w-1/4">
                       {chunk.url.startsWith('http') ? (
                         <a
                           href={chunk.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300 break-all text-xs font-medium"
+                          className="inline-flex items-center gap-1.5 text-[#1DBF73] hover:underline break-all text-xs font-semibold"
                         >
                           {chunk.url}
                           <ExternalLink className="w-3 h-3 shrink-0" />
                         </a>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-purple-950/60 text-purple-300 border border-purple-800/40 text-xs font-mono">
+                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/20 text-xs font-bold font-mono">
                           Custom Note
                         </span>
                       )}
                     </td>
                     <td className="py-4 px-4 align-top">
-                      <div className="bg-slate-950/40 border border-slate-800/60 rounded-lg p-3 text-xs text-slate-300 font-mono whitespace-pre-wrap max-h-40 overflow-y-auto leading-relaxed">
+                      <div className="bg-[#F7F7F7] border border-[#E4E5E7] rounded-lg p-3 text-xs text-[#222325] font-mono whitespace-pre-wrap max-h-40 overflow-y-auto leading-relaxed">
                         {chunk.content}
                       </div>
                     </td>
-                    <td className="py-4 px-4 align-top text-xs text-slate-500 whitespace-nowrap">
+                    <td className="py-4 px-4 align-top text-xs text-[#74767E] whitespace-nowrap">
                       {chunk.createdAt ? new Date(chunk.createdAt).toLocaleDateString() : 'Active'}
                     </td>
                     <td className="py-4 px-4 align-top text-right whitespace-nowrap">
                       <button
                         onClick={() => handleDeleteChunk(chunk.id)}
-                        className="p-1.5 text-slate-400 hover:text-rose-400 rounded-lg hover:bg-rose-950/40 transition-colors"
+                        className="p-1.5 text-[#74767E] hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors"
                         title="Delete Chunk"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -498,41 +489,41 @@ export default function KnowledgeBasePage() {
 
       {/* Add Custom URL Modal */}
       {showUrlModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white border border-[#E4E5E7] rounded-2xl w-full max-w-lg p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <Globe className="w-5 h-5 text-indigo-400" />
+              <h2 className="text-lg font-bold text-[#222325] flex items-center gap-2">
+                <Globe className="w-5 h-5 text-[#1DBF73]" />
                 Index Specific URL
               </h2>
               <button
                 onClick={() => setShowUrlModal(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-[#74767E] hover:text-[#222325]"
               >
                 ✕
               </button>
             </div>
 
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#62646A]">
               Provide a specific page link (e.g. <code>https://yourdomain.com/projects/item</code>, pricing, or service page). Our crawler will immediately extract text, markdown, and items.
             </p>
 
             <form onSubmit={handleScrapeSingleUrl} className="space-y-4">
               {urlError && (
-                <div className="p-3 bg-rose-950/50 border border-rose-800 text-rose-300 text-xs rounded-xl">
+                <div className="p-3 bg-rose-50 border border-rose-200 text-rose-600 text-xs rounded-xl">
                   {urlError}
                 </div>
               )}
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Target Page URL</label>
+                <label className="block text-xs font-semibold text-[#404145] mb-1">Target Page URL</label>
                 <input
                   type="url"
                   required
                   placeholder="https://example.com/services/web-development"
                   value={urlInput}
                   onChange={(e) => setUrlInput(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-white border border-[#E4E5E7] rounded-xl px-4 py-2.5 text-sm text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73]"
                 />
               </div>
 
@@ -541,14 +532,15 @@ export default function KnowledgeBasePage() {
                   type="button"
                   variant="outline"
                   onClick={() => setShowUrlModal(false)}
-                  className="text-sm"
+                  className="text-sm text-[#222325] border-[#E4E5E7]"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={scrapingUrl}
-                  className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm"
+                  variant="primary"
+                  className="text-sm"
                 >
                   {scrapingUrl ? 'Crawling & Indexing...' : 'Crawl & Index URL'}
                 </Button>
@@ -560,64 +552,64 @@ export default function KnowledgeBasePage() {
 
       {/* Add Custom Note / FAQ Modal */}
       {showNoteModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white border border-[#E4E5E7] rounded-2xl w-full max-w-xl p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <FileText className="w-5 h-5 text-indigo-400" />
+              <h2 className="text-lg font-bold text-[#222325] flex items-center gap-2">
+                <FileText className="w-5 h-5 text-[#1DBF73]" />
                 Add Custom Note or Policy
               </h2>
               <button
                 onClick={() => setShowNoteModal(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-[#74767E] hover:text-[#222325]"
               >
                 ✕
               </button>
             </div>
 
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#62646A]">
               Directly feed custom instructions, FAQs, project descriptions, or contact details into the AI assistant.
             </p>
 
             <form onSubmit={handleAddCustomNote} className="space-y-4">
               {noteError && (
-                <div className="p-3 bg-rose-950/50 border border-rose-800 text-rose-300 text-xs rounded-xl">
+                <div className="p-3 bg-rose-50 border border-rose-200 text-rose-600 text-xs rounded-xl">
                   {noteError}
                 </div>
               )}
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Title / Topic</label>
+                <label className="block text-xs font-semibold text-[#404145] mb-1">Title / Topic</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. 3D Project Portfolio & Pricing"
                   value={noteTitle}
                   onChange={(e) => setNoteTitle(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-white border border-[#E4E5E7] rounded-xl px-4 py-2.5 text-sm text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Source Link (Optional)</label>
+                <label className="block text-xs font-semibold text-[#404145] mb-1">Source Link (Optional)</label>
                 <input
                   type="url"
                   placeholder="https://example.com/projects/aeshut"
                   value={noteSourceUrl}
                   onChange={(e) => setNoteSourceUrl(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-white border border-[#E4E5E7] rounded-xl px-4 py-2.5 text-sm text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Content / Details (Markdown supported)</label>
+                <label className="block text-xs font-semibold text-[#404145] mb-1">Content / Details (Markdown supported)</label>
                 <textarea
                   required
                   rows={6}
                   placeholder={`- Project Aeshut: Immersive 3D Experience (https://example.com/projects/aeshut)\n- Project Regar: Next-Gen Commerce (https://example.com/projects/regar)\n- Custom quotes starting from $2,500.`}
                   value={noteContent}
                   onChange={(e) => setNoteContent(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono"
+                  className="w-full bg-white border border-[#E4E5E7] rounded-xl p-3 text-sm text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73] font-mono"
                 />
               </div>
 
@@ -626,14 +618,15 @@ export default function KnowledgeBasePage() {
                   type="button"
                   variant="outline"
                   onClick={() => setShowNoteModal(false)}
-                  className="text-sm"
+                  className="text-sm text-[#222325] border-[#E4E5E7]"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={savingNote}
-                  className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm"
+                  variant="primary"
+                  className="text-sm"
                 >
                   {savingNote ? 'Saving...' : 'Save Knowledge Note'}
                 </Button>
@@ -645,28 +638,28 @@ export default function KnowledgeBasePage() {
 
       {/* Upload Doc / PDF Modal */}
       {showDocModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white border border-[#E4E5E7] rounded-2xl w-full max-w-lg p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <Upload className="w-5 h-5 text-emerald-400" />
+              <h2 className="text-lg font-bold text-[#222325] flex items-center gap-2">
+                <Upload className="w-5 h-5 text-[#1DBF73]" />
                 Upload Document or PDF
               </h2>
               <button
                 onClick={() => setShowDocModal(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-[#74767E] hover:text-[#222325]"
               >
                 ✕
               </button>
             </div>
 
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#62646A]">
               Upload brand guidelines, return policies, user manuals, or FAQs (.pdf, .docx, .txt, .md). The backend will extract, chunk, and index vector embeddings into pgvector memory.
             </p>
 
             <form onSubmit={handleUploadDoc} className="space-y-4">
               {docError && (
-                <div className="p-3 bg-rose-950/50 border border-rose-800 text-rose-300 text-xs rounded-xl">
+                <div className="p-3 bg-rose-50 border border-rose-200 text-rose-600 text-xs rounded-xl">
                   {docError}
                 </div>
               )}
@@ -689,8 +682,8 @@ export default function KnowledgeBasePage() {
                 }}
                 className={`border-2 border-dashed rounded-2xl p-8 text-center transition cursor-pointer ${
                   isDraggingDoc
-                    ? 'border-emerald-400 bg-emerald-500/10 scale-[1.01]'
-                    : 'border-slate-800 hover:border-emerald-500/50 bg-slate-950/40'
+                    ? 'border-[#1DBF73] bg-[#E8F8F0] scale-[1.01]'
+                    : 'border-[#E4E5E7] hover:border-[#1DBF73] bg-[#F7F7F7]'
                 }`}
               >
                 <input
@@ -701,27 +694,28 @@ export default function KnowledgeBasePage() {
                   id="docFileInput"
                 />
                 <label htmlFor="docFileInput" className="cursor-pointer space-y-2 block">
-                  <Upload className={`w-12 h-12 mx-auto transition ${isDraggingDoc ? 'text-emerald-300 scale-110' : 'text-emerald-400 opacity-80'}`} />
-                  <p className="text-sm font-semibold text-white">
+                  <Upload className={`w-12 h-12 mx-auto transition ${isDraggingDoc ? 'text-[#1DBF73] scale-110' : 'text-[#1DBF73] opacity-80'}`} />
+                  <p className="text-sm font-semibold text-[#222325]">
                     {docFile ? docFile.name : isDraggingDoc ? 'Drop your Document here!' : 'Click or Drag & Drop PDF / Document here'}
                   </p>
-                  <p className="text-xs text-slate-500">Supports .pdf, .docx, .txt, .md files up to 15MB</p>
+                  <p className="text-xs text-[#74767E]">Supports .pdf, .docx, .txt, .md files up to 15MB</p>
                 </label>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-2 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-2 border-t border-[#E4E5E7]">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => setShowDocModal(false)}
-                  className="text-sm"
+                  className="text-sm text-[#222325] border-[#E4E5E7]"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={uploadingDoc || !docFile}
-                  className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm"
+                  variant="primary"
+                  className="text-sm"
                 >
                   {uploadingDoc ? 'Parsing & Vectorizing...' : 'Upload & Index Doc'}
                 </Button>
