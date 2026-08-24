@@ -83,7 +83,7 @@ export default function Navbar() {
           {/* Right Aligned Actions */}
           <div className="hidden md:flex items-center gap-4">
             {isPending ? (
-              <div className="w-24 h-9 rounded-md bg-surface-hover animate-pulse" />
+              <div className="w-24 h-9 rounded-md bg-[#F0F2F5] border border-[#E4E5E7]/50 animate-pulse" />
             ) : session ? (
               <div className="flex items-center gap-3">
                 <div className="relative">
@@ -279,7 +279,7 @@ export default function Navbar() {
                 <hr className="border-border-light my-2" />
                 <div className="flex flex-col gap-4">
                   {isPending ? (
-                    <div className="h-12 bg-slate-100 rounded animate-pulse" />
+                    <div className="h-12 bg-[#F0F2F5] border border-[#E4E5E7] rounded-xl animate-pulse" />
                   ) : session ? (
                     <>
                       <div className="flex items-center gap-4 px-3 py-3 mb-2 bg-surface-light rounded-xl border border-border-light">
