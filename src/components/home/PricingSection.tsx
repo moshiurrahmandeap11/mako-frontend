@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/Button";
-import { Check, RefreshCw } from "lucide-react";
+import { Check } from "lucide-react";
 
 export default function PricingSection() {
   const plans = [
@@ -86,9 +86,17 @@ export default function PricingSection() {
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-text-main tracking-tight">
             Transparent, Scalable Plans
           </h2>
-          <p className="text-[#62646A] text-xs sm:text-sm font-normal">
-            Predictable monthly billing powered by Polar.sh with 100% Unused
-            Credit Rollover.
+          <p className="text-[#62646A] text-xs sm:text-sm">
+            Predictable monthly billing powered by{" "}
+            <a
+              href="https://polar.sh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#1DBF73] hover:underline"
+            >
+              Polar.sh
+            </a>{" "}
+            with 100% Unused Credit Rollover.
           </p>
         </div>
 
@@ -96,10 +104,10 @@ export default function PricingSection() {
           {plans.map((p) => (
             <div
               key={p.name}
-              className={`p-6 rounded-2xl bg-white border flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left shadow-sm ${
+              className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left ${
                 p.popular
                   ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30"
-                  : "border-[#E4E5E7] hover:border-[#DADBDD] hover:shadow-md"
+                  : "border-border-light hover:border-[#DADBDD] hover:shadow-md"
               }`}
             >
               {p.popular && (
@@ -111,35 +119,28 @@ export default function PricingSection() {
               <div className="space-y-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-bold text-[#222325]">
+                    <h3 className="text-lg font-medium text-text-main">
                       {p.name}
                     </h3>
-                    {p.rollover && (
-                      <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-[#1DBF73] bg-[#E8F8F0] border border-[#1DBF73]/30 px-2 py-0.5 rounded-full">
-                        <RefreshCw className="w-2.5 h-2.5" /> Rollover
-                      </span>
-                    )}
                   </div>
-                  <p className="text-xs text-[#62646A] mt-1 min-h-[32px]">
+                  <p className="text-xs text-[#62646A] mt-1 min-h-8">
                     {p.description}
                   </p>
                 </div>
 
-                <div className="flex items-baseline gap-1 py-1 border-b border-[#E4E5E7]">
-                  <span className="text-3xl sm:text-4xl font-extrabold text-[#222325] tracking-tight">
+                <div className="flex items-baseline gap-1 py-1 border-b border-border-light">
+                  <span className="text-3xl sm:text-4xl text-text-main tracking-tight">
                     {p.price}
                   </span>
                   {p.price !== "Custom" && (
-                    <span className="text-xs text-[#74767E] font-medium">
-                      / month
-                    </span>
+                    <span className="text-sm text-text-muted">/ month</span>
                   )}
                 </div>
 
-                <ul className="space-y-2.5 text-xs text-[#404145]">
+                <ul className="space-y-2.5 text-xs text-text-body">
                   {p.features.map((feat) => (
                     <li key={feat} className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-[#1DBF73] shrink-0 font-bold" />
+                      <Check className="w-3.5 h-3.5 shrink-0" />
                       <span>{feat}</span>
                     </li>
                   ))}
@@ -151,7 +152,7 @@ export default function PricingSection() {
                   href={p.href}
                   variant={p.popular ? "primary" : "outline"}
                   size="md"
-                  className={`w-full justify-center text-xs font-bold ${!p.popular ? "text-[#222325] border-[#E4E5E7] hover:bg-slate-50" : ""}`}
+                  className={`w-full justify-center text-sm ${!p.popular ? "text-text-main border-border-light hover:bg-slate-50" : ""}`}
                 >
                   {p.cta}
                 </Button>
