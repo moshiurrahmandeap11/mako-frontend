@@ -81,7 +81,7 @@ export default function PricingSection() {
 
   return (
     <section id="pricing" className="py-6 bg-surface-light relative">
-      <div className="w-11/12 lg:w-9/12 max-w-9/12 mx-auto space-y-12">
+      <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto space-y-12">
         <div className="text-left space-y-3">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-text-main tracking-tight">
             Transparent, Scalable Plans
