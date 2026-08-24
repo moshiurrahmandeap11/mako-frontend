@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const fontSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Labto AI Assistant — Next-Gen AI Shopping Concierge",
@@ -22,7 +27,7 @@ export default function RootLayout({
     <html lang="en" className="h-full light" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`${inter.className} min-h-full bg-white text-[#222325] antialiased`}
+        className={`${fontSans.className} ${fontSans.variable} min-h-full bg-white text-[#222325] antialiased`}
       >
         <QueryProvider>
           {children}

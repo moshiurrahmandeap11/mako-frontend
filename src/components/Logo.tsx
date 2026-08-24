@@ -1,8 +1,8 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 interface LogoProps {
   href?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   showText?: boolean;
   className?: string;
   onClick?: (e: React.MouseEvent) => void;
@@ -10,11 +10,17 @@ interface LogoProps {
   markId?: string;
 }
 
-export function LogoMark({ size = 'md', id }: { size?: 'sm' | 'md' | 'lg'; id?: string }) {
+export function LogoMark({
+  size = "md",
+  id,
+}: {
+  size?: "sm" | "md" | "lg";
+  id?: string;
+}) {
   const sizeClasses = {
-    sm: 'w-7 h-7',
-    md: 'w-9 h-9',
-    lg: 'w-11 h-11',
+    sm: "w-7 h-7",
+    md: "w-9 h-9",
+    lg: "w-11 h-11",
   };
 
   return (
@@ -22,8 +28,18 @@ export function LogoMark({ size = 'md', id }: { size?: 'sm' | 'md' | 'lg'; id?: 
       id={id}
       className={`relative ${sizeClasses[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" className="w-full h-full">
-        <g stroke="#1DBF73" strokeWidth="28" strokeLinecap="round" strokeLinejoin="round" fill="none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 500 500"
+        className="w-full h-full"
+      >
+        <g
+          stroke="#1DBF73"
+          strokeWidth="28"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
+        >
           {/* Chat Bubble Outline */}
           <path d="M 120,90 H 380 A 50,50 0 0 1 430,140 V 310 A 50,50 0 0 1 380,360 H 350 L 380,415 L 310,360 H 120 A 50,50 0 0 1 70,310 V 140 A 50,50 0 0 1 120,90 Z" />
           {/* Hollow Letter L */}
@@ -37,25 +53,30 @@ export function LogoMark({ size = 'md', id }: { size?: 'sm' | 'md' | 'lg'; id?: 
 }
 
 export default function Logo({
-  href = '/',
-  size = 'md',
+  href = "/",
+  size = "md",
   showText = true,
-  className = '',
+  className = "",
   onClick,
   id,
   markId,
 }: LogoProps) {
   const textSizes = {
-    sm: 'text-sm tracking-[0.16em]',
-    md: 'text-xl tracking-[0.2em]',
-    lg: 'text-2xl tracking-[0.22em]',
+    sm: "text-sm tracking-[0.16em]",
+    md: "text-xl tracking-[0.2em]",
+    lg: "text-2xl tracking-[0.22em]",
   };
 
   const content = (
-    <div id={id} className={`flex items-center gap-3 group cursor-pointer ${className}`}>
+    <div
+      id={id}
+      className={`flex items-center gap-3 group cursor-pointer ${className}`}
+    >
       <LogoMark size={size} id={markId} />
       {showText && (
-        <span className={`font-black text-[#222325] transition-colors duration-300 group-hover:text-[#1DBF73] ${textSizes[size]}`}>
+        <span
+          className={`font-black text-[#222325] transition-colors duration-300 group-hover:text-[#1DBF73] ${textSizes[size]}`}
+        >
           Labto AI
         </span>
       )}

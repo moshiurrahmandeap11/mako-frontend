@@ -28,7 +28,7 @@ export default function HeroSection() {
 
   return (
     <section className="relative pt-28 sm:pt-32 pb-16 overflow-hidden bg-white">
-      <div className="w-11/12 lg:w-10/12 max-w-10/12 max-w-7xl mx-auto space-y-10 text-center">
+      <div className="w-11/12 lg:w-9/12 max-w-9/12 max-w-7xl mx-auto space-y-10 text-center">
         {/* Top Feature Tag */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}

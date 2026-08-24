@@ -83,7 +83,7 @@ export default function PricingSection() {
       id="pricing"
       className="py-20 px-4 sm:px-6 border-t border-[#E4E5E7] bg-[#F7F7F7] relative"
     >
-      <div className="w-11/12 lg:w-10/12 max-w-10/12 max-w-7xl mx-auto space-y-12">
+      <div className="w-11/12 lg:w-9/12 max-w-9/12 max-w-7xl mx-auto space-y-12">
         <div className="text-center max-w-xl mx-auto space-y-3">
           <span className="text-[11px] font-bold tracking-[0.2em] text-[#1DBF73] uppercase bg-[#E8F8F0] px-3 py-1 rounded-full border border-[#1DBF73]/20">
             Predictable Pricing

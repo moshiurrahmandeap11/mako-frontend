@@ -107,7 +107,7 @@ LIMIT 5;`,
       id="technology"
       className="py-20 px-4 sm:px-6 bg-white border-t border-[#E4E5E7] relative"
     >
-      <div className="w-11/12 lg:w-10/12 max-w-10/12 max-w-7xl mx-auto space-y-10 relative z-10">
+      <div className="w-11/12 lg:w-9/12 max-w-9/12 max-w-7xl mx-auto space-y-10 relative z-10">
         {/* Section Header */}
         <div className="text-left max-w-7xl mx-auto space-y-2">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#222325] tracking-tight">

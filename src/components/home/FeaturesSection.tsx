@@ -48,7 +48,7 @@ export default function FeaturesSection() {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="w-11/12 lg:w-10/12 max-w-10/12 max-w-7xl mx-auto space-y-10 relative z-10">
+      <div className="w-11/12 lg:w-9/12 max-w-9/12 max-w-7xl mx-auto space-y-10 relative z-10">
         {/* Section Header */}
         <div className="text-left max-w-7xl mx-auto space-y-2">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#222325] tracking-tight">
