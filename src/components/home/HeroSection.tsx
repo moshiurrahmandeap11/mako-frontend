@@ -34,14 +34,14 @@ export default function HeroSection() {
 
   return (
     <section className="relative pt-6 pb-16 overflow-hidden bg-white">
-      <div className="w-11/12 lg:w-9/12 max-w-9/12 max-w-7xl mx-auto space-y-10 text-center">
+      <div className="w-11/12 lg:w-9/12 max-w-9/12 mx-auto space-y-10 text-center">
         {/* Commanding Fiverr-Style Headline */}
         <div className="max-w-4xl mx-auto space-y-4">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#222325] tracking-tight leading-[1.12]"
+            className="text-3xl sm:text-5xl lg:text-6xl font-medium text-text-main tracking-tight leading-[1.12]"
           >
             Find the right AI assistant for your{" "}
             <span className="relative inline-block text-[#1DBF73]">
