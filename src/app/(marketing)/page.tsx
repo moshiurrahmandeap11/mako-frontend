@@ -8,7 +8,7 @@ import FooterSection from '@/components/home/FooterSection';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-prompt-blue text-slate-100 flex flex-col overflow-x-hidden">
+    <div className="min-h-screen bg-white text-[#222325] flex flex-col overflow-x-hidden">
       <HeroSection />
       <FeaturesSection />
       <TechStackSection />
