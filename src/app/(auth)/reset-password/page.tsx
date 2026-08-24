@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Lock, Eye, EyeOff, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
-import NetworkWave from '@/components/NetworkWave';
 import Button from '@/components/Button';
 import Logo from '@/components/Logo';
 
@@ -98,26 +97,26 @@ function ResetPasswordForm() {
   };
 
   return (
-    <div className="relative z-10 w-full max-w-md bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl p-8 shadow-2xl">
+    <div className="relative z-10 w-full max-w-md bg-white border border-[#E4E5E7] rounded-2xl p-8 shadow-xl">
       <div className="text-center mb-8">
-        <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center mx-auto mb-4">
+        <div className="w-12 h-12 rounded-2xl bg-[#E8F8F0] border border-[#1DBF73]/20 text-[#1DBF73] flex items-center justify-center mx-auto mb-4">
           <Lock className="w-6 h-6" />
         </div>
-        <h1 className="text-2xl font-semibold tracking-tight text-white">Reset Password</h1>
-        <p className="text-slate-400 text-sm mt-2">
+        <h1 className="text-2xl font-bold tracking-tight text-[#222325]">Reset Password</h1>
+        <p className="text-[#62646A] text-sm mt-2">
           Enter the 6-digit OTP code sent to{' '}
-          <span className="text-amber-400 font-medium">{email || 'your email'}</span> and choose your new password.
+          <span className="text-[#1DBF73] font-semibold">{email || 'your email'}</span> and choose your new password.
         </p>
       </div>
 
       {error && (
-        <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm text-center">
+        <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-sm text-center">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm flex items-center justify-center gap-2 text-center">
+        <div className="mb-6 p-4 rounded-xl bg-[#E8F8F0] border border-[#1DBF73]/20 text-[#1DBF73] text-sm flex items-center justify-center gap-2 text-center font-semibold">
           <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
           <span>{success}</span>
         </div>
@@ -126,7 +125,7 @@ function ResetPasswordForm() {
       <form onSubmit={handleSubmit} className="space-y-5">
         {!initialEmail && (
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-2">
               Work Email
             </label>
             <input
@@ -135,13 +134,13 @@ function ResetPasswordForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="merchant@store.com"
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded focus:outline-none focus:border-amber-500 text-white placeholder-slate-600 text-sm transition-colors"
+              className="w-full px-4 py-3 bg-white border border-[#E4E5E7] rounded-xl focus:outline-none focus:border-[#1DBF73] text-[#222325] placeholder-[#74767E] text-sm transition-colors"
             />
           </div>
         )}
 
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 text-center">
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-2 text-center">
             6-Digit OTP Code
           </label>
           <div className="flex justify-between gap-2" onPaste={handlePaste}>
@@ -155,14 +154,14 @@ function ResetPasswordForm() {
                 value={digit}
                 onChange={(e) => handleOtpChange(idx, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(idx, e)}
-                className="w-12 h-14 bg-slate-950 border border-slate-800 rounded-xl text-center text-xl font-bold text-amber-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors"
+                className="w-12 h-14 bg-white border border-[#E4E5E7] rounded-xl text-center text-xl font-extrabold text-[#1DBF73] focus:outline-none focus:border-[#1DBF73] focus:ring-1 focus:ring-[#1DBF73] transition-colors"
               />
             ))}
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-2">
             New Password
           </label>
           <div className="relative">
@@ -172,12 +171,12 @@ function ResetPasswordForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Minimum 6 characters"
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded focus:outline-none focus:border-amber-500 text-white placeholder-slate-600 text-sm transition-colors pr-12"
+              className="w-full px-4 py-3 bg-white border border-[#E4E5E7] rounded-xl focus:outline-none focus:border-[#1DBF73] text-[#222325] placeholder-[#74767E] text-sm transition-colors pr-12"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors focus:outline-none"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#74767E] hover:text-[#222325] transition-colors focus:outline-none"
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
@@ -185,7 +184,7 @@ function ResetPasswordForm() {
         </div>
 
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-2">
             Confirm New Password
           </label>
           <input
@@ -194,17 +193,17 @@ function ResetPasswordForm() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Re-enter password"
-            className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded focus:outline-none focus:border-amber-500 text-white placeholder-slate-600 text-sm transition-colors"
+            className="w-full px-4 py-3 bg-white border border-[#E4E5E7] rounded-xl focus:outline-none focus:border-[#1DBF73] text-[#222325] placeholder-[#74767E] text-sm transition-colors"
           />
         </div>
 
-        <Button type="submit" disabled={loading} className="w-full py-3.5">
+        <Button type="submit" variant="primary" size="lg" disabled={loading} className="w-full justify-center">
           {loading ? 'Resetting Password...' : 'Update Password'}
         </Button>
       </form>
 
       <div className="mt-6 text-center">
-        <Link href="/login" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm">
+        <Link href="/login" className="inline-flex items-center gap-2 text-[#74767E] hover:text-[#222325] transition-colors text-sm font-semibold">
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Sign In</span>
         </Link>
@@ -215,14 +214,11 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <div className="relative min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
-        <NetworkWave />
-      </div>
+    <div className="relative min-h-screen bg-[#F7F7F7] text-[#222325] flex items-center justify-center p-4">
       <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20">
         <Logo href="/" size="md" />
       </div>
-      <Suspense fallback={<div className="text-slate-400 text-sm">Loading reset password page...</div>}>
+      <Suspense fallback={<div className="text-[#74767E] text-sm">Loading reset password page...</div>}>
         <ResetPasswordForm />
       </Suspense>
     </div>
