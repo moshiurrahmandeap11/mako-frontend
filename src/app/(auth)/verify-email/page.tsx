@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Mail, CheckCircle2, RefreshCw, ArrowLeft } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
-import NetworkWave from '@/components/NetworkWave';
 import Button from '@/components/Button';
 import Logo from '@/components/Logo';
 
@@ -120,26 +119,26 @@ function VerifyEmailForm() {
   };
 
   return (
-    <div className="relative z-10 w-full max-w-md bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl p-8 shadow-2xl">
+    <div className="relative z-10 w-full max-w-md bg-white border border-[#E4E5E7] rounded-2xl p-8 shadow-xl">
       <div className="text-center mb-8">
-        <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center mx-auto mb-4">
+        <div className="w-12 h-12 rounded-2xl bg-[#E8F8F0] border border-[#1DBF73]/20 text-[#1DBF73] flex items-center justify-center mx-auto mb-4">
           <Mail className="w-6 h-6" />
         </div>
-        <h1 className="text-2xl font-semibold tracking-tight text-white">Check Your Email</h1>
-        <p className="text-slate-400 text-sm mt-2">
+        <h1 className="text-2xl font-bold tracking-tight text-[#222325]">Check Your Email</h1>
+        <p className="text-[#62646A] text-sm mt-2">
           We sent a 6-digit verification code to{' '}
-          <span className="text-amber-400 font-medium">{email || 'your email'}</span>
+          <span className="text-[#1DBF73] font-semibold">{email || 'your email'}</span>
         </p>
       </div>
 
       {error && (
-        <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm text-center">
+        <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-sm text-center">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm flex items-center justify-center gap-2 text-center">
+        <div className="mb-6 p-4 rounded-xl bg-[#E8F8F0] border border-[#1DBF73]/20 text-[#1DBF73] text-sm flex items-center justify-center gap-2 text-center font-semibold">
           <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
           <span>{success}</span>
         </div>
@@ -147,7 +146,7 @@ function VerifyEmailForm() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3 text-center">
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-3 text-center">
             Enter 6-Digit OTP Code
           </label>
           <div className="flex justify-between gap-2" onPaste={handlePaste}>
@@ -161,19 +160,19 @@ function VerifyEmailForm() {
                 value={digit}
                 onChange={(e) => handleOtpChange(idx, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(idx, e)}
-                className="w-12 h-14 bg-slate-950 border border-slate-800 rounded-xl text-center text-xl font-bold text-amber-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors"
+                className="w-12 h-14 bg-white border border-[#E4E5E7] rounded-xl text-center text-xl font-extrabold text-[#1DBF73] focus:outline-none focus:border-[#1DBF73] focus:ring-1 focus:ring-[#1DBF73] transition-colors"
               />
             ))}
           </div>
         </div>
 
-        <Button type="submit" disabled={loading} className="w-full py-3.5">
+        <Button type="submit" variant="primary" size="lg" disabled={loading} className="w-full justify-center">
           {loading ? 'Verifying OTP...' : 'Verify Email'}
         </Button>
       </form>
 
-      <div className="mt-6 text-center text-sm text-slate-400 flex items-center justify-between">
-        <Link href="/register" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-xs">
+      <div className="mt-6 text-center text-sm text-[#74767E] flex items-center justify-between">
+        <Link href="/register" className="inline-flex items-center gap-1.5 text-[#74767E] hover:text-[#222325] transition-colors text-xs font-semibold">
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Register</span>
         </Link>
@@ -181,7 +180,7 @@ function VerifyEmailForm() {
           type="button"
           onClick={handleResend}
           disabled={cooldown > 0 || resending}
-          className="inline-flex items-center gap-1.5 text-amber-500 hover:text-amber-400 font-medium text-xs disabled:opacity-50 transition-colors"
+          className="inline-flex items-center gap-1.5 text-[#1DBF73] hover:underline font-bold text-xs disabled:opacity-50 transition-colors cursor-pointer"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${resending ? 'animate-spin' : ''}`} />
           <span>{cooldown > 0 ? `Resend in ${cooldown}s` : 'Resend Code'}</span>
@@ -193,14 +192,11 @@ function VerifyEmailForm() {
 
 export default function VerifyEmailPage() {
   return (
-    <div className="relative min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
-        <NetworkWave />
-      </div>
+    <div className="relative min-h-screen bg-[#F7F7F7] text-[#222325] flex items-center justify-center p-4">
       <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20">
         <Logo href="/" size="md" />
       </div>
-      <Suspense fallback={<div className="text-slate-400 text-sm">Loading verification page...</div>}>
+      <Suspense fallback={<div className="text-[#74767E] text-sm">Loading verification page...</div>}>
         <VerifyEmailForm />
       </Suspense>
     </div>
