@@ -6,7 +6,6 @@ import { Menu, User, X, Zap } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import Button from "./Button";
 import Logo from "./Logo";
 
 export default function Navbar() {
@@ -55,35 +54,36 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 100, damping: 20 }}
-        className="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl bg-prompt-blue/80 backdrop-blur-xl border border-ai-green/10 rounded-md z-50 "
-      >
-        <div className="px-6 md:px-8 h-16 flex items-center justify-between">
-          {/* Brand Logo with Smooth Scroll to Top on Home & Route Navigation on Subpages */}
-          <Logo id="navbar-brand-logo" markId="navbar-logomark-target" href="/" onClick={handleLogoClick} />
+      <header className="fixed top-0 left-0 right-0 w-full bg-white border-b border-[#E4E5E7] z-50 shadow-sm transition-all">
+        <div className="w-11/12 lg:w-10/12 max-w-10/12 max-w-7xl mx-auto px-2 sm:px-4 h-20 flex items-center justify-between">
+          {/* Brand Logo */}
+          <div className="flex items-center gap-8">
+            <Logo
+              id="navbar-brand-logo"
+              markId="navbar-logomark-target"
+              href="/"
+              onClick={handleLogoClick}
+            />
 
-          {/* Right Aligned Navigation and Action Buttons */}
-          <div className="hidden md:flex items-center gap-6">
-            <nav className="flex items-center gap-1 text-[11px] font-bold tracking-[0.15em] text-slate-300">
+            {/* Desktop Navigation Links (Fiverr Style) */}
+            <nav className="hidden lg:flex items-center gap-1 text-[15px] font-bold text-[#62646A]">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative px-4 py-2 rounded-full uppercase transition-colors duration-300 ${
+                    className={`relative px-3.5 py-2 transition-colors duration-150 ${
                       isActive
-                        ? "text-[#0B132B] font-extrabold"
-                        : "hover:text-[#39FF88]"
+                        ? "text-[#1DBF73] font-black"
+                        : "hover:text-[#1DBF73]"
                     }`}
                   >
+                    {link.label}
                     {isActive && (
                       <motion.span
-                        layoutId="activeNavBackground"
-                        className="absolute inset-0 bg-[#39FF88] rounded-full -z-10 border border-[#39FF88]"
+                        layoutId="activeFiverrNavIndicator"
+                        className="absolute bottom-0 left-3.5 right-3.5 h-[3px] bg-[#1DBF73] rounded-full"
                         transition={{
                           type: "spring",
                           stiffness: 380,
@@ -91,22 +91,31 @@ export default function Navbar() {
                         }}
                       />
                     )}
-                    {link.label}
                   </Link>
                 );
               })}
             </nav>
+          </div>
 
-            <div className="flex items-center gap-4">
-              {!mounted || isPending ? (
-                <div className="w-8 h-8 rounded-full bg-[#131D38] animate-pulse" />
-              ) : session ? (
+          {/* Right Aligned Actions */}
+          <div className="hidden md:flex items-center gap-4">
+            {!mounted || isPending ? (
+              <div className="w-24 h-9 rounded-md bg-[#F0F2F5] animate-pulse" />
+            ) : session ? (
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/dashboard"
+                  className="px-4 py-2 rounded-md bg-[#1DBF73] text-white text-sm font-bold hover:bg-[#19A463] transition shadow-sm"
+                >
+                  Dashboard
+                </Link>
+
                 <div className="relative" ref={profileMenuRef}>
                   <button
                     onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-                    className="w-10 h-10 rounded-full bg-[#39FF88] p-[2px] flex items-center justify-center transition-transform hover:scale-105 shadow-lg shadow-[#39FF88]/20"
+                    className="w-10 h-10 rounded-full bg-[#1DBF73] p-[2px] flex items-center justify-center transition-transform hover:scale-105 shadow-sm cursor-pointer"
                   >
-                    <div className="w-full h-full bg-[#0B132B] rounded-full flex items-center justify-center overflow-hidden">
+                    <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
                       {session.user.image ? (
                         <img
                           src={session.user.image}
@@ -114,32 +123,32 @@ export default function Navbar() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <User className="w-5 h-5 text-[#39FF88]" />
+                        <User className="w-5 h-5 text-[#1DBF73]" />
                       )}
                     </div>
                   </button>
 
                   {profileMenuOpen && (
-                    <div className="absolute right-0 mt-3 w-56 bg-[#131D38] border border-[#39FF88]/30 rounded-xl shadow-2xl py-2 z-50 overflow-hidden transform opacity-100 scale-100 transition-all duration-200 origin-top-right">
-                      <div className="px-4 py-3 border-b border-[#39FF88]/15 mb-2">
-                        <p className="text-xs text-white font-bold truncate">
+                    <div className="absolute right-0 mt-3 w-56 bg-white border border-[#E4E5E7] rounded-xl shadow-xl py-2 z-50 overflow-hidden transform opacity-100 scale-100 transition-all duration-200 origin-top-right">
+                      <div className="px-4 py-3 border-b border-[#E4E5E7] mb-1">
+                        <p className="text-xs text-[#222325] font-bold truncate">
                           {session.user.name || "User"}
                         </p>
-                        <p className="text-[10px] text-slate-400 truncate mt-0.5">
+                        <p className="text-[10px] text-[#74767E] truncate mt-0.5">
                           {session.user.email}
                         </p>
                       </div>
                       <Link
                         href="/profile"
                         onClick={() => setProfileMenuOpen(false)}
-                        className="block px-4 py-2.5 text-xs font-semibold text-slate-300 hover:text-[#39FF88] hover:bg-[#0B132B] transition"
+                        className="block px-4 py-2.5 text-xs font-semibold text-[#404145] hover:text-[#1DBF73] hover:bg-[#F7F7F7] transition"
                       >
                         Profile
                       </Link>
                       <Link
                         href="/dashboard"
                         onClick={() => setProfileMenuOpen(false)}
-                        className="block px-4 py-2.5 text-xs font-semibold text-slate-300 hover:text-[#39FF88] hover:bg-[#0B132B] transition"
+                        className="block px-4 py-2.5 text-xs font-semibold text-[#404145] hover:text-[#1DBF73] hover:bg-[#F7F7F7] transition"
                       >
                         Dashboard
                       </Link>
@@ -148,30 +157,37 @@ export default function Navbar() {
                           handleLogout();
                           setProfileMenuOpen(false);
                         }}
-                        className="w-full text-left px-4 py-2.5 text-xs font-bold text-red-400 hover:text-red-300 hover:bg-[#0B132B] transition mt-2 border-t border-[#39FF88]/15 pt-2"
+                        className="w-full text-left px-4 py-2.5 text-xs font-bold text-red-500 hover:text-red-600 hover:bg-red-50 transition mt-1 border-t border-[#E4E5E7] pt-2 cursor-pointer"
                       >
                         Logout
                       </button>
                     </div>
                   )}
                 </div>
-              ) : (
-                <>
-                  <Button href="/login" variant="ghost" size="sm">
-                    Sign In
-                  </Button>
-                  <Button href="/register" variant="primary" size="sm">
-                    Get Started
-                  </Button>
-                </>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-[15px] font-bold text-[#62646A] hover:text-[#1DBF73] transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-5 py-2 rounded-md border-2 border-[#1DBF73] text-[#1DBF73] font-bold text-sm hover:bg-[#1DBF73] hover:text-white transition-all shadow-sm"
+                >
+                  Join
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-slate-300 hover:text-[#39FF88]"
+            className="lg:hidden text-[#404145] hover:text-[#1DBF73] p-2 cursor-pointer"
+            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
               <X className="w-6 h-6" />
@@ -180,7 +196,7 @@ export default function Navbar() {
             )}
           </button>
         </div>
-      </motion.header>
+      </header>
 
       {/* Full-Screen Mobile Navigation Drawer */}
       <AnimatePresence>
@@ -190,17 +206,17 @@ export default function Navbar() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "-100%", opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden fixed inset-0 z-[60] bg-slate-950/95 backdrop-blur-xl flex flex-col"
+            className="lg:hidden fixed inset-0 z-[60] bg-white flex flex-col"
           >
             {/* Drawer Header */}
-            <div className="flex items-center justify-between px-6 py-6 border-b border-slate-900/60">
-              <span className="font-black text-xl text-white tracking-widest flex items-center gap-2">
-                <Zap className="w-6 h-6 text-orange-500" />
+            <div className="flex items-center justify-between px-6 py-6 border-b border-[#E4E5E7]">
+              <span className="font-black text-xl text-[#222325] tracking-widest flex items-center gap-2">
+                <Zap className="w-6 h-6 text-[#1DBF73]" />
                 Labto AI
               </span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-900 transition-colors"
+                className="text-[#74767E] hover:text-[#222325] p-2 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -208,7 +224,7 @@ export default function Navbar() {
 
             {/* Drawer Content */}
             <div className="flex-1 overflow-y-auto px-6 py-8">
-              <div className="flex flex-col gap-4 text-sm font-bold tracking-wider text-slate-400">
+              <div className="flex flex-col gap-4 text-sm font-bold tracking-wider text-[#62646A]">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
                   return (
@@ -216,25 +232,25 @@ export default function Navbar() {
                       key={link.href}
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`px-4 py-3 rounded transition-colors duration-200 ${
+                      className={`px-4 py-3 rounded-xl transition-colors duration-200 ${
                         isActive
-                          ? "text-white font-extrabold bg-slate-900 border border-slate-800"
-                          : "hover:text-amber-500"
+                          ? "text-white font-extrabold bg-[#1DBF73] shadow-md shadow-[#1DBF73]/20"
+                          : "hover:text-[#1DBF73] hover:bg-[#F7F7F7]"
                       }`}
                     >
-                      {link.label.toUpperCase()}
+                      {link.label}
                     </Link>
                   );
                 })}
-                <hr className="border-slate-800 my-2" />
+                <hr className="border-[#E4E5E7] my-2" />
                 <div className="flex flex-col gap-4">
                   {!mounted || isPending ? (
-                    <div className="h-12 bg-slate-900 rounded animate-pulse" />
+                    <div className="h-12 bg-slate-100 rounded animate-pulse" />
                   ) : session ? (
                     <>
-                      <div className="flex items-center gap-4 px-3 py-3 mb-2 bg-slate-900/50 rounded-lg">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 p-[2px] flex items-center justify-center">
-                          <div className="w-full h-full bg-slate-950 rounded-full flex items-center justify-center overflow-hidden">
+                      <div className="flex items-center gap-4 px-3 py-3 mb-2 bg-[#F7F7F7] rounded-xl border border-[#E4E5E7]">
+                        <div className="w-12 h-12 rounded-full bg-[#1DBF73] p-[2px] flex items-center justify-center">
+                          <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
                             {session.user.image ? (
                               <img
                                 src={session.user.image}
@@ -242,15 +258,15 @@ export default function Navbar() {
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              <User className="w-6 h-6 text-amber-500" />
+                              <User className="w-6 h-6 text-[#1DBF73]" />
                             )}
                           </div>
                         </div>
                         <div className="flex flex-col overflow-hidden">
-                          <span className="text-base text-white font-bold truncate">
+                          <span className="text-base text-[#222325] font-bold truncate">
                             {session.user.name || "User"}
                           </span>
-                          <span className="text-xs text-slate-400 truncate">
+                          <span className="text-xs text-[#74767E] truncate">
                             {session.user.email}
                           </span>
                         </div>
@@ -258,32 +274,25 @@ export default function Navbar() {
                       <Link
                         href="/profile"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="py-3 text-center border border-slate-800 rounded font-semibold text-slate-300 hover:bg-slate-900 transition"
+                        className="py-3 text-center border border-[#E4E5E7] rounded-xl font-semibold text-[#404145] hover:bg-[#F7F7F7] transition"
                       >
-                        PROFILE
+                        Profile
                       </Link>
                       <Link
                         href="/dashboard"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="py-3 text-center border border-slate-800 rounded font-semibold text-slate-300 hover:bg-slate-900 transition"
+                        className="py-3 text-center border border-[#E4E5E7] rounded-xl font-semibold text-[#404145] hover:bg-[#F7F7F7] transition"
                       >
-                        DASHBOARD
-                      </Link>
-                      <Link
-                        href="/settings"
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="py-3 text-center border border-slate-800 rounded font-semibold text-slate-300 hover:bg-slate-900 transition"
-                      >
-                        SETTINGS
+                        Dashboard
                       </Link>
                       <button
                         onClick={() => {
                           handleLogout();
                           setMobileMenuOpen(false);
                         }}
-                        className="py-3 text-center bg-red-500/10 text-red-400 border border-red-500/20 rounded font-semibold hover:bg-red-500/20 transition mt-2"
+                        className="py-3 text-center bg-red-50 text-red-500 border border-red-200 rounded-xl font-semibold hover:bg-red-100 transition mt-2 cursor-pointer"
                       >
-                        LOGOUT
+                        Logout
                       </button>
                     </>
                   ) : (
@@ -291,16 +300,16 @@ export default function Navbar() {
                       <Link
                         href="/login"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="py-3 text-center bg-slate-900 rounded font-semibold text-white hover:bg-slate-800 transition"
+                        className="py-3 text-center bg-[#F7F7F7] border border-[#E4E5E7] rounded-xl font-bold text-[#222325] hover:bg-slate-100 transition"
                       >
-                        SIGN IN
+                        Sign In
                       </Link>
                       <Link
                         href="/register"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="py-3 text-center bg-amber-500 rounded font-semibold text-slate-950 hover:bg-amber-400 transition mt-2"
+                        className="py-3 text-center bg-[#1DBF73] rounded-xl font-bold text-white hover:bg-[#19A463] transition mt-2 shadow-sm"
                       >
-                        GET STARTED
+                        Join
                       </Link>
                     </>
                   )}
