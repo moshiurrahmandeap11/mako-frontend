@@ -23,7 +23,7 @@ export function LogoMark({ size = 'md', id }: { size?: 'sm' | 'md' | 'lg'; id?: 
       className={`relative ${sizeClasses[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`}
     >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" className="w-full h-full">
-        <g stroke="#39FF88" strokeWidth="28" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <g stroke="#1DBF73" strokeWidth="28" strokeLinecap="round" strokeLinejoin="round" fill="none">
           {/* Chat Bubble Outline */}
           <path d="M 120,90 H 380 A 50,50 0 0 1 430,140 V 310 A 50,50 0 0 1 380,360 H 350 L 380,415 L 310,360 H 120 A 50,50 0 0 1 70,310 V 140 A 50,50 0 0 1 120,90 Z" />
           {/* Hollow Letter L */}
@@ -55,7 +55,7 @@ export default function Logo({
     <div id={id} className={`flex items-center gap-3 group cursor-pointer ${className}`}>
       <LogoMark size={size} id={markId} />
       {showText && (
-        <span className={`font-extrabold text-white transition-colors duration-300 group-hover:text-[#39FF88] ${textSizes[size]}`}>
+        <span className={`font-black text-[#222325] transition-colors duration-300 group-hover:text-[#1DBF73] ${textSizes[size]}`}>
           Labto AI
         </span>
       )}
@@ -64,11 +64,11 @@ export default function Logo({
 
   if (href) {
     return (
-      <Link href={href} onClick={onClick}>
+      <Link href={href} onClick={onClick} className="inline-flex">
         {content}
       </Link>
     );
   }
 
-  return <div onClick={onClick}>{content}</div>;
+  return content;
 }
