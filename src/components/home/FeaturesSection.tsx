@@ -26,12 +26,12 @@ export default function FeaturesSection() {
   return (
     <section
       id="features"
-      className="py-20 px-4 sm:px-6 border-t border-[#E4E5E7] bg-[#F7F7F7] relative"
+      className="py-6 border-t border-border-light bg-surface-light relative"
     >
-      <div className="w-11/12 lg:w-9/12 max-w-9/12 max-w-7xl mx-auto space-y-10 relative z-10">
+      <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto space-y-10 relative z-10">
         {/* Section Header */}
-        <div className="text-left max-w-7xl mx-auto space-y-2">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#222325] tracking-tight">
+        <div className="text-left space-y-2">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-text-main tracking-tight">
             Features That Empower Your AI-Driven E-Commerce Experience
           </h2>
           <p className="text-[#62646A] text-xs sm:text-sm font-normal leading-relaxed">
@@ -48,18 +48,15 @@ export default function FeaturesSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="rounded-2xl bg-white border border-[#E4E5E7] shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-8 items-center"
+              className="rounded-2xl bg-white border border-border-light shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-8 items-center"
             >
               {/* Left Column: Feature Info (5 cols) */}
               <div className="lg:col-span-5 space-y-5 text-left">
                 <div className="space-y-2">
-                  <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/20">
-                    {activeFeature.category}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-bold text-[#222325] tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-medium text-text-main tracking-tight">
                     {activeFeature.title}
                   </h3>
-                  <p className="text-[#62646A] text-xs sm:text-sm font-normal leading-relaxed">
+                  <p className="text-[#62646A] text-xs sm:text-sm leading-relaxed">
                     {activeFeature.description}
                   </p>
                 </div>
@@ -69,12 +66,12 @@ export default function FeaturesSection() {
                   {activeFeature.stats.map((stat, i) => (
                     <div
                       key={i}
-                      className="p-3 rounded-xl bg-[#F7F7F7] border border-[#E4E5E7] text-center"
+                      className="p-3 rounded-xl bg-surface-light border border-border-light text-center"
                     >
-                      <span className="block text-base sm:text-lg text-[#1DBF73] font-bold">
+                      <span className="block text-base sm:text-lg font-medium">
                         {stat.value}
                       </span>
-                      <span className="block text-[9px] uppercase tracking-wider text-[#74767E] mt-0.5 font-semibold">
+                      <span className="block text-xs tracking-wider text-text-muted mt-0.5">
                         {stat.label}
                       </span>
                     </div>
@@ -86,9 +83,9 @@ export default function FeaturesSection() {
                   {activeFeature.highlights.slice(0, 3).map((item, idx) => (
                     <li
                       key={idx}
-                      className="flex items-start gap-2.5 text-xs text-[#404145] font-medium"
+                      className="flex items-start gap-2.5 text-xs text-text-main font-medium"
                     >
-                      <span className="w-2 h-2 rounded-full bg-[#1DBF73] mt-1 shrink-0" />
+                      <span className="w-2 h-2 rounded-full bg-black mt-1 shrink-0" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -105,32 +102,34 @@ export default function FeaturesSection() {
                   >
                     View Details
                   </Button>
-                  <Button href="/register" variant="secondary" size="sm" className="text-[#404145] border-[#E4E5E7] hover:bg-slate-50">
+                  <Button
+                    href="/register"
+                    variant="secondary"
+                    size="sm"
+                    className="text-text-body border-border-light hover:bg-slate-50"
+                  >
                     Try in Sandbox
                   </Button>
                 </div>
               </div>
 
               {/* Right Column: Clean Light Code & Canvas Preview (7 cols) */}
-              <div className="lg:col-span-7 relative w-full h-full min-h-[280px] sm:min-h-[340px] rounded-2xl bg-[#F7F7F7] border border-[#E4E5E7] p-4 sm:p-6 flex flex-col justify-between overflow-hidden shadow-sm">
+              <div className="lg:col-span-7 relative w-full h-full min-h-70 sm:min-h-85 rounded-2xl bg-surface-light border border-border-light p-4 sm:p-6 flex flex-col justify-between overflow-hidden shadow-sm">
                 {/* Header */}
-                <div className="flex items-center justify-between border-b border-[#E4E5E7] pb-3">
+                <div className="flex items-center justify-between border-b border-border-light pb-3">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-rose-400" />
                     <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                    <span className="text-[11px] font-mono text-[#74767E] pl-2">
-                      labto.ai/{activeFeature.slug}
+                    <span className="text-[11px] font-mono text-text-muted pl-2">
+                      labtoai.com/{activeFeature.slug}
                     </span>
                   </div>
-                  <span className="text-[9px] font-mono text-[#1DBF73] uppercase tracking-wider font-bold bg-[#E8F8F0] px-2 py-0.5 rounded-full border border-[#1DBF73]/20">
-                    Auto Active
-                  </span>
                 </div>
 
                 {/* Body */}
                 <div className="py-4 flex-1 flex flex-col justify-center space-y-3">
-                  <div className="w-full bg-white border border-[#E4E5E7] rounded-xl p-3.5 font-mono text-left text-[11px] sm:text-xs overflow-x-auto text-[#222325] leading-relaxed shadow-sm">
+                  <div className="w-full bg-white border border-border-light rounded-xl p-3.5 font-mono text-left text-[11px] sm:text-xs overflow-x-auto text-text-main leading-relaxed shadow-sm">
                     <pre>
                       <code>{activeFeature.codeSnippet}</code>
                     </pre>
@@ -141,7 +140,7 @@ export default function FeaturesSection() {
                 </div>
 
                 {/* Footer Link */}
-                <div className="pt-3 border-t border-[#E4E5E7] flex items-center justify-between text-xs">
+                <div className="pt-3 border-t border-border-light flex items-center justify-between text-xs">
                   <Link
                     href={`/features/${activeFeature.slug}`}
                     className="inline-flex items-center gap-1 text-[11px] font-bold text-[#1DBF73] hover:underline"
@@ -150,7 +149,7 @@ export default function FeaturesSection() {
                     <ArrowRight className="w-3 h-3" />
                   </Link>
 
-                  <span className="text-[10px] text-[#74767E] font-mono font-semibold">
+                  <span className="text-[10px] text-text-muted font-mono font-semibold">
                     {currentIndex + 1} / {FEATURES_DATA.length}
                   </span>
                 </div>
@@ -178,14 +177,14 @@ export default function FeaturesSection() {
             <div className="flex items-center gap-2">
               <button
                 onClick={handlePrev}
-                className="p-2 rounded-full bg-white border border-[#E4E5E7] text-[#404145] hover:text-[#1DBF73] hover:border-[#1DBF73]/40 transition shadow-sm cursor-pointer"
+                className="p-2 rounded-full bg-white shadow-sm text-text-body hover:text-[#1DBF73] hover:border-[#1DBF73]/40 transition cursor-pointer"
                 title="Previous"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 onClick={handleNext}
-                className="p-2 rounded-full bg-white border border-[#E4E5E7] text-[#404145] hover:text-[#1DBF73] hover:border-[#1DBF73]/40 transition shadow-sm cursor-pointer"
+                className="p-2 rounded-full bg-white text-text-body hover:text-[#1DBF73] hover:border-[#1DBF73]/40 transition shadow-sm cursor-pointer"
                 title="Next"
               >
                 <ChevronRight className="w-4 h-4" />
