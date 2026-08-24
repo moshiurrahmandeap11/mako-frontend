@@ -2,7 +2,6 @@
 
 import Button from "@/components/Button";
 import {
-  AnimatePresence,
   motion,
   useScroll,
   useTransform,
@@ -14,12 +13,9 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 export default function HeroSection() {
-  const dynamicWords = ["E-Commerce", "Blog", "Portfolio", "Website"];
-  const [wordIndex, setWordIndex] = useState(0);
-
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   // Track scroll from top of page (0px) to scrolled down (420px)
@@ -32,13 +28,6 @@ export default function HeroSection() {
       setIsMuted(!isMuted);
     }
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % dynamicWords.length);
-    }, 2400);
-    return () => clearInterval(interval);
-  }, [dynamicWords.length]);
 
   return (
     <section className="relative pt-6 overflow-hidden bg-white">
@@ -53,18 +42,7 @@ export default function HeroSection() {
           >
             Find the right AI assistant for your{" "}
             <span className="relative inline-block text-[#1DBF73]">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={wordIndex}
-                  initial={{ y: 15, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -15, opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                  className="inline-block"
-                >
-                  {dynamicWords[wordIndex]}
-                </motion.span>
-              </AnimatePresence>
+              E-Commerce Store
             </span>
           </motion.h1>
 
