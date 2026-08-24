@@ -1,7 +1,12 @@
 "use client";
 
 import Button from "@/components/Button";
-import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import {
   ArrowRight,
   CheckCircle2,
@@ -19,7 +24,7 @@ export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
   // Track scroll from top of page (0px) to scrolled down (420px)
   const { scrollY } = useScroll();
-  const videoScale = useTransform(scrollY, [0, 420], [0.70, 1]);
+  const videoScale = useTransform(scrollY, [0, 420], [0.7, 1]);
 
   const toggleSound = () => {
     if (videoRef.current) {
@@ -82,7 +87,7 @@ export default function HeroSection() {
           className="flex flex-wrap items-center justify-center gap-3 pt-2"
         >
           <Button
-            href="/register"
+            href="/pricing"
             variant="primary"
             size="lg"
             className="px-8 py-3.5 text-sm font-bold shadow-md shadow-[#1DBF73]/20"
@@ -97,7 +102,7 @@ export default function HeroSection() {
             href="/contact"
             variant="secondary"
             size="lg"
-            className="px-7 py-3.5 text-sm font-bold bg-white text-[#222325] border-[#E4E5E7] hover:border-[#1DBF73] hover:text-[#1DBF73]"
+            className="px-7 py-3.5 text-sm font-bold bg-white text-text-main border-border-light hover:border-[#1DBF73] hover:text-[#1DBF73]"
           >
             Partner with us
           </Button>
@@ -108,7 +113,7 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-wrap items-center justify-center gap-6 text-xs text-[#74767E] pt-1 font-medium"
+          className="flex flex-wrap items-center justify-center gap-6 text-xs text-text-muted pt-1 font-medium"
         >
           <span className="flex items-center gap-1.5">
             <CheckCircle2 className="w-4 h-4 text-[#1DBF73]" />
@@ -131,7 +136,7 @@ export default function HeroSection() {
               scale: videoScale,
               transformOrigin: "center top",
             }}
-            className="relative w-full rounded-2xl overflow-hidden p-2 bg-white border border-[#E4E5E7] shadow-2xl shadow-black/[0.08] text-left"
+            className="relative w-full rounded-md overflow-hidden p-2 bg-white text-left"
           >
             {/* HTML5 Showcase Video */}
             <video
@@ -141,21 +146,20 @@ export default function HeroSection() {
               loop
               muted={isMuted}
               playsInline
-              className="w-full aspect-[16/9] object-cover rounded-xl"
+              className="w-full aspect-video object-cover rounded-xl"
             />
 
             {/* Video Bottom Left Live Status Pill */}
-            <div className="absolute bottom-6 left-6 z-20 hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-xl border border-[#E4E5E7] shadow-lg">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#1DBF73] animate-pulse" />
-              <span className="text-xs font-bold text-[#222325]">
-                Live Storefront AI Assistant Active
+            <div className="absolute bottom-6 left-6 z-20 hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-xl border border-border-light">
+              <span className="text-xs font-semibold text-text-main">
+                Live AI Assistant
               </span>
             </div>
 
             {/* Sound Mute/Unmute Toggle Button */}
             <button
               onClick={toggleSound}
-              className="absolute bottom-6 right-6 z-20 p-3 rounded-full bg-white/95 text-[#222325] hover:text-[#1DBF73] transition-all backdrop-blur-md shadow-lg border border-[#E4E5E7] flex items-center gap-2 group cursor-pointer"
+              className="absolute bottom-6 right-6 z-20 p-3 rounded-full bg-white/95 text-text-main hover:text-[#1DBF73] transition-all backdrop-blur-md shadow-lg border border-border-light flex items-center gap-2 group cursor-pointer"
               title={isMuted ? "Unmute Audio" : "Mute Audio"}
             >
               {isMuted ? (
