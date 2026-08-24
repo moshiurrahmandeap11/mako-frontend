@@ -114,9 +114,9 @@ export default function DashboardLayout({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex">
+      <div className="min-h-screen bg-[#F7F7F7] text-[#222325] flex">
         {/* Skeleton Sidebar (Desktop) */}
-        <aside className="hidden md:flex w-64 border-r border-slate-800/80 bg-slate-900/60 p-6 flex-col justify-between shrink-0">
+        <aside className="hidden md:flex w-64 border-r border-[#E4E5E7] bg-white p-6 flex-col justify-between shrink-0">
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <Skeleton className="w-8 h-8 rounded" />
@@ -134,7 +134,7 @@ export default function DashboardLayout({
 
         {/* Skeleton Content */}
         <main className="flex-1 flex flex-col min-w-0">
-          <header className="h-16 border-b border-slate-800/80 px-4 sm:px-8 flex items-center justify-between">
+          <header className="h-16 border-b border-[#E4E5E7] px-4 sm:px-8 flex items-center justify-between bg-white">
             <Skeleton className="w-32 h-4" />
             <Skeleton className="w-36 h-6 rounded-full" />
           </header>
@@ -152,17 +152,17 @@ export default function DashboardLayout({
   }
 
   const sidebarContent = (
-    <div className="h-full flex flex-col justify-between">
+    <div className="h-full flex flex-col justify-between bg-white">
       <div>
         {/* Brand Header */}
-        <div className="h-16 px-6 border-b border-[#39FF88]/15 flex items-center justify-between">
+        <div className="h-16 px-6 border-b border-[#E4E5E7] flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <LogoMark size="sm" />
             <div className="flex flex-col">
-              <span className="font-extrabold text-base tracking-[0.18em] text-white group-hover:text-[#39FF88] transition">
+              <span className="font-extrabold text-base tracking-[0.18em] text-[#222325] group-hover:text-[#1DBF73] transition">
                 Labto AI
               </span>
-              <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+              <span className="text-[9px] text-[#74767E] font-bold uppercase tracking-wider">
                 {isAdmin ? "Super Admin Console" : "Merchant Console"}
               </span>
             </div>
@@ -171,33 +171,33 @@ export default function DashboardLayout({
           {/* Close button for mobile drawer */}
           <button
             onClick={() => setIsMobileNavOpen(false)}
-            className="md:hidden text-slate-400 hover:text-white p-1"
+            className="md:hidden text-[#74767E] hover:text-[#222325] p-1"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Merchant Store Info */}
-        <div className="p-3.5 mx-3 my-4 rounded-xl bg-[#0B132B] border border-[#39FF88]/20 flex items-center gap-3">
-          <div className="w-8 h-8 rounded bg-[#131D38] border border-[#39FF88]/30 flex items-center justify-center text-[#39FF88] shrink-0">
+        <div className="p-3.5 mx-3 my-4 rounded-xl bg-[#F7F7F7] border border-[#E4E5E7] flex items-center gap-3">
+          <div className="w-8 h-8 rounded bg-[#E8F8F0] border border-[#1DBF73]/30 flex items-center justify-center text-[#1DBF73] shrink-0">
             {isAdmin ? (
-              <ShieldCheck className="w-4 h-4 text-[#39FF88]" />
+              <ShieldCheck className="w-4 h-4 text-[#1DBF73]" />
             ) : (
               <Store className="w-4 h-4" />
             )}
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
-              <p className="text-xs font-bold text-white truncate">
+              <p className="text-xs font-bold text-[#222325] truncate">
                 {merchant?.name || "My Store"}
               </p>
               {isAdmin && (
-                <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-[#39FF88] text-[#0B132B]">
+                <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-[#1DBF73] text-white">
                   ADMIN
                 </span>
               )}
             </div>
-            <p className="text-[10px] text-slate-400 truncate">
+            <p className="text-[10px] text-[#74767E] truncate">
               {merchant?.email}
             </p>
           </div>
@@ -213,12 +213,12 @@ export default function DashboardLayout({
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center justify-between px-3.5 py-2.5 rounded text-xs font-bold tracking-[0.08em] uppercase transition ${
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold tracking-wider uppercase transition ${
                   isActive
-                    ? "bg-[#39FF88] text-[#0B132B] shadow-lg shadow-[#39FF88]/20 font-extrabold"
+                    ? "bg-[#1DBF73] text-white shadow-md shadow-[#1DBF73]/20 font-extrabold"
                     : item.isAdmin
-                      ? "text-[#39FF88] bg-[#39FF88]/10 border border-[#39FF88]/20 hover:bg-[#39FF88]/20"
-                      : "text-slate-400 hover:text-slate-100 hover:bg-[#1C2B4E]/60"
+                      ? "text-[#1DBF73] bg-[#E8F8F0] border border-[#1DBF73]/20 hover:bg-[#1DBF73]/20"
+                      : "text-[#62646A] hover:text-[#222325] hover:bg-[#F0F2F5]"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -226,7 +226,7 @@ export default function DashboardLayout({
                   <span>{item.label}</span>
                 </div>
                 {item.isAdmin && !isActive && (
-                  <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-[#39FF88]/20 text-[#39FF88]">
+                  <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-[#1DBF73]/20 text-[#1DBF73]">
                     MASTER
                   </span>
                 )}
@@ -237,19 +237,19 @@ export default function DashboardLayout({
       </div>
 
       {/* Footer Account & Tier Info */}
-      <div className="p-4 border-t border-[#39FF88]/15">
-        <div className="mb-3 px-3 py-2.5 rounded bg-[#0B132B] border border-[#39FF88]/20 text-slate-300 text-xs font-semibold flex items-center justify-between">
-          <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">
+      <div className="p-4 border-t border-[#E4E5E7]">
+        <div className="mb-3 px-3 py-2.5 rounded-xl bg-[#F7F7F7] border border-[#E4E5E7] text-[#404145] text-xs font-semibold flex items-center justify-between">
+          <span className="text-[10px] uppercase tracking-wider text-[#74767E] font-bold">
             TIER
           </span>
-          <span className="bg-[#39FF88] text-[#0B132B] text-[10px] px-2 py-0.5 rounded uppercase font-extrabold tracking-wider">
+          <span className="bg-[#1DBF73] text-white text-[10px] px-2 py-0.5 rounded-md uppercase font-extrabold tracking-wider">
             {merchant?.planTier || "FREE"}
           </span>
         </div>
 
         <button
           onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold tracking-[0.1em] uppercase text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded transition border border-transparent hover:border-rose-500/20"
+          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold tracking-wider uppercase text-[#74767E] hover:text-rose-600 hover:bg-rose-50 rounded-xl transition border border-transparent hover:border-rose-200"
         >
           <LogOut className="w-4 h-4" />
           <span>Sign Out</span>
@@ -259,13 +259,13 @@ export default function DashboardLayout({
   );
 
   return (
-    <div className="min-h-screen bg-[#0B132B] text-slate-100 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#F7F7F7] text-[#222325] flex flex-col md:flex-row">
       <Suspense fallback={null}>
         <CheckoutVerifier />
       </Suspense>
 
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex w-64 border-r border-[#39FF88]/15 bg-[#131D38]/90 backdrop-blur-xl flex-col justify-between shrink-0 h-screen sticky top-0">
+      <aside className="hidden md:flex w-64 border-r border-[#E4E5E7] bg-white flex-col justify-between shrink-0 h-screen sticky top-0">
         {sidebarContent}
       </aside>
 
@@ -273,13 +273,13 @@ export default function DashboardLayout({
       {isMobileNavOpen && (
         <div
           onClick={() => setIsMobileNavOpen(false)}
-          className="fixed inset-0 z-40 bg-[#0B132B]/80 backdrop-blur-sm md:hidden animate-fade-in"
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden animate-fade-in"
         />
       )}
 
       {/* Mobile Slide-in Drawer */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] bg-[#131D38] border-r border-[#39FF88]/20 shadow-2xl transform transition-transform duration-200 ease-in-out md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] bg-white border-r border-[#E4E5E7] shadow-2xl transform transition-transform duration-200 ease-in-out md:hidden ${
           isMobileNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -289,23 +289,23 @@ export default function DashboardLayout({
       {/* Main Page Area */}
       <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         {/* Sticky Header with Mobile Hamburger */}
-        <header className="h-16 border-b border-[#39FF88]/15 bg-[#0B132B]/90 px-4 sm:px-8 flex items-center justify-between sticky top-0 backdrop-blur-xl z-30">
+        <header className="h-16 border-b border-[#E4E5E7] bg-white/95 px-4 sm:px-8 flex items-center justify-between sticky top-0 backdrop-blur-xl z-30 shadow-sm">
           <div className="flex items-center gap-3">
             {/* Hamburger Button for Mobile */}
             <button
               onClick={() => setIsMobileNavOpen(true)}
-              className="md:hidden p-2 rounded-lg bg-[#131D38] border border-[#39FF88]/20 text-slate-300 hover:text-white"
+              className="md:hidden p-2 rounded-lg bg-[#F7F7F7] border border-[#E4E5E7] text-[#404145] hover:text-[#222325]"
               aria-label="Open Navigation"
             >
               <Menu className="w-5 h-5" />
             </button>
 
-            <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
+            <div className="flex items-center gap-2 text-xs text-[#74767E] font-medium">
               <span className="uppercase tracking-wider font-bold text-[10px] hidden sm:inline">
                 Console
               </span>
               <span className="hidden sm:inline">/</span>
-              <span className="text-white font-bold uppercase tracking-wider text-[10px] truncate max-w-[140px] sm:max-w-none">
+              <span className="text-[#222325] font-bold uppercase tracking-wider text-[10px] truncate max-w-[140px] sm:max-w-none">
                 {pathname === "/dashboard"
                   ? "Overview"
                   : pathname === "/admin"
@@ -319,15 +319,15 @@ export default function DashboardLayout({
             {isAdmin && (
               <Link
                 href="/admin"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-[#39FF88]/10 text-[#39FF88] border border-[#39FF88]/30 hover:bg-[#39FF88]/20 transition"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/30 hover:bg-[#1DBF73]/20 transition"
               >
                 <ShieldCheck className="w-3.5 h-3.5" />
                 Admin
               </Link>
             )}
 
-            <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold bg-[#39FF88]/10 text-[#39FF88] border border-[#39FF88]/20">
-              <span className="w-2 h-2 rounded-full bg-[#39FF88] animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/20">
+              <span className="w-2 h-2 rounded-full bg-[#1DBF73] animate-pulse" />
               <span className="hidden sm:inline">API Status:</span> Active
             </span>
           </div>
