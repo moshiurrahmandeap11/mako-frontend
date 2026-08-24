@@ -5,39 +5,21 @@ import { FEATURES_DATA, FeatureItem } from "@/data/features";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function FeaturesSection() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
-
-  const filteredFeatures =
-    selectedCategory === "All"
-      ? FEATURES_DATA
-      : FEATURES_DATA.filter((f) => f.category === selectedCategory);
 
   const activeFeature: FeatureItem =
-    filteredFeatures[currentIndex] || FEATURES_DATA[0];
-
-  // Auto-scroll Carousel Timer (Pauses on Hover)
-  useEffect(() => {
-    if (isPaused || filteredFeatures.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % filteredFeatures.length);
-    }, 3800);
-
-    return () => clearInterval(interval);
-  }, [isPaused, filteredFeatures.length]);
+    FEATURES_DATA[currentIndex] || FEATURES_DATA[0];
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % filteredFeatures.length);
+    setCurrentIndex((prev) => (prev + 1) % FEATURES_DATA.length);
   };
 
   const handlePrev = () => {
     setCurrentIndex(
-      (prev) => (prev - 1 + filteredFeatures.length) % filteredFeatures.length,
+      (prev) => (prev - 1 + FEATURES_DATA.length) % FEATURES_DATA.length,
     );
   };
 
@@ -45,8 +27,6 @@ export default function FeaturesSection() {
     <section
       id="features"
       className="py-20 px-4 sm:px-6 border-t border-[#E4E5E7] bg-[#F7F7F7] relative"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
     >
       <div className="w-11/12 lg:w-9/12 max-w-9/12 max-w-7xl mx-auto space-y-10 relative z-10">
         {/* Section Header */}
@@ -171,17 +151,17 @@ export default function FeaturesSection() {
                   </Link>
 
                   <span className="text-[10px] text-[#74767E] font-mono font-semibold">
-                    {currentIndex + 1} / {filteredFeatures.length}
+                    {currentIndex + 1} / {FEATURES_DATA.length}
                   </span>
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
 
-          {/* Auto-Scroll Navigation Controls */}
+          {/* Navigation Controls */}
           <div className="flex items-center justify-between pt-4 px-2">
             <div className="flex items-center gap-1.5">
-              {filteredFeatures.map((_, idx) => (
+              {FEATURES_DATA.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
