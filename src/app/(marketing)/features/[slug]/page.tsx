@@ -1,8 +1,8 @@
-import { Metadata } from "next";
 import Button from "@/components/Button";
 import { FEATURES_DATA } from "@/data/features";
 import { constructMetadata, SITE_CONFIG } from "@/lib/seo";
-import { ArrowLeft, ArrowRight, Code2, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -105,30 +105,25 @@ export default async function FeatureDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
-      <div className="relative min-h-screen bg-white text-[#222325] flex flex-col overflow-hidden">
-        <main className="relative z-10 flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 pt-32 pb-24 space-y-10">
+      <div className="relative min-h-screen bg-white text-text-main flex flex-col overflow-hidden">
+        <main className="relative z-10 flex-1 px-4 lg:px-0 lg:max-w-9/12 mx-auto w-full py-6 space-y-4">
           {/* Back Navigation Bar */}
           <div className="flex items-center justify-between">
             <Link
               href="/features"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#74767E] hover:text-[#222325] transition"
+              className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text-main transition"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Back to Features</span>
             </Link>
-
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E8F8F0] border border-[#1DBF73]/20 text-[#1DBF73] text-[11px] font-bold">
-              <Sparkles className="w-3 h-3" />
-              <span>{feature.category}</span>
-            </div>
           </div>
 
           {/* Feature Hero Header */}
           <div className="space-y-3 text-left">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#222325] tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-text-main tracking-tight leading-tight">
               {feature.title}
             </h1>
-            <p className="text-[#62646A] text-xs sm:text-sm md:text-base leading-relaxed font-normal max-w-2xl">
+            <p className="text-[#62646A] text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl">
               {feature.description}
             </p>
           </div>
@@ -138,12 +133,10 @@ export default async function FeatureDetailPage({
             {feature.stats.map((stat, idx) => (
               <div
                 key={idx}
-                className="p-5 rounded-2xl bg-white border border-[#E4E5E7] text-center shadow-sm"
+                className="p-4 rounded-md bg-white border border-border-light text-center"
               >
-                <span className="block text-xl sm:text-2xl font-extrabold text-[#1DBF73]">
-                  {stat.value}
-                </span>
-                <span className="block text-[10px] uppercase font-bold text-[#74767E] mt-1 tracking-wider">
+                <span className="block text-xl sm:text-2xl">{stat.value}</span>
+                <span className="block text-sm text-text-muted mt-1">
                   {stat.label}
                 </span>
               </div>
@@ -151,12 +144,12 @@ export default async function FeatureDetailPage({
           </div>
 
           {/* Step-by-Step Technical Breakdown */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-white border border-[#E4E5E7] shadow-sm space-y-6 text-left">
+          <div className="p-4 rounded-md bg-white border border-border-light space-y-6 text-left">
             <div>
-              <span className="text-[11px] font-bold tracking-wider text-[#1DBF73] uppercase block mb-1">
+              <span className="text-sm font-medium block mb-1">
                 Architecture & Mechanics
               </span>
-              <h2 className="text-xl sm:text-2xl font-bold text-[#222325]">
+              <h2 className="text-xl sm:text-2xl font-medium text-text-main">
                 {feature.previewDetails.heading}
               </h2>
               <p className="text-[#62646A] text-xs mt-1 font-normal">
@@ -168,13 +161,12 @@ export default async function FeatureDetailPage({
               {feature.previewDetails.points.map((pt, i) => (
                 <div
                   key={i}
-                  className="p-4 rounded-xl bg-[#F7F7F7] border border-[#E4E5E7] space-y-2"
+                  className="p-4 rounded-md bg-surface-light space-y-2"
                 >
-                  <div className="w-6 h-6 rounded-md bg-[#E8F8F0] flex items-center justify-center text-[#1DBF73] font-bold text-[11px]">
-                    0{i + 1}
-                  </div>
-                  <h4 className="text-xs font-bold text-[#222325]">{pt.title}</h4>
-                  <p className="text-[11px] text-[#62646A] leading-relaxed font-normal">
+                  <h4 className="text-sm font-medium text-text-main tracking-wider">
+                    {pt.title}
+                  </h4>
+                  <p className="text-[11px] text-[#62646A] leading-relaxed">
                     {pt.desc}
                   </p>
                 </div>
@@ -183,18 +175,17 @@ export default async function FeatureDetailPage({
           </div>
 
           {/* Code & Integration Box */}
-          <div className="p-6 rounded-2xl bg-white border border-[#E4E5E7] shadow-sm space-y-3 text-left">
-            <div className="flex items-center justify-between border-b border-[#E4E5E7] pb-3">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#222325]">
-                <Code2 className="w-3.5 h-3.5 text-[#1DBF73]" />
+          <div className="p-4 rounded-md bg-white border border-border-light space-y-3 text-left">
+            <div className="flex items-center justify-between border-b border-border-light pb-3">
+              <div className="flex items-center gap-2 text-sm text-text-main">
                 <span>Implementation Snippet</span>
               </div>
-              <span className="text-[10px] font-mono text-[#74767E]">
+              <span className="text-[10px] text-text-muted">
                 JavaScript / TypeScript
               </span>
             </div>
 
-            <div className="bg-[#F7F7F7] border border-[#E4E5E7] rounded-xl p-4 font-mono text-xs text-[#222325] overflow-x-auto leading-relaxed shadow-inner">
+            <div className="bg-surface-light rounded-md p-4 text-xs text-text-main overflow-x-auto leading-relaxed">
               <pre>
                 <code>{feature.codeSnippet}</code>
               </pre>
@@ -202,35 +193,37 @@ export default async function FeatureDetailPage({
           </div>
 
           {/* Next Feature Pagination & Action CTAs */}
-          <div className="pt-6 border-t border-[#E4E5E7] flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-              <Button href="/register" variant="primary" size="sm">
+          <div className="pt-4 flex flex-row items-center justify-between gap-2 sm:gap-4 w-full">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Button
+                href="/register"
+                variant="primary"
+                size="sm"
+                className="text-xs sm:text-sm px-3 sm:px-5 py-2 sm:py-2.5 whitespace-nowrap shadow-sm"
+              >
                 Start Free Trial
               </Button>
-              <Button
-                href="/docs"
-                variant="ghost"
-                size="sm"
-                className="text-[#222325]"
-              >
-                Documentation
-              </Button>
+              <div className="hidden md:block">
+                <Button
+                  href="/docs"
+                  variant="secondary"
+                  size="md"
+                  className="text-text-main"
+                >
+                  Documentation
+                </Button>
+              </div>
             </div>
 
             {/* Next Feature Link */}
             <Link
               href={`/features/${nextFeature.slug}`}
-              className="group flex items-center gap-2.5 p-2.5 px-4 rounded-xl bg-white border border-[#E4E5E7] hover:border-[#1DBF73] shadow-sm transition text-right"
+              className="group flex items-center gap-1.5 sm:gap-2.5 p-2 sm:p-2.5 px-3 sm:px-4 rounded-md bg-white border border-border-light hover:border-[#1DBF73] transition text-right shrink-0 shadow-sm"
             >
-              <div>
-                <span className="block text-[9px] uppercase font-bold text-[#74767E]">
-                  Next
-                </span>
-                <span className="text-xs font-bold text-[#222325] group-hover:text-[#1DBF73] transition">
-                  {nextFeature.title}
-                </span>
-              </div>
-              <ArrowRight className="w-3.5 h-3.5 text-[#74767E] group-hover:text-[#1DBF73] group-hover:translate-x-0.5 transition" />
+              <span className="text-[11px] sm:text-xs font-bold text-text-main group-hover:text-[#1DBF73] transition truncate max-w-32.5 xs:max-w-[180px] sm:max-w-none">
+                {nextFeature.title}
+              </span>
+              <ArrowRight className="w-3.5 h-3.5 text-text-muted group-hover:text-[#1DBF73] group-hover:translate-x-0.5 transition shrink-0" />
             </Link>
           </div>
         </main>
