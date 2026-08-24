@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/Button";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowRight,
   CheckCircle2,
@@ -17,6 +17,9 @@ export default function HeroSection() {
 
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+  // Track scroll from top of page (0px) to scrolled down (420px)
+  const { scrollY } = useScroll();
+  const videoScale = useTransform(scrollY, [0, 420], [0.70, 1]);
 
   const toggleSound = () => {
     if (videoRef.current) {
@@ -33,7 +36,7 @@ export default function HeroSection() {
   }, [dynamicWords.length]);
 
   return (
-    <section className="relative pt-6 pb-16 overflow-hidden bg-white">
+    <section className="relative pt-6 pb-20 overflow-hidden bg-white">
       <div className="w-11/12 lg:w-9/12 max-w-9/12 mx-auto space-y-10 text-center">
         {/* Commanding Fiverr-Style Headline */}
         <div className="max-w-4xl mx-auto space-y-4">
@@ -121,45 +124,48 @@ export default function HeroSection() {
           </span>
         </motion.div>
 
-        {/* Full-Width Showcase Video Frame */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.45 }}
-          className="relative w-full rounded-2xl overflow-hidden p-2 bg-white border border-[#E4E5E7] shadow-2xl shadow-black/[0.06] text-left"
-        >
-          {/* HTML5 Showcase Video */}
-          <video
-            ref={videoRef}
-            src="/hero.mp4"
-            autoPlay
-            loop
-            muted={isMuted}
-            playsInline
-            className="w-full h-[360px] sm:h-[480px] lg:h-[580px] object-cover rounded-xl"
-          />
-
-          {/* Video Bottom Left Live Status Pill */}
-          <div className="absolute bottom-6 left-6 z-20 hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-xl border border-[#E4E5E7] shadow-lg">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#1DBF73] animate-pulse" />
-            <span className="text-xs font-bold text-[#222325]">
-              Live Storefront AI Assistant Active
-            </span>
-          </div>
-
-          {/* Sound Mute/Unmute Toggle Button */}
-          <button
-            onClick={toggleSound}
-            className="absolute bottom-6 right-6 z-20 p-3 rounded-full bg-white/95 text-[#222325] hover:text-[#1DBF73] transition-all backdrop-blur-md shadow-lg border border-[#E4E5E7] flex items-center gap-2 group cursor-pointer"
-            title={isMuted ? "Unmute Audio" : "Mute Audio"}
+        {/* Full-Width Showcase Video Frame with Scroll-Driven Expand */}
+        <div className="w-full pt-4 pb-4 flex justify-center">
+          <motion.div
+            style={{
+              scale: videoScale,
+              transformOrigin: "center top",
+            }}
+            className="relative w-full rounded-2xl overflow-hidden p-2 bg-white border border-[#E4E5E7] shadow-2xl shadow-black/[0.08] text-left"
           >
-            {isMuted ? (
-              <VolumeX className="w-4 h-4" />
-            ) : (
-              <Volume2 className="w-4 h-4 text-[#1DBF73]" />
-            )}
-          </button>
-        </motion.div>
+            {/* HTML5 Showcase Video */}
+            <video
+              ref={videoRef}
+              src="/hero.mp4"
+              autoPlay
+              loop
+              muted={isMuted}
+              playsInline
+              className="w-full aspect-[16/9] object-cover rounded-xl"
+            />
+
+            {/* Video Bottom Left Live Status Pill */}
+            <div className="absolute bottom-6 left-6 z-20 hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-xl border border-[#E4E5E7] shadow-lg">
+              <div className="w-2.5 h-2.5 rounded-full bg-[#1DBF73] animate-pulse" />
+              <span className="text-xs font-bold text-[#222325]">
+                Live Storefront AI Assistant Active
+              </span>
+            </div>
+
+            {/* Sound Mute/Unmute Toggle Button */}
+            <button
+              onClick={toggleSound}
+              className="absolute bottom-6 right-6 z-20 p-3 rounded-full bg-white/95 text-[#222325] hover:text-[#1DBF73] transition-all backdrop-blur-md shadow-lg border border-[#E4E5E7] flex items-center gap-2 group cursor-pointer"
+              title={isMuted ? "Unmute Audio" : "Mute Audio"}
+            >
+              {isMuted ? (
+                <VolumeX className="w-4 h-4" />
+              ) : (
+                <Volume2 className="w-4 h-4 text-[#1DBF73]" />
+              )}
+            </button>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
