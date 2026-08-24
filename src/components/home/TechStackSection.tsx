@@ -112,7 +112,7 @@ LIMIT 5;`,
         </div>
 
         {/* Interactive Workspace Container */}
-        <div className="p-6 sm:p-8 rounded-md bg-surface-light grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="p-2 sm:p-4 rounded-md bg-surface-light grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left Column: Vertical Selection Tabs (4 cols) */}
           <div className="lg:col-span-4 flex flex-col justify-between space-y-2">
             <div className="space-y-2">
