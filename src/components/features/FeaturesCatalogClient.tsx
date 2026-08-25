@@ -6,7 +6,6 @@ import {
   Search,
   ShoppingCart,
   Sliders,
-  Zap,
   FileText,
   Camera,
   ArrowRight,
@@ -38,25 +37,16 @@ export default function FeaturesCatalogClient({
   };
 
   return (
-    <div className="relative min-h-screen bg-white text-[#222325] flex flex-col overflow-hidden">
-      <main className="relative z-10 flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 pt-36 pb-20 flex flex-col justify-center space-y-12">
+    <div className="relative min-h-screen bg-white text-text-main flex flex-col overflow-hidden">
+      <main className="relative z-10 flex-1 max-w-9/12 mx-auto w-full py-6 flex flex-col justify-center space-y-12">
         {/* Header */}
         <div className="max-w-3xl text-left space-y-4">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E8F8F0] border border-[#1DBF73]/30 text-[#1DBF73] text-xs font-bold uppercase tracking-wider"
-          >
-            <Zap className="w-3.5 h-3.5" />
-            <span>Autonomous Storefront Capabilities</span>
-          </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#222325] leading-tight"
+            className="text-2xl sm:text-4xl tracking-tight text-text-main leading-tight"
           >
             Enterprise AI Features Built for Modern E-Commerce.
           </motion.h1>
@@ -77,28 +67,20 @@ export default function FeaturesCatalogClient({
             >
               <Link
                 href={`/features/${feat.slug}`}
-                className="group h-full p-8 bg-white border border-[#E4E5E7] rounded-2xl hover:border-[#1DBF73] hover:shadow-lg transition-all duration-300 flex flex-col justify-between block relative overflow-hidden shadow-sm"
+                className="group h-full p-8 bg-white border border-border-light rounded-md hover:border-[#1DBF73] transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
               >
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-xl border border-[#1DBF73]/20 flex items-center justify-center text-[#1DBF73] bg-[#E8F8F0] group-hover:bg-[#1DBF73] group-hover:text-white transition-all duration-300 font-bold">
-                      {getIcon(feat.slug)}
-                    </div>
-                    <span className="text-[10px] font-mono font-bold text-[#1DBF73] bg-[#E8F8F0] px-2.5 py-1 rounded-full border border-[#1DBF73]/20">
-                      {feat.badge}
-                    </span>
-                  </div>
 
-                  <h3 className="text-lg font-bold text-[#222325] group-hover:text-[#1DBF73] transition-colors duration-300">
+                  <h3 className="text-lg font-medium text-text-main transition-colors duration-300">
                     {feat.title}
                   </h3>
 
-                  <p className="text-[#62646A] text-xs sm:text-sm leading-relaxed line-clamp-3 font-normal">
+                  <p className="text-text-main text-xs sm:text-sm leading-relaxed line-clamp-3 font-normal">
                     {feat.description}
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-[#E4E5E7] flex items-center justify-between text-xs font-bold text-[#1DBF73]">
+                <div className="pt-6 mt-6 border-t border-border-light flex items-center justify-between text-sm group-hover:text-[#1DBF73] transition-colors duration-300">
                   <span>View Architecture & Specs</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -112,18 +94,18 @@ export default function FeaturesCatalogClient({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-16 p-8 rounded-3xl bg-[#F7F7F7] border border-[#E4E5E7] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-sm"
+          className="p-8 rounded-md border border-border-light flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
         >
           <div>
-            <h4 className="text-lg font-bold text-[#222325]">
+            <h4 className="text-lg text-text-main">
               Ready to automate your online store?
             </h4>
-            <p className="text-[#62646A] text-xs sm:text-sm mt-1 font-normal">
+            <p className="text-text-main text-sm mt-1">
               Get started in under 2 minutes with our 1-click script snippet.
             </p>
           </div>
           <div className="flex gap-4 w-full sm:w-auto">
-            <Button href="/register" variant="primary" size="lg">
+            <Button href="/pricing" variant="primary" size="lg">
               Start Free Trial
             </Button>
           </div>
