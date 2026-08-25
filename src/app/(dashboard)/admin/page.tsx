@@ -233,7 +233,7 @@ export default function AdminPage() {
         {/* Table Filters & Search Bar */}
         <div className="p-4 sm:p-5 border-b border-[#E4E5E7] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-base sm:text-lg font-bold text-[#222325]">All Client Accounts</h2>
+            <h2 className="text-base sm:text-lg font-medium text-[#222325]">All Client Accounts</h2>
             <p className="text-xs text-[#62646A]">Manage client tiers, view API key counts and cumulative token usage.</p>
           </div>
 
@@ -251,18 +251,24 @@ export default function AdminPage() {
             </div>
 
             {/* Tier Filter */}
-            <div className="flex items-center gap-1.5 p-1 rounded-md bg-[#F7F7F7] border border-[#E4E5E7] text-xs">
-              {['ALL', 'FREE', 'STARTER', 'PRO', 'ENTERPRISE'].map((tier) => (
+            <div className="flex items-center gap-1 p-1 rounded-md bg-[#F7F7F7] border border-[#E4E5E7] text-xs">
+              {[
+                { id: 'ALL', label: 'All' },
+                { id: 'FREE', label: 'Free' },
+                { id: 'STARTER', label: 'Starter' },
+                { id: 'PRO', label: 'Pro' },
+                { id: 'ENTERPRISE', label: 'Enterprise' },
+              ].map((tier) => (
                 <button
-                  key={tier}
-                  onClick={() => setSelectedTier(tier)}
-                  className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition cursor-pointer ${
-                    selectedTier === tier
-                      ? 'bg-[#1DBF73] text-white font-medium'
+                  key={tier.id}
+                  onClick={() => setSelectedTier(tier.id)}
+                  className={`px-2.5 py-1 rounded-md text-xs font-normal transition cursor-pointer ${
+                    selectedTier === tier.id
+                      ? 'bg-[#1DBF73] text-white font-normal'
                       : 'text-[#74767E] hover:text-[#222325]'
                   }`}
                 >
-                  {tier}
+                  {tier.label}
                 </button>
               ))}
             </div>
@@ -273,12 +279,12 @@ export default function AdminPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-[#E4E5E7] bg-[#F7F7F7] text-[10px] uppercase font-bold text-[#74767E] tracking-wider">
-                <th className="p-4">Merchant</th>
-                <th className="p-4">Plan Tier</th>
-                <th className="p-4">Usage & Tokens</th>
-                <th className="p-4">API Keys</th>
-                <th className="p-4 text-right">Actions</th>
+              <tr className="border-b border-[#E4E5E7] bg-[#F7F7F7] text-xs font-normal text-[#74767E]">
+                <th className="p-4 font-normal">Merchant</th>
+                <th className="p-4 font-normal">Plan Tier</th>
+                <th className="p-4 font-normal">Usage & Tokens</th>
+                <th className="p-4 font-normal">API Keys</th>
+                <th className="p-4 font-normal text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E4E5E7] text-xs text-[#404145]">
@@ -292,26 +298,26 @@ export default function AdminPage() {
                 filteredMerchants.map((m) => (
                   <tr key={m.id} className="hover:bg-[#F7F7F7] transition">
                     <td className="p-4">
-                      <div className="font-bold text-[#222325] text-sm">{m.name}</div>
+                      <div className="font-normal text-[#222325] text-sm">{m.name}</div>
                       <div className="text-[11px] text-[#74767E]">{m.email}</div>
                     </td>
                     <td className="p-4">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/30">
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-normal bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7]">
                         {m.planTier}
                       </span>
                     </td>
                     <td className="p-4 text-[#404145]">
-                      <div><span className="font-bold text-[#222325]">{m.totalMessages}</span> messages</div>
+                      <div><span className="font-medium text-[#222325]">{m.totalMessages}</span> messages</div>
                       <div className="text-[10px] text-[#74767E]">{(m.totalTokensUsed / 1000).toFixed(1)}k tokens</div>
                     </td>
                     <td className="p-4 text-[#404145]">
-                      <span className="font-bold text-[#222325]">{m._count?.apiKeys || 0}</span> keys
+                      <span className="font-medium text-[#222325]">{m._count?.apiKeys || 0}</span> keys
                     </td>
                     <td className="p-4 text-right">
                       <Button
                         size="sm"
                         variant="secondary"
-                        className="text-[#222325] border-[#E4E5E7]"
+                        className="text-[#222325] border-[#E4E5E7] !font-normal"
                         onClick={() => {
                           setEditingMerchant(m);
                           setNewTier(m.planTier);
