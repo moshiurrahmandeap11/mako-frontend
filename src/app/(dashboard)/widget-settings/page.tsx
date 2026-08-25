@@ -10,6 +10,13 @@ import {
   Bot,
   MessageSquare,
   Zap,
+  RefreshCw,
+  Trash2,
+  ExternalLink,
+  X,
+  CheckCircle2,
+  Clock,
+  Sparkles,
 } from 'lucide-react';
 import { fetchApi } from '@/lib/api-client';
 import toast from 'react-hot-toast';
@@ -48,11 +55,11 @@ export default function WidgetSettingsPage() {
   ];
 
   const PRESET_PALETTES = [
-    { name: 'Emerald Green 🌿', primary: '#1DBF73', headerBg: '#FFFFFF', headerText: '#222325', launcherBg: '#1DBF73', launcherIcon: '#FFFFFF' },
-    { name: 'Sleek Midnight 🌙', primary: '#3B82F6', headerBg: '#0F172A', headerText: '#FFFFFF', launcherBg: '#0F172A', launcherIcon: '#FFFFFF' },
-    { name: 'Royal Purple 💜', primary: '#8B5CF6', headerBg: '#F5F3FF', headerText: '#4C1D95', launcherBg: '#8B5CF6', launcherIcon: '#FFFFFF' },
-    { name: 'Ocean Blue 🌊', primary: '#0284C7', headerBg: '#F0F9FF', headerText: '#0C4A6E', launcherBg: '#0284C7', launcherIcon: '#FFFFFF' },
-    { name: 'Minimalist Dark 🖤', primary: '#18181B', headerBg: '#18181B', headerText: '#FAFAFA', launcherBg: '#18181B', launcherIcon: '#FFFFFF' },
+    { name: 'Emerald Green', primary: '#1DBF73', headerBg: '#FFFFFF', headerText: '#222325', launcherBg: '#1DBF73', launcherIcon: '#FFFFFF' },
+    { name: 'Sleek Midnight', primary: '#3B82F6', headerBg: '#0F172A', headerText: '#FFFFFF', launcherBg: '#0F172A', launcherIcon: '#FFFFFF' },
+    { name: 'Royal Purple', primary: '#8B5CF6', headerBg: '#F5F3FF', headerText: '#4C1D95', launcherBg: '#8B5CF6', launcherIcon: '#FFFFFF' },
+    { name: 'Ocean Blue', primary: '#0284C7', headerBg: '#F0F9FF', headerText: '#0C4A6E', launcherBg: '#0284C7', launcherIcon: '#FFFFFF' },
+    { name: 'Minimalist Dark', primary: '#18181B', headerBg: '#18181B', headerText: '#FAFAFA', launcherBg: '#18181B', launcherIcon: '#FFFFFF' },
   ];
 
   useEffect(() => {
@@ -262,11 +269,16 @@ export default function WidgetSettingsPage() {
         </div>
 
         {/* Feature 3: Live Test Widget Button */}
-        <Button href="/widget-test" target="_blank" variant="primary" className="!font-normal text-xs shrink-0">
-          <span className="flex items-center gap-1.5">
-            <Zap className="w-4 h-4 text-white" strokeWidth={1.5} />
-            <span>Test Widget Live in New Tab ↗</span>
-          </span>
+        <Button
+          href="/widget-test"
+          target="_blank"
+          variant="primary"
+          size="sm"
+          icon={<ExternalLink className="w-3.5 h-3.5" />}
+          iconPosition="right"
+          className="!font-normal text-xs shrink-0"
+        >
+          Test Widget Live in New Tab
         </Button>
       </div>
 
@@ -277,7 +289,6 @@ export default function WidgetSettingsPage() {
           {/* Domain Whitelist */}
           <div className="bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 space-y-3">
             <div className="flex items-center gap-2 border-b border-[#E4E5E7] pb-3">
-              <Globe className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
               <h2 className="text-base font-medium text-[#222325]">Whitelisted Store Domains</h2>
             </div>
             <p className="text-[#62646A] text-xs">Specify website domains authorized to make widget API requests:</p>
@@ -308,26 +319,34 @@ export default function WidgetSettingsPage() {
                       <div className="flex items-center gap-2 font-mono text-[#222325]">
                         <span>{dom}</span>
                         {/* Feature 4: Scrape Status Badge */}
-                        <span className={`inline-flex items-center gap-1 text-[10px] font-sans px-2 py-0.5 rounded ${
-                          isScraped
-                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                            : 'bg-amber-100 text-amber-800 border border-amber-300'
-                        }`}>
-                          {isScraped ? `🟢 Scraped & Ready (${statusInfo?.chunkCount || 0} chunks)` : '🟡 Crawl Pending'}
+                        <span className="inline-flex items-center gap-1.5 text-[10px] font-sans font-medium px-2 py-0.5 rounded-md bg-white border border-[#E4E5E7] text-[#404145]">
+                          <span className={`w-1.5 h-1.5 rounded-full ${isScraped ? 'bg-[#1DBF73]' : 'bg-amber-500 animate-pulse'}`} />
+                          {isScraped ? `Scraped & Ready (${statusInfo?.chunkCount || 0} chunks)` : 'Crawl Pending'}
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2">
-                        <button
+                      <div className="flex items-center gap-1.5">
+                        <Button
                           type="button"
                           onClick={() => handleRescrape(dom)}
-                          disabled={rescrapingDomain === dom}
-                          className="text-[11px] text-[#0284C7] hover:underline flex items-center gap-1 font-medium"
-                          title="Trigger background website crawl"
+                          isLoading={rescrapingDomain === dom}
+                          variant="outline"
+                          size="sm"
+                          icon={<RefreshCw className="w-3 h-3 text-[#74767E]" />}
+                          className="!py-1 !px-2.5 text-xs text-[#222325] border-[#E4E5E7]"
                         >
-                          🔄 {rescrapingDomain === dom ? 'Crawling...' : 'Re-scrape'}
-                        </button>
-                        <button onClick={() => handleRemoveDomain(dom)} className="text-[#74767E] hover:text-rose-600 cursor-pointer ml-1">✕</button>
+                          Re-scrape
+                        </Button>
+                        <Button
+                          type="button"
+                          onClick={() => handleRemoveDomain(dom)}
+                          variant="ghost"
+                          size="sm"
+                          icon={<Trash2 className="w-3.5 h-3.5 text-[#74767E] hover:text-rose-600" />}
+                          className="!p-1.5"
+                        >
+                          {null}
+                        </Button>
                       </div>
                     </div>
                   );
@@ -339,7 +358,6 @@ export default function WidgetSettingsPage() {
           {/* Appearance Section */}
           <form onSubmit={handleSaveConfig} className="bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 space-y-4">
             <div className="flex items-center gap-2 border-b border-[#E4E5E7] pb-3">
-              <Palette className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
               <h2 className="text-base font-medium text-[#222325]">Branding & Aesthetics</h2>
             </div>
 
@@ -348,15 +366,17 @@ export default function WidgetSettingsPage() {
               <label className="block text-xs font-medium text-[#334155]">1-Click Theme Color Presets</label>
               <div className="flex flex-wrap gap-2">
                 {PRESET_PALETTES.map((pal) => (
-                  <button
+                  <Button
                     key={pal.name}
                     type="button"
                     onClick={() => applyPalette(pal)}
-                    className="px-2.5 py-1 bg-white border border-[#CBD5E1] rounded-md text-xs font-medium text-[#334155] hover:border-[#1DBF73] hover:text-[#1DBF73] transition-all flex items-center gap-1.5 shadow-2xs"
+                    variant="outline"
+                    size="sm"
+                    className="text-[#222325] border-[#E4E5E7] !py-1 !px-2.5 text-xs font-normal bg-white"
                   >
-                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: pal.primary }} />
+
                     <span>{pal.name}</span>
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -410,9 +430,12 @@ export default function WidgetSettingsPage() {
 
               <div className="flex flex-wrap gap-2 pt-1">
                 {(config.suggestionChips || []).map((chip: string) => (
-                  <span key={chip} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E8F8F0] border border-[#1DBF73]/30 text-[#0F172A] text-xs font-medium">
-                    💬 {chip}
-                    <button type="button" onClick={() => handleRemoveChip(chip)} className="hover:text-rose-600 cursor-pointer ml-1">✕</button>
+                  <span key={chip} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#F0F2F5] border border-[#E4E5E7] text-[#222325] text-xs font-normal">
+                    <MessageSquare className="w-3 h-3 text-[#74767E]" />
+                    <span>{chip}</span>
+                    <button type="button" onClick={() => handleRemoveChip(chip)} className="hover:text-rose-600 cursor-pointer ml-1 text-[#74767E]">
+                      <X className="w-3 h-3" />
+                    </button>
                   </span>
                 ))}
               </div>
@@ -563,7 +586,6 @@ export default function WidgetSettingsPage() {
           <div className="bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 space-y-3">
             <div className="flex items-center justify-between border-b border-[#E4E5E7] pb-3">
               <div className="flex items-center gap-2">
-                <Code2 className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
                 <h2 className="text-base font-medium text-[#222325]">Embed Code Snippet</h2>
               </div>
 
@@ -618,7 +640,6 @@ export default function WidgetSettingsPage() {
           <div className="bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 flex flex-col items-center">
             <div className="w-full flex items-center justify-between border-b border-[#E4E5E7] pb-3 mb-3">
               <span className="text-xs font-normal text-[#404145] flex items-center gap-1.5">
-                <Zap className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
                 Live Widget Preview
               </span>
               <span className="text-[11px] text-[#1DBF73] font-mono font-normal">Real-time UI</span>
@@ -693,7 +714,7 @@ export default function WidgetSettingsPage() {
                 className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shadow-md cursor-pointer border border-white/20"
                 title="Launcher Button"
               >
-                💬
+                <MessageSquare className="w-4 h-4" />
               </div>
             </div>
           </div>
