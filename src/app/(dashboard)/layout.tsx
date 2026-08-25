@@ -1,14 +1,13 @@
 "use client";
 
+import DashPageHeader from "@/components/DashPageHeader";
 import Logo from "@/components/Logo";
-import ProfileDropdown from "@/components/ProfileDropdown";
 import Sidebar from "@/components/Sidebar";
 import { Skeleton } from "@/components/Skeleton";
 import { fetchApi } from "@/lib/api-client";
 import { authClient } from "@/lib/auth-client";
 import { api } from "@/lib/axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Menu } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
@@ -120,7 +119,7 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F7F7] text-[#222325] flex flex-col md:flex-row">
+    <div className="h-screen bg-[#F7F7F7] text-[#222325] flex flex-col md:flex-row overflow-hidden">
       <Suspense fallback={null}>
         <CheckoutVerifier />
       </Suspense>
@@ -148,41 +147,16 @@ export default function DashboardLayout({
       </div>
 
       {/* Main Page Area */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-        {/* Sticky Header with Mobile Hamburger */}
-        <header className="h-16 border-b border-[#E4E5E7] bg-white/95 px-3.5 sm:px-4 lg:px-4.5 flex items-center justify-between sticky top-0 backdrop-blur-xl z-30">
-          <div className="flex items-center gap-3">
-            {/* Hamburger Button for Mobile */}
-            <button
-              onClick={() => setIsMobileNavOpen(true)}
-              className="md:hidden p-2 rounded-lg bg-[#F7F7F7] border border-[#E4E5E7] text-[#404145] hover:text-[#222325]"
-              aria-label="Open Navigation"
-            >
-              <Menu className="w-5 h-5" strokeWidth={1.5} />
-            </button>
+      <main className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+        <DashPageHeader
+          pathname={pathname}
+          merchant={merchant}
+          onOpenMobileNav={() => setIsMobileNavOpen(true)}
+          onLogout={handleLogout}
+        />
 
-            <div className="flex items-center gap-2 text-xs text-[#74767E] font-medium">
-              <span className="uppercase tracking-wider font-bold text-[10px] hidden sm:inline">
-                Console
-              </span>
-              <span className="hidden sm:inline">/</span>
-              <span className="text-[#222325] font-bold uppercase tracking-wider text-[10px] truncate max-w-[140px] sm:max-w-none">
-                {pathname === "/dashboard"
-                  ? "Overview"
-                  : pathname === "/admin"
-                    ? "Admin Console"
-                    : pathname.replace("/", "").replace("-", " ")}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-3">
-            <ProfileDropdown user={merchant} onLogout={handleLogout} />
-          </div>
-        </header>
-
-        {/* Page Content Container - Full Width */}
-        <div className="p-3.5 sm:p-4 lg:p-4.5 w-full max-w-full mx-auto">
+        {/* Page Content Container - Full Width Scrollable Area */}
+        <div className="flex-1 overflow-y-auto p-3.5 sm:p-4 lg:p-4.5 w-full max-w-full mx-auto">
           {children}
         </div>
       </main>
