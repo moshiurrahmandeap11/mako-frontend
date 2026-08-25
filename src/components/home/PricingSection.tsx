@@ -227,7 +227,7 @@ export default function PricingSection() {
                   </span>
                 ) : (
                   p.popular && (
-                    <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-sm">
+                    <span className="absolute top-3 right-3 text-sm font-medium tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-sm">
                       Most Popular
                     </span>
                   )
@@ -270,7 +270,7 @@ export default function PricingSection() {
                     isLoading={loadingPlan === p.name}
                     variant={
                       isCurrentPlan
-                        ? "secondary"
+                        ? "primary"
                         : p.popular
                         ? "primary"
                         : "outline"
