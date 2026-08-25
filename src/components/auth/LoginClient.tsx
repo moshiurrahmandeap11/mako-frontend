@@ -93,7 +93,7 @@ export default function LoginClient() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="merchant@store.com"
-              className="w-full px-4 py-3 bg-white border border-border-light rounded-md focus:outline-none focus:border-primary text-text-main placeholder-text-muted text-sm transition-colors"
+              className="w-full px-4 py-3 bg-white border border-border-light rounded-md focus:outline-none focus:border-[#1DBF73] text-text-main placeholder-text-muted text-sm transition-colors"
             />
           </div>
 
@@ -116,7 +116,7 @@ export default function LoginClient() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 bg-white border border-border-light rounded-md focus:outline-none focus:border-primary text-text-main placeholder-text-muted text-sm transition-colors pr-10"
+                className="w-full px-4 py-3 bg-white border border-border-light rounded-md focus:outline-none focus:border-[#1DBF73] text-text-main placeholder-text-muted text-sm transition-colors pr-10"
               />
               <button
                 type="button"
