@@ -111,7 +111,7 @@ export default function Sidebar({
         </div>
 
         <Link
-          href="/pricing"
+          href="/billing"
           className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-normal bg-[#1DBF73] text-white rounded-md hover:bg-[#19A463] transition cursor-pointer"
         >
           <TbSparkle2 className="w-4 h-4" />
