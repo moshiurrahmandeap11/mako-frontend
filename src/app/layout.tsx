@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en" className="h-full light" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`${fontSans.className} ${fontSans.variable} min-h-full bg-white text-[#222325] antialiased`}
+        className={`${fontSans.className} ${fontSans.variable} min-h-full bg-white text-text-main antialiased`}
       >
         <QueryProvider>
           {children}
