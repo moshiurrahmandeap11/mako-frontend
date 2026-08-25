@@ -143,7 +143,7 @@ export default function OverviewPage() {
         {!isEnterprise && (
           <div className="mt-4 space-y-2">
             <div className="flex justify-between text-xs font-normal text-[#404145]">
-              <span>Current Month Usage ({usedCredits.toLocaleString()} credits used)</span>
+              <span>{summary?.planTier === 'FREE' ? 'Lifetime Usage' : 'Current Cycle Usage'} ({usedCredits.toLocaleString()} credits used)</span>
               <span className={usagePercentage > 80 ? 'text-amber-600 font-medium' : 'text-[#62646A] font-medium'}>
                 {usagePercentage}% used
               </span>

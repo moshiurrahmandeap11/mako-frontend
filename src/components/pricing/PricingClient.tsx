@@ -189,7 +189,7 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                     <span className="text-3xl sm:text-4xl text-text-main tracking-tight">
                       {p.price}
                     </span>
-                    {p.price !== "Custom" && (
+                    {p.tierKey !== "FREE" && p.price !== "Custom" && (
                       <span className="text-sm text-text-muted">/ month</span>
                     )}
                   </div>

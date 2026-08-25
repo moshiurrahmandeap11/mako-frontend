@@ -21,10 +21,10 @@ const PRICING_PLANS: PricingPlan[] = [
     name: "Free",
     tierKey: "FREE",
     price: "$0",
-    credits: "1,500 AI Smart Credits",
+    credits: "1,500 AI Smart Credits (Lifetime)",
     description: "Ideal for testing and launching your first AI storefront assistant.",
     features: [
-      "1,500 AI Smart Credits / month",
+      "1,500 AI Smart Credits (Lifetime)",
       "1 Whitelisted website domain",
       "1 Active API key",
       "4-Tier Web Crawler & Search",
@@ -44,7 +44,7 @@ const PRICING_PLANS: PricingPlan[] = [
     description: "Perfect for growing boutique stores wanting 24/7 automated sales.",
     features: [
       "10,000 AI Smart Credits / month",
-      "🔄 100% Unused Credit Rollover",
+      "100% Unused Credit Rollover",
       "2 Whitelisted website domains",
       "2 Active API keys",
       "pgvector Semantic AI Search",
@@ -65,7 +65,7 @@ const PRICING_PLANS: PricingPlan[] = [
     description: "Our most popular plan for high-converting e-commerce storefronts.",
     features: [
       "30,000 AI Smart Credits / month",
-      "🔄 100% Unused Credit Rollover",
+      "100% Unused Credit Rollover",
       "5 Whitelisted website domains",
       "4 Active API keys",
       "Full pgvector Product RAG",

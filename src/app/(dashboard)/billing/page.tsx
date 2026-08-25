@@ -85,9 +85,9 @@ export default function BillingPage() {
 
   const planLimits: Record<string, { desc: string; features: string[] }> = {
     FREE: {
-      desc: 'Great for testing and development ($0/mo).',
+      desc: 'Great for testing and development ($0 lifetime).',
       features: [
-        '1,500 AI Smart Credits / month',
+        '1,500 AI Smart Credits (Lifetime)',
         '1 Active API key',
         '1 Whitelisted domain',
         '4-Tier Web Crawler & Search',

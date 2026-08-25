@@ -93,7 +93,7 @@ export default function PricingSection() {
       price: "$0",
       description: "Ideal for testing and launching your first AI assistant.",
       features: [
-        "1,500 AI Smart Credits / month",
+        "1,500 AI Smart Credits (Lifetime)",
         "1 Active API key",
         "1 Whitelisted domain",
         "4-Tier Web Crawler & Search",
@@ -249,7 +249,7 @@ export default function PricingSection() {
                     <span className="text-3xl sm:text-4xl text-text-main tracking-tight">
                       {p.price}
                     </span>
-                    {p.price !== "Custom" && (
+                    {p.tierKey !== "FREE" && p.price !== "Custom" && (
                       <span className="text-sm text-text-muted">/ month</span>
                     )}
                   </div>
