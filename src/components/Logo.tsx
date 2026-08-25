@@ -62,9 +62,9 @@ export default function Logo({
   markId,
 }: LogoProps) {
   const textSizes = {
-    sm: "text-sm tracking-[0.16em]",
-    md: "text-xl tracking-[0.2em]",
-    lg: "text-2xl tracking-[0.22em]",
+    sm: "text-sm",
+    md: "text-xl",
+    lg: "text-2xl",
   };
 
   const content = (
@@ -75,7 +75,7 @@ export default function Logo({
       <LogoMark size={size} id={markId} />
       {showText && (
         <span
-          className={`font-black text-[#222325] transition-colors duration-300 group-hover:text-[#1DBF73] ${textSizes[size]}`}
+          className={`font-bold text-[#222325] transition-colors duration-300 group-hover:text-[#1DBF73] ${textSizes[size]}`}
         >
           Labto AI
         </span>

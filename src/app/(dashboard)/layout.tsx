@@ -173,27 +173,19 @@ export default function DashboardLayout({
 
         {/* Merchant Store Info */}
         <div className="p-3.5 mx-3 my-4 rounded-md bg-surface-light border border-border-light flex items-center gap-3">
-          <div className="w-8 h-8 rounded bg-ai-green-tint border border-[#1DBF73]/30 flex items-center justify-center text-[#1DBF73] shrink-0">
-            {isAdmin ? (
-              <ShieldCheck className="w-4 h-4 text-[#1DBF73]" strokeWidth={1.5} />
-            ) : (
-              <Store className="w-4 h-4" strokeWidth={1.5} />
-            )}
-          </div>
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5">
-              <p className="text-xs font-bold text-[#222325] truncate">
-                {merchant?.name || "My Store"}
-              </p>
-              {isAdmin && (
-                <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-[#1DBF73] text-white">
-                  ADMIN
-                </span>
-              )}
-            </div>
-            <p className="text-[10px] text-[#74767E] truncate">
-              {merchant?.email}
+            <p className="text-xs font-medium text-[#222325] truncate">
+              {merchant?.name || "My Store"}
             </p>
+            <div className="flex items-center gap-1.5 mt-1 text-[10px] text-[#74767E] min-w-0">
+              {isAdmin && (
+                <>
+                  <span className="shrink-0 font-medium text-[#62646A]">Admin</span>
+                  <span className="text-[#B2B4B8] shrink-0">•</span>
+                </>
+              )}
+              <span className="truncate">{merchant?.email}</span>
+            </div>
           </div>
         </div>
 
@@ -210,20 +202,13 @@ export default function DashboardLayout({
                 className={`flex items-center justify-between px-3.5 py-2.5 rounded-md text-sm font-normal transition ${
                   isActive
                     ? "bg-[#1DBF73] text-white font-medium"
-                    : item.isAdmin
-                      ? "text-[#1DBF73] bg-[#E8F8F0] border border-[#1DBF73]/20 hover:bg-[#1DBF73]/20"
-                      : "text-[#62646A] hover:text-[#222325] hover:bg-[#F0F2F5]"
+                    : "text-[#62646A] hover:text-[#222325] hover:bg-[#F0F2F5]"
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <Icon className="w-[18px] h-[18px] shrink-0" strokeWidth={1.5} />
                   <span className="leading-none -mt-0.5">{item.label}</span>
                 </div>
-                {item.isAdmin && !isActive && (
-                  <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-[#1DBF73]/20 text-[#1DBF73]">
-                    MASTER
-                  </span>
-                )}
               </Link>
             );
           })}
