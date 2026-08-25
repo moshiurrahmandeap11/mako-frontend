@@ -27,24 +27,16 @@ export default function ContactClient() {
   };
 
   return (
-    <div className="relative min-h-screen bg-white text-[#222325] flex flex-col overflow-hidden">
-      <main className="relative z-10 flex-1 max-w-6xl mx-auto w-full px-6 pt-36 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+    <div className="relative min-h-screen bg-white text-text-main flex flex-col overflow-hidden">
+      <main className="relative z-10 flex-1 lg:max-w-9/12 mx-auto w-full px-6 lg:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         {/* Left Info Column */}
         <div className="lg:col-span-5 space-y-8 text-left">
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-xs font-bold tracking-wider text-[#1DBF73] uppercase mb-3 bg-[#E8F8F0] px-3 py-1 rounded-full border border-[#1DBF73]/20 inline-block"
-            >
-              Get In Touch
-            </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#222325] leading-tight"
+              className="text-2xl sm:text-3xl lg:text-4xl font-medium text-text-main tracking-tight"
             >
               Partner with Labto AI. <br />
               Let’s scale together.
@@ -53,7 +45,7 @@ export default function ContactClient() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-[#62646A] text-sm mt-4 leading-relaxed font-normal"
+              className="text-[#62646A] text-sm mt-4 leading-relaxed"
             >
               Have a high-volume store, specific compliance requirements, or
               custom integrations? Drop us a message and our technical team will
@@ -61,36 +53,36 @@ export default function ContactClient() {
             </motion.p>
           </div>
 
-          <div className="space-y-4 pt-4 border-t border-[#E4E5E7]">
-            <div className="flex items-center gap-4 text-xs text-[#404145]">
-              <div className="w-10 h-10 rounded-xl border border-[#1DBF73]/20 flex items-center justify-center text-[#1DBF73] bg-[#E8F8F0]">
+          <div className="space-y-4">
+            <div className="flex items-center gap-4 text-xs text-text-body">
+              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100">
                 <Mail className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-bold text-[#222325]">Direct Email</p>
-                <p className="text-[#74767E] mt-0.5 font-normal">
-                  support@labto.ahsanul.dev
+                <p className="font-bold text-text-main">Direct Email</p>
+                <p className="text-text-muted mt-0.5">
+                  hello@ahsanul.dev
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-4 text-xs text-[#404145]">
-              <div className="w-10 h-10 rounded-xl border border-[#1DBF73]/20 flex items-center justify-center text-[#1DBF73] bg-[#E8F8F0]">
+            <div className="flex items-center gap-4 text-xs text-text-body">
+              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100">
                 <MessageSquare className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-bold text-[#222325]">SLA Support</p>
-                <p className="text-[#74767E] mt-0.5 font-normal">
-                  4-hour response guarantee for Enterprise clients
+                <p className="font-bold text-text-main">SLA Support</p>
+                <p className="text-text-muted mt-0.5">
+                  under hour response guarantee for Enterprise clients
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-4 text-xs text-[#404145]">
-              <div className="w-10 h-10 rounded-xl border border-[#1DBF73]/20 flex items-center justify-center text-[#1DBF73] bg-[#E8F8F0]">
+            <div className="flex items-center gap-4 text-xs text-text-body">
+              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-bold text-[#222325]">Data Privacy</p>
-                <p className="text-[#74767E] mt-0.5 font-normal">
+                <p className="font-bold text-text-main">Data Privacy</p>
+                <p className="text-text-muted mt-0.5">
                   100% Isolated Data & Zero Camera Feed Retention
                 </p>
               </div>
@@ -100,7 +92,7 @@ export default function ContactClient() {
 
         {/* Right Form Column */}
         <div className="lg:col-span-7 text-left">
-          <div className="relative bg-white border border-[#E4E5E7] rounded-2xl p-8 shadow-xl overflow-hidden min-h-[460px] flex flex-col justify-center">
+          <div className="relative bg-white border border-border-light rounded-md p-8 overflow-hidden min-h-115 flex flex-col justify-center">
             <AnimatePresence mode="wait">
               {!submitted ? (
                 <motion.form
@@ -112,7 +104,7 @@ export default function ContactClient() {
                   className="space-y-6"
                 >
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-2">
+                    <label className="block text-sm tracking-wider text-[#62646A] mb-2">
                       Your Name
                     </label>
                     <input
@@ -123,11 +115,11 @@ export default function ContactClient() {
                         setForm({ ...form, name: e.target.value })
                       }
                       placeholder="Jane Doe"
-                      className="w-full px-4 py-3 bg-white border border-[#E4E5E7] rounded-xl text-[#222325] text-sm focus:outline-none focus:border-[#1DBF73] transition"
+                      className="w-full px-4 py-3 bg-white border border-border-light rounded-md text-text-main text-sm focus:outline-none focus:border-ai-green transition"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-2">
+                    <label className="block text-sm tracking-wider text-[#62646A] mb-2">
                       Work Email
                     </label>
                     <input
@@ -138,11 +130,11 @@ export default function ContactClient() {
                         setForm({ ...form, email: e.target.value })
                       }
                       placeholder="jane@store.com"
-                      className="w-full px-4 py-3 bg-white border border-[#E4E5E7] rounded-xl text-[#222325] text-sm focus:outline-none focus:border-[#1DBF73] transition"
+                      className="w-full px-4 py-3 bg-white border border-border-light rounded-md text-text-main text-sm focus:outline-none focus:border-ai-green transition"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-2">
+                    <label className="block text-sm tracking-wider text-[#62646A] mb-2">
                       Message
                     </label>
                     <textarea
@@ -153,7 +145,7 @@ export default function ContactClient() {
                         setForm({ ...form, message: e.target.value })
                       }
                       placeholder="Tell us about your store volume or custom integration needs..."
-                      className="w-full px-4 py-3 bg-white border border-[#E4E5E7] rounded-xl text-[#222325] text-sm focus:outline-none focus:border-[#1DBF73] transition"
+                      className="w-full px-4 py-3 bg-white border border-border-light rounded-md text-text-main text-sm focus:outline-none focus:border-ai-green transition"
                     />
                   </div>
                   <Button
@@ -178,10 +170,10 @@ export default function ContactClient() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="text-center py-12 space-y-4"
                 >
-                  <div className="w-16 h-16 rounded-full bg-[#E8F8F0] text-[#1DBF73] flex items-center justify-center mx-auto border border-[#1DBF73]/40">
+                  <div className="w-16 h-16 rounded-full bg-ai-green-tint text-[#1DBF73] flex items-center justify-center mx-auto border border-[#1DBF73]/40">
                     <CheckCircle className="w-8 h-8" />
                   </div>
-                  <h3 className="text-2xl font-bold text-[#222325]">
+                  <h3 className="text-2xl font-bold text-text-main">
                     Message Received!
                   </h3>
                   <p className="text-[#62646A] text-sm max-w-sm mx-auto font-normal">
@@ -191,7 +183,7 @@ export default function ContactClient() {
                   <Button
                     onClick={() => setSubmitted(false)}
                     variant="secondary"
-                    className="mt-6 px-6 py-2.5 text-[#222325] border-[#E4E5E7]"
+                    className="mt-6 px-6 py-2.5 text-text-main border-border-light"
                   >
                     Send Another Inquiry
                   </Button>
