@@ -299,7 +299,6 @@ export default function KnowledgeBasePage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className='mb-4'>
           <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight flex items-center gap-2.5">
-            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-[#74767E] shrink-0" strokeWidth={1.5} />
             <span>AI Knowledge Base & Content</span>
           </h1>
           <p className="text-[#62646A] text-xs sm:text-sm mt-1">
