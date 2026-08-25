@@ -84,25 +84,25 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[#222325] flex items-center gap-2">
-          <Sparkles className="w-6 h-6 text-[#1DBF73]" />
-          My Profile
+    <div className="max-w-2xl mx-auto space-y-3">
+      <div className="mb-4">
+        <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight flex items-center gap-2.5">
+          <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-[#74767E] shrink-0" strokeWidth={1.5} />
+          <span>My Profile</span>
         </h1>
-        <p className="text-[#62646A] text-sm mt-1">Manage your account information and preferences.</p>
+        <p className="text-[#62646A] text-xs sm:text-sm mt-1">Manage your account information and preferences.</p>
       </div>
 
-      <div className="bg-white border border-[#E4E5E7] rounded-2xl p-6 md:p-8 shadow-sm">
-        <form onSubmit={handleSave} className="space-y-6">
+      <div className="bg-white border border-[#E4E5E7] rounded-md p-5 md:p-6">
+        <form onSubmit={handleSave} className="space-y-4">
           {/* Profile Picture Section */}
-          <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-[#E4E5E7]">
+          <div className="flex flex-col sm:flex-row items-center gap-5 pb-5 border-b border-[#E4E5E7]">
             <div className="relative group">
-              <div className="w-24 h-24 rounded-full bg-slate-100 overflow-hidden flex items-center justify-center border-4 border-slate-200 shadow-md">
+              <div className="w-20 h-20 rounded-full bg-slate-100 overflow-hidden flex items-center justify-center border-2 border-slate-200">
                 {image ? (
                   <img src={image} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
-                  <User className="w-10 h-10 text-[#74767E]" />
+                  <User className="w-8 h-8 text-[#74767E]" strokeWidth={1.5} />
                 )}
               </div>
               <button
@@ -110,7 +110,7 @@ export default function ProfilePage() {
                 onClick={() => fileInputRef.current?.click()}
                 className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-full cursor-pointer"
               >
-                <Upload className="w-6 h-6 text-white" />
+                <Upload className="w-5 h-5 text-white" strokeWidth={1.5} />
               </button>
               <input 
                 type="file" 
@@ -122,14 +122,14 @@ export default function ProfilePage() {
             </div>
             
             <div className="text-center sm:text-left">
-              <h3 className="text-sm font-bold text-[#222325]">Profile Picture</h3>
-              <p className="text-xs text-[#62646A] mt-1 max-w-xs">
+              <h3 className="text-xs font-medium text-[#222325]">Profile Picture</h3>
+              <p className="text-[11px] text-[#62646A] mt-1 max-w-xs">
                 Upload a professional photo. Recommended size is 256x256px. Max 4MB.
               </p>
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="mt-3 text-xs font-bold text-[#1DBF73] hover:underline transition-colors cursor-pointer"
+                className="mt-2 text-xs font-normal text-[#1DBF73] hover:underline transition-colors cursor-pointer"
               >
                 Choose new image
               </button>
@@ -137,9 +137,9 @@ export default function ProfilePage() {
           </div>
 
           {/* User Details */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
-              <label htmlFor="name" className="block text-xs font-bold text-[#62646A] mb-1.5 uppercase tracking-wider">
+              <label htmlFor="name" className="block text-xs font-normal text-[#404145] mb-1.5">
                 Full Name
               </label>
               <input
@@ -147,13 +147,13 @@ export default function ProfilePage() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-white border border-[#E4E5E7] rounded-xl px-4 py-2.5 text-sm text-[#222325] focus:outline-none focus:border-[#1DBF73] transition-colors"
+                className="w-full bg-white border border-[#E4E5E7] rounded-md px-3 py-2 text-xs text-[#222325] focus:outline-none focus:border-[#1DBF73] transition-colors"
                 placeholder="John Doe"
               />
             </div>
             
             <div>
-              <label htmlFor="email" className="block text-xs font-bold text-[#62646A] mb-1.5 uppercase tracking-wider">
+              <label htmlFor="email" className="block text-xs font-normal text-[#404145] mb-1.5">
                 Email Address
               </label>
               <input
@@ -161,29 +161,29 @@ export default function ProfilePage() {
                 type="email"
                 value={session.user.email}
                 disabled
-                className="w-full bg-[#F7F7F7] border border-[#E4E5E7] rounded-xl px-4 py-2.5 text-sm text-[#74767E] cursor-not-allowed"
+                className="w-full bg-[#F7F7F7] border border-[#E4E5E7] rounded-md px-3 py-2 text-xs text-[#74767E] cursor-not-allowed"
               />
-              <p className="text-[10px] text-[#74767E] mt-1.5">Email address cannot be changed currently.</p>
+              <p className="text-[10px] text-[#74767E] mt-1">Email address cannot be changed currently.</p>
             </div>
           </div>
 
           {/* Submit Button */}
-          <div className="pt-4 flex items-center justify-end">
+          <div className="pt-3 flex items-center justify-end">
             <Button
               type="submit"
               disabled={isSaving}
               variant="primary"
-              className="min-w-[140px]"
+              className="!font-normal text-xs"
             >
               {isSaving ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                  SAVING...
+                  <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                  Saving...
                 </>
               ) : (
                 <>
-                  <Check className="w-4 h-4 mr-2" />
-                  SAVE CHANGES
+                  <Check className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.5} />
+                  Save Changes
                 </>
               )}
             </Button>

@@ -134,11 +134,11 @@ export default function BillingPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6">
-        <Skeleton className="h-8 w-48" />
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <Skeleton className="lg:col-span-7 h-96 rounded-2xl" />
-          <Skeleton className="lg:col-span-5 h-96 rounded-2xl" />
+      <div className="space-y-3">
+        <Skeleton className="h-8 w-48 rounded-md" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+          <Skeleton className="lg:col-span-7 h-96 rounded-md" />
+          <Skeleton className="lg:col-span-5 h-96 rounded-md" />
         </div>
       </div>
     );
@@ -149,36 +149,35 @@ export default function BillingPage() {
   const isFree = currentTier === 'FREE';
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-3">
       {/* Page Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-[#222325] flex items-center gap-2">
-          <CreditCard className="w-6 h-6 text-[#1DBF73]" />
-          Billing & Subscription Plan
+      <div className="mb-4">
+        <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight flex items-center gap-2.5">
+          <span>Billing & Subscription Plan</span>
         </h1>
-        <p className="text-[#62646A] text-xs mt-1">
+        <p className="text-[#62646A] text-xs sm:text-sm mt-1">
           Manage your Labto AI subscription, Polar.sh billing portal, and quota limits.
         </p>
       </div>
 
       {error && (
-        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-600 text-xs rounded-xl flex items-center gap-3">
-          <ShieldAlert className="w-5 h-5 shrink-0" />
+        <div className="p-3 bg-rose-50 border border-rose-200 text-rose-600 text-xs rounded-md flex items-center gap-3 font-normal">
+          <ShieldAlert className="w-4 h-4 shrink-0" strokeWidth={1.5} />
           <span>{error}</span>
         </div>
       )}
 
       {/* Main Billing Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-start">
         {/* Active Subscription Card */}
-        <div className="lg:col-span-7 space-y-6">
-          <div className="p-8 bg-white border border-[#E4E5E7] rounded-2xl relative overflow-hidden shadow-sm">
+        <div className="lg:col-span-7 space-y-3">
+          <div className="p-5 sm:p-6 bg-white border border-[#E4E5E7] rounded-md relative overflow-hidden">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-bold text-[#1DBF73] uppercase tracking-widest bg-[#E8F8F0] border border-[#1DBF73]/20 px-3 py-1 rounded-full">
+                <span className="text-xs font-normal text-[#62646A] bg-[#F0F2F5] border border-[#E4E5E7] px-2.5 py-0.5 rounded-md inline-block">
                   Current active plan
                 </span>
-                <h2 className="text-3xl font-extrabold text-[#222325] tracking-tight mt-4">
+                <h2 className="text-2xl font-medium text-[#222325] tracking-tight mt-3">
                   {currentTier} PLAN
                 </h2>
                 <p className="text-[#62646A] text-xs mt-2 leading-relaxed max-w-md">
@@ -186,8 +185,7 @@ export default function BillingPage() {
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-[10px] text-[#74767E] font-bold uppercase tracking-wider">Status</p>
-                <p className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/20 mt-1 uppercase">
+                <p className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-normal bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7] mt-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#1DBF73] animate-pulse" />
                   {merchant?.subscriptionStatus || 'Active'}
                 </p>
@@ -195,12 +193,12 @@ export default function BillingPage() {
             </div>
 
             {/* Current Tier Features List */}
-            <div className="mt-8 pt-8 border-t border-[#E4E5E7] space-y-4">
-              <h3 className="text-xs font-bold text-[#222325] uppercase tracking-wider">Plan Inclusions:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mt-6 pt-6 border-t border-[#E4E5E7] space-y-3">
+              <h3 className="text-xs font-normal text-[#74767E]">Plan Inclusions:</h3>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {limits.features.map((feat, idx) => (
                   <li key={idx} className="flex items-start gap-2.5 text-xs text-[#404145] leading-relaxed">
-                    <ShieldCheck className="w-4 h-4 text-[#1DBF73] shrink-0 mt-0.5" />
+                    <ShieldCheck className="w-4 h-4 text-[#74767E] shrink-0 mt-0.5" strokeWidth={1.5} />
                     <span>{feat}</span>
                   </li>
                 ))}
@@ -208,17 +206,17 @@ export default function BillingPage() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="mt-8 pt-8 border-t border-[#E4E5E7] flex flex-col sm:flex-row items-center gap-4">
+            <div className="mt-6 pt-6 border-t border-[#E4E5E7] flex flex-col sm:flex-row items-center gap-3">
               {isFree ? (
-                <Button href="/pricing" variant="primary">
+                <Button href="/pricing" variant="primary" className="!font-normal text-xs sm:text-sm">
                   <span className="flex items-center gap-2">
                     <span>Upgrade Subscription</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
                   </span>
                 </Button>
               ) : (
                 <>
-                  <Button onClick={handleManageBilling} disabled={actionLoading} variant="outline" className="text-[#222325] border-[#E4E5E7]">
+                  <Button onClick={handleManageBilling} disabled={actionLoading} variant="outline" className="text-[#222325] border-[#E4E5E7] !font-normal text-xs sm:text-sm">
                     <span className="flex items-center gap-2">
                       {actionLoading ? (
                         <>
@@ -228,15 +226,15 @@ export default function BillingPage() {
                       ) : (
                         <>
                           <span>Manage Polar.sh Subscription</span>
-                          <ArrowRight className="w-4 h-4" />
+                          <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
                         </>
                       )}
                     </span>
                   </Button>
-                  <Button href="/pricing" variant="secondary" className="text-[#222325] border-[#E4E5E7]">
+                  <Button href="/pricing" variant="secondary" className="text-[#222325] border-[#E4E5E7] !font-normal text-xs sm:text-sm">
                     <span className="flex items-center gap-2">
                       <span>Change Plan / Upgrade</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
                     </span>
                   </Button>
                 </>
@@ -246,22 +244,21 @@ export default function BillingPage() {
         </div>
 
         {/* Invoice & Payment History */}
-        <div className="lg:col-span-5 bg-white border border-[#E4E5E7] rounded-2xl p-6 shadow-sm space-y-4">
+        <div className="lg:col-span-5 bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between border-b border-[#E4E5E7] pb-3">
-            <h2 className="text-base font-bold text-[#222325] flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#1DBF73]" />
-              Polar.sh Subscription Summary
+            <h2 className="text-base font-medium text-[#222325] flex items-center gap-2">
+              <span>Polar.sh Subscription Summary</span>
             </h2>
           </div>
 
           <div className="divide-y divide-[#E4E5E7]">
             {loadingInvoices ? (
-              <div className="space-y-3 py-2">
-                <Skeleton className="h-10 w-full rounded-lg" />
-                <Skeleton className="h-10 w-full rounded-lg" />
+              <div className="space-y-2 py-2">
+                <Skeleton className="h-10 w-full rounded-md" />
+                <Skeleton className="h-10 w-full rounded-md" />
               </div>
             ) : invoices.length === 0 ? (
-              <div className="py-8 text-center text-xs text-[#74767E]">
+              <div className="py-8 text-center text-xs text-[#74767E] font-normal">
                 No active subscription invoices found.
               </div>
             ) : (
@@ -272,13 +269,13 @@ export default function BillingPage() {
                 return (
                   <div key={inv.id} className="py-3 flex items-center justify-between">
                     <div>
-                      <p className="text-xs font-bold text-[#222325]">{inv.number}</p>
+                      <p className="text-xs font-normal text-[#222325]">{inv.number}</p>
                       <p className="text-[10px] text-[#74767E]">{formattedDate}</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xs font-bold text-[#222325]">${formattedAmount} {inv.currency || 'USD'}</span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#E8F8F0] text-[#1DBF73]">
-                        {inv.status.toUpperCase()}
+                      <span className="text-xs font-medium text-[#222325]">${formattedAmount} {inv.currency || 'USD'}</span>
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-normal bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7]">
+                        {inv.status}
                       </span>
                     </div>
                   </div>
