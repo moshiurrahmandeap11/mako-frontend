@@ -16,7 +16,7 @@ import toast from 'react-hot-toast';
 import Button from '@/components/Button';
 
 export default function WidgetSettingsPage() {
-  const [config, setConfig] = useState({
+  const [config, setConfig] = useState<any>({
     primaryColor: '#1DBF73',
     headerBgColor: '#FFFFFF',
     headerTextColor: '#222325',
@@ -26,15 +26,19 @@ export default function WidgetSettingsPage() {
     botName: 'AI Assistant',
     position: 'bottom-right',
     addToCartEnabled: true,
+    suggestionChips: ["Show me your portfolio projects", "What services do you provide?", "How can I contact you?"],
   });
 
   const [domains, setDomains] = useState<string[]>([]);
+  const [domainStatuses, setDomainStatuses] = useState<{ domain: string; status: string; chunkCount: number }[]>([]);
   const [domainInput, setDomainInput] = useState('');
+  const [chipInput, setChipInput] = useState('');
   const [apiKeys, setApiKeys] = useState<{ id: string; name: string; keyPrefix: string; isActive: boolean }[]>([]);
   const [selectedKeyPrefix, setSelectedKeyPrefix] = useState('');
 
   const [savingConfig, setSavingConfig] = useState(false);
   const [savingDomains, setSavingDomains] = useState(false);
+  const [rescrapingDomain, setRescrapingDomain] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [selectedFramework, setSelectedFramework] = useState('HTML');
 
@@ -43,18 +47,32 @@ export default function WidgetSettingsPage() {
     'Astro', 'Shopify', 'WordPress', 'PHP', 'Laravel'
   ];
 
+  const PRESET_PALETTES = [
+    { name: 'Emerald Green 🌿', primary: '#1DBF73', headerBg: '#FFFFFF', headerText: '#222325', launcherBg: '#1DBF73', launcherIcon: '#FFFFFF' },
+    { name: 'Sleek Midnight 🌙', primary: '#3B82F6', headerBg: '#0F172A', headerText: '#FFFFFF', launcherBg: '#0F172A', launcherIcon: '#FFFFFF' },
+    { name: 'Royal Purple 💜', primary: '#8B5CF6', headerBg: '#F5F3FF', headerText: '#4C1D95', launcherBg: '#8B5CF6', launcherIcon: '#FFFFFF' },
+    { name: 'Ocean Blue 🌊', primary: '#0284C7', headerBg: '#F0F9FF', headerText: '#0C4A6E', launcherBg: '#0284C7', launcherIcon: '#FFFFFF' },
+    { name: 'Minimalist Dark 🖤', primary: '#18181B', headerBg: '#18181B', headerText: '#FAFAFA', launcherBg: '#18181B', launcherIcon: '#FFFFFF' },
+  ];
+
   useEffect(() => {
     // 1. Fetch Widget Config
     fetchApi('/api/widget-config')
       .then((data) => {
-        if (data.config) setConfig(data.config);
+        if (data.config) {
+          setConfig({
+            ...data.config,
+            suggestionChips: data.config.suggestionChips || ["Show me your portfolio projects", "What services do you provide?", "How can I contact you?"],
+          });
+        }
       })
       .catch(console.error);
 
-    // 2. Fetch Merchant Profile for domains
+    // 2. Fetch Merchant Profile for domains & scrape statuses
     fetchApi('/api/merchant/me')
       .then((data) => {
         setDomains(data.merchant?.allowedDomains || []);
+        setDomainStatuses(data.merchant?.domainStatuses || []);
       })
       .catch(console.error);
 
@@ -108,6 +126,7 @@ export default function WidgetSettingsPage() {
       });
       setDomains(newDomains);
       setDomainInput('');
+      toast.success(`Domain ${val} whitelisted and scraping triggered!`);
     } catch (err: any) {
       toast.error(err.message || 'Failed to update domains');
     } finally {
@@ -130,6 +149,53 @@ export default function WidgetSettingsPage() {
     } finally {
       setSavingDomains(false);
     }
+  };
+
+  const handleRescrape = async (domain: string) => {
+    setRescrapingDomain(domain);
+    try {
+      await fetchApi('/api/merchant/domains/rescrape', {
+        method: 'POST',
+        body: JSON.stringify({ domain }),
+      });
+      toast.success(`Background re-scraping initiated for ${domain}!`);
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to re-scrape domain');
+    } finally {
+      setRescrapingDomain(null);
+    }
+  };
+
+  const handleAddChip = () => {
+    const val = chipInput.trim();
+    if (!val) return;
+    const currentChips = config.suggestionChips || [];
+    if (currentChips.length >= 4) {
+      toast.error('You can add up to 4 suggested question chips.');
+      return;
+    }
+    setConfig({ ...config, suggestionChips: [...currentChips, val] });
+    setChipInput('');
+  };
+
+  const handleRemoveChip = (chipToRemove: string) => {
+    const currentChips = config.suggestionChips || [];
+    setConfig({
+      ...config,
+      suggestionChips: currentChips.filter((c: string) => c !== chipToRemove),
+    });
+  };
+
+  const applyPalette = (palette: typeof PRESET_PALETTES[0]) => {
+    setConfig({
+      ...config,
+      primaryColor: palette.primary,
+      headerBgColor: palette.headerBg,
+      headerTextColor: palette.headerText,
+      launcherBgColor: palette.launcherBg,
+      launcherIconColor: palette.launcherIcon,
+    });
+    toast.success(`Applied ${palette.name} theme preset!`);
   };
 
   const scriptHost = process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL || 'http://localhost:4000/widget.js';
@@ -178,6 +244,7 @@ export default function WidgetSettingsPage() {
           botName: 'AI Assistant',
           position: 'bottom-right',
           addToCartEnabled: true,
+          suggestionChips: ["Show me your portfolio projects", "What services do you provide?", "How can I contact you?"],
         });
       }
       toast.success('Widget configuration reset to default settings!');
@@ -188,9 +255,19 @@ export default function WidgetSettingsPage() {
 
   return (
     <div className="space-y-3">
-      <div className="mb-4">
-        <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight">Widget Settings & Customization</h1>
-        <p className="text-[#62646A] text-xs sm:text-sm mt-1">Configure assistant branding, whitelisted domains, and copy embed code</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight">Widget Settings & Customization</h1>
+          <p className="text-[#62646A] text-xs sm:text-sm mt-1">Configure assistant branding, whitelisted domains, and test widget live</p>
+        </div>
+
+        {/* Feature 3: Live Test Widget Button */}
+        <Button href="/widget-test" target="_blank" variant="primary" className="!font-normal text-xs shrink-0">
+          <span className="flex items-center gap-1.5">
+            <Zap className="w-4 h-4 text-white" strokeWidth={1.5} />
+            <span>Test Widget Live in New Tab ↗</span>
+          </span>
+        </Button>
       </div>
 
       {/* Main Grid: Settings Controls + Live Interactive Preview */}
@@ -219,16 +296,42 @@ export default function WidgetSettingsPage() {
               </Button>
             </div>
 
-            <div className="flex flex-wrap gap-2 pt-1">
+            <div className="flex flex-col gap-2 pt-1">
               {domains.length === 0 ? (
                 <span className="text-xs text-[#74767E] italic">No domain restrictions set (all domains allowed for dev testing).</span>
               ) : (
-                domains.map((dom) => (
-                  <span key={dom} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#F0F2F5] border border-[#E4E5E7] text-[#62646A] text-xs font-mono font-normal">
-                    {dom}
-                    <button onClick={() => handleRemoveDomain(dom)} className="hover:text-rose-600 cursor-pointer">✕</button>
-                  </span>
-                ))
+                domains.map((dom) => {
+                  const statusInfo = domainStatuses.find((s) => s.domain === dom);
+                  const isScraped = statusInfo ? statusInfo.chunkCount > 0 : false;
+                  return (
+                    <div key={dom} className="flex items-center justify-between p-2.5 rounded-md bg-[#F0F2F5] border border-[#E4E5E7] text-xs">
+                      <div className="flex items-center gap-2 font-mono text-[#222325]">
+                        <span>{dom}</span>
+                        {/* Feature 4: Scrape Status Badge */}
+                        <span className={`inline-flex items-center gap-1 text-[10px] font-sans px-2 py-0.5 rounded ${
+                          isScraped
+                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                            : 'bg-amber-100 text-amber-800 border border-amber-300'
+                        }`}>
+                          {isScraped ? `🟢 Scraped & Ready (${statusInfo?.chunkCount || 0} chunks)` : '🟡 Crawl Pending'}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleRescrape(dom)}
+                          disabled={rescrapingDomain === dom}
+                          className="text-[11px] text-[#0284C7] hover:underline flex items-center gap-1 font-medium"
+                          title="Trigger background website crawl"
+                        >
+                          🔄 {rescrapingDomain === dom ? 'Crawling...' : 'Re-scrape'}
+                        </button>
+                        <button onClick={() => handleRemoveDomain(dom)} className="text-[#74767E] hover:text-rose-600 cursor-pointer ml-1">✕</button>
+                      </div>
+                    </div>
+                  );
+                })
               )}
             </div>
           </div>
@@ -238,6 +341,24 @@ export default function WidgetSettingsPage() {
             <div className="flex items-center gap-2 border-b border-[#E4E5E7] pb-3">
               <Palette className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
               <h2 className="text-base font-medium text-[#222325]">Branding & Aesthetics</h2>
+            </div>
+
+            {/* Feature 1: 1-Click Color Presets */}
+            <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-md p-3 space-y-2">
+              <label className="block text-xs font-medium text-[#334155]">1-Click Theme Color Presets</label>
+              <div className="flex flex-wrap gap-2">
+                {PRESET_PALETTES.map((pal) => (
+                  <button
+                    key={pal.name}
+                    type="button"
+                    onClick={() => applyPalette(pal)}
+                    className="px-2.5 py-1 bg-white border border-[#CBD5E1] rounded-md text-xs font-medium text-[#334155] hover:border-[#1DBF73] hover:text-[#1DBF73] transition-all flex items-center gap-1.5 shadow-2xs"
+                  >
+                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: pal.primary }} />
+                    <span>{pal.name}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div>
@@ -265,6 +386,35 @@ export default function WidgetSettingsPage() {
                   onChange={(e) => setConfig({ ...config, greetingMessage: e.target.value })}
                   className="w-full pl-9 pr-4 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] focus:outline-none focus:border-[#1DBF73]"
                 />
+              </div>
+            </div>
+
+            {/* Feature 2: Custom Suggested Questions Chips Editor */}
+            <div className="pt-2 border-t border-[#E4E5E7] space-y-2">
+              <label className="block text-xs font-medium text-[#222325]">Custom Suggested Question Chips (Max 4)</label>
+              <p className="text-[#62646A] text-xs">Quick question shortcuts shown to visitors when opening chat:</p>
+              
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="e.g. Track My Order, Shipping Info, or Return Policy"
+                  value={chipInput}
+                  onChange={(e) => setChipInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddChip())}
+                  className="flex-1 px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73]"
+                />
+                <Button type="button" onClick={handleAddChip} disabled={!chipInput.trim()} variant="outline" className="text-[#222325] border-[#E4E5E7] !font-normal text-xs">
+                  Add Chip
+                </Button>
+              </div>
+
+              <div className="flex flex-wrap gap-2 pt-1">
+                {(config.suggestionChips || []).map((chip: string) => (
+                  <span key={chip} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E8F8F0] border border-[#1DBF73]/30 text-[#0F172A] text-xs font-medium">
+                    💬 {chip}
+                    <button type="button" onClick={() => handleRemoveChip(chip)} className="hover:text-rose-600 cursor-pointer ml-1">✕</button>
+                  </span>
+                ))}
               </div>
             </div>
 

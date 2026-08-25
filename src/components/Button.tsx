@@ -6,6 +6,7 @@ import React from "react";
 
 export interface ButtonProps {
   href?: string;
+  target?: string;
   onClick?: (
     e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
   ) => void;
@@ -22,6 +23,7 @@ export interface ButtonProps {
 
 export default function Button({
   href,
+  target,
   onClick,
   type = "button",
   disabled = false,
@@ -52,7 +54,7 @@ export default function Button({
 
   const variantStyles = {
     primary:
-      "bg-[#1DBF73] text-white hover:bg-[#19A463] shadow-md shadow-[#1DBF73]/20 active:scale-[0.98] font-semibold",
+      "bg-[#1DBF73] text-[#ffffff] hover:bg-[#19A463] shadow-md shadow-[#1DBF73]/20 active:scale-[0.98] font-semibold",
     secondary:
       "bg-transparent text-[#1DBF73] border border-[#1DBF73]/50 hover:border-[#1DBF73] hover:bg-[#1DBF73]/10 active:scale-[0.98] font-semibold",
     ghost:
@@ -80,7 +82,7 @@ export default function Button({
 
   if (href && !disabled) {
     return (
-      <Link href={href} onClick={onClick} className={combinedClass}>
+      <Link href={href} target={target} onClick={onClick} className={combinedClass}>
         {content}
       </Link>
     );
