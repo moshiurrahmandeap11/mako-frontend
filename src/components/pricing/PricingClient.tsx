@@ -8,11 +8,7 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import {
   Check,
-  Sparkles,
-  RefreshCw,
-  Zap,
   CheckCircle2,
-  ArrowRight,
 } from "lucide-react";
 import Button from "@/components/Button";
 
@@ -108,35 +104,28 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#222325] flex flex-col pt-32 pb-20 relative overflow-hidden">
-      <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 w-full relative z-10 space-y-16">
+    <div className="min-h-screen bg-white text-text-main flex flex-col py-6 relative overflow-hidden">
+      <main className="flex-1 lg:max-w-9/12 mx-auto px-6 lg:px-0 w-full relative z-10 space-y-6">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-2xl mx-auto space-y-4"
+          className="text-left max-w-2xl space-y-3"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E8F8F0] border border-[#1DBF73]/20">
-            <Sparkles className="w-3.5 h-3.5 text-[#1DBF73]" />
-            <span className="text-xs font-bold uppercase tracking-wider text-[#1DBF73]">
-              Predictable AI Credits &bull; Zero Waste
-            </span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#222325] tracking-tight">
-            Massive AI Power. Pocket-Change Pricing.
+          <h1 className="text-2xl sm:text-2xl lg:text-3xl font-medium text-text-main tracking-tight">
+            Transparent, Scalable Plans
           </h1>
-          <p className="text-[#62646A] text-sm sm:text-base leading-relaxed font-normal">
+          <p className="text-[#62646A] text-xs sm:text-sm leading-relaxed">
             Get thousands of AI Smart Credits with{" "}
-            <strong>100% Unused Credit Rollover</strong>. Your credits stay yours
+            <strong className="text-text-main font-semibold">100% Unused Credit Rollover</strong>. Your credits stay yours
             as long as your subscription is active!
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {plans.map((p, idx) => {
             const isCurrentPlan = currentTier === p.tierKey;
 
-            // Determine CTA button copy when user is logged in
             let buttonLabel = p.cta;
             if (isCurrentPlan) {
               buttonLabel =
@@ -163,12 +152,12 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className={`p-6 rounded-2xl bg-white border flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left shadow-sm ${
+                className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left ${
                   isCurrentPlan
-                    ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-2 ring-[#1DBF73]/50 bg-[#E8F8F0]/30"
+                    ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30 bg-ai-green-tint/30"
                     : p.popular
                     ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30"
-                    : "border-[#E4E5E7] hover:border-[#DADBDD] hover:shadow-md"
+                    : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
                 }`}
               >
                 {/* Current Plan Badge or Most Popular Badge */}
@@ -178,7 +167,7 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                   </span>
                 ) : (
                   p.popular && (
-                    <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-sm font-mono">
+                    <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-sm">
                       Most Popular
                     </span>
                   )
@@ -187,41 +176,28 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                 <div className="space-y-4">
                   <div>
                     <div className="flex items-center gap-2">
-                      <h3 className="text-lg font-bold text-[#222325]">
+                      <h3 className="text-lg font-medium text-text-main">
                         {p.name}
                       </h3>
-                      {p.rollover && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[#1DBF73] bg-[#E8F8F0] border border-[#1DBF73]/30 px-2 py-0.5 rounded-full">
-                          <RefreshCw className="w-2.5 h-2.5" /> Rollover
-                        </span>
-                      )}
                     </div>
-                    <p className="text-xs text-[#62646A] mt-1 min-h-[32px] font-normal">
+                    <p className="text-xs text-[#62646A] mt-1 min-h-8">
                       {p.description}
                     </p>
                   </div>
 
-                  <div className="py-2 border-y border-[#E4E5E7] space-y-1">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl sm:text-4xl font-extrabold text-[#222325] tracking-tight">
-                        {p.price}
-                      </span>
-                      {p.price !== "Custom" && (
-                        <span className="text-xs text-[#74767E] font-medium">
-                          / month
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-[#1DBF73]">
-                      <Zap className="w-3 h-3 shrink-0" />
-                      <span>{p.credits}</span>
-                    </div>
+                  <div className="flex items-baseline gap-1 py-1 border-b border-border-light">
+                    <span className="text-3xl sm:text-4xl text-text-main tracking-tight">
+                      {p.price}
+                    </span>
+                    {p.price !== "Custom" && (
+                      <span className="text-sm text-text-muted">/ month</span>
+                    )}
                   </div>
 
-                  <ul className="space-y-2.5 text-xs text-[#404145]">
+                  <ul className="space-y-2.5 text-xs text-text-body">
                     {p.features.map((feat) => (
                       <li key={feat} className="flex items-center gap-2">
-                        <Check className="w-3.5 h-3.5 text-[#1DBF73] shrink-0 font-bold" />
+                        <Check className="w-3.5 h-3.5 shrink-0" />
                         <span>{feat}</span>
                       </li>
                     ))}
@@ -240,11 +216,11 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                         : "outline"
                     }
                     size="md"
-                    className={`w-full justify-center text-xs font-bold ${
+                    className={`w-full justify-center text-sm ${
                       isCurrentPlan
                         ? "bg-[#1DBF73] text-white border-transparent"
                         : !p.popular
-                        ? "text-[#222325] border-[#E4E5E7] hover:bg-slate-50"
+                        ? "text-text-main border-border-light hover:bg-slate-50"
                         : ""
                     }`}
                   >
@@ -253,9 +229,6 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                         <CheckCircle2 className="w-3.5 h-3.5 text-white" />
                       )}
                       <span>{buttonLabel}</span>
-                      {!isCurrentPlan && (
-                        <ArrowRight className="w-3.5 h-3.5 ml-0.5 opacity-70" />
-                      )}
                     </span>
                   </Button>
                 </div>

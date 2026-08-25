@@ -1,12 +1,95 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { fetchApi } from "@/lib/api-client";
+import toast from "react-hot-toast";
 import Button from "@/components/Button";
-import { Check } from "lucide-react";
+import { Check, CheckCircle2 } from "lucide-react";
 
 export default function PricingSection() {
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+  const [currentTier, setCurrentTier] = useState<string | null>(null);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (session) {
+      fetchApi("/api/merchant/me")
+        .then((data) => {
+          if (data?.merchant?.planTier) {
+            setCurrentTier(data.merchant.planTier);
+          } else {
+            setCurrentTier("FREE");
+          }
+        })
+        .catch(() => {
+          setCurrentTier("FREE");
+        });
+    } else {
+      setCurrentTier(null);
+    }
+  }, [session]);
+
+  const handleSelectPlan = async (planName: string, defaultHref: string) => {
+    const tierKey = planName.toUpperCase();
+
+    if (tierKey === currentTier) {
+      if (tierKey === "FREE") {
+        router.push("/dashboard");
+      } else {
+        router.push("/billing");
+      }
+      return;
+    }
+
+    if (planName === "Enterprise") {
+      router.push(defaultHref);
+      return;
+    }
+
+    if (!session) {
+      router.push(defaultHref);
+      return;
+    }
+
+    if (planName === "Free") {
+      router.push("/dashboard");
+      return;
+    }
+
+    setLoadingPlan(planName);
+    try {
+      const apiBase = ""; // Proxied via Next.js rewrites
+      const res = await fetch(`${apiBase}/api/billing/checkout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ tier: tierKey }),
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        toast.error(
+          data.error || "Failed to start checkout session. Please try again."
+        );
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+      toast.error("Failed to connect to billing server.");
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
+
   const plans = [
     {
       name: "Free",
+      tierKey: "FREE",
       price: "$0",
       description: "Ideal for testing and launching your first AI assistant.",
       features: [
@@ -24,12 +107,13 @@ export default function PricingSection() {
     },
     {
       name: "Starter",
+      tierKey: "STARTER",
       price: "$2",
       description:
         "Perfect for growing boutique stores wanting 24/7 automated sales.",
       features: [
         "10,000 AI Smart Credits / month",
-        "🔄 100% Unused Credit Rollover",
+        "100% Unused Credit Rollover",
         "2 Active API keys",
         "2 Whitelisted domains",
         "pgvector Semantic AI Search",
@@ -43,11 +127,12 @@ export default function PricingSection() {
     },
     {
       name: "Pro",
+      tierKey: "PRO",
       price: "$5",
       description: "Our most popular plan for high-converting stores.",
       features: [
         "30,000 AI Smart Credits / month",
-        "🔄 100% Unused Credit Rollover",
+        "100% Unused Credit Rollover",
         "4 Active API keys",
         "5 Whitelisted domains",
         "Full pgvector Product RAG",
@@ -62,6 +147,7 @@ export default function PricingSection() {
     },
     {
       name: "Enterprise",
+      tierKey: "ENTERPRISE",
       price: "Custom",
       description: "Dedicated orchestration for high-traffic retailers.",
       features: [
@@ -101,64 +187,114 @@ export default function PricingSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {plans.map((p) => (
-            <div
-              key={p.name}
-              className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left ${
-                p.popular
-                  ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30"
-                  : "border-border-light hover:border-[#DADBDD] hover:shadow-md"
-              }`}
-            >
-              {p.popular && (
-                <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-sm">
-                  Most Popular
-                </span>
-              )}
+          {plans.map((p) => {
+            const isCurrentPlan = currentTier === p.tierKey;
 
-              <div className="space-y-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-medium text-text-main">
-                      {p.name}
-                    </h3>
-                  </div>
-                  <p className="text-xs text-[#62646A] mt-1 min-h-8">
-                    {p.description}
-                  </p>
-                </div>
+            let buttonLabel = p.cta;
+            if (isCurrentPlan) {
+              buttonLabel =
+                p.tierKey === "FREE"
+                  ? "Current Plan (Dashboard)"
+                  : "Current Plan (Manage)";
+            } else if (currentTier) {
+              if (p.tierKey === "PRO" && currentTier === "STARTER") {
+                buttonLabel = "Upgrade to Pro ($5/mo)";
+              } else if (p.tierKey === "STARTER" && currentTier === "FREE") {
+                buttonLabel = "Upgrade for $2/mo";
+              } else if (p.tierKey === "PRO" && currentTier === "FREE") {
+                buttonLabel = "Upgrade to Pro ($5/mo)";
+              } else if (p.tierKey === "STARTER" && currentTier === "PRO") {
+                buttonLabel = "Switch to Starter ($2/mo)";
+              } else if (p.tierKey === "FREE") {
+                buttonLabel = "Base Free Plan";
+              }
+            }
 
-                <div className="flex items-baseline gap-1 py-1 border-b border-border-light">
-                  <span className="text-3xl sm:text-4xl text-text-main tracking-tight">
-                    {p.price}
+            return (
+              <div
+                key={p.name}
+                className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left ${
+                  isCurrentPlan
+                    ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30 bg-ai-green-tint/30"
+                    : p.popular
+                    ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30"
+                    : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
+                }`}
+              >
+                {isCurrentPlan ? (
+                  <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white flex items-center gap-1 shadow-sm font-mono">
+                    <CheckCircle2 className="w-3 h-3 text-white" /> Current Plan
                   </span>
-                  {p.price !== "Custom" && (
-                    <span className="text-sm text-text-muted">/ month</span>
-                  )}
+                ) : (
+                  p.popular && (
+                    <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-sm">
+                      Most Popular
+                    </span>
+                  )
+                )}
+
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-lg font-medium text-text-main">
+                        {p.name}
+                      </h3>
+                    </div>
+                    <p className="text-xs text-[#62646A] mt-1 min-h-8">
+                      {p.description}
+                    </p>
+                  </div>
+
+                  <div className="flex items-baseline gap-1 py-1 border-b border-border-light">
+                    <span className="text-3xl sm:text-4xl text-text-main tracking-tight">
+                      {p.price}
+                    </span>
+                    {p.price !== "Custom" && (
+                      <span className="text-sm text-text-muted">/ month</span>
+                    )}
+                  </div>
+
+                  <ul className="space-y-2.5 text-xs text-text-body">
+                    {p.features.map((feat) => (
+                      <li key={feat} className="flex items-center gap-2">
+                        <Check className="w-3.5 h-3.5 shrink-0" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
-                <ul className="space-y-2.5 text-xs text-text-body">
-                  {p.features.map((feat) => (
-                    <li key={feat} className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 shrink-0" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="pt-6">
+                  <Button
+                    onClick={() => handleSelectPlan(p.name, p.href)}
+                    isLoading={loadingPlan === p.name}
+                    variant={
+                      isCurrentPlan
+                        ? "secondary"
+                        : p.popular
+                        ? "primary"
+                        : "outline"
+                    }
+                    size="md"
+                    className={`w-full justify-center text-sm ${
+                      isCurrentPlan
+                        ? "bg-[#1DBF73] text-white border-transparent"
+                        : !p.popular
+                        ? "text-text-main border-border-light hover:bg-slate-50"
+                        : ""
+                    }`}
+                  >
+                    <span className="flex items-center justify-center gap-1.5">
+                      {isCurrentPlan && (
+                        <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                      )}
+                      <span>{buttonLabel}</span>
+                    </span>
+                  </Button>
+                </div>
               </div>
-
-              <div className="pt-6">
-                <Button
-                  href={p.href}
-                  variant={p.popular ? "primary" : "outline"}
-                  size="md"
-                  className={`w-full justify-center text-sm ${!p.popular ? "text-text-main border-border-light hover:bg-slate-50" : ""}`}
-                >
-                  {p.cta}
-                </Button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

@@ -59,7 +59,7 @@ export default function TechnologyClient({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group relative p-8 bg-white border border-[#E4E5E7] rounded-md hover:border-[#1DBF73] transition-all duration-300 text-left"
+                className="group relative p-8 bg-white border border-border-light rounded-md hover:border-[#1DBF73] transition-all duration-300 text-left"
               >
                 <h3 className="text-lg font-bold text-text-main mb-3">
                   {spec.title}
