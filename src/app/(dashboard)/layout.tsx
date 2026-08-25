@@ -1,6 +1,6 @@
 "use client";
 
-import { LogoMark } from "@/components/Logo";
+import Logo, { LogoMark } from "@/components/Logo";
 import { Skeleton } from "@/components/Skeleton";
 import { fetchApi } from "@/lib/api-client";
 import { authClient } from "@/lib/auth-client";
@@ -114,9 +114,9 @@ export default function DashboardLayout({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#F7F7F7] text-[#222325] flex">
+      <div className="min-h-screen bg-surface-light text-text-main flex">
         {/* Skeleton Sidebar (Desktop) */}
-        <aside className="hidden md:flex w-64 border-r border-[#E4E5E7] bg-white p-6 flex-col justify-between shrink-0">
+        <aside className="hidden md:flex w-64 border-r border-border-light bg-white p-6 flex-col justify-between shrink-0">
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <Skeleton className="w-8 h-8 rounded" />
@@ -134,7 +134,7 @@ export default function DashboardLayout({
 
         {/* Skeleton Content */}
         <main className="flex-1 flex flex-col min-w-0">
-          <header className="h-16 border-b border-[#E4E5E7] px-4 sm:px-8 flex items-center justify-between bg-white">
+          <header className="h-16 border-b border-border-light px-4 sm:px-8 flex items-center justify-between bg-white">
             <Skeleton className="w-32 h-4" />
             <Skeleton className="w-36 h-6 rounded-full" />
           </header>
@@ -155,31 +155,25 @@ export default function DashboardLayout({
     <div className="h-full flex flex-col justify-between bg-white">
       <div>
         {/* Brand Header */}
-        <div className="h-16 px-6 border-b border-[#E4E5E7] flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <LogoMark size="sm" />
-            <div className="flex flex-col">
-              <span className="font-extrabold text-base tracking-[0.18em] text-[#222325] group-hover:text-[#1DBF73] transition">
-                Labto AI
-              </span>
-              <span className="text-[9px] text-[#74767E] font-bold uppercase tracking-wider">
-                {isAdmin ? "Super Admin Console" : "Merchant Console"}
-              </span>
-            </div>
-          </Link>
+        <div className="h-16 px-6 border-b border-border-light flex items-center justify-between">
+            <Logo
+              id="navbar-brand-logo"
+              markId="navbar-logomark-target"
+              href="/"
+            />
 
           {/* Close button for mobile drawer */}
           <button
             onClick={() => setIsMobileNavOpen(false)}
-            className="md:hidden text-[#74767E] hover:text-[#222325] p-1"
+            className="md:hidden text-text-muted hover:text-text-main p-1"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Merchant Store Info */}
-        <div className="p-3.5 mx-3 my-4 rounded-xl bg-[#F7F7F7] border border-[#E4E5E7] flex items-center gap-3">
-          <div className="w-8 h-8 rounded bg-[#E8F8F0] border border-[#1DBF73]/30 flex items-center justify-center text-[#1DBF73] shrink-0">
+        <div className="p-3.5 mx-3 my-4 rounded-xl bg-surface-light border border-border-light flex items-center gap-3">
+          <div className="w-8 h-8 rounded bg-ai-green-tint border border-[#1DBF73]/30 flex items-center justify-center text-[#1DBF73] shrink-0">
             {isAdmin ? (
               <ShieldCheck className="w-4 h-4 text-[#1DBF73]" />
             ) : (
