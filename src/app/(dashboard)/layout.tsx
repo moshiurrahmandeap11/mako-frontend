@@ -18,9 +18,11 @@ import {
   Package,
   Settings,
   ShieldCheck,
+  Sparkles,
   Store,
   X,
 } from "lucide-react";
+import { TbSparkle2 } from "react-icons/tb";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
@@ -172,26 +174,8 @@ export default function DashboardLayout({
           </button>
         </div>
 
-        {/* Merchant Store Info */}
-        <div className="p-3.5 mx-3 my-4 rounded-md bg-surface-light border border-border-light flex items-center gap-3">
-          <div className="min-w-0 flex-1">
-            <p className="text-xs font-medium text-[#222325] truncate">
-              {merchant?.name || "My Store"}
-            </p>
-            <div className="flex items-center gap-1.5 mt-1 text-[10px] text-[#74767E] min-w-0">
-              {isAdmin && (
-                <>
-                  <span className="shrink-0 font-medium text-[#62646A]">Admin</span>
-                  <span className="text-[#B2B4B8] shrink-0">•</span>
-                </>
-              )}
-              <span className="truncate">{merchant?.email}</span>
-            </div>
-          </div>
-        </div>
-
         {/* Navigation Items */}
-        <nav className="px-3 space-y-1">
+        <nav className="px-3 pt-3 space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -227,13 +211,13 @@ export default function DashboardLayout({
           </span>
         </div>
 
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2.5 px-3 py-2 text-sm font-normal text-[#74767E] hover:text-rose-600 hover:bg-rose-50 rounded-md transition border border-transparent hover:border-rose-200"
+        <Link
+          href="/pricing"
+          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-normal bg-[#1DBF73] text-white rounded-md hover:bg-[#19A463] transition cursor-pointer"
         >
-          <LogOut className="w-[18px] h-[18px] shrink-0" strokeWidth={1.5} />
-          <span className="leading-none">Sign Out</span>
-        </button>
+          <TbSparkle2 className="w-4 h-4" />
+          <span>Upgrade Plan</span>
+        </Link>
       </div>
     </div>
   );
