@@ -79,31 +79,28 @@ export default function OverviewPage() {
     <div className="space-y-3">
       {/* Welcome Hero Banner */}
       <div className="bg-white border border-[#E4E5E7] rounded-md p-5 sm:p-5.5">
-        <div className="max-w-2xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E8F8F0] border border-[#1DBF73]/30 text-[#1DBF73] text-xs font-bold uppercase tracking-wider">
-            <Zap className="w-3.5 h-3.5" />
-            <span>AI Console Live</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-[#222325] tracking-tight sm:text-4xl">
+        <div className="max-w-2xl space-y-2">
+          <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight">
             Labto AI Merchant Console
           </h1>
-          <p className="text-[#62646A] text-sm leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#62646A] leading-relaxed">
             Monitor real-time AI conversation volume, index store product catalogs, manage API keys, and export transcript reports.
           </p>
-          <div className="pt-2 flex flex-wrap gap-4">
+          <div className="pt-2 flex flex-wrap gap-3">
             <Button
               href="/widget-settings"
               variant="primary"
-              icon={<Code2 className="w-4 h-4" />}
+              className="!font-normal"
+              icon={<Code2 className="w-4 h-4" strokeWidth={1.5} />}
             >
               Get Embed Code
             </Button>
             <Button
               href="/products"
               variant="secondary"
-              icon={<ArrowRight className="w-4 h-4" />}
+              icon={<ArrowRight className="w-4 h-4" strokeWidth={1.5} />}
               iconPosition="right"
-              className="text-[#222325] border-[#E4E5E7] hover:bg-slate-50"
+              className="text-[#222325] border-[#E4E5E7] hover:bg-slate-50 !font-normal"
             >
               Manage Catalog
             </Button>
@@ -116,25 +113,25 @@ export default function OverviewPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[#E4E5E7] pb-4">
           <div>
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#1DBF73]" />
-              <h2 className="text-base font-bold text-[#222325]">AI Smart Credits Balance</h2>
+              <Sparkles className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
+              <h2 className="text-base font-medium text-[#222325]">AI Smart Credits Balance</h2>
               {credits?.rolloverEnabled && (
-                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[#1DBF73] bg-[#E8F8F0] border border-[#1DBF73]/30 px-2 py-0.5 rounded-full">
-                  <RefreshCw className="w-2.5 h-2.5" /> Rollover Active
+                <span className="inline-flex items-center gap-1 text-[10px] font-normal text-[#62646A] bg-[#F0F2F5] border border-[#E4E5E7] px-2 py-0.5 rounded-md">
+                  <RefreshCw className="w-2.5 h-2.5 text-[#62646A]" strokeWidth={1.5} /> Rollover Active
                 </span>
               )}
             </div>
             <p className="text-[#62646A] text-xs mt-1">
-              Plan Tier: <strong className="text-[#222325] uppercase font-bold">{summary?.planTier || 'FREE'}</strong>
+              Plan Tier: <strong className="text-[#222325] font-medium">{summary?.planTier || 'FREE'}</strong>
               {credits?.rolloverCredits > 0 && (
-                <span className="text-[#1DBF73] font-semibold ml-2">
+                <span className="text-[#62646A] font-normal ml-2">
                   (+{credits.rolloverCredits.toLocaleString()} rolled over from last month)
                 </span>
               )}
             </p>
           </div>
           <div className="text-left sm:text-right">
-            <span className="text-2xl font-extrabold text-[#222325] tracking-tight">
+            <span className="text-2xl font-medium text-[#222325] tracking-tight">
               {remainingCredits}
             </span>
             <span className="text-xs text-[#74767E] block">
@@ -145,9 +142,9 @@ export default function OverviewPage() {
 
         {!isEnterprise && (
           <div className="mt-4 space-y-2">
-            <div className="flex justify-between text-xs font-semibold text-[#404145]">
+            <div className="flex justify-between text-xs font-normal text-[#404145]">
               <span>Current Month Usage ({usedCredits.toLocaleString()} credits used)</span>
-              <span className={usagePercentage > 80 ? 'text-amber-500 font-bold' : 'text-[#1DBF73] font-bold'}>
+              <span className={usagePercentage > 80 ? 'text-amber-600 font-medium' : 'text-[#62646A] font-medium'}>
                 {usagePercentage}% used
               </span>
             </div>
@@ -198,13 +195,13 @@ export default function OverviewPage() {
       <div id="visitor-analytics" className="bg-white border border-[#E4E5E7] rounded-md p-5 sm:p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-base font-bold text-[#222325] flex items-center gap-2">
-              <Globe className="w-4 h-4 text-[#1DBF73]" />
+            <h2 className="text-base font-medium text-[#222325] flex items-center gap-2">
+              <Globe className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
               <span>Geographic Visitor Distribution</span>
             </h2>
             <p className="text-[#62646A] text-xs mt-1">Real-time unique visitor traffic breakdown by country</p>
           </div>
-          <span className="px-3 py-1 rounded-full bg-[#E8F8F0] text-[#1DBF73] text-[10px] font-extrabold uppercase tracking-wider border border-[#1DBF73]/30">
+          <span className="px-3 py-1.5 rounded-md bg-[#F0F2F5] text-[#62646A] text-xs font-normal border border-[#E4E5E7]">
             {summary?.totalUniqueVisitors ?? 0} Total Unique Visitors
           </span>
         </div>
@@ -214,23 +211,23 @@ export default function OverviewPage() {
             {summary.visitorCountries.map((c: any, idx: number) => (
               <div key={idx} className="p-4 rounded-md bg-[#F7F7F7] border border-[#E4E5E7] flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-md bg-[#E8F8F0] border border-[#1DBF73]/20 text-[#1DBF73] font-bold text-xs flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-md bg-[#F0F2F5] border border-[#E4E5E7] text-[#62646A] font-normal text-xs flex items-center justify-center">
                     {c.countryCode}
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#222325]">{c.country}</h4>
+                    <h4 className="text-xs font-normal text-[#222325]">{c.country}</h4>
                     <span className="text-[10px] text-[#74767E]">Country Code: {c.countryCode}</span>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-sm font-extrabold text-[#1DBF73]">{c.count}</span>
-                  <span className="block text-[9px] uppercase font-bold text-[#74767E]">Visitors</span>
+                  <span className="text-sm font-medium text-[#222325]">{c.count}</span>
+                  <span className="block text-[10px] font-normal text-[#74767E]">Visitors</span>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="p-8 text-center bg-[#F7F7F7] border border-[#E4E5E7] rounded-md text-[#74767E] text-xs font-semibold">
+          <div className="p-8 text-center bg-[#F7F7F7] border border-[#E4E5E7] rounded-md text-[#74767E] text-xs font-normal">
             No geographic traffic recorded yet. Embed your widget script to start tracking visitors.
           </div>
         )}
