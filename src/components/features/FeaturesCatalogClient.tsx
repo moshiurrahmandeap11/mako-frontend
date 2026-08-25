@@ -38,7 +38,7 @@ export default function FeaturesCatalogClient({
 
   return (
     <div className="relative min-h-screen bg-white text-text-main flex flex-col overflow-hidden">
-      <main className="relative z-10 flex-1 max-w-9/12 mx-auto w-full py-6 flex flex-col justify-center space-y-12">
+      <main className="relative z-10 flex-1 px-6 lg:px-0 lg:max-w-9/12 mx-auto w-full py-6 flex flex-col justify-center space-y-12">
         {/* Header */}
         <div className="max-w-3xl text-left space-y-4">
 
