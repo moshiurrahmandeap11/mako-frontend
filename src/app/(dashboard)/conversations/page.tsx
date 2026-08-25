@@ -50,18 +50,18 @@ export default function ConversationsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-[#222325] tracking-tight">Conversation Analytics & Chat Logs</h1>
-        <p className="text-[#62646A] text-xs mt-1">Review live chat transcripts and shopper product interactions</p>
+    <div className="space-y-3">
+      <div className="mb-4">
+        <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight">Conversation Analytics & Chat Logs</h1>
+        <p className="text-[#62646A] text-xs sm:text-sm mt-1">Review live chat transcripts and shopper product interactions</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[640px]">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 h-[640px]">
         {/* Left List Pane: Sessions */}
-        <div className="lg:col-span-5 bg-white border border-[#E4E5E7] rounded-2xl flex flex-col overflow-hidden shadow-sm">
-          <div className="p-4 border-b border-[#E4E5E7] bg-[#F7F7F7] flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#62646A] flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-[#1DBF73]" />
+        <div className="lg:col-span-5 bg-white border border-[#E4E5E7] rounded-md flex flex-col overflow-hidden">
+          <div className="p-3.5 border-b border-[#E4E5E7] bg-[#F7F7F7] flex items-center justify-between">
+            <span className="text-xs font-normal text-[#74767E] flex items-center gap-2">
+              <MessageSquare className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
               Visitor Sessions ({conversations.length})
             </span>
           </div>
@@ -70,7 +70,7 @@ export default function ConversationsPage() {
             {loading ? (
               <SessionListSkeleton />
             ) : conversations.length === 0 ? (
-              <div className="text-center py-12 text-[#74767E] text-xs">
+              <div className="text-center py-12 text-[#74767E] text-xs font-normal">
                 No chat logs recorded yet. Test your widget on a storefront!
               </div>
             ) : (
@@ -83,18 +83,18 @@ export default function ConversationsPage() {
                   <button
                     key={conv.id}
                     onClick={() => setSelectedConversation(conv)}
-                    className={`w-full text-left p-4 transition flex flex-col gap-1.5 cursor-pointer ${
+                    className={`w-full text-left p-3.5 transition flex flex-col gap-1.5 cursor-pointer ${
                       isSelected
-                        ? 'bg-[#E8F8F0] border-l-4 border-[#1DBF73]'
-                        : 'hover:bg-[#F7F7F7] border-l-4 border-transparent'
+                        ? 'bg-[#F0F2F5] border-l-2 border-[#1DBF73]'
+                        : 'hover:bg-[#F7F7F7] border-l-2 border-transparent'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-bold text-[#222325] truncate">
+                      <span className="font-mono text-xs font-normal text-[#222325] truncate">
                         {conv.sessionId}
                       </span>
                       <span className="text-[10px] text-[#74767E] flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
+                        <Calendar className="w-3 h-3" strokeWidth={1.5} />
                         {new Date(conv.createdAt).toLocaleDateString()}
                       </span>
                     </div>
@@ -105,7 +105,7 @@ export default function ConversationsPage() {
 
                     <div className="flex items-center justify-between pt-1 text-[10px] text-[#74767E]">
                       <span>{messageCount} message{messageCount === 1 ? '' : 's'}</span>
-                      <span className="text-[#1DBF73] font-semibold">Session Recorded</span>
+                      <span className="text-[#62646A] font-normal">Session Recorded</span>
                     </div>
                   </button>
                 );
@@ -115,50 +115,50 @@ export default function ConversationsPage() {
         </div>
 
         {/* Right Pane: Selected Transcript Viewer */}
-        <div className="lg:col-span-7 bg-white border border-[#E4E5E7] rounded-2xl flex flex-col overflow-hidden shadow-sm">
+        <div className="lg:col-span-7 bg-white border border-[#E4E5E7] rounded-md flex flex-col overflow-hidden">
           {selectedConversation ? (
             <>
               {/* Transcript Header */}
-              <div className="p-4 border-b border-[#E4E5E7] bg-[#F7F7F7] flex items-center justify-between">
+              <div className="p-3.5 border-b border-[#E4E5E7] bg-[#F7F7F7] flex items-center justify-between">
                 <div>
-                  <h2 className="text-sm font-bold text-[#222325] font-mono">{selectedConversation.sessionId}</h2>
+                  <h2 className="text-xs font-normal text-[#222325] font-mono">{selectedConversation.sessionId}</h2>
                   <p className="text-[11px] text-[#74767E]">Started on {new Date(selectedConversation.createdAt).toLocaleString()}</p>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/20">
+                  <span className="px-2 py-0.5 rounded-md text-xs font-normal bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7]">
                     {selectedConversation.messages?.length || 0} Messages
                   </span>
 
                   <button
                     onClick={handleDownloadPdf}
                     disabled={downloadingPdf}
-                    className="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-50 text-[#222325] border border-[#E4E5E7] transition flex items-center gap-1.5 shadow-sm active:scale-95 disabled:opacity-50 cursor-pointer"
+                    className="px-3 py-1.5 rounded-md text-xs font-normal bg-white hover:bg-slate-50 text-[#222325] border border-[#E4E5E7] transition flex items-center gap-1.5 active:scale-95 disabled:opacity-50 cursor-pointer"
                     title="Download conversation transcript as PDF"
                   >
-                    <Download className="w-3.5 h-3.5 text-[#1DBF73]" />
+                    <Download className="w-3.5 h-3.5 text-[#74767E]" strokeWidth={1.5} />
                     <span>{downloadingPdf ? 'Exporting...' : 'Export PDF'}</span>
                   </button>
                 </div>
               </div>
 
               {/* Transcript Messages List */}
-              <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-[#F7F7F7]">
+              <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-[#F7F7F7]">
                 {selectedConversation.messages?.map((msg: any) => {
                   const isUser = msg.role === 'user';
 
                   return (
                     <div key={msg.id} className={`flex gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs shrink-0 font-bold ${isUser ? 'bg-[#1DBF73] text-white shadow-sm' : 'bg-white text-[#1DBF73] border border-[#E4E5E7]'}`}>
-                        {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs shrink-0 font-normal ${isUser ? 'bg-[#1DBF73] text-white' : 'bg-white text-[#74767E] border border-[#E4E5E7]'}`}>
+                        {isUser ? <User className="w-3.5 h-3.5" strokeWidth={1.5} /> : <Bot className="w-3.5 h-3.5" strokeWidth={1.5} />}
                       </div>
 
                       <div className={`max-w-[80%] space-y-2`}>
                         <div
-                          className={`p-4 rounded-2xl text-xs leading-relaxed ${
+                          className={`p-3.5 rounded-md text-xs leading-relaxed ${
                             isUser
-                              ? 'bg-[#1DBF73] text-white font-medium rounded-tr-none shadow-sm'
-                              : 'bg-white border border-[#E4E5E7] text-[#222325] rounded-tl-none shadow-sm'
+                              ? 'bg-[#1DBF73] text-white font-normal rounded-tr-none'
+                              : 'bg-white border border-[#E4E5E7] text-[#222325] rounded-tl-none'
                           }`}
                         >
                           {msg.content}
@@ -166,18 +166,18 @@ export default function ConversationsPage() {
 
                         {/* Tool Execution Details if present */}
                         {msg.toolCalls && (
-                          <div className="p-3 rounded-xl bg-white border border-[#E4E5E7] text-xs text-[#62646A] space-y-2 shadow-sm">
-                            <div className="flex items-center gap-1.5 text-[#1DBF73] font-bold text-[11px]">
-                              <ShoppingBag className="w-3.5 h-3.5" />
+                          <div className="p-3 rounded-md bg-white border border-[#E4E5E7] text-xs text-[#62646A] space-y-2">
+                            <div className="flex items-center gap-1.5 text-[#62646A] font-normal text-[11px]">
+                              <ShoppingBag className="w-3.5 h-3.5 text-[#74767E]" strokeWidth={1.5} />
                               <span>AI Tool Executed: Catalog Products Recommended</span>
                             </div>
 
                             {msg.toolCalls.recommendedProducts && (
                               <div className="grid grid-cols-2 gap-2">
                                 {msg.toolCalls.recommendedProducts.map((p: any) => (
-                                  <div key={p.id} className="p-2 rounded-lg bg-[#F7F7F7] border border-[#E4E5E7] text-[11px]">
-                                    <p className="font-bold text-[#222325] truncate">{p.title}</p>
-                                    <p className="text-[#1DBF73] font-bold">${p.price} {p.currency}</p>
+                                  <div key={p.id} className="p-2 rounded-md bg-[#F7F7F7] border border-[#E4E5E7] text-[11px]">
+                                    <p className="font-normal text-[#222325] truncate">{p.title}</p>
+                                    <p className="text-[#222325] font-medium">${p.price} {p.currency}</p>
                                   </div>
                                 ))}
                               </div>
@@ -196,8 +196,8 @@ export default function ConversationsPage() {
             </>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-[#74767E]">
-              <MessageSquare className="w-10 h-10 mb-2 opacity-40 text-[#1DBF73]" />
-              <p className="text-sm font-medium text-[#62646A]">Select a visitor session on the left to view transcript</p>
+              <MessageSquare className="w-10 h-10 mb-2 opacity-40 text-[#74767E]" strokeWidth={1.5} />
+              <p className="text-xs font-normal text-[#62646A]">Select a visitor session on the left to view transcript</p>
             </div>
           )}
         </div>
