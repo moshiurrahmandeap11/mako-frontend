@@ -39,6 +39,7 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const router = useRouter();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const { data: session } = authClient.useSession();
 
   const {
     data: merchantData,
@@ -51,6 +52,11 @@ export default function DashboardLayout({
   });
 
   const merchant = merchantData?.merchant;
+  const currentUser = {
+    name: session?.user?.name || merchant?.name || "User",
+    email: session?.user?.email || merchant?.email,
+    image: session?.user?.image || merchant?.image,
+  };
   const adminEmail = (
     process.env.NEXT_PUBLIC_ADMIN_EMAIL || "admin@ahsanul.dev"
   )
@@ -150,7 +156,7 @@ export default function DashboardLayout({
       <main className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
         <DashPageHeader
           pathname={pathname}
-          merchant={merchant}
+          merchant={currentUser}
           onOpenMobileNav={() => setIsMobileNavOpen(true)}
           onLogout={handleLogout}
         />
