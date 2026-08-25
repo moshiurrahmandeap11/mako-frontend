@@ -1,6 +1,7 @@
 "use client";
 
 import Logo, { LogoMark } from "@/components/Logo";
+import ProfileDropdown from "@/components/ProfileDropdown";
 import { Skeleton } from "@/components/Skeleton";
 import { fetchApi } from "@/lib/api-client";
 import { authClient } from "@/lib/auth-client";
@@ -268,7 +269,7 @@ export default function DashboardLayout({
       {/* Main Page Area */}
       <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         {/* Sticky Header with Mobile Hamburger */}
-        <header className="h-16 border-b border-[#E4E5E7] bg-white/95 px-4 sm:px-8 flex items-center justify-between sticky top-0 backdrop-blur-xl z-30">
+        <header className="h-16 border-b border-[#E4E5E7] bg-white/95 px-3.5 sm:px-4 lg:px-4.5 flex items-center justify-between sticky top-0 backdrop-blur-xl z-30">
           <div className="flex items-center gap-3">
             {/* Hamburger Button for Mobile */}
             <button
@@ -294,7 +295,9 @@ export default function DashboardLayout({
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3"></div>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <ProfileDropdown user={merchant} onLogout={handleLogout} />
+          </div>
         </header>
 
         {/* Page Content Container - Full Width */}
@@ -305,3 +308,4 @@ export default function DashboardLayout({
     </div>
   );
 }
+
