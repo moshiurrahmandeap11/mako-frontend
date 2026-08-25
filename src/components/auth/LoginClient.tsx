@@ -63,31 +63,28 @@ export default function LoginClient() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#F7F7F7] text-[#222325] flex items-center justify-center p-4">
+    <div className="relative min-h-screen bg-surface-light text-text-main flex items-center justify-center p-4">
       {/* Header/Logo */}
       <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20">
         <Logo href="/" size="md" />
       </div>
 
-      <div className="relative z-10 w-full max-w-md bg-white border border-[#E4E5E7] rounded-2xl p-8 shadow-xl">
+      <div className="relative z-10 w-full max-w-xl bg-white border border-border-light rounded-md p-8">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-extrabold tracking-tight text-[#222325]">
+          <h1 className="text-2xl tracking-tight text-text-main">
             Get into Your Account
           </h1>
-          <p className="text-[#62646A] text-sm mt-2 font-normal">
-            Access your Labto AI Merchant Dashboard
-          </p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-sm font-semibold">
+          <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-sm">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5 text-left">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A] mb-2">
+            <label className="block text-sm tracking-wider mb-2">
               Email Address
             </label>
             <input
@@ -96,18 +93,18 @@ export default function LoginClient() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="merchant@store.com"
-              className="w-full px-4 py-3 bg-white border border-[#E4E5E7] rounded-xl focus:outline-none focus:border-[#1DBF73] text-[#222325] placeholder-[#74767E] text-sm transition-colors"
+              className="w-full px-4 py-3 bg-white border border-border-light rounded-md focus:outline-none focus:border-primary text-text-main placeholder-text-muted text-sm transition-colors"
             />
           </div>
 
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#62646A]">
+              <label className="block text-sm tracking-wider">
                 Password
               </label>
               <Link
                 href="/forgot-password"
-                className="text-xs text-[#1DBF73] hover:underline font-bold"
+                className="text-sm text-[#1DBF73] hover:underline"
               >
                 Forgot password?
               </Link>
@@ -119,12 +116,12 @@ export default function LoginClient() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 bg-white border border-[#E4E5E7] rounded-xl focus:outline-none focus:border-[#1DBF73] text-[#222325] placeholder-[#74767E] text-sm transition-colors pr-10"
+                className="w-full px-4 py-3 bg-white border border-border-light rounded-md focus:outline-none focus:border-primary text-text-main placeholder-text-muted text-sm transition-colors pr-10"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#74767E] hover:text-[#222325] cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-main hover:text-text-main cursor-pointer"
               >
                 {showPassword ? (
                   <EyeOff className="w-4 h-4" />
@@ -146,11 +143,11 @@ export default function LoginClient() {
           </Button>
         </form>
 
-        <div className="relative my-6 text-center text-xs text-[#74767E]">
+        <div className="relative my-6 text-center text-xs text-text-muted">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-[#E4E5E7]" />
+            <div className="w-full border-t border-border-light" />
           </div>
-          <span className="relative px-3 bg-white text-[#74767E] uppercase tracking-widest text-[10px] font-bold">
+          <span className="relative px-3 bg-white text-text-main tracking-widest text-[10px]">
             Or continue with
           </span>
         </div>
@@ -159,7 +156,7 @@ export default function LoginClient() {
           type="button"
           variant="secondary"
           size="lg"
-          className="w-full justify-center text-[#222325] border-[#E4E5E7] hover:bg-slate-50"
+          className="w-full justify-center text-text-main border-border-light hover:bg-slate-50"
           onClick={() => handleSocialLogin("google")}
           icon={
             <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -189,7 +186,7 @@ export default function LoginClient() {
           Don&apos;t have an account?{" "}
           <Link
             href="/register"
-            className="text-[#1DBF73] font-bold hover:underline"
+            className="text-[#1DBF73] text-sm hover:underline"
           >
             Register store
           </Link>
