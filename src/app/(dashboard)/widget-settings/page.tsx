@@ -23,7 +23,7 @@ export default function WidgetSettingsPage() {
     launcherBgColor: '#1DBF73',
     launcherIconColor: '#FFFFFF',
     greetingMessage: 'Hi! How can I help you shop today?',
-    botName: 'Shop Assistant',
+    botName: 'AI Assistant',
     position: 'bottom-right',
     addToCartEnabled: true,
   });
@@ -175,7 +175,7 @@ export default function WidgetSettingsPage() {
           launcherBgColor: '#1DBF73',
           launcherIconColor: '#FFFFFF',
           greetingMessage: 'Hi! How can I help you shop today?',
-          botName: 'Shop Assistant',
+          botName: 'AI Assistant',
           position: 'bottom-right',
           addToCartEnabled: true,
         });
@@ -197,6 +197,42 @@ export default function WidgetSettingsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
         {/* Left Column: Form Controls */}
         <div className="lg:col-span-7 space-y-3">
+          {/* Domain Whitelist */}
+          <div className="bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 space-y-3">
+            <div className="flex items-center gap-2 border-b border-[#E4E5E7] pb-3">
+              <Globe className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
+              <h2 className="text-base font-medium text-[#222325]">Whitelisted Store Domains</h2>
+            </div>
+            <p className="text-[#62646A] text-xs">Specify website domains authorized to make widget API requests:</p>
+
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="e.g. https://labtobit-frontend.vercel.app or my-store.com"
+                value={domainInput}
+                onChange={(e) => setDomainInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddDomain())}
+                className="flex-1 px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73]"
+              />
+              <Button type="button" onClick={handleAddDomain} disabled={savingDomains || !domainInput.trim()} variant="outline" className="text-[#222325] border-[#E4E5E7] !font-normal text-xs">
+                Add Domain
+              </Button>
+            </div>
+
+            <div className="flex flex-wrap gap-2 pt-1">
+              {domains.length === 0 ? (
+                <span className="text-xs text-[#74767E] italic">No domain restrictions set (all domains allowed for dev testing).</span>
+              ) : (
+                domains.map((dom) => (
+                  <span key={dom} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#F0F2F5] border border-[#E4E5E7] text-[#62646A] text-xs font-mono font-normal">
+                    {dom}
+                    <button onClick={() => handleRemoveDomain(dom)} className="hover:text-rose-600 cursor-pointer">✕</button>
+                  </span>
+                ))
+              )}
+            </div>
+          </div>
+
           {/* Appearance Section */}
           <form onSubmit={handleSaveConfig} className="bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 space-y-4">
             <div className="flex items-center gap-2 border-b border-[#E4E5E7] pb-3">
@@ -369,42 +405,6 @@ export default function WidgetSettingsPage() {
               </Button>
             </div>
           </form>
-
-          {/* Domain Whitelist */}
-          <div className="bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 space-y-3">
-            <div className="flex items-center gap-2 border-b border-[#E4E5E7] pb-3">
-              <Globe className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
-              <h2 className="text-base font-medium text-[#222325]">Whitelisted Store Domains</h2>
-            </div>
-            <p className="text-[#62646A] text-xs">Specify website domains authorized to make widget API requests:</p>
-
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="e.g. https://labtobit-frontend.vercel.app or my-store.com"
-                value={domainInput}
-                onChange={(e) => setDomainInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddDomain())}
-                className="flex-1 px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73]"
-              />
-              <Button type="button" onClick={handleAddDomain} disabled={savingDomains || !domainInput.trim()} variant="outline" className="text-[#222325] border-[#E4E5E7] !font-normal text-xs">
-                Add Domain
-              </Button>
-            </div>
-
-            <div className="flex flex-wrap gap-2 pt-1">
-              {domains.length === 0 ? (
-                <span className="text-xs text-[#74767E] italic">No domain restrictions set (all domains allowed for dev testing).</span>
-              ) : (
-                domains.map((dom) => (
-                  <span key={dom} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#F0F2F5] border border-[#E4E5E7] text-[#62646A] text-xs font-mono font-normal">
-                    {dom}
-                    <button onClick={() => handleRemoveDomain(dom)} className="hover:text-rose-600 cursor-pointer">✕</button>
-                  </span>
-                ))
-              )}
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Code Generator & Live Preview */}
@@ -459,7 +459,7 @@ export default function WidgetSettingsPage() {
               ))}
             </div>
 
-            <pre className="p-3 bg-[#0F172A] border border-slate-800 rounded-md font-mono text-xs text-[#1DBF73] overflow-x-auto">
+            <pre className="p-3 bg-surface-light rounded-md text-xs overflow-x-auto">
               {embedCode}
             </pre>
           </div>
@@ -512,7 +512,7 @@ export default function WidgetSettingsPage() {
                 >
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: config.primaryColor || '#1DBF73' }} />
-                    <span className="font-medium">{config.botName || 'Shop Assistant'}</span>
+                    <span className="font-medium">{config.botName || 'AI Assistant'}</span>
                   </div>
                   <span>✕</span>
                 </div>
