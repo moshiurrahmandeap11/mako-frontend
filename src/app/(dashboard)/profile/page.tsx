@@ -87,7 +87,6 @@ export default function ProfilePage() {
     <div className="max-w-2xl mx-auto space-y-3">
       <div className="mb-4">
         <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight flex items-center gap-2.5">
-          <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-[#74767E] shrink-0" strokeWidth={1.5} />
           <span>My Profile</span>
         </h1>
         <p className="text-[#62646A] text-xs sm:text-sm mt-1">Manage your account information and preferences.</p>
@@ -177,12 +176,10 @@ export default function ProfilePage() {
             >
               {isSaving ? (
                 <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
                   Saving...
                 </>
               ) : (
                 <>
-                  <Check className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.5} />
                   Save Changes
                 </>
               )}
