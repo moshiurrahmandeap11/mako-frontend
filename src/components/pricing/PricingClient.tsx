@@ -167,7 +167,7 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                   </span>
                 ) : (
                   p.popular && (
-                    <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-sm">
+                    <span className="absolute top-3 right-3 text-sm font-medium tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-sm">
                       Most Popular
                     </span>
                   )
@@ -210,7 +210,7 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                     isLoading={loadingPlan === p.name}
                     variant={
                       isCurrentPlan
-                        ? "secondary"
+                        ? "primary"
                         : p.popular
                         ? "primary"
                         : "outline"
@@ -218,7 +218,7 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                     size="md"
                     className={`w-full justify-center text-sm ${
                       isCurrentPlan
-                        ? "bg-[#1DBF73] text-white border-transparent"
+                        ? "bg-[#1DBF73] text-black"
                         : !p.popular
                         ? "text-text-main border-border-light hover:bg-slate-50"
                         : ""
@@ -226,7 +226,7 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                   >
                     <span className="flex items-center justify-center gap-1.5">
                       {isCurrentPlan && (
-                        <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-black" />
                       )}
                       <span>{buttonLabel}</span>
                     </span>
