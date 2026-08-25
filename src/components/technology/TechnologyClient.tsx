@@ -35,9 +35,9 @@ export default function TechnologyClient({
 
   return (
     <div className="relative min-h-screen bg-white text-text-main flex flex-col overflow-hidden">
-      <main className="relative z-10 flex-1 px-6 lg:px-0 lg:max-w-9/12 mx-auto w-full py-6 flex flex-col justify-center">
+      <main className="relative z-10 flex-1 px-6 lg:px-0 lg:max-w-9/12 mx-auto w-full py-6 flex flex-col">
         {/* Header */}
-        <div className="max-w-3xl mb-6 text-left">
+        <div className="max-w-3xl mb-8 text-left">
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -77,7 +77,7 @@ export default function TechnologyClient({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-16 p-8 bg-surface-light border border-border-light rounded-md flex flex-col md:flex-row items-center justify-between gap-6 text-left"
+          className="mt-6 p-8 bg-surface-light border border-border-light rounded-md flex flex-col md:flex-row items-center justify-between gap-6 text-left"
         >
           <div>
             <h4 className="text-lg text-text-main">
