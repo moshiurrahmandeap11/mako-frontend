@@ -99,13 +99,13 @@ export default function AdminPage() {
   if (isMerchantLoading || (isAdmin && (isOverviewLoading || isMerchantsLoading))) {
     return (
       <div className="p-8 space-y-6">
-        <div className="h-28 bg-white border border-[#E4E5E7] rounded-2xl animate-pulse" />
+        <div className="h-28 bg-white border border-[#E4E5E7] rounded-md animate-pulse" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-28 bg-white border border-[#E4E5E7] rounded-xl animate-pulse" />
+            <div key={i} className="h-28 bg-white border border-[#E4E5E7] rounded-md animate-pulse" />
           ))}
         </div>
-        <div className="h-96 bg-white border border-[#E4E5E7] rounded-2xl animate-pulse" />
+        <div className="h-96 bg-white border border-[#E4E5E7] rounded-md animate-pulse" />
       </div>
     );
   }
@@ -135,16 +135,12 @@ export default function AdminPage() {
   });
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-3">
       {/* Header Banner */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-white border border-[#E4E5E7] shadow-sm relative overflow-hidden">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
-          <div className="space-y-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/30">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              Master Admin Console
-            </div>
-            <h1 className="text-xl sm:text-2xl font-extrabold text-[#222325] tracking-tight">
+      <div className="p-5 sm:p-5.5 rounded-md bg-white border border-[#E4E5E7] relative overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative z-10">
+          <div className="space-y-2">
+            <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight">
               Client Portfolio & Global Usage
             </h1>
             <p className="text-xs sm:text-sm text-[#62646A] max-w-2xl">
@@ -153,8 +149,8 @@ export default function AdminPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#E8F8F0] border border-[#1DBF73]/20 text-[#1DBF73]">
-              <Users className="w-3.5 h-3.5 text-[#1DBF73]" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-normal bg-[#F0F2F5] border border-[#E4E5E7] text-[#62646A]">
+              <Users className="w-3.5 h-3.5 text-[#62646A]" strokeWidth={1.5} />
               {merchants.length} Registered Accounts
             </span>
           </div>
@@ -162,55 +158,49 @@ export default function AdminPage() {
       </div>
 
       {successMsg && (
-        <div className="p-4 rounded-xl bg-[#E8F8F0] border border-[#1DBF73]/30 text-[#1DBF73] text-xs sm:text-sm font-bold flex items-center gap-2">
+        <div className="p-3.5 rounded-md bg-[#E8F8F0] border border-[#1DBF73]/30 text-[#1DBF73] text-xs sm:text-sm font-bold flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           {successMsg}
         </div>
       )}
 
       {/* KPI Metrics Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* Total Merchants */}
-        <div className="p-5 rounded-2xl bg-white border border-[#E4E5E7] shadow-sm">
+        <div className="p-4 rounded-md bg-white border border-[#E4E5E7]">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-[#74767E] uppercase tracking-wider">Total Clients</span>
-            <div className="w-8 h-8 rounded-xl bg-[#E8F8F0] border border-[#1DBF73]/20 flex items-center justify-center text-[#1DBF73]">
-              <Users className="w-4 h-4" />
-            </div>
+            <span className="text-xs font-normal text-[#74767E]">Total Clients</span>
+            <Users className="w-4.5 h-4.5 text-[#74767E]" strokeWidth={1.5} />
           </div>
           <div className="mt-3">
-            <span className="text-2xl sm:text-3xl font-extrabold text-[#222325]">{metrics.totalMerchants}</span>
+            <span className="text-2xl sm:text-3xl font-medium text-[#222325]">{metrics.totalMerchants}</span>
           </div>
-          <div className="mt-2 text-[11px] text-[#62646A] flex items-center gap-1.5 font-medium">
-            <span className="text-[#1DBF73] font-bold">{metrics.tierBreakdown?.PRO || 0} Pro</span> •{' '}
-            <span className="text-[#1DBF73] font-bold">{metrics.tierBreakdown?.ENTERPRISE || 0} Enterprise</span>
+          <div className="mt-2 text-[11px] text-[#62646A] flex items-center gap-1.5 font-normal">
+            <span className="text-[#1DBF73] font-medium">{metrics.tierBreakdown?.PRO || 0} Pro</span> •{' '}
+            <span className="text-[#1DBF73] font-medium">{metrics.tierBreakdown?.ENTERPRISE || 0} Enterprise</span>
           </div>
         </div>
 
         {/* Total API Keys */}
-        <div className="p-5 rounded-2xl bg-white border border-[#E4E5E7] shadow-sm">
+        <div className="p-4 rounded-md bg-white border border-[#E4E5E7]">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-[#74767E] uppercase tracking-wider">Active API Keys</span>
-            <div className="w-8 h-8 rounded-xl bg-[#E8F8F0] border border-[#1DBF73]/20 flex items-center justify-center text-[#1DBF73]">
-              <Key className="w-4 h-4" />
-            </div>
+            <span className="text-xs font-normal text-[#74767E]">Active API Keys</span>
+            <Key className="w-4.5 h-4.5 text-[#74767E]" strokeWidth={1.5} />
           </div>
           <div className="mt-3">
-            <span className="text-2xl sm:text-3xl font-extrabold text-[#222325]">{metrics.totalApiKeys}</span>
+            <span className="text-2xl sm:text-3xl font-medium text-[#222325]">{metrics.totalApiKeys}</span>
           </div>
           <div className="mt-2 text-[11px] text-[#74767E]">Provisioned across all websites</div>
         </div>
 
         {/* Total Messages */}
-        <div className="p-5 rounded-2xl bg-white border border-[#E4E5E7] shadow-sm">
+        <div className="p-4 rounded-md bg-white border border-[#E4E5E7]">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-[#74767E] uppercase tracking-wider">Total Messages</span>
-            <div className="w-8 h-8 rounded-xl bg-[#E8F8F0] border border-[#1DBF73]/20 flex items-center justify-center text-[#1DBF73]">
-              <MessageSquare className="w-4 h-4" />
-            </div>
+            <span className="text-xs font-normal text-[#74767E]">Total Messages</span>
+            <MessageSquare className="w-4.5 h-4.5 text-[#74767E]" strokeWidth={1.5} />
           </div>
           <div className="mt-3">
-            <span className="text-2xl sm:text-3xl font-extrabold text-[#222325]">
+            <span className="text-2xl sm:text-3xl font-medium text-[#222325]">
               {metrics.totalMessages.toLocaleString()}
             </span>
           </div>
@@ -220,30 +210,28 @@ export default function AdminPage() {
         </div>
 
         {/* Estimated Token Consumption */}
-        <div className="p-5 rounded-2xl bg-white border border-[#E4E5E7] shadow-sm">
+        <div className="p-4 rounded-md bg-white border border-[#E4E5E7]">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-[#74767E] uppercase tracking-wider">Tokens Consumed</span>
-            <div className="w-8 h-8 rounded-xl bg-[#E8F8F0] border border-[#1DBF73]/20 flex items-center justify-center text-[#1DBF73]">
-              <Cpu className="w-4 h-4" />
-            </div>
+            <span className="text-xs font-normal text-[#74767E]">Tokens Consumed</span>
+            <Cpu className="w-4.5 h-4.5 text-[#74767E]" strokeWidth={1.5} />
           </div>
           <div className="mt-3">
-            <span className="text-2xl sm:text-3xl font-extrabold text-[#222325]">
+            <span className="text-2xl sm:text-3xl font-medium text-[#222325]">
               {metrics.totalTokensEstimated > 1000000
                 ? `${(metrics.totalTokensEstimated / 1000000).toFixed(2)}M`
                 : `${(metrics.totalTokensEstimated / 1000).toFixed(1)}k`}
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-[#1DBF73] font-bold">
+          <div className="mt-2 text-[#1DBF73] font-normal text-[11px]">
             Token-Optimized Engine Active
           </div>
         </div>
       </div>
 
       {/* Client List & Controls */}
-      <div className="rounded-2xl bg-white border border-[#E4E5E7] overflow-hidden shadow-sm">
+      <div className="rounded-md bg-white border border-[#E4E5E7] overflow-hidden">
         {/* Table Filters & Search Bar */}
-        <div className="p-4 sm:p-6 border-b border-[#E4E5E7] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="p-4 sm:p-5 border-b border-[#E4E5E7] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h2 className="text-base sm:text-lg font-bold text-[#222325]">All Client Accounts</h2>
             <p className="text-xs text-[#62646A]">Manage client tiers, view API key counts and cumulative token usage.</p>
@@ -258,19 +246,19 @@ export default function AdminPage() {
                 placeholder="Search name or email..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 rounded-xl bg-white border border-[#E4E5E7] text-xs text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73]"
+                className="w-full pl-9 pr-4 py-2 rounded-md bg-white border border-[#E4E5E7] text-xs text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73]"
               />
             </div>
 
             {/* Tier Filter */}
-            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#F7F7F7] border border-[#E4E5E7] text-xs">
+            <div className="flex items-center gap-1.5 p-1 rounded-md bg-[#F7F7F7] border border-[#E4E5E7] text-xs">
               {['ALL', 'FREE', 'STARTER', 'PRO', 'ENTERPRISE'].map((tier) => (
                 <button
                   key={tier}
                   onClick={() => setSelectedTier(tier)}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition cursor-pointer ${
                     selectedTier === tier
-                      ? 'bg-[#1DBF73] text-white shadow-sm font-extrabold'
+                      ? 'bg-[#1DBF73] text-white font-medium'
                       : 'text-[#74767E] hover:text-[#222325]'
                   }`}
                 >
@@ -343,7 +331,7 @@ export default function AdminPage() {
       {/* Edit Tier Modal */}
       {editingMerchant && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white border border-[#E4E5E7] rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+          <div className="bg-white border border-[#E4E5E7] rounded-md p-6 max-w-md w-full space-y-4">
             <h3 className="text-lg font-bold text-[#222325]">Update Merchant Plan Tier</h3>
             <p className="text-xs text-[#62646A]">
               Change subscription tier for <strong className="text-[#222325]">{editingMerchant.name}</strong> ({editingMerchant.email}).
@@ -354,7 +342,7 @@ export default function AdminPage() {
               <select
                 value={newTier}
                 onChange={(e) => setNewTier(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#E4E5E7] text-xs text-[#222325] focus:outline-none focus:border-[#1DBF73]"
+                className="w-full px-3.5 py-2.5 rounded-md bg-white border border-[#E4E5E7] text-xs text-[#222325] focus:outline-none focus:border-[#1DBF73]"
               >
                 <option value="FREE">FREE</option>
                 <option value="STARTER">STARTER</option>

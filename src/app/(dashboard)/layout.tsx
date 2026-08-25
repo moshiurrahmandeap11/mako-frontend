@@ -294,26 +294,11 @@ export default function DashboardLayout({
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            {isAdmin && (
-              <Link
-                href="/admin"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/30 hover:bg-[#1DBF73]/20 transition"
-              >
-                <ShieldCheck className="w-3.5 h-3.5" strokeWidth={1.5} />
-                Admin
-              </Link>
-            )}
-
-            <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold bg-[#E8F8F0] text-[#1DBF73] border border-[#1DBF73]/20">
-              <span className="w-2 h-2 rounded-full bg-[#1DBF73] animate-pulse" />
-              <span className="hidden sm:inline">API Status:</span> Active
-            </span>
-          </div>
+          <div className="flex items-center gap-2 sm:gap-3"></div>
         </header>
 
         {/* Page Content Container - Full Width */}
-        <div className="p-4 sm:p-6 lg:p-8 w-full max-w-full mx-auto">
+        <div className="p-3.5 sm:p-4 lg:p-4.5 w-full max-w-full mx-auto">
           {children}
         </div>
       </main>

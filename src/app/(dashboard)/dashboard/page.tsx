@@ -76,9 +76,9 @@ export default function OverviewPage() {
   const usagePercentage = isEnterprise ? 5 : Math.min(100, Math.round((usedCredits / totalCredits) * 100));
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-3">
       {/* Welcome Hero Banner */}
-      <div className="bg-white border border-[#E4E5E7] rounded-2xl p-8 shadow-sm">
+      <div className="bg-white border border-[#E4E5E7] rounded-md p-5 sm:p-5.5">
         <div className="max-w-2xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E8F8F0] border border-[#1DBF73]/30 text-[#1DBF73] text-xs font-bold uppercase tracking-wider">
             <Zap className="w-3.5 h-3.5" />
@@ -112,7 +112,7 @@ export default function OverviewPage() {
       </div>
 
       {/* AI Smart Credits Card */}
-      <div className="p-6 rounded-2xl bg-white border border-[#E4E5E7] shadow-sm relative overflow-hidden">
+      <div className="p-5 sm:p-6 rounded-md bg-white border border-[#E4E5E7] relative overflow-hidden">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[#E4E5E7] pb-4">
           <div>
             <div className="flex items-center gap-2">
@@ -166,7 +166,7 @@ export default function OverviewPage() {
       </div>
 
       {/* Metrics Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {loading
           ? Array.from({ length: 4 }).map((_, i) => <MetricCardSkeleton key={i} />)
           : stats.map((stat, i) => {
@@ -175,19 +175,17 @@ export default function OverviewPage() {
                 <Link
                   key={i}
                   href={stat.href}
-                  className="group p-6 rounded-2xl bg-white border border-[#E4E5E7] hover:border-[#1DBF73] transition duration-200 shadow-sm hover:shadow-md flex flex-col justify-between"
+                  className="group p-4 sm:p-5 rounded-md bg-white border border-[#E4E5E7] hover:border-[#1DBF73] transition duration-200 flex flex-col justify-between"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#74767E]">{stat.label}</span>
-                    <div className="w-9 h-9 rounded-xl bg-[#E8F8F0] border border-[#1DBF73]/20 flex items-center justify-center text-[#1DBF73] font-bold">
-                      <Icon className="w-4.5 h-4.5" />
-                    </div>
+                    <span className="text-xs font-normal text-[#74767E]">{stat.label}</span>
+                    <Icon className="w-4.5 h-4.5 text-[#74767E]" strokeWidth={1.5} />
                   </div>
                   <div className="mt-6 flex items-baseline justify-between">
-                    <span className="text-3xl font-extrabold text-[#222325] tracking-tight">
+                    <span className="text-3xl font-medium text-[#222325] tracking-tight">
                       {stat.value}
                     </span>
-                    <span className="text-[11px] font-bold text-[#1DBF73] uppercase tracking-wider group-hover:translate-x-1 transition flex items-center gap-1">
+                    <span className="text-[11px] font-normal text-[#1DBF73] group-hover:translate-x-1 transition flex items-center gap-1">
                       View <ArrowRight className="w-3 h-3" />
                     </span>
                   </div>
@@ -197,7 +195,7 @@ export default function OverviewPage() {
       </div>
 
       {/* Geographic Visitor Distribution Section */}
-      <div id="visitor-analytics" className="bg-white border border-[#E4E5E7] rounded-2xl p-6 shadow-sm">
+      <div id="visitor-analytics" className="bg-white border border-[#E4E5E7] rounded-md p-5 sm:p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-base font-bold text-[#222325] flex items-center gap-2">
@@ -214,9 +212,9 @@ export default function OverviewPage() {
         {summary?.visitorCountries && summary.visitorCountries.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {summary.visitorCountries.map((c: any, idx: number) => (
-              <div key={idx} className="p-4 rounded-xl bg-[#F7F7F7] border border-[#E4E5E7] flex items-center justify-between">
+              <div key={idx} className="p-4 rounded-md bg-[#F7F7F7] border border-[#E4E5E7] flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#E8F8F0] border border-[#1DBF73]/20 text-[#1DBF73] font-bold text-xs flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-md bg-[#E8F8F0] border border-[#1DBF73]/20 text-[#1DBF73] font-bold text-xs flex items-center justify-center">
                     {c.countryCode}
                   </div>
                   <div>
@@ -232,7 +230,7 @@ export default function OverviewPage() {
             ))}
           </div>
         ) : (
-          <div className="p-8 text-center bg-[#F7F7F7] border border-[#E4E5E7] rounded-xl text-[#74767E] text-xs font-semibold">
+          <div className="p-8 text-center bg-[#F7F7F7] border border-[#E4E5E7] rounded-md text-[#74767E] text-xs font-semibold">
             No geographic traffic recorded yet. Embed your widget script to start tracking visitors.
           </div>
         )}
