@@ -18,6 +18,10 @@ import Button from '@/components/Button';
 export default function WidgetSettingsPage() {
   const [config, setConfig] = useState({
     primaryColor: '#1DBF73',
+    headerBgColor: '#FFFFFF',
+    headerTextColor: '#222325',
+    launcherBgColor: '#1DBF73',
+    launcherIconColor: '#FFFFFF',
     greetingMessage: 'Hi! How can I help you shop today?',
     botName: 'Shop Assistant',
     position: 'bottom-right',
@@ -158,6 +162,30 @@ export default function WidgetSettingsPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleResetDefaults = async () => {
+    try {
+      const data = await fetchApi('/api/widget-config/reset', { method: 'POST' });
+      if (data.config) {
+        setConfig(data.config);
+      } else {
+        setConfig({
+          primaryColor: '#1DBF73',
+          headerBgColor: '#FFFFFF',
+          headerTextColor: '#222325',
+          launcherBgColor: '#1DBF73',
+          launcherIconColor: '#FFFFFF',
+          greetingMessage: 'Hi! How can I help you shop today?',
+          botName: 'Shop Assistant',
+          position: 'bottom-right',
+          addToCartEnabled: true,
+        });
+      }
+      toast.success('Widget configuration reset to default settings!');
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to reset settings');
+    }
+  };
+
   return (
     <div className="space-y-3">
       <div className="mb-4">
@@ -204,19 +232,19 @@ export default function WidgetSettingsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-normal text-[#404145] mb-1.5">Primary Accent Color</label>
                 <div className="flex items-center gap-2">
                   <input
                     type="color"
-                    value={config.primaryColor}
+                    value={config.primaryColor || '#1DBF73'}
                     onChange={(e) => setConfig({ ...config, primaryColor: e.target.value })}
                     className="w-9 h-9 rounded-md cursor-pointer bg-white border border-[#E4E5E7] p-0.5"
                   />
                   <input
                     type="text"
-                    value={config.primaryColor}
+                    value={config.primaryColor || '#1DBF73'}
                     onChange={(e) => setConfig({ ...config, primaryColor: e.target.value })}
                     className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs font-mono text-[#222325] focus:border-[#1DBF73]"
                   />
@@ -226,13 +254,92 @@ export default function WidgetSettingsPage() {
               <div>
                 <label className="block text-xs font-normal text-[#404145] mb-1.5">Widget Position</label>
                 <select
-                  value={config.position}
+                  value={config.position || 'bottom-right'}
                   onChange={(e) => setConfig({ ...config, position: e.target.value as any })}
                   className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] focus:outline-none focus:border-[#1DBF73]"
                 >
                   <option value="bottom-right">Bottom Right</option>
                   <option value="bottom-left">Bottom Left</option>
                 </select>
+              </div>
+            </div>
+
+            {/* Custom Header & Launcher Color Controls */}
+            <div className="pt-2 border-t border-[#E4E5E7] space-y-3">
+              <h3 className="text-xs font-medium text-[#222325]">Header & Floating Button Customization</h3>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-normal text-[#404145] mb-1.5">Header Background Color</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={config.headerBgColor || '#FFFFFF'}
+                      onChange={(e) => setConfig({ ...config, headerBgColor: e.target.value })}
+                      className="w-9 h-9 rounded-md cursor-pointer bg-white border border-[#E4E5E7] p-0.5"
+                    />
+                    <input
+                      type="text"
+                      value={config.headerBgColor || '#FFFFFF'}
+                      onChange={(e) => setConfig({ ...config, headerBgColor: e.target.value })}
+                      className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs font-mono text-[#222325] focus:border-[#1DBF73]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-normal text-[#404145] mb-1.5">Header Text & Icon Color</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={config.headerTextColor || '#222325'}
+                      onChange={(e) => setConfig({ ...config, headerTextColor: e.target.value })}
+                      className="w-9 h-9 rounded-md cursor-pointer bg-white border border-[#E4E5E7] p-0.5"
+                    />
+                    <input
+                      type="text"
+                      value={config.headerTextColor || '#222325'}
+                      onChange={(e) => setConfig({ ...config, headerTextColor: e.target.value })}
+                      className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs font-mono text-[#222325] focus:border-[#1DBF73]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-normal text-[#404145] mb-1.5">Floating Launcher Button Color</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={config.launcherBgColor || '#1DBF73'}
+                      onChange={(e) => setConfig({ ...config, launcherBgColor: e.target.value })}
+                      className="w-9 h-9 rounded-md cursor-pointer bg-white border border-[#E4E5E7] p-0.5"
+                    />
+                    <input
+                      type="text"
+                      value={config.launcherBgColor || '#1DBF73'}
+                      onChange={(e) => setConfig({ ...config, launcherBgColor: e.target.value })}
+                      className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs font-mono text-[#222325] focus:border-[#1DBF73]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-normal text-[#404145] mb-1.5">Floating Button Icon Color</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={config.launcherIconColor || '#FFFFFF'}
+                      onChange={(e) => setConfig({ ...config, launcherIconColor: e.target.value })}
+                      className="w-9 h-9 rounded-md cursor-pointer bg-white border border-[#E4E5E7] p-0.5"
+                    />
+                    <input
+                      type="text"
+                      value={config.launcherIconColor || '#FFFFFF'}
+                      onChange={(e) => setConfig({ ...config, launcherIconColor: e.target.value })}
+                      className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs font-mono text-[#222325] focus:border-[#1DBF73]"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -248,9 +355,19 @@ export default function WidgetSettingsPage() {
               </label>
             </div>
 
-            <Button type="submit" disabled={savingConfig} variant="primary" className="w-full !font-normal text-xs">
-              {savingConfig ? 'Saving Settings...' : 'Save Appearance Settings'}
-            </Button>
+            <div className="flex gap-2 pt-1">
+              <Button
+                type="button"
+                onClick={handleResetDefaults}
+                variant="outline"
+                className="flex-1 text-[#222325] border-[#E4E5E7] !font-normal text-xs"
+              >
+                Reset to Defaults
+              </Button>
+              <Button type="submit" disabled={savingConfig} variant="primary" className="flex-1 !font-normal text-xs">
+                {savingConfig ? 'Saving Settings...' : 'Save Appearance Settings'}
+              </Button>
+            </div>
           </form>
 
           {/* Domain Whitelist */}
@@ -384,19 +501,22 @@ export default function WidgetSettingsPage() {
                   right: config.position === 'bottom-right' ? '16px' : 'auto',
                   left: config.position === 'bottom-left' ? '16px' : 'auto',
                 }}
-                className="w-72 bg-white rounded-md border border-[#E4E5E7] overflow-hidden flex flex-col"
+                className="w-72 bg-white rounded-md border border-[#E4E5E7] overflow-hidden flex flex-col shadow-sm"
               >
                 <div
-                  style={{ backgroundColor: config.primaryColor }}
-                  className="p-3 text-white flex items-center justify-between text-xs font-normal"
+                  style={{
+                    backgroundColor: config.headerBgColor || '#FFFFFF',
+                    color: config.headerTextColor || '#222325',
+                  }}
+                  className="p-3 border-b border-[#E4E5E7] flex items-center justify-between text-xs font-normal"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                    <span>{config.botName || 'Shop Assistant'}</span>
+                    <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: config.primaryColor || '#1DBF73' }} />
+                    <span className="font-medium">{config.botName || 'Shop Assistant'}</span>
                   </div>
                   <span>✕</span>
                 </div>
-                <div className="p-3 bg-slate-50 text-[11px] text-slate-700 min-h-[100px]">
+                <div className="p-3 bg-slate-50 text-[11px] text-slate-700 min-h-[90px]">
                   <div className="p-2.5 rounded-md border border-slate-200 bg-white mb-2 text-slate-800">
                     {config.greetingMessage}
                   </div>
@@ -404,10 +524,26 @@ export default function WidgetSettingsPage() {
                     <div className="w-8 h-8 rounded bg-slate-200" />
                     <div className="flex-1 min-w-0">
                       <p className="font-normal text-[10px] text-slate-900 truncate">Sample Product Card</p>
-                      <p className="text-[10px] font-medium" style={{ color: config.primaryColor }}>$49.99 USD</p>
+                      <p className="text-[10px] font-medium" style={{ color: config.primaryColor || '#1DBF73' }}>$49.99 USD</p>
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Mini Launcher Button Mockup */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '12px',
+                  right: config.position === 'bottom-right' ? '12px' : 'auto',
+                  left: config.position === 'bottom-left' ? '12px' : 'auto',
+                  backgroundColor: config.launcherBgColor || config.primaryColor || '#1DBF73',
+                  color: config.launcherIconColor || '#FFFFFF',
+                }}
+                className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shadow-md cursor-pointer border border-white/20"
+                title="Launcher Button"
+              >
+                💬
               </div>
             </div>
           </div>
