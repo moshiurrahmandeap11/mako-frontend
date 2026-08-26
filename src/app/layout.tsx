@@ -28,6 +28,7 @@ import { constructMetadata } from "@/lib/seo";
 export const metadata: Metadata = constructMetadata();
 
 import QueryProvider from "@/components/QueryProvider";
+import CookieConsent from "@/components/CookieConsent";
 import Script from "next/script";
 import { Toaster } from "react-hot-toast";
 
@@ -45,6 +46,8 @@ export default function RootLayout({
         <QueryProvider>
           {children}
         </QueryProvider>
+
+        <CookieConsent />
 
         <Toaster
           position="top-center"
