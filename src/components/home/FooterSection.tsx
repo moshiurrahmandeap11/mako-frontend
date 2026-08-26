@@ -1,6 +1,7 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import BugReportButton from "@/components/BugReportButton";
+import Link from "next/link";
 
 export default function FooterSection() {
   return (
@@ -10,7 +11,8 @@ export default function FooterSection() {
           © {new Date().getFullYear()} Labto AI Inc. All rights reserved.
         </p>
 
-        <div className="flex gap-5 font-semibold text-[#62646A]">
+        <div className="flex items-center gap-5 font-semibold text-[#62646A]">
+          <BugReportButton />
           <Link href="/privacy" className="hover:text-[#1DBF73] transition">
             Privacy Policy
           </Link>

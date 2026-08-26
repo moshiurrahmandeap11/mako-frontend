@@ -28,6 +28,7 @@ import { constructMetadata } from "@/lib/seo";
 export const metadata: Metadata = constructMetadata();
 
 import CookieConsent from "@/components/CookieConsent";
+import MaintenanceProvider from "@/components/MaintenanceProvider";
 import QueryProvider from "@/components/QueryProvider";
 import Script from "next/script";
 import { Toaster } from "react-hot-toast";
@@ -43,7 +44,9 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${fontSans.className} ${fontSans.variable} ${fontInter.variable} ${fontMontserrat.variable} min-h-full bg-white text-text-main antialiased`}
       >
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <MaintenanceProvider>{children}</MaintenanceProvider>
+        </QueryProvider>
 
         <CookieConsent />
 
