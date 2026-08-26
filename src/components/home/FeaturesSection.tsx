@@ -29,7 +29,7 @@ export default function FeaturesSection() {
         {/* Section Header */}
         <div className="text-left space-y-2">
           <h2 className="font-degular text-2xl sm:text-3xl lg:text-4xl font-medium text-[#201515] tracking-tight">
-            Features That Empower Your AI-Driven E-Commerce Experience
+            Features Built for E-Commerce Growth
           </h2>
           <p className="text-[#62646A] text-xs sm:text-sm font-normal leading-relaxed">
             Automate product search, cart injections, and support queries with
