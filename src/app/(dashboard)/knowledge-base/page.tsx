@@ -105,13 +105,14 @@ export default function KnowledgeBasePage() {
 
     // Seed with merchant allowed domains
     const allowed = (knowledgeData.allowedDomains || [])
-      .map((d) =>
-        d
-          .trim()
-          .toLowerCase()
-          .replace(/^https?:\/\//, "")
-          .split("/")[0]
-          .split(":")[0],
+      .map(
+        (d) =>
+          d
+            .trim()
+            .toLowerCase()
+            .replace(/^https?:\/\//, "")
+            .split("/")[0]
+            .split(":")[0],
       )
       .filter(Boolean);
 
@@ -294,9 +295,7 @@ export default function KnowledgeBasePage() {
         icon: "success",
         title: "Custom Knowledge Saved",
         text: `Saved note for ${
-          noteTargetDomain === "all"
-            ? "All Domains (Global)"
-            : noteTargetDomain
+          noteTargetDomain === "all" ? "All Domains (Global)" : noteTargetDomain
         }.`,
         timer: 2500,
         showConfirmButton: false,
@@ -347,8 +346,8 @@ export default function KnowledgeBasePage() {
       selectedDomain === "global"
         ? "Global Notes & Uploaded Documents"
         : isSpecificDomain
-        ? `Domain: ${selectedDomain}`
-        : "ALL Knowledge Base Data";
+          ? `Domain: ${selectedDomain}`
+          : "ALL Knowledge Base Data";
 
     const result = await swal.fire({
       icon: "warning",
@@ -367,7 +366,9 @@ export default function KnowledgeBasePage() {
         const query = isSpecificDomain
           ? `?domain=${encodeURIComponent(selectedDomain)}`
           : "";
-        await fetchApi(`/api/knowledge/clear-all${query}`, { method: "DELETE" });
+        await fetchApi(`/api/knowledge/clear-all${query}`, {
+          method: "DELETE",
+        });
         loadKnowledge();
         swal.fire({
           icon: "success",
@@ -551,7 +552,10 @@ export default function KnowledgeBasePage() {
           }}
           className="flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-white border border-[#E4E5E7] hover:border-[#1DBF73] hover:bg-[#F7F7F7] text-[#222325] text-xs sm:text-sm font-normal transition group cursor-pointer"
         >
-          <Globe className="w-4 h-4 text-[#74767E] shrink-0" strokeWidth={1.5} />
+          <Globe
+            className="w-4 h-4 text-[#74767E] shrink-0"
+            strokeWidth={1.5}
+          />
           <span className="truncate">Add Custom URL</span>
         </button>
 
@@ -564,7 +568,10 @@ export default function KnowledgeBasePage() {
           }}
           className="flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-white border border-[#E4E5E7] hover:border-[#1DBF73] hover:bg-[#F7F7F7] text-[#222325] text-xs sm:text-sm font-normal transition group cursor-pointer"
         >
-          <Upload className="w-4 h-4 text-[#74767E] shrink-0" strokeWidth={1.5} />
+          <Upload
+            className="w-4 h-4 text-[#74767E] shrink-0"
+            strokeWidth={1.5}
+          />
           <span className="truncate">Upload Doc / PDF</span>
         </button>
 
@@ -583,8 +590,8 @@ export default function KnowledgeBasePage() {
             {rescapingAll
               ? "Crawling..."
               : selectedDomain !== "all" && selectedDomain !== "global"
-              ? `Re-crawl ${selectedDomain}`
-              : "Re-crawl Stores"}
+                ? `Re-crawl ${selectedDomain}`
+                : "Re-crawl Stores"}
           </span>
         </button>
 
@@ -592,7 +599,10 @@ export default function KnowledgeBasePage() {
           onClick={handleDeleteScopedChunks}
           className="flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-rose-50 border border-rose-200 hover:border-rose-300 hover:bg-rose-100 text-rose-600 text-xs sm:text-sm font-normal transition group cursor-pointer"
         >
-          <Trash2 className="w-4 h-4 text-rose-600 shrink-0" strokeWidth={1.5} />
+          <Trash2
+            className="w-4 h-4 text-rose-600 shrink-0"
+            strokeWidth={1.5}
+          />
           <span className="truncate">
             {selectedDomain !== "all"
               ? `Clear ${
@@ -646,7 +656,10 @@ export default function KnowledgeBasePage() {
             <span className="text-xs font-normal text-[#74767E]">
               Automated Syncing
             </span>
-            <Sparkles className="w-4.5 h-4.5 text-[#74767E]" strokeWidth={1.5} />
+            <Sparkles
+              className="w-4.5 h-4.5 text-[#74767E]"
+              strokeWidth={1.5}
+            />
           </div>
           <div className="flex items-center gap-2 mt-3">
             <CheckCircle2
@@ -709,7 +722,9 @@ export default function KnowledgeBasePage() {
               <tr>
                 <th className="py-3 px-4 font-normal">Source / Origin</th>
                 <th className="py-3 px-4 font-normal">Domain Scope</th>
-                <th className="py-3 px-4 font-normal">Knowledge Chunk Content</th>
+                <th className="py-3 px-4 font-normal">
+                  Knowledge Chunk Content
+                </th>
                 <th className="py-3 px-4 font-normal">Added On</th>
                 <th className="py-3 px-4 font-normal text-right">Actions</th>
               </tr>
@@ -831,8 +846,8 @@ export default function KnowledgeBasePage() {
             <p className="text-xs text-[#62646A]">
               Provide a specific page link (e.g.{" "}
               <code>https://yourdomain.com/projects/item</code>, pricing, or
-              service page). Our crawler will immediately extract text, markdown,
-              and items.
+              service page). Our crawler will immediately extract text,
+              markdown, and items.
             </p>
 
             <form onSubmit={handleScrapeSingleUrl} className="space-y-4">
@@ -885,7 +900,10 @@ export default function KnowledgeBasePage() {
           <div className="bg-white border border-[#E4E5E7] rounded-md w-full max-w-xl p-6 space-y-4 animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-medium text-[#222325] flex items-center gap-2">
-                <FileText className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
+                <FileText
+                  className="w-4 h-4 text-[#74767E]"
+                  strokeWidth={1.5}
+                />
                 Add Custom Note or Policy
               </h2>
               <button
@@ -1095,8 +1113,8 @@ export default function KnowledgeBasePage() {
                     {docFile
                       ? docFile.name
                       : isDraggingDoc
-                      ? "Drop your Document here!"
-                      : "Click or Drag & Drop PDF / Document here"}
+                        ? "Drop your Document here!"
+                        : "Click or Drag & Drop PDF / Document here"}
                   </p>
                   <p className="text-[11px] text-[#74767E]">
                     Supports .pdf, .docx, .txt, .md files up to 15MB
