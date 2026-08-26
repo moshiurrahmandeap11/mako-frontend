@@ -58,15 +58,8 @@ export default function AdminPage() {
   });
 
   const merchant = merchantData?.merchant;
-  const adminEmail = (
-    process.env.NEXT_PUBLIC_ADMIN_EMAIL || "admin@ahsanul.dev"
-  )
-    .trim()
-    .toLowerCase();
-  const userEmail = merchant?.email?.trim().toLowerCase();
   const isAdmin = Boolean(
-    merchant &&
-    (merchant.isAdmin === true || (userEmail && userEmail === adminEmail)),
+    merchant && (merchant.isAdmin === true || merchant.role === "ADMIN"),
   );
 
   // Redirect non-admin users immediately
