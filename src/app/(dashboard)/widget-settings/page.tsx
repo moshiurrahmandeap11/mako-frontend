@@ -8,13 +8,11 @@ import {
   Check,
   Copy,
   ExternalLink,
-  Key,
   Loader2,
   MessageSquare,
   Plus,
   RefreshCw,
   ShieldAlert,
-  Sparkles,
   Trash2,
   Upload,
   X,
@@ -1169,11 +1167,8 @@ export default function WidgetSettingsPage() {
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-[#E4E5E7] bg-[#F8FAFC]">
               <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-md bg-[#1DBF73]/10 flex items-center justify-center text-[#1DBF73]">
-                  <Key className="w-4 h-4" />
-                </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-[#0F172A]">
+                  <h3 className="text-sm text-[#0F172A]">
                     {createdKeySecret
                       ? "API Key Generated Successfully"
                       : "Create & Integrate API Key"}
@@ -1369,7 +1364,6 @@ export default function WidgetSettingsPage() {
                       </span>
                     ) : (
                       <span className="flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5" />
                         <span>Generate & Auto-Populate</span>
                       </span>
                     )}
