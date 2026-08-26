@@ -54,6 +54,22 @@
   font-family: var(--font-inter), Inter, sans-serif;
 }
 
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-33.333333%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+  will-change: transform;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
