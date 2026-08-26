@@ -43,10 +43,6 @@ export default function FaqSection() {
     <section id="faq" className="py-16 sm:py-24 bg-white border-t border-border-light">
       <div className="w-11/12 lg:w-9/12 max-w-4xl mx-auto space-y-10">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1DBF73]/10 text-[#1DBF73] text-xs font-semibold">
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>Frequently Asked Questions</span>
-          </div>
           <h2 className="font-degular text-2xl sm:text-4xl font-medium text-[#201515] tracking-tight">
             Everything You Need To Know
           </h2>

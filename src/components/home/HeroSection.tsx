@@ -8,8 +8,6 @@ import {
 } from "framer-motion";
 import {
   ArrowRight,
-  CheckCircle2,
-  ShieldCheck,
   Volume2,
   VolumeX,
 } from "lucide-react";
@@ -53,8 +51,7 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-base sm:text-lg text-[#62646A] max-w-2xl mx-auto font-normal leading-relaxed"
           >
-            Convert more visitors with sub-second pgvector search,
-            zero-hallucination policy answers, and 1-click cart injection.
+            Turn store visitors into buyers with instant AI product recommendations, 24/7 automated support, and direct 1-click cart additions.
           </motion.p>
         </div>
 
@@ -87,26 +84,7 @@ export default function HeroSection() {
           </Button>
         </motion.div>
 
-        {/* Feature Trust Badges */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-wrap items-center justify-center gap-6 text-xs text-text-muted pt-1 font-medium"
-        >
-          <span className="flex items-center gap-1.5">
-            <CheckCircle2 className="w-4 h-4 text-[#1DBF73]" />
-            Free 1,500 credits to test
-          </span>
-          <span className="flex items-center gap-1.5">
-            <CheckCircle2 className="w-4 h-4 text-[#1DBF73]" />
-            1-minute script embed
-          </span>
-          <span className="flex items-center gap-1.5">
-            <ShieldCheck className="w-4 h-4 text-[#1DBF73]" />
-            Zero credit expiration rollover
-          </span>
-        </motion.div>
+
 
         {/* Full-Width Showcase Video Frame with Scroll-Driven Expand */}
         <div className="w-full pt-4 pb-4 flex justify-center">

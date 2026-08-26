@@ -5,7 +5,7 @@ import HeroSection from "@/components/home/HeroSection";
 import PlatformLogosBar from "@/components/home/PlatformLogosBar";
 import FaqSection from "@/components/home/FaqSection";
 import PricingSection from "@/components/home/PricingSection";
-import TechStackSection from "@/components/home/TechStackSection";
+import HowItWorksSection from "@/components/home/HowItWorksSection";
 import {
   constructMetadata,
   generateOrganizationSchema,
@@ -35,11 +35,11 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
       />
 
-      <div className="min-h-screen bg-white text-text-main flex flex-col overflow-x-hidden">
+      <div className="min-h-screen bg-white text-[#201515] flex flex-col overflow-x-hidden">
         <HeroSection />
         <PlatformLogosBar />
         <FeaturesSection />
-        <TechStackSection />
+        <HowItWorksSection />
         <PricingSection />
         <FaqSection />
         <FooterSection />
