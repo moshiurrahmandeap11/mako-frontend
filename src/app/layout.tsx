@@ -48,7 +48,7 @@ export default function RootLayout({
 
         <Script
           src={process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL || "https://labto.ahsanul.dev/widget.js" || "http://localhost:4000/widget.js"}
-          data-api-key="aiw_live_5f0cd35c9babf7d0fc75f4bffbf6eaab84a9b48ec3ce8778"
+          data-api-key="aiw_live_7ad54fe45b4d6742248ba9a23aeac3aef15c7604448f10d8"
           strategy="lazyOnload"
         />
       </body>
