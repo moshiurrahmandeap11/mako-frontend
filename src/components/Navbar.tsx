@@ -17,8 +17,6 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const navLinks = [
-    { href: "/features", label: "Features" },
-    { href: "/technology", label: "Technology" },
     { href: "/pricing", label: "Pricing" },
     { href: "/contact", label: "Contact" },
   ];
@@ -40,45 +38,43 @@ export default function Navbar() {
       <header className="sticky top-0 left-0 right-0 w-full bg-gray-50 z-50 shadow-sm transition-all">
         <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto px-4 lg:px-0 h-20 flex items-center justify-between">
           {/* Brand Logo */}
-          <div className="flex items-center gap-8">
-            <Logo
-              id="navbar-brand-logo"
-              markId="navbar-logomark-target"
-              href="/"
-              onClick={handleLogoClick}
-            />
+          <Logo
+            id="navbar-brand-logo"
+            markId="navbar-logomark-target"
+            href="/"
+            onClick={handleLogoClick}
+          />
 
-            {/* Desktop Navigation Links (Fiverr Style) */}
-            <nav className="hidden lg:flex items-center gap-1 text-[15px] font-semibold text-[#62646A]">
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`relative px-3.5 py-2 font-semibold transition-colors duration-150 ${
-                      isActive
-                        ? "text-[#1DBF73]"
-                        : "text-[#62646A] hover:text-[#1DBF73]"
-                    }`}
-                  >
-                    {link.label}
-                    {isActive && (
-                      <motion.span
-                        layoutId="activeFiverrNavIndicator"
-                        className="absolute bottom-0 left-3.5 right-3.5 h-0.75 bg-[#1DBF73] rounded-full"
-                        transition={{
-                          type: "spring",
-                          stiffness: 380,
-                          damping: 30,
-                        }}
-                      />
-                    )}
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
+          {/* Centered Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-2 text-[15px] font-normal text-[#62646A]">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative px-4 py-2 font-normal transition-colors duration-150 ${
+                    isActive
+                      ? "text-[#1DBF73]"
+                      : "text-[#62646A] hover:text-[#1DBF73]"
+                  }`}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeFiverrNavIndicator"
+                      className="absolute bottom-0 left-4 right-4 h-0.75 bg-[#1DBF73] rounded-full"
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
 
           {/* Right Aligned Actions */}
           <div className="hidden md:flex items-center gap-4">
@@ -201,13 +197,13 @@ export default function Navbar() {
               <div className="flex items-center gap-3">
                 <Link
                   href="/login"
-                  className="px-4 py-2 text-[15px] font-semibold text-[#62646A] hover:text-[#1DBF73] transition-colors"
+                  className="px-4 py-2 text-[15px] font-normal text-[#62646A] hover:text-[#1DBF73] transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/register"
-                  className="px-5 py-2 rounded-md border-2 border-[#1DBF73] text-[#1DBF73] font-semibold text-sm hover:bg-[#1DBF73] hover:text-white transition-all"
+                  className="px-5 py-2 rounded-md border border-[#1DBF73] text-[#1DBF73] font-normal text-sm hover:bg-[#1DBF73] hover:text-white transition-all"
                 >
                   Try Now
                 </Link>

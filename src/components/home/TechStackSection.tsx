@@ -98,11 +98,11 @@ LIMIT 5;`,
   const IconComponent = activeItem.icon;
 
   return (
-    <section id="technology" className="py-6 bg-white relative">
+    <section id="technology" className="py-16 sm:py-24 bg-white relative">
       <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto space-y-10 relative z-10">
         {/* Section Header */}
         <div className="text-left space-y-2">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-text-main tracking-tight">
+          <h2 className="font-degular text-2xl sm:text-3xl lg:text-4xl font-medium text-[#201515] tracking-tight">
             Next-Gen Architecture & Integration
           </h2>
           <p className="text-[#62646A] text-xs sm:text-sm leading-relaxed">

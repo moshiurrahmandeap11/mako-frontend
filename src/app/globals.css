@@ -13,7 +13,7 @@
   --ai-green-darker: #14844E;
   --ai-green-glow: rgba(29, 191, 115, 0.15);
   --ai-green-tint: #E8F8F0;
-  --text-main: #222325;
+  --text-main: #201515;
   --text-body: #404145;
   --text-muted: #74767E;
   --fiverr-green: #1DBF73;
@@ -32,13 +32,42 @@
   --color-ai-green-darker: #14844E;
   --color-ai-green-glow: rgba(29, 191, 115, 0.15);
   --color-ai-green-tint: #E8F8F0;
-  --color-text-main: #222325;
+  --color-text-main: #201515;
   --color-text-body: #404145;
   --color-text-muted: #74767E;
   --color-fiverr-green: #1DBF73;
   --color-fiverr-dark: #19A463;
   --font-sans: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-inter: var(--font-inter), Inter, sans-serif;
   --font-mono: var(--font-geist-mono);
+}
+
+.font-degular,
+.font-montserrat,
+.font-heading {
+  font-family: var(--font-montserrat), Montserrat, sans-serif;
+  font-weight: 500;
+  color: #201515;
+}
+
+.font-inter {
+  font-family: var(--font-inter), Inter, sans-serif;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-33.333333%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+  will-change: transform;
 }
 
 body {
