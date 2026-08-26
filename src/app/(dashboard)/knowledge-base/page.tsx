@@ -1,24 +1,22 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import Button from "@/components/Button";
+import { TableRowSkeleton } from "@/components/Skeleton";
+import { fetchApi } from "@/lib/api-client";
+import swal from "@/lib/swal";
 import {
-  Globe,
-  Plus,
-  RefreshCw,
-  Trash2,
-  BookOpen,
-  Search,
-  ExternalLink,
-  Layers,
-  FileText,
   CheckCircle2,
+  ExternalLink,
+  FileText,
+  Globe,
+  Layers,
+  RefreshCw,
+  Search,
   Sparkles,
+  Trash2,
   Upload,
-} from 'lucide-react';
-import { fetchApi } from '@/lib/api-client';
-import Button from '@/components/Button';
-import { TableRowSkeleton } from '@/components/Skeleton';
-import swal from '@/lib/swal';
+} from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function KnowledgeBasePage() {
   const [knowledgeData, setKnowledgeData] = useState<{
@@ -34,38 +32,38 @@ export default function KnowledgeBasePage() {
   });
 
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  const [selectedSource, setSelectedSource] = useState<string>('all');
+  const [search, setSearch] = useState("");
+  const [selectedSource, setSelectedSource] = useState<string>("all");
 
   // Modal states
   const [showUrlModal, setShowUrlModal] = useState(false);
-  const [urlInput, setUrlInput] = useState('');
+  const [urlInput, setUrlInput] = useState("");
   const [scrapingUrl, setScrapingUrl] = useState(false);
-  const [urlError, setUrlError] = useState('');
+  const [urlError, setUrlError] = useState("");
 
   const [showNoteModal, setShowNoteModal] = useState(false);
-  const [noteTitle, setNoteTitle] = useState('');
-  const [noteContent, setNoteContent] = useState('');
-  const [noteSourceUrl, setNoteSourceUrl] = useState('');
+  const [noteTitle, setNoteTitle] = useState("");
+  const [noteContent, setNoteContent] = useState("");
+  const [noteSourceUrl, setNoteSourceUrl] = useState("");
   const [savingNote, setSavingNote] = useState(false);
-  const [noteError, setNoteError] = useState('');
+  const [noteError, setNoteError] = useState("");
 
   // Upload Doc / PDF Modal State
   const [showDocModal, setShowDocModal] = useState(false);
   const [docFile, setDocFile] = useState<File | null>(null);
   const [isDraggingDoc, setIsDraggingDoc] = useState(false);
   const [uploadingDoc, setUploadingDoc] = useState(false);
-  const [docError, setDocError] = useState('');
+  const [docError, setDocError] = useState("");
 
   const [rescapingAll, setRescrapingAll] = useState(false);
 
   const loadKnowledge = async () => {
     setLoading(true);
     try {
-      const data = await fetchApi('/api/knowledge');
+      const data = await fetchApi("/api/knowledge");
       setKnowledgeData(data);
     } catch (err) {
-      console.error('Failed to load knowledge base:', err);
+      console.error("Failed to load knowledge base:", err);
     } finally {
       setLoading(false);
     }
@@ -78,7 +76,7 @@ export default function KnowledgeBasePage() {
   const handleUploadDoc = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!docFile) return;
-    setDocError('');
+    setDocError("");
     setUploadingDoc(true);
 
     try {
@@ -87,10 +85,10 @@ export default function KnowledgeBasePage() {
       reader.onload = async () => {
         try {
           const base64Data = reader.result as string;
-          const ext = docFile.name.split('.').pop()?.toLowerCase() || 'pdf';
+          const ext = docFile.name.split(".").pop()?.toLowerCase() || "pdf";
 
-          const res = await fetchApi('/api/knowledge/upload-doc', {
-            method: 'POST',
+          const res = await fetchApi("/api/knowledge/upload-doc", {
+            method: "POST",
             body: JSON.stringify({
               filename: docFile.name,
               fileData: base64Data,
@@ -101,25 +99,25 @@ export default function KnowledgeBasePage() {
           setShowDocModal(false);
           setDocFile(null);
           swal.fire({
-            icon: 'success',
-            title: 'Document Indexed',
+            icon: "success",
+            title: "Document Indexed",
             text: `Indexed ${res.chunksCreated || 0} chunks from "${docFile.name}" into pgvector memory.`,
             timer: 3000,
             showConfirmButton: false,
           });
           loadKnowledge();
         } catch (err: any) {
-          setDocError(err.message || 'Failed to upload document');
+          setDocError(err.message || "Failed to upload document");
         } finally {
           setUploadingDoc(false);
         }
       };
       reader.onerror = () => {
-        setDocError('Failed to read document file');
+        setDocError("Failed to read document file");
         setUploadingDoc(false);
       };
     } catch (err: any) {
-      setDocError(err.message || 'Failed to upload document');
+      setDocError(err.message || "Failed to upload document");
       setUploadingDoc(false);
     }
   };
@@ -127,27 +125,27 @@ export default function KnowledgeBasePage() {
   const handleScrapeSingleUrl = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!urlInput.trim()) return;
-    setUrlError('');
+    setUrlError("");
     setScrapingUrl(true);
 
     try {
-      const res = await fetchApi('/api/knowledge/scrape-url', {
-        method: 'POST',
+      const res = await fetchApi("/api/knowledge/scrape-url", {
+        method: "POST",
         body: JSON.stringify({ url: urlInput.trim() }),
       });
 
       setShowUrlModal(false);
-      setUrlInput('');
+      setUrlInput("");
       swal.fire({
-        icon: 'success',
-        title: 'URL Indexed Successfully',
-        text: `Indexed ${res.chunksCreated || 0} knowledge chunks & ${res.productsIndexed || 0} items from ${res.pageTitle || 'the page'}.`,
+        icon: "success",
+        title: "URL Indexed Successfully",
+        text: `Indexed ${res.chunksCreated || 0} knowledge chunks & ${res.productsIndexed || 0} items from ${res.pageTitle || "the page"}.`,
         timer: 3000,
         showConfirmButton: false,
       });
       loadKnowledge();
     } catch (err: any) {
-      setUrlError(err.message || 'Failed to crawl and index URL');
+      setUrlError(err.message || "Failed to crawl and index URL");
     } finally {
       setScrapingUrl(false);
     }
@@ -156,12 +154,12 @@ export default function KnowledgeBasePage() {
   const handleAddCustomNote = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!noteTitle.trim() || !noteContent.trim()) return;
-    setNoteError('');
+    setNoteError("");
     setSavingNote(true);
 
     try {
-      await fetchApi('/api/knowledge/custom', {
-        method: 'POST',
+      await fetchApi("/api/knowledge/custom", {
+        method: "POST",
         body: JSON.stringify({
           title: noteTitle.trim(),
           content: noteContent.trim(),
@@ -170,19 +168,19 @@ export default function KnowledgeBasePage() {
       });
 
       setShowNoteModal(false);
-      setNoteTitle('');
-      setNoteContent('');
-      setNoteSourceUrl('');
+      setNoteTitle("");
+      setNoteContent("");
+      setNoteSourceUrl("");
       swal.fire({
-        icon: 'success',
-        title: 'Custom Knowledge Saved',
-        text: 'The AI assistant can now use this note to answer visitor inquiries.',
+        icon: "success",
+        title: "Custom Knowledge Saved",
+        text: "The AI assistant can now use this note to answer visitor inquiries.",
         timer: 2500,
         showConfirmButton: false,
       });
       loadKnowledge();
     } catch (err: any) {
-      setNoteError(err.message || 'Failed to save note');
+      setNoteError(err.message || "Failed to save note");
     } finally {
       setSavingNote(false);
     }
@@ -190,30 +188,30 @@ export default function KnowledgeBasePage() {
 
   const handleDeleteChunk = async (id: string) => {
     const result = await swal.fire({
-      icon: 'warning',
-      title: 'Delete Knowledge Chunk?',
-      text: 'This snippet will be permanently deleted from the AI context.',
+      icon: "warning",
+      title: "Delete Knowledge Chunk?",
+      text: "This snippet will be permanently deleted from the AI context.",
       showCancelButton: true,
-      confirmButtonText: 'Yes, Delete',
-      confirmButtonColor: '#ef4444',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: "Yes, Delete",
+      confirmButtonColor: "#ef4444",
+      cancelButtonText: "Cancel",
     });
 
     if (result.isConfirmed) {
       try {
-        await fetchApi(`/api/knowledge/${id}`, { method: 'DELETE' });
+        await fetchApi(`/api/knowledge/${id}`, { method: "DELETE" });
         loadKnowledge();
         swal.fire({
-          icon: 'success',
-          title: 'Deleted',
-          text: 'Knowledge chunk has been removed.',
+          icon: "success",
+          title: "Deleted",
+          text: "Knowledge chunk has been removed.",
           timer: 1500,
           showConfirmButton: false,
         });
       } catch (err: any) {
         swal.fire({
-          icon: 'error',
-          title: 'Failed to delete',
+          icon: "error",
+          title: "Failed to delete",
           text: err.message,
         });
       }
@@ -222,30 +220,30 @@ export default function KnowledgeBasePage() {
 
   const handleDeleteAllChunks = async () => {
     const result = await swal.fire({
-      icon: 'warning',
-      title: 'Clear ALL Knowledge Base Chunks?',
-      text: 'This will permanently wipe all scraped & indexed content. You can click Re-crawl Store anytime to refresh.',
+      icon: "warning",
+      title: "Clear ALL Knowledge Base Chunks?",
+      text: "This will permanently wipe all scraped & indexed content. You can click Re-crawl Store anytime to refresh.",
       showCancelButton: true,
-      confirmButtonText: 'Yes, Clear All',
-      confirmButtonColor: '#ef4444',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: "Yes, Clear All",
+      confirmButtonColor: "#ef4444",
+      cancelButtonText: "Cancel",
     });
 
     if (result.isConfirmed) {
       try {
-        await fetchApi('/api/knowledge/clear-all', { method: 'DELETE' });
+        await fetchApi("/api/knowledge/clear-all", { method: "DELETE" });
         loadKnowledge();
         swal.fire({
-          icon: 'success',
-          title: 'Cleared',
-          text: 'All knowledge base data has been cleared.',
+          icon: "success",
+          title: "Cleared",
+          text: "All knowledge base data has been cleared.",
           timer: 1500,
           showConfirmButton: false,
         });
       } catch (err: any) {
         swal.fire({
-          icon: 'error',
-          title: 'Failed to clear',
+          icon: "error",
+          title: "Failed to clear",
           text: err.message,
         });
       }
@@ -254,29 +252,31 @@ export default function KnowledgeBasePage() {
 
   const handleRescrapeAll = async () => {
     const result = await swal.fire({
-      icon: 'question',
-      title: 'Re-crawl Entire Website?',
-      text: 'Our 4-tier hybrid crawler will re-scan all sitemaps, SPA routes, and DOM pages to refresh your AI memory.',
+      icon: "question",
+      title: "Re-crawl Entire Website?",
+      text: "Our 4-tier hybrid crawler will re-scan all sitemaps, SPA routes, and DOM pages to refresh your AI memory.",
       showCancelButton: true,
-      confirmButtonText: 'Start Crawl',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: "Start Crawl",
+      cancelButtonText: "Cancel",
     });
 
     if (result.isConfirmed) {
       setRescrapingAll(true);
       try {
-        const res = await fetchApi('/api/knowledge/rescrape-all', { method: 'POST' });
+        const res = await fetchApi("/api/knowledge/rescrape-all", {
+          method: "POST",
+        });
         swal.fire({
-          icon: 'success',
-          title: 'Crawl Completed!',
+          icon: "success",
+          title: "Crawl Completed!",
           text: `Crawled ${res.pagesCrawled || 0} pages and created ${res.chunksCreated || 0} knowledge chunks.`,
         });
         loadKnowledge();
       } catch (err: any) {
         swal.fire({
-          icon: 'error',
-          title: 'Crawl Failed',
-          text: err.message || 'Unable to complete domain crawl',
+          icon: "error",
+          title: "Crawl Failed",
+          text: err.message || "Unable to complete domain crawl",
         });
       } finally {
         setRescrapingAll(false);
@@ -286,10 +286,11 @@ export default function KnowledgeBasePage() {
 
   const filteredChunks = knowledgeData.chunks.filter((chunk) => {
     const matchesSearch =
-      search === '' ||
+      search === "" ||
       chunk.content.toLowerCase().includes(search.toLowerCase()) ||
       chunk.url.toLowerCase().includes(search.toLowerCase());
-    const matchesSource = selectedSource === 'all' || chunk.url === selectedSource;
+    const matchesSource =
+      selectedSource === "all" || chunk.url === selectedSource;
     return matchesSearch && matchesSource;
   });
 
@@ -297,12 +298,13 @@ export default function KnowledgeBasePage() {
     <div className="space-y-3">
       {/* Top Banner & Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className='mb-4'>
+        <div className="mb-4">
           <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight flex items-center gap-2.5">
             <span>AI Knowledge Base & Content</span>
           </h1>
           <p className="text-[#62646A] text-xs sm:text-sm mt-1">
-            Manage scraped website content, indexed URLs, and custom notes powering your AI assistant.
+            Manage scraped website content, indexed URLs, and custom notes
+            powering your AI assistant.
           </p>
         </div>
 
@@ -325,7 +327,10 @@ export default function KnowledgeBasePage() {
           onClick={() => setShowUrlModal(true)}
           className="flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-white border border-[#E4E5E7] hover:border-[#1DBF73] hover:bg-[#F7F7F7] text-[#222325] text-xs sm:text-sm font-normal transition group cursor-pointer"
         >
-          <Globe className="w-4 h-4 text-[#74767E] shrink-0" strokeWidth={1.5} />
+          <Globe
+            className="w-4 h-4 text-[#74767E] shrink-0"
+            strokeWidth={1.5}
+          />
           <span className="truncate">Add Custom URL</span>
         </button>
 
@@ -333,7 +338,10 @@ export default function KnowledgeBasePage() {
           onClick={() => setShowDocModal(true)}
           className="flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-white border border-[#E4E5E7] hover:border-[#1DBF73] hover:bg-[#F7F7F7] text-[#222325] text-xs sm:text-sm font-normal transition group cursor-pointer"
         >
-          <Upload className="w-4 h-4 text-[#74767E] shrink-0" strokeWidth={1.5} />
+          <Upload
+            className="w-4 h-4 text-[#74767E] shrink-0"
+            strokeWidth={1.5}
+          />
           <span className="truncate">Upload Doc / PDF</span>
         </button>
 
@@ -342,15 +350,23 @@ export default function KnowledgeBasePage() {
           disabled={rescapingAll}
           className="flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-white border border-[#E4E5E7] hover:border-[#1DBF73] hover:bg-[#F7F7F7] text-[#222325] text-xs sm:text-sm font-normal transition group disabled:opacity-50 cursor-pointer"
         >
-          <RefreshCw className={`w-4 h-4 text-[#74767E] shrink-0 ${rescapingAll ? 'animate-spin' : ''}`} strokeWidth={1.5} />
-          <span className="truncate">{rescapingAll ? 'Crawling...' : 'Re-crawl Store'}</span>
+          <RefreshCw
+            className={`w-4 h-4 text-[#74767E] shrink-0 ${rescapingAll ? "animate-spin" : ""}`}
+            strokeWidth={1.5}
+          />
+          <span className="truncate">
+            {rescapingAll ? "Crawling..." : "Re-crawl Store"}
+          </span>
         </button>
 
         <button
           onClick={handleDeleteAllChunks}
           className="flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-rose-50 border border-rose-200 hover:border-rose-300 hover:bg-rose-100 text-rose-600 text-xs sm:text-sm font-normal transition group cursor-pointer"
         >
-          <Trash2 className="w-4 h-4 text-rose-600 shrink-0" strokeWidth={1.5} />
+          <Trash2
+            className="w-4 h-4 text-rose-600 shrink-0"
+            strokeWidth={1.5}
+          />
           <span className="truncate">Clear All Data</span>
         </button>
       </div>
@@ -359,32 +375,56 @@ export default function KnowledgeBasePage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="bg-white border border-[#E4E5E7] rounded-md p-4">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-normal text-[#74767E]">Total Knowledge Chunks</span>
+            <span className="text-xs font-normal text-[#74767E]">
+              Total Knowledge Chunks
+            </span>
             <Layers className="w-4.5 h-4.5 text-[#74767E]" strokeWidth={1.5} />
           </div>
-          <div className="text-2xl sm:text-3xl font-medium text-[#222325] mt-3">{loading ? '...' : knowledgeData.totalChunks}</div>
-          <p className="text-xs text-[#62646A] mt-1">Vector embeddings indexed in pgvector memory</p>
+          <div className="text-2xl sm:text-3xl font-medium text-[#222325] mt-3">
+            {loading ? "..." : knowledgeData.totalChunks}
+          </div>
+          <p className="text-xs text-[#62646A] mt-1">
+            Vector embeddings indexed in pgvector memory
+          </p>
         </div>
 
         <div className="bg-white border border-[#E4E5E7] rounded-md p-4">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-normal text-[#74767E]">Indexed Sources & Pages</span>
+            <span className="text-xs font-normal text-[#74767E]">
+              Indexed Sources & Pages
+            </span>
             <Globe className="w-4.5 h-4.5 text-[#74767E]" strokeWidth={1.5} />
           </div>
-          <div className="text-2xl sm:text-3xl font-medium text-[#222325] mt-3">{loading ? '...' : knowledgeData.totalPages}</div>
-          <p className="text-xs text-[#62646A] mt-1">Discovered via Sitemaps, SPA routes & DOM links</p>
+          <div className="text-2xl sm:text-3xl font-medium text-[#222325] mt-3">
+            {loading ? "..." : knowledgeData.totalPages}
+          </div>
+          <p className="text-xs text-[#62646A] mt-1">
+            Discovered via Sitemaps, SPA routes & DOM links
+          </p>
         </div>
 
         <div className="bg-white border border-[#E4E5E7] rounded-md p-4">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-normal text-[#74767E]">Automated Syncing</span>
-            <Sparkles className="w-4.5 h-4.5 text-[#74767E]" strokeWidth={1.5} />
+            <span className="text-xs font-normal text-[#74767E]">
+              Automated Syncing
+            </span>
+            <Sparkles
+              className="w-4.5 h-4.5 text-[#74767E]"
+              strokeWidth={1.5}
+            />
           </div>
           <div className="flex items-center gap-2 mt-3">
-            <CheckCircle2 className="w-5 h-5 text-[#1DBF73]" strokeWidth={1.5} />
-            <span className="text-base font-medium text-[#222325]">Daily 12:00 PM BST</span>
+            <CheckCircle2
+              className="w-5 h-5 text-[#1DBF73]"
+              strokeWidth={1.5}
+            />
+            <span className="text-base font-medium text-[#222325]">
+              Daily 12:00 PM BST
+            </span>
           </div>
-          <p className="text-xs text-[#62646A] mt-1">Automated background crawler keeps knowledge fresh</p>
+          <p className="text-xs text-[#62646A] mt-1">
+            Automated background crawler keeps knowledge fresh
+          </p>
         </div>
       </div>
 
@@ -393,7 +433,10 @@ export default function KnowledgeBasePage() {
         {/* Filters */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
+            <Search
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#74767E]"
+              strokeWidth={1.5}
+            />
             <input
               type="text"
               placeholder="Search in knowledge base contents or URLs..."
@@ -409,10 +452,13 @@ export default function KnowledgeBasePage() {
               onChange={(e) => setSelectedSource(e.target.value)}
               className="bg-white border border-[#E4E5E7] rounded-md px-3.5 py-2 text-xs text-[#404145] focus:outline-none focus:border-[#1DBF73] transition-colors"
             >
-              <option value="all">All Indexed Sources ({knowledgeData.sources.length})</option>
+              <option value="all">
+                All Indexed Sources ({knowledgeData.sources.length})
+              </option>
               {knowledgeData.sources.map((s, idx) => (
                 <option key={idx} value={s.url}>
-                  {s.url.length > 50 ? `${s.url.slice(0, 50)}...` : s.url} ({s.chunkCount})
+                  {s.url.length > 50 ? `${s.url.slice(0, 50)}...` : s.url} (
+                  {s.chunkCount})
                 </option>
               ))}
             </select>
@@ -425,26 +471,37 @@ export default function KnowledgeBasePage() {
             <thead className="bg-[#F7F7F7] text-xs font-normal text-[#74767E] border-b border-[#E4E5E7]">
               <tr>
                 <th className="py-3 px-4 font-normal">Source / Origin</th>
-                <th className="py-3 px-4 font-normal">Knowledge Chunk Content</th>
+                <th className="py-3 px-4 font-normal">
+                  Knowledge Chunk Content
+                </th>
                 <th className="py-3 px-4 font-normal">Added On</th>
                 <th className="py-3 px-4 font-normal text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E4E5E7]">
               {loading ? (
-                Array.from({ length: 5 }).map((_, i) => <TableRowSkeleton key={i} />)
+                Array.from({ length: 5 }).map((_, i) => (
+                  <TableRowSkeleton key={i} />
+                ))
               ) : filteredChunks.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="py-12 text-center text-[#74767E]">
-                    <FileText className="w-10 h-10 mx-auto mb-2 opacity-40 text-[#74767E]" strokeWidth={1.5} />
-                    No knowledge chunks found. Click &quot;Add Custom URL&quot; or &quot;Re-crawl Store&quot; to populate your AI memory.
+                    <FileText
+                      className="w-10 h-10 mx-auto mb-2 opacity-40 text-[#74767E]"
+                      strokeWidth={1.5}
+                    />
+                    No knowledge chunks found. Click &quot;Add Custom URL&quot;
+                    or &quot;Re-crawl Store&quot; to populate your AI memory.
                   </td>
                 </tr>
               ) : (
                 filteredChunks.map((chunk) => (
-                  <tr key={chunk.id} className="hover:bg-[#F7F7F7] transition-colors">
+                  <tr
+                    key={chunk.id}
+                    className="hover:bg-[#F7F7F7] transition-colors"
+                  >
                     <td className="py-4 px-4 align-top w-1/4">
-                      {chunk.url.startsWith('http') ? (
+                      {chunk.url.startsWith("http") ? (
                         <a
                           href={chunk.url}
                           target="_blank"
@@ -452,7 +509,10 @@ export default function KnowledgeBasePage() {
                           className="inline-flex items-center gap-1.5 text-[#1DBF73] hover:underline break-all text-xs font-normal"
                         >
                           {chunk.url}
-                          <ExternalLink className="w-3 h-3 shrink-0" strokeWidth={1.5} />
+                          <ExternalLink
+                            className="w-3 h-3 shrink-0"
+                            strokeWidth={1.5}
+                          />
                         </a>
                       ) : (
                         <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7] text-xs font-normal font-mono">
@@ -466,7 +526,9 @@ export default function KnowledgeBasePage() {
                       </div>
                     </td>
                     <td className="py-4 px-4 align-top text-xs text-[#74767E] whitespace-nowrap">
-                      {chunk.createdAt ? new Date(chunk.createdAt).toLocaleDateString() : 'Active'}
+                      {chunk.createdAt
+                        ? new Date(chunk.createdAt).toLocaleDateString()
+                        : "Active"}
                     </td>
                     <td className="py-4 px-4 align-top text-right whitespace-nowrap">
                       <button
@@ -503,7 +565,10 @@ export default function KnowledgeBasePage() {
             </div>
 
             <p className="text-xs text-[#62646A]">
-              Provide a specific page link (e.g. <code>https://yourdomain.com/projects/item</code>, pricing, or service page). Our crawler will immediately extract text, markdown, and items.
+              Provide a specific page link (e.g.{" "}
+              <code>https://yourdomain.com/projects/item</code>, pricing, or
+              service page). Our crawler will immediately extract text,
+              markdown, and items.
             </p>
 
             <form onSubmit={handleScrapeSingleUrl} className="space-y-4">
@@ -514,7 +579,9 @@ export default function KnowledgeBasePage() {
               )}
 
               <div>
-                <label className="block text-xs font-normal text-[#404145] mb-1">Target Page URL</label>
+                <label className="block text-xs font-normal text-[#404145] mb-1">
+                  Target Page URL
+                </label>
                 <input
                   type="url"
                   required
@@ -540,7 +607,7 @@ export default function KnowledgeBasePage() {
                   variant="primary"
                   className="text-xs !font-normal"
                 >
-                  {scrapingUrl ? 'Crawling & Indexing...' : 'Crawl & Index URL'}
+                  {scrapingUrl ? "Crawling & Indexing..." : "Crawl & Index URL"}
                 </Button>
               </div>
             </form>
@@ -554,7 +621,10 @@ export default function KnowledgeBasePage() {
           <div className="bg-white border border-[#E4E5E7] rounded-md w-full max-w-xl p-6 space-y-4 animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-medium text-[#222325] flex items-center gap-2">
-                <FileText className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
+                <FileText
+                  className="w-4 h-4 text-[#74767E]"
+                  strokeWidth={1.5}
+                />
                 Add Custom Note or Policy
               </h2>
               <button
@@ -566,7 +636,8 @@ export default function KnowledgeBasePage() {
             </div>
 
             <p className="text-xs text-[#62646A]">
-              Directly feed custom instructions, FAQs, project descriptions, or contact details into the AI assistant.
+              Directly feed custom instructions, FAQs, project descriptions, or
+              contact details into the AI assistant.
             </p>
 
             <form onSubmit={handleAddCustomNote} className="space-y-4">
@@ -577,7 +648,9 @@ export default function KnowledgeBasePage() {
               )}
 
               <div>
-                <label className="block text-xs font-normal text-[#404145] mb-1">Title / Topic</label>
+                <label className="block text-xs font-normal text-[#404145] mb-1">
+                  Title / Topic
+                </label>
                 <input
                   type="text"
                   required
@@ -589,7 +662,9 @@ export default function KnowledgeBasePage() {
               </div>
 
               <div>
-                <label className="block text-xs font-normal text-[#404145] mb-1">Source Link (Optional)</label>
+                <label className="block text-xs font-normal text-[#404145] mb-1">
+                  Source Link (Optional)
+                </label>
                 <input
                   type="url"
                   placeholder="https://example.com/projects/aeshut"
@@ -600,7 +675,9 @@ export default function KnowledgeBasePage() {
               </div>
 
               <div>
-                <label className="block text-xs font-normal text-[#404145] mb-1">Content / Details (Markdown supported)</label>
+                <label className="block text-xs font-normal text-[#404145] mb-1">
+                  Content / Details (Markdown supported)
+                </label>
                 <textarea
                   required
                   rows={6}
@@ -626,7 +703,7 @@ export default function KnowledgeBasePage() {
                   variant="primary"
                   className="text-xs !font-normal"
                 >
-                  {savingNote ? 'Saving...' : 'Save Knowledge Note'}
+                  {savingNote ? "Saving..." : "Save Knowledge Note"}
                 </Button>
               </div>
             </form>
@@ -652,7 +729,9 @@ export default function KnowledgeBasePage() {
             </div>
 
             <p className="text-xs text-[#62646A]">
-              Upload brand guidelines, return policies, user manuals, or FAQs (.pdf, .docx, .txt, .md). The backend will extract, chunk, and index vector embeddings into pgvector memory.
+              Upload brand guidelines, return policies, user manuals, or FAQs
+              (.pdf, .docx, .txt, .md). The backend will extract, chunk, and
+              index vector embeddings into pgvector memory.
             </p>
 
             <form onSubmit={handleUploadDoc} className="space-y-4">
@@ -678,10 +757,11 @@ export default function KnowledgeBasePage() {
                     setDocFile(e.dataTransfer.files[0]);
                   }
                 }}
-                className={`border-2 border-dashed rounded-md p-8 text-center transition cursor-pointer ${isDraggingDoc
-                  ? 'border-[#1DBF73] bg-[#E8F8F0]'
-                  : 'border-[#E4E5E7] hover:border-[#1DBF73] bg-[#F7F7F7]'
-                  }`}
+                className={`border-2 border-dashed rounded-md p-8 text-center transition cursor-pointer ${
+                  isDraggingDoc
+                    ? "border-[#1DBF73] bg-[#E8F8F0]"
+                    : "border-[#E4E5E7] hover:border-[#1DBF73] bg-[#F7F7F7]"
+                }`}
               >
                 <input
                   type="file"
@@ -690,12 +770,24 @@ export default function KnowledgeBasePage() {
                   className="hidden"
                   id="docFileInput"
                 />
-                <label htmlFor="docFileInput" className="cursor-pointer space-y-2 block">
-                  <Upload className={`w-10 h-10 mx-auto transition ${isDraggingDoc ? 'text-[#1DBF73]' : 'text-[#74767E]'}`} strokeWidth={1.5} />
+                <label
+                  htmlFor="docFileInput"
+                  className="cursor-pointer space-y-2 block"
+                >
+                  <Upload
+                    className={`w-10 h-10 mx-auto transition ${isDraggingDoc ? "text-[#1DBF73]" : "text-[#74767E]"}`}
+                    strokeWidth={1.5}
+                  />
                   <p className="text-xs font-normal text-[#222325]">
-                    {docFile ? docFile.name : isDraggingDoc ? 'Drop your Document here!' : 'Click or Drag & Drop PDF / Document here'}
+                    {docFile
+                      ? docFile.name
+                      : isDraggingDoc
+                        ? "Drop your Document here!"
+                        : "Click or Drag & Drop PDF / Document here"}
                   </p>
-                  <p className="text-[11px] text-[#74767E]">Supports .pdf, .docx, .txt, .md files up to 15MB</p>
+                  <p className="text-[11px] text-[#74767E]">
+                    Supports .pdf, .docx, .txt, .md files up to 15MB
+                  </p>
                 </label>
               </div>
 
@@ -714,7 +806,9 @@ export default function KnowledgeBasePage() {
                   variant="primary"
                   className="text-xs !font-normal"
                 >
-                  {uploadingDoc ? 'Parsing & Vectorizing...' : 'Upload & Index Doc'}
+                  {uploadingDoc
+                    ? "Parsing & Vectorizing..."
+                    : "Upload & Index Doc"}
                 </Button>
               </div>
             </form>
