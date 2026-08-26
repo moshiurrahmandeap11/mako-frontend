@@ -60,14 +60,14 @@ export default function RootLayout({
             },
           }}
         />
-        {/* aiw_live_7ad54fe45b4d6742248ba9a23aeac3aef15c7604448f10d8 */}
+
         <Script
           src={
             process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL ||
             "https://labto.ahsanul.dev/widget.js" ||
             "http://localhost:4000/widget.js"
           }
-          data-api-key="aiw_live_8416eeab5df100b6a43deef69f84bd32f5145645d33041e2"
+          data-api-key="aiw_live_7ad54fe45b4d6742248ba9a23aeac3aef15c7604448f10d8"
           strategy="lazyOnload"
         />
       </body>
