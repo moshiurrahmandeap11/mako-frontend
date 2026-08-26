@@ -30,7 +30,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative pt-12 sm:pt-16 overflow-hidden bg-white">
+    <section className="relative pt-12 sm:pt-16 pb-12 sm:pb-20 overflow-hidden bg-white">
       <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto space-y-10 text-center">
         {/* Commanding Fiverr-Style Headline */}
         <div className="max-w-4xl mx-auto space-y-4 pt-4 sm:pt-6">
@@ -38,7 +38,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-2xl sm:text-4xl lg:text-5xl font-medium text-text-main tracking-tight leading-[1.15]"
+            className="font-degular text-2xl sm:text-4xl lg:text-5xl font-medium text-[#201515] tracking-tight leading-[1.15]"
           >
             Find the right AI assistant for your{" "}
             <span className="relative inline-block text-[#1DBF73]">

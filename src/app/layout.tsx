@@ -1,10 +1,24 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const fontInter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const fontMontserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
   weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
@@ -26,7 +40,7 @@ export default function RootLayout({
     <html lang="en" className="h-full light" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`${fontSans.className} ${fontSans.variable} min-h-full bg-white text-text-main antialiased`}
+        className={`${fontSans.className} ${fontSans.variable} ${fontInter.variable} ${fontMontserrat.variable} min-h-full bg-white text-text-main antialiased`}
       >
         <QueryProvider>
           {children}

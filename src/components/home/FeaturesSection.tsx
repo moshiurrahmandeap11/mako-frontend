@@ -24,11 +24,11 @@ export default function FeaturesSection() {
   };
 
   return (
-    <section id="features" className="py-6 bg-surface-light relative">
+    <section id="features" className="py-16 sm:py-24 bg-surface-light relative">
       <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto space-y-10 relative z-10">
         {/* Section Header */}
         <div className="text-left space-y-2">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-text-main tracking-tight">
+          <h2 className="font-degular text-2xl sm:text-3xl lg:text-4xl font-medium text-[#201515] tracking-tight">
             Features That Empower Your AI-Driven E-Commerce Experience
           </h2>
           <p className="text-[#62646A] text-xs sm:text-sm font-normal leading-relaxed">
@@ -50,7 +50,7 @@ export default function FeaturesSection() {
               {/* Left Column: Feature Info (5 cols) */}
               <div className="lg:col-span-5 space-y-5 text-left">
                 <div className="space-y-2">
-                  <h3 className="text-xl sm:text-2xl font-medium text-text-main tracking-tight">
+                  <h3 className="font-degular text-xl sm:text-2xl font-medium text-[#201515] tracking-tight">
                     {activeFeature.title}
                   </h3>
                   <p className="text-[#62646A] text-xs sm:text-sm leading-relaxed">

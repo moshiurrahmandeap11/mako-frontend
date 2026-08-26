@@ -13,7 +13,7 @@ export default function PlatformLogosBar() {
   ];
 
   return (
-    <section className="py-8 bg-surface-light border-y border-border-light">
+    <section className="py-14 sm:py-16 bg-surface-light border-y border-border-light">
       <div className="w-11/12 lg:w-9/12 max-w-7xl mx-auto space-y-4 text-center">
         <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">
           Integrates seamlessly into any e-commerce storefront in under 2 minutes
