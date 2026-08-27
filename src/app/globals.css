@@ -1,42 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FFFFFF;
+  --background: #ffffff;
   --foreground: #222325;
-  --surface-white: #FFFFFF;
-  --surface-light: #F7F7F7;
-  --surface-hover: #F0F2F5;
-  --border-light: #E4E5E7;
-  --border-subtle: #EDEDED;
-  --ai-green: #1DBF73;
-  --ai-green-dark: #19A463;
-  --ai-green-darker: #14844E;
+  --surface-white: #ffffff;
+  --surface-light: #f7f7f7;
+  --surface-hover: #f0f2f5;
+  --border-light: #e4e5e7;
+  --border-subtle: #ededed;
+  --ai-green: #1dbf73;
+  --ai-green-dark: #19a463;
+  --ai-green-darker: #14844e;
   --ai-green-glow: rgba(29, 191, 115, 0.15);
-  --ai-green-tint: #E8F8F0;
+  --ai-green-tint: #e8f8f0;
   --text-main: #201515;
   --text-body: #404145;
-  --text-muted: #74767E;
-  --fiverr-green: #1DBF73;
-  --fiverr-dark: #19A463;
+  --text-muted: #74767e;
+  --fiverr-green: #1dbf73;
+  --fiverr-dark: #19a463;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-surface-white: #FFFFFF;
-  --color-surface-light: #F7F7F7;
-  --color-surface-hover: #F0F2F5;
-  --color-border-light: #E4E5E7;
-  --color-ai-green: #1DBF73;
-  --color-ai-green-dark: #19A463;
-  --color-ai-green-darker: #14844E;
+  --color-surface-white: #ffffff;
+  --color-surface-light: #f7f7f7;
+  --color-surface-hover: #f0f2f5;
+  --color-border-light: #e4e5e7;
+  --color-ai-green: #1dbf73;
+  --color-ai-green-dark: #19a463;
+  --color-ai-green-darker: #14844e;
   --color-ai-green-glow: rgba(29, 191, 115, 0.15);
-  --color-ai-green-tint: #E8F8F0;
+  --color-ai-green-tint: #e8f8f0;
   --color-text-main: #201515;
   --color-text-body: #404145;
-  --color-text-muted: #74767E;
-  --color-fiverr-green: #1DBF73;
-  --color-fiverr-dark: #19A463;
+  --color-text-muted: #74767e;
+  --color-fiverr-green: #1dbf73;
+  --color-fiverr-dark: #19a463;
   --font-sans: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-inter: var(--font-inter), Inter, sans-serif;
   --font-mono: var(--font-geist-mono);
@@ -82,21 +82,21 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #F7F7F7;
+  background: #f7f7f7;
 }
 ::-webkit-scrollbar-thumb {
-  background: #DADBDD;
+  background: #dadbdd;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #1DBF73;
+  background: #1dbf73;
 }
 
 /* SweetAlert2 Clean White Dashboard Theme Overrides */
 div.swal2-container div.swal2-popup {
-  background-color: #FFFFFF !important;
-  background: #FFFFFF !important;
-  border: 1px solid #E4E5E7 !important;
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border: 1px solid #e4e5e7 !important;
   border-radius: 6px !important;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
   padding: 24px !important;
@@ -112,7 +112,7 @@ div.swal2-container div.swal2-title {
 }
 
 div.swal2-container div.swal2-html-container {
-  color: #62646A !important;
+  color: #62646a !important;
   font-size: 13px !important;
   line-height: 1.5 !important;
   margin: 6px 0 18px 0 !important;
@@ -124,8 +124,8 @@ div.swal2-container div.swal2-actions {
 }
 
 div.swal2-container button.swal2-confirm {
-  background-color: #1DBF73 !important;
-  color: #FFFFFF !important;
+  background-color: #1dbf73 !important;
+  color: #ffffff !important;
   font-size: 12px !important;
   font-weight: 500 !important;
   padding: 8px 16px !important;
@@ -138,17 +138,17 @@ div.swal2-container button.swal2-confirm {
 }
 
 div.swal2-container button.swal2-confirm:hover {
-  background-color: #19A463 !important;
+  background-color: #19a463 !important;
 }
 
 div.swal2-container button.swal2-cancel {
-  background-color: #FFFFFF !important;
+  background-color: #ffffff !important;
   color: #222325 !important;
   font-size: 12px !important;
   font-weight: 400 !important;
   padding: 8px 16px !important;
   border-radius: 6px !important;
-  border: 1px solid #E4E5E7 !important;
+  border: 1px solid #e4e5e7 !important;
   box-shadow: none !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
@@ -156,12 +156,11 @@ div.swal2-container button.swal2-cancel {
 }
 
 div.swal2-container button.swal2-cancel:hover {
-  background-color: #F7F7F7 !important;
+  background-color: #f7f7f7 !important;
 }
 
 div.swal2-container .swal2-icon {
-  border-color: #E4E5E7 !important;
+  border-color: #e4e5e7 !important;
   transform: scale(0.85) !important;
   margin: 6px auto !important;
 }
-
