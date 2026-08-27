@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { fetchApi } from "@/lib/api-client";
 import toast from "react-hot-toast";
-import { motion } from "framer-motion";
 import {
   Check,
   CheckCircle2,
@@ -104,14 +103,9 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
   };
 
   return (
-    <div className="min-h-screen bg-white text-text-main flex flex-col py-6 relative overflow-hidden">
+    <div className="flex-1 bg-white text-text-main flex flex-col py-6 relative overflow-hidden">
       <main className="flex-1 lg:max-w-9/12 mx-auto px-6 lg:px-0 w-full relative z-10 space-y-6">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-left max-w-2xl space-y-3"
-        >
+        <div className="text-left max-w-2xl space-y-3">
           <h1 className="text-2xl sm:text-2xl lg:text-3xl font-medium text-text-main tracking-tight">
             Transparent, Scalable Plans
           </h1>
@@ -120,10 +114,10 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
             <strong className="text-text-main font-semibold">100% Unused Credit Rollover</strong>. Your credits stay yours
             as long as your subscription is active!
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {plans.map((p, idx) => {
+          {plans.map((p) => {
             const isCurrentPlan = currentTier === p.tierKey;
 
             let buttonLabel = p.cta;
@@ -147,11 +141,8 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
             }
 
             return (
-              <motion.div
+              <div
                 key={p.name}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left ${
                   isCurrentPlan
                     ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30 bg-ai-green-tint/30"
@@ -232,7 +223,7 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                     </span>
                   </Button>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

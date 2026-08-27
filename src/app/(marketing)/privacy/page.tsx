@@ -10,7 +10,7 @@ export const metadata: Metadata = constructMetadata({
 
 export default function PrivacyPage() {
   return (
-    <div className="relative min-h-screen bg-white text-[#201515] flex flex-col overflow-hidden">
+    <div className="relative flex-1 bg-white text-[#201515] flex flex-col overflow-hidden">
       <main className="relative z-10 flex-1 max-w-4xl mx-auto w-full px-6 pt-10 sm:pt-14 pb-20 space-y-8 text-left">
         <div className="space-y-2">
           <h1 className="font-degular text-3xl sm:text-4xl font-medium text-[#201515] tracking-tight">

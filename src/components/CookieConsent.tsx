@@ -45,7 +45,6 @@ export default function CookieConsent() {
             <h3 className="font-degular text-sm font-semibold text-[#201515]">
               Cookie Consent & Data Privacy
             </h3>
-            <span className="w-2 h-2 rounded-full bg-[#1DBF73]" />
           </div>
 
           <p className="text-xs text-[#62646A] leading-relaxed">
