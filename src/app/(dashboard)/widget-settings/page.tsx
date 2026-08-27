@@ -292,16 +292,26 @@ export default function WidgetSettingsPage() {
     });
   };
 
-  const applyPalette = (palette: (typeof PRESET_PALETTES)[0]) => {
-    setConfig({
+  const applyPalette = async (palette: (typeof PRESET_PALETTES)[0]) => {
+    const updatedConfig = {
       ...config,
       primaryColor: palette.primary,
       headerBgColor: palette.headerBg,
       headerTextColor: palette.headerText,
       launcherBgColor: palette.launcherBg,
       launcherIconColor: palette.launcherIcon,
-    });
-    toast.success(`Applied ${palette.name} theme preset!`);
+    };
+    setConfig(updatedConfig);
+
+    try {
+      await fetchApi("/api/widget-config", {
+        method: "PATCH",
+        body: JSON.stringify(updatedConfig),
+      });
+      toast.success(`Applied & saved ${palette.name} theme live!`);
+    } catch (err: any) {
+      toast.error(err.message || `Applied ${palette.name} theme locally.`);
+    }
   };
 
   const scriptHost =
