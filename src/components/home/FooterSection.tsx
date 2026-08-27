@@ -13,6 +13,9 @@ export default function FooterSection() {
 
         <div className="flex items-center gap-5 font-semibold text-[#62646A]">
           <BugReportButton />
+          <Link href="/about" className="hover:text-[#1DBF73] transition">
+            About Us
+          </Link>
           <Link href="/privacy" className="hover:text-[#1DBF73] transition">
             Privacy Policy
           </Link>

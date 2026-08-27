@@ -26,7 +26,7 @@ export function LogoMark({
   return (
     <div
       id={id}
-      className={`relative ${sizeClasses[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`}
+      className={`relative ${sizeClasses[size]} shrink-0`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -70,12 +70,12 @@ export default function Logo({
   const content = (
     <div
       id={id}
-      className={`flex items-center gap-3 group cursor-pointer ${className}`}
+      className={`flex items-center gap-3 cursor-pointer ${className}`}
     >
       <LogoMark size={size} id={markId} />
       {showText && (
         <span
-          className={`font-bold text-[#222325] transition-colors duration-300 group-hover:text-[#1DBF73] ${textSizes[size]}`}
+          className={`font-bold text-[#222325] ${textSizes[size]}`}
         >
           Labto AI
         </span>

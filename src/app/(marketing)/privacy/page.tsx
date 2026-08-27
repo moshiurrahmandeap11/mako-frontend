@@ -112,7 +112,7 @@ export default function PrivacyPage() {
                 <strong className="text-[#201515]">Cloud Storage & Database (Neon PostgreSQL):</strong> SOC2-compliant PostgreSQL database hosting with AES-256 encryption at rest.
               </li>
               <li>
-                <strong className="text-[#201515]">Payment Processing (Polar.sh / Stripe):</strong> PCI-DSS Level 1 compliant payment gateways. Labto AI never stores full credit card numbers on its servers.
+                <strong className="text-[#201515]">Payment Processing (Polar.sh):</strong> PCI-DSS Level 1 compliant payment gateways. Labto AI never stores full credit card numbers on its servers.
               </li>
             </ul>
           </section>
