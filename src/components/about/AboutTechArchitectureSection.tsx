@@ -22,7 +22,7 @@ export default function AboutTechArchitectureSection() {
     },
     {
       icon: <CreditCard className="w-6 h-6 text-[#1DBF73]" />,
-      name: "Polar.sh & Stripe Billing",
+      name: "Polar.sh Billing",
       detail:
         "PCI-DSS Level 1 compliant subscription processing with automated credit tracking and 100% unused credit rollover on active plans.",
     },
