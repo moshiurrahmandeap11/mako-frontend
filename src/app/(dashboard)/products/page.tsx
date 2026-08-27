@@ -277,22 +277,47 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* Search Input Filter */}
-      <div className="relative">
-        <Search
-          className="w-4 h-4 text-[#74767E] absolute left-3.5 top-1/2 -translate-y-1/2"
-          strokeWidth={1.5}
-        />
-        <input
-          type="text"
-          placeholder="Search products by title, category, or description..."
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage(1);
-          }}
-          className="w-full pl-10 pr-4 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73] transition"
-        />
+      {/* Search & Domain Filter Controls */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+        <div className="relative flex-1">
+          <Search
+            className="w-4 h-4 text-[#74767E] absolute left-3.5 top-1/2 -translate-y-1/2"
+            strokeWidth={1.5}
+          />
+          <input
+            type="text"
+            placeholder="Search products by title, category, or description..."
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            className="w-full pl-10 pr-4 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73] transition"
+          />
+        </div>
+
+        {/* Domain Filter Dropdown */}
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325]">
+            <Globe className="w-3.5 h-3.5 text-[#1DBF73]" />
+            <select
+              value={selectedDomain}
+              onChange={(e) => {
+                setSelectedDomain(e.target.value);
+                setPage(1);
+              }}
+              aria-label="Filter products by domain"
+              className="bg-transparent text-xs text-[#222325] focus:outline-none cursor-pointer pr-1 font-medium"
+            >
+              <option value="all">All Websites & Domains</option>
+              {availableDomains.map((d) => (
+                <option key={d} value={d}>
+                  {d}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
 
       {/* Product Table List */}
@@ -327,71 +352,85 @@ export default function ProductsPage() {
                       className="w-8 h-8 mx-auto mb-2 opacity-40 text-[#74767E]"
                       strokeWidth={1.5}
                     />
-                    No products found in catalog. Add your first item or upload
-                    an Excel/CSV spreadsheet!
+                    No products found for this filter.
                   </td>
                 </tr>
               ) : (
-                products.map((p) => (
-                  <tr key={p.id} className="hover:bg-[#F7F7F7] transition">
-                    <td className="py-3.5 px-4 flex items-center gap-3">
-                      {p.imageUrl ? (
-                        <img
-                          src={p.imageUrl}
-                          alt={p.title}
-                          className="w-9 h-9 rounded-md object-cover bg-slate-100 border border-[#E4E5E7]"
-                        />
-                      ) : (
-                        <div className="w-9 h-9 rounded-md bg-slate-100 border border-[#E4E5E7] flex items-center justify-center text-[#74767E] text-xs">
-                          📦
+                products.map((p) => {
+                  let hostname = "";
+                  try {
+                    hostname = new URL(p.productUrl).hostname;
+                  } catch {}
+
+                  return (
+                    <tr key={p.id} className="hover:bg-[#F7F7F7] transition">
+                      <td className="py-3.5 px-4 flex items-center gap-3">
+                        {p.imageUrl ? (
+                          <img
+                            src={p.imageUrl}
+                            alt={p.title}
+                            className="w-9 h-9 rounded-md object-cover bg-slate-100 border border-[#E4E5E7]"
+                          />
+                        ) : (
+                          <div className="w-9 h-9 rounded-md bg-slate-100 border border-[#E4E5E7] flex items-center justify-center text-[#74767E] text-xs">
+                            📦
+                          </div>
+                        )}
+                        <div>
+                          <p className="font-normal text-[#222325] text-sm line-clamp-1">
+                            {p.title}
+                          </p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <a
+                              href={p.productUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-xs text-[#1DBF73] hover:underline line-clamp-1 font-normal"
+                            >
+                              {p.productUrl}
+                            </a>
+                            {hostname && (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-100 text-slate-600 border border-slate-200">
+                                <Globe className="w-2.5 h-2.5 text-[#1DBF73]" />
+                                {hostname}
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      )}
-                      <div>
-                        <p className="font-normal text-[#222325] text-sm line-clamp-1">
-                          {p.title}
-                        </p>
-                        <a
-                          href={p.productUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-xs text-[#1DBF73] hover:underline line-clamp-1 font-normal"
-                        >
-                          {p.productUrl}
-                        </a>
-                      </div>
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <span className="inline-block px-2 py-0.5 rounded-md text-xs font-normal bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7]">
-                        {p.category || "General"}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 font-medium text-[#222325]">
-                      ${Number(p.price).toFixed(2)} {p.currency}
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <span
-                        className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-normal border ${p.inStock ? "bg-[#F0F2F5] text-[#62646A] border-[#E4E5E7]" : "bg-rose-50 text-rose-600 border-rose-200"}`}
-                      >
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <span className="inline-block px-2 py-0.5 rounded-md text-xs font-normal bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7]">
+                          {p.category || "General"}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-medium text-[#222325]">
+                        ${Number(p.price).toFixed(2)} {p.currency}
+                      </td>
+                      <td className="py-3.5 px-4">
                         <span
-                          className={`w-1.5 h-1.5 rounded-full ${p.inStock ? "bg-[#1DBF73]" : "bg-rose-500"}`}
-                        />
-                        {p.inStock ? "In Stock" : "Out of Stock"}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 font-mono text-xs text-[#74767E]">
-                      {p.externalId}
-                    </td>
-                    <td className="py-3.5 px-4 text-right">
-                      <button
-                        onClick={() => handleDeleteProduct(p.id)}
-                        className="p-1.5 text-[#74767E] hover:text-rose-600 hover:bg-rose-50 rounded-md transition cursor-pointer"
-                        title="Delete Product"
-                      >
-                        <Trash2 className="w-4 h-4" strokeWidth={1.5} />
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-normal border ${p.inStock ? "bg-[#F0F2F5] text-[#62646A] border-[#E4E5E7]" : "bg-rose-50 text-rose-600 border-rose-200"}`}
+                        >
+                          <span
+                            className={`w-1.5 h-1.5 rounded-full ${p.inStock ? "bg-[#1DBF73]" : "bg-rose-500"}`}
+                          />
+                          {p.inStock ? "In Stock" : "Out of Stock"}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-xs text-[#74767E]">
+                        {p.externalId}
+                      </td>
+                      <td className="py-3.5 px-4 text-right">
+                        <button
+                          onClick={() => handleDeleteProduct(p.id)}
+                          className="p-1.5 text-[#74767E] hover:text-rose-600 hover:bg-rose-50 rounded-md transition cursor-pointer"
+                          title="Delete Product"
+                        >
+                          <Trash2 className="w-4 h-4" strokeWidth={1.5} />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
