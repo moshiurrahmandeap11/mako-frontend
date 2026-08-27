@@ -22,8 +22,8 @@ export const SITE_CONFIG = {
     "E-Commerce Conversational AI",
     "AI Customer Support Automation",
   ],
-  author: "Labto AI Inc.",
-  creator: "Labto AI Inc.",
+  author: "Labto AI",
+  creator: "Labto AI",
 };
 
 export function constructMetadata({
