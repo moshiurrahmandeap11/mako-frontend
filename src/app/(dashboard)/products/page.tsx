@@ -108,9 +108,9 @@ export default function ProductsPage() {
     const result = await swal.fire({
       icon: "warning",
       title: "Delete Product?",
-      text: "This will remove the product and its pgvector embedding.",
+      text: "Are you sure you want to delete this product? It will be permanently removed from your catalog and AI recommendations.",
       showCancelButton: true,
-      confirmButtonText: "Yes, Delete",
+      confirmButtonText: "Delete Product",
       cancelButtonText: "Cancel",
     });
     if (!result.isConfirmed) return;

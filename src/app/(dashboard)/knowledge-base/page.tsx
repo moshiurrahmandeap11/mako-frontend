@@ -312,10 +312,9 @@ export default function KnowledgeBasePage() {
     const result = await swal.fire({
       icon: "warning",
       title: "Delete Knowledge Chunk?",
-      text: "This snippet will be permanently deleted from the AI context.",
+      text: "This snippet will be permanently deleted from the AI assistant knowledge base.",
       showCancelButton: true,
-      confirmButtonText: "Yes, Delete",
-      confirmButtonColor: "#ef4444",
+      confirmButtonText: "Delete Chunk",
       cancelButtonText: "Cancel",
     });
 
@@ -356,8 +355,7 @@ export default function KnowledgeBasePage() {
         ? `This will permanently delete only the knowledge chunks associated with ${domainLabel}. Other domains will not be affected.`
         : "This will permanently wipe all scraped and indexed content across all stores.",
       showCancelButton: true,
-      confirmButtonText: `Yes, Clear ${isSpecificDomain ? "Domain" : "All"}`,
-      confirmButtonColor: "#ef4444",
+      confirmButtonText: `Clear ${isSpecificDomain ? "Domain" : "All Data"}`,
       cancelButtonText: "Cancel",
     });
 

@@ -1,31 +1,35 @@
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 /**
- * Pre-themed SweetAlert2 instance matching the Labto AI dark slate/amber design system.
+ * Pre-themed SweetAlert2 instance matching the Labto AI Clean White Dashboard Design System.
  *
- * Colors:
- *  - Background : #0f172a  (slate-950)
- *  - Title      : #ffffff  (white)
- *  - Text       : #94a3b8  (slate-400)
- *  - Confirm btn: #f59e0b  (amber-500) with slate-950 text
- *  - Cancel btn : transparent, slate border
- *  - Danger btn : #f43f5e  (rose-500)
+ * Rules:
+ *  - Strict shadow-none
+ *  - Strict rounded-md (6px)
+ *  - Background : #FFFFFF (white)
+ *  - Border     : #E4E5E7
+ *  - Title      : #222325
+ *  - Text       : #62646A
+ *  - Confirm btn: #E11D48 (rose-600) for destructive actions
+ *  - Cancel btn : #FFFFFF with #E4E5E7 border, text #222325
  */
 const swal = Swal.mixin({
-  background: '#0f172a',
-  color: '#94a3b8',
+  background: "#FFFFFF",
+  color: "#222325",
   customClass: {
     popup:
-      'border border-slate-800 rounded-2xl shadow-2xl',
-    title: '!text-white !font-bold !text-lg !tracking-tight',
-    htmlContainer: '!text-slate-400 !text-sm',
+      "!bg-white !border !border-[#E4E5E7] !rounded-md !shadow-none !p-6 max-w-sm",
+    title:
+      "!text-[#222325] !font-medium !text-base !tracking-tight !pt-2 !pb-1",
+    htmlContainer: "!text-[#62646A] !text-xs !leading-relaxed !mt-1 !mb-4",
+    actions: "!gap-2 !mt-2",
     confirmButton:
-      '!bg-amber-500 !text-slate-950 !font-bold !text-xs !uppercase !tracking-wider !px-5 !py-2.5 !rounded-xl hover:!bg-amber-400 focus:!ring-2 focus:!ring-amber-500/50 !transition',
+      "!bg-rose-600 !text-white !font-medium !text-xs !px-4 !py-2 !rounded-md hover:!bg-rose-700 !shadow-none !transition cursor-pointer !outline-none !border-0",
     cancelButton:
-      '!bg-transparent !text-slate-400 !font-bold !text-xs !uppercase !tracking-wider !px-5 !py-2.5 !rounded-xl !border !border-slate-700 hover:!bg-slate-800 hover:!text-white !transition',
+      "!bg-white !text-[#222325] !font-normal !text-xs !px-4 !py-2 !rounded-md !border !border-[#E4E5E7] hover:!bg-[#F7F7F7] !shadow-none !transition cursor-pointer !outline-none",
     denyButton:
-      '!bg-rose-500 !text-white !font-bold !text-xs !uppercase !tracking-wider !px-5 !py-2.5 !rounded-xl hover:!bg-rose-400 focus:!ring-2 focus:!ring-rose-500/50 !transition',
-    icon: '!border-0',
+      "!bg-[#1DBF73] !text-white !font-medium !text-xs !px-4 !py-2 !rounded-md hover:!bg-[#19A463] !shadow-none !transition cursor-pointer !outline-none !border-0",
+    icon: "!border-[#E4E5E7] !scale-90 !my-1",
   },
   buttonsStyling: false,
 });

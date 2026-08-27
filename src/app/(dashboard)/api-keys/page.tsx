@@ -1,26 +1,22 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import {
-  Key,
-  Plus,
-  Copy,
-  Check,
-  ShieldAlert,
-  Bot,
-  Globe,
-} from 'lucide-react';
-import { fetchApi } from '@/lib/api-client';
-import Button from '@/components/Button';
-import swal from '@/lib/swal';
-import { TableRowSkeleton } from '@/components/Skeleton';
-import Link from 'next/link';
+import Button from "@/components/Button";
+import { TableRowSkeleton } from "@/components/Skeleton";
+import { fetchApi } from "@/lib/api-client";
+import swal from "@/lib/swal";
+import { Bot, Check, Copy, Globe, Key, Plus, ShieldAlert } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const TEMPLATE_PROMPTS: Record<string, string> = {
-  'Customer Support': 'You are a professional customer support agent. Answer questions about our products, services, and policies. If you don\'t know the answer, politely redirect the user to a human agent. Always be polite and concise.',
-  'FAQ / Knowledge Base': 'You are a knowledgeable FAQ assistant. Answer user questions using only the provided store information and policy facts. Be direct and avoid conversation filler.',
-  'Booking & Scheduling': 'You are a scheduling assistant. Help the user find suitable times for appointments or support calls. Guide them through our opening hours and capture their preferred slots.',
-  'Customer Support & Sales': 'You are a helpful Labto AI Assistant. Assist users with their inquiries, provide customer support, recommend services, and help capture leads.',
+  "Customer Support":
+    "You are a professional customer support agent. Answer questions about our products, services, and policies. If you don't know the answer, politely redirect the user to a human agent. Always be polite and concise.",
+  "FAQ / Knowledge Base":
+    "You are a knowledgeable FAQ assistant. Answer user questions using only the provided store information and policy facts. Be direct and avoid conversation filler.",
+  "Booking & Scheduling":
+    "You are a scheduling assistant. Help the user find suitable times for appointments or support calls. Guide them through our opening hours and capture their preferred slots.",
+  "Customer Support & Sales":
+    "You are a helpful Labto AI Assistant. Assist users with their inquiries, provide customer support, recommend services, and help capture leads.",
 };
 
 export default function ApiKeysPage() {
@@ -29,9 +25,9 @@ export default function ApiKeysPage() {
 
   // Form Config State
   const [showConfig, setShowConfig] = useState(false);
-  const [name, setName] = useState('');
-  const [template, setTemplate] = useState('Customer Support');
-  const [prompt, setPrompt] = useState(TEMPLATE_PROMPTS['Customer Support']);
+  const [name, setName] = useState("");
+  const [template, setTemplate] = useState("Customer Support");
+  const [prompt, setPrompt] = useState(TEMPLATE_PROMPTS["Customer Support"]);
 
   // Response UI State
   const [newKeyData, setNewKeyData] = useState<any>(null);
@@ -41,7 +37,7 @@ export default function ApiKeysPage() {
   const loadKeys = async () => {
     setLoading(true);
     try {
-      const data = await fetchApi('/api/keys');
+      const data = await fetchApi("/api/keys");
       setKeys(data.keys || []);
     } catch (err) {
       console.error(err);
@@ -56,7 +52,7 @@ export default function ApiKeysPage() {
 
   const handleTemplateChange = (selectedTemplate: string) => {
     setTemplate(selectedTemplate);
-    setPrompt(TEMPLATE_PROMPTS[selectedTemplate] || '');
+    setPrompt(TEMPLATE_PROMPTS[selectedTemplate] || "");
   };
 
   const handleCreateChatbot = async (e: React.FormEvent) => {
@@ -64,10 +60,10 @@ export default function ApiKeysPage() {
     setGenerating(true);
     setNewKeyData(null);
     try {
-      const data = await fetchApi('/api/keys', {
-        method: 'POST',
+      const data = await fetchApi("/api/keys", {
+        method: "POST",
         body: JSON.stringify({
-          name: name || 'My Support Bot',
+          name: name || "My Support Bot",
           template,
           systemPrompt: prompt,
           allowedDomains: [],
@@ -75,14 +71,14 @@ export default function ApiKeysPage() {
       });
       setNewKeyData(data.apiKey);
       setShowConfig(false);
-      setName('');
+      setName("");
       loadKeys();
     } catch (err: any) {
       swal.fire({
-        icon: 'error',
-        title: 'Generation Failed',
-        text: err.message || 'Failed to generate API Key.',
-        confirmButtonText: 'OK',
+        icon: "error",
+        title: "Generation Failed",
+        text: err.message || "Failed to generate API Key.",
+        confirmButtonText: "OK",
       });
     } finally {
       setGenerating(false);
@@ -91,64 +87,64 @@ export default function ApiKeysPage() {
 
   const handleRevokeKey = async (id: string) => {
     const result = await swal.fire({
-      icon: 'warning',
-      title: 'Revoke API Key?',
-      text: 'Embedded widgets using this key will immediately stop functioning.',
+      icon: "warning",
+      title: "Revoke API Key?",
+      text: "Embedded widgets using this key will immediately stop functioning.",
       showCancelButton: true,
-      confirmButtonText: 'Yes, Revoke It',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: "Revoke Key",
+      cancelButtonText: "Cancel",
     });
     if (!result.isConfirmed) return;
 
     try {
-      await fetchApi(`/api/keys/${id}`, { method: 'DELETE' });
+      await fetchApi(`/api/keys/${id}`, { method: "DELETE" });
       loadKeys();
       swal.fire({
-        icon: 'success',
-        title: 'Key Revoked',
-        text: 'The API key has been successfully revoked.',
-        confirmButtonText: 'OK',
+        icon: "success",
+        title: "Key Revoked",
+        text: "The API key has been successfully revoked.",
+        confirmButtonText: "OK",
         timer: 2500,
         timerProgressBar: true,
       });
     } catch (err: any) {
       swal.fire({
-        icon: 'error',
-        title: 'Revoke Failed',
-        text: err.message || 'Failed to revoke key.',
-        confirmButtonText: 'OK',
+        icon: "error",
+        title: "Revoke Failed",
+        text: err.message || "Failed to revoke key.",
+        confirmButtonText: "OK",
       });
     }
   };
 
   const handleDeleteKey = async (id: string) => {
     const result = await swal.fire({
-      icon: 'error',
-      title: 'Delete API Key?',
-      text: 'This action is permanent and cannot be undone. All widgets using this key will break.',
+      icon: "error",
+      title: "Delete API Key?",
+      text: "This action is permanent and cannot be undone. All widgets using this key will break.",
       showCancelButton: true,
-      confirmButtonText: 'Yes, Delete',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: "Delete Key",
+      cancelButtonText: "Cancel",
     });
     if (!result.isConfirmed) return;
 
     try {
-      await fetchApi(`/api/keys/${id}/delete`, { method: 'DELETE' });
+      await fetchApi(`/api/keys/${id}/delete`, { method: "DELETE" });
       loadKeys();
       swal.fire({
-        icon: 'success',
-        title: 'Key Deleted',
-        text: 'The API key has been permanently removed.',
-        confirmButtonText: 'OK',
+        icon: "success",
+        title: "Key Deleted",
+        text: "The API key has been permanently removed.",
+        confirmButtonText: "OK",
         timer: 2500,
         timerProgressBar: true,
       });
     } catch (err: any) {
       swal.fire({
-        icon: 'error',
-        title: 'Delete Failed',
-        text: err.message || 'Failed to delete key.',
-        confirmButtonText: 'OK',
+        icon: "error",
+        title: "Delete Failed",
+        text: err.message || "Failed to delete key.",
+        confirmButtonText: "OK",
       });
     }
   };
@@ -165,14 +161,23 @@ export default function ApiKeysPage() {
     <div className="space-y-3">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="mb-4">
-          <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight">API Key Security</h1>
-          <p className="text-[#62646A] text-xs sm:text-sm mt-1">Manage API keys used to authenticate widget requests from your storefront</p>
+          <h1 className="text-xl sm:text-2xl font-normal text-[#222325] tracking-tight">
+            API Key Security
+          </h1>
+          <p className="text-[#62646A] text-xs sm:text-sm mt-1">
+            Manage API keys used to authenticate widget requests from your
+            storefront
+          </p>
         </div>
 
-        <Button onClick={() => setShowConfig(!showConfig)} variant="primary" className="!font-normal text-xs sm:text-sm">
+        <Button
+          onClick={() => setShowConfig(!showConfig)}
+          variant="primary"
+          className="!font-normal text-xs sm:text-sm"
+        >
           <span className="flex items-center gap-2">
             <Plus className="w-4 h-4" strokeWidth={1.5} />
-            <span>{showConfig ? 'Cancel' : 'Create New API Key'}</span>
+            <span>{showConfig ? "Cancel" : "Create New API Key"}</span>
           </span>
         </Button>
       </div>
@@ -182,13 +187,17 @@ export default function ApiKeysPage() {
         <div className="bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 space-y-4">
           <div className="flex items-center gap-2 border-b border-[#E4E5E7] pb-3">
             <Bot className="w-4 h-4 text-[#74767E]" strokeWidth={1.5} />
-            <h2 className="text-base font-medium text-[#222325]">Configure New Chatbot API Key</h2>
+            <h2 className="text-base font-medium text-[#222325]">
+              Configure New Chatbot API Key
+            </h2>
           </div>
 
           <form onSubmit={handleCreateChatbot} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-normal text-[#404145] mb-1.5">Chatbot Name</label>
+                <label className="block text-xs font-normal text-[#404145] mb-1.5">
+                  Chatbot Name
+                </label>
                 <input
                   type="text"
                   required
@@ -200,21 +209,27 @@ export default function ApiKeysPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-normal text-[#404145] mb-1.5">Persona Template</label>
+                <label className="block text-xs font-normal text-[#404145] mb-1.5">
+                  Persona Template
+                </label>
                 <select
                   value={template}
                   onChange={(e) => handleTemplateChange(e.target.value)}
                   className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] focus:outline-none focus:border-[#1DBF73]"
                 >
                   {Object.keys(TEMPLATE_PROMPTS).map((t) => (
-                    <option key={t} value={t}>{t}</option>
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
                   ))}
                 </select>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-normal text-[#404145] mb-1.5">System Instructions / Prompt</label>
+              <label className="block text-xs font-normal text-[#404145] mb-1.5">
+                System Instructions / Prompt
+              </label>
               <textarea
                 rows={3}
                 value={prompt}
@@ -225,17 +240,31 @@ export default function ApiKeysPage() {
 
             <div className="p-3 rounded-md bg-[#F7F7F7] border border-[#E4E5E7] flex items-center justify-between text-xs font-normal">
               <div className="flex items-center gap-2 text-[#404145]">
-                <Globe className="w-4 h-4 text-[#74767E] shrink-0" strokeWidth={1.5} />
-                <span>Allowed host domains are managed globally under <strong>Widget Settings</strong>.</span>
+                <Globe
+                  className="w-4 h-4 text-[#74767E] shrink-0"
+                  strokeWidth={1.5}
+                />
+                <span>
+                  Allowed host domains are managed globally under{" "}
+                  <strong>Widget Settings</strong>.
+                </span>
               </div>
-              <Link href="/widget-settings" className="text-[#1DBF73] hover:underline font-normal ml-2">
+              <Link
+                href="/widget-settings"
+                className="text-[#1DBF73] hover:underline font-normal ml-2"
+              >
                 Manage →
               </Link>
             </div>
 
             <div className="flex justify-end pt-2 border-t border-[#E4E5E7]">
-              <Button type="submit" disabled={generating} variant="primary" className="!font-normal text-xs">
-                {generating ? 'Generating...' : 'Save & Generate Key'}
+              <Button
+                type="submit"
+                disabled={generating}
+                variant="primary"
+                className="!font-normal text-xs"
+              >
+                {generating ? "Generating..." : "Save & Generate Key"}
               </Button>
             </div>
           </form>
@@ -250,17 +279,26 @@ export default function ApiKeysPage() {
             <span className="text-[#222325]">Save Your API Key Now!</span>
           </div>
           <p className="text-xs text-[#62646A]">
-            This is the only time your unhashed API key will be displayed. Copy and save it safely:
+            This is the only time your unhashed API key will be displayed. Copy
+            and save it safely:
           </p>
 
           <div className="flex items-center gap-3">
             <code className="flex-1 p-2.5 bg-white border border-[#E4E5E7] rounded-md font-mono text-xs text-[#222325] select-all overflow-x-auto font-medium">
               {newKeyData.fullKey}
             </code>
-            <Button onClick={copyFullKey} variant="primary" className="!font-normal text-xs">
+            <Button
+              onClick={copyFullKey}
+              variant="primary"
+              className="!font-normal text-xs"
+            >
               <span className="flex items-center gap-1.5">
-                {copied ? <Check className="w-3.5 h-3.5" strokeWidth={1.5} /> : <Copy className="w-3.5 h-3.5" strokeWidth={1.5} />}
-                <span>{copied ? 'Copied' : 'Copy'}</span>
+                {copied ? (
+                  <Check className="w-3.5 h-3.5" strokeWidth={1.5} />
+                ) : (
+                  <Copy className="w-3.5 h-3.5" strokeWidth={1.5} />
+                )}
+                <span>{copied ? "Copied" : "Copy"}</span>
               </span>
             </Button>
           </div>
@@ -290,34 +328,51 @@ export default function ApiKeysPage() {
                 </>
               ) : keys.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-12 text-[#74767E] text-xs font-normal">
-                    <Key className="w-8 h-8 mx-auto mb-2 opacity-40 text-[#74767E]" strokeWidth={1.5} />
-                    No API keys found. Click &quot;Create New API Key&quot; to generate your first key!
+                  <td
+                    colSpan={6}
+                    className="text-center py-12 text-[#74767E] text-xs font-normal"
+                  >
+                    <Key
+                      className="w-8 h-8 mx-auto mb-2 opacity-40 text-[#74767E]"
+                      strokeWidth={1.5}
+                    />
+                    No API keys found. Click &quot;Create New API Key&quot; to
+                    generate your first key!
                   </td>
                 </tr>
               ) : (
                 keys.map((k) => (
                   <tr key={k.id} className="hover:bg-[#F7F7F7] transition">
                     <td className="py-3.5 px-4">
-                      <p className="font-normal text-[#222325] text-xs">{k.name || 'Chatbot API Key'}</p>
-                      <p className="font-mono text-[11px] text-[#62646A] font-normal">{k.keyPrefix}****************</p>
+                      <p className="font-normal text-[#222325] text-xs">
+                        {k.name || "Chatbot API Key"}
+                      </p>
+                      <p className="font-mono text-[11px] text-[#62646A] font-normal">
+                        {k.keyPrefix}****************
+                      </p>
                     </td>
                     <td className="py-3.5 px-4">
                       <span className="inline-block px-2 py-0.5 rounded-md text-xs font-normal bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7]">
-                        {k.template || 'Customer Support'}
+                        {k.template || "Customer Support"}
                       </span>
                     </td>
                     <td className="py-3.5 px-4">
-                      <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-normal border ${k.isActive ? 'bg-[#F0F2F5] text-[#62646A] border-[#E4E5E7]' : 'bg-slate-100 text-[#74767E] border-slate-200'}`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${k.isActive ? 'bg-[#1DBF73]' : 'bg-slate-400'}`} />
-                        {k.isActive ? 'Active' : 'Revoked'}
+                      <span
+                        className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-normal border ${k.isActive ? "bg-[#F0F2F5] text-[#62646A] border-[#E4E5E7]" : "bg-slate-100 text-[#74767E] border-slate-200"}`}
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${k.isActive ? "bg-[#1DBF73]" : "bg-slate-400"}`}
+                        />
+                        {k.isActive ? "Active" : "Revoked"}
                       </span>
                     </td>
                     <td className="py-3.5 px-4 text-xs text-[#74767E]">
                       {new Date(k.createdAt).toLocaleDateString()}
                     </td>
                     <td className="py-3.5 px-4 text-xs text-[#74767E]">
-                      {k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleString() : 'Never'}
+                      {k.lastUsedAt
+                        ? new Date(k.lastUsedAt).toLocaleString()
+                        : "Never"}
                     </td>
                     <td className="py-3.5 px-4 text-right">
                       <div className="flex justify-end gap-2">
