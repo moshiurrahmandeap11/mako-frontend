@@ -5,9 +5,9 @@ import AboutMissionSection from "@/components/about/AboutMissionSection";
 import AboutPillarsSection from "@/components/about/AboutPillarsSection";
 
 export const metadata: Metadata = constructMetadata({
-  title: "About Labto AI — Autonomous E-Commerce AI Sales Assistant",
+  title: "About Labto AI — Autonomous AI Assistant",
   description:
-    "Learn about Labto AI: Our mission to empower e-commerce storefronts with sub-second RAG pgvector catalog search, zero-hallucination policy grounding, and merchant data privacy.",
+    "Learn about Labto AI: Our mission to empower storefronts with sub-second RAG pgvector catalog search, zero-hallucination policy grounding, and merchant data privacy.",
   canonicalUrl: "/about",
   keywords: [
     "About Labto AI",
@@ -25,7 +25,7 @@ export default function AboutPage() {
     "@type": "AboutPage",
     name: "About Labto AI",
     description:
-      "Autonomous AI sales assistant and shopping concierge for modern e-commerce storefronts.",
+      "Autonomous AI sales assistant and shopping concierge for modern storefronts.",
     url: `${SITE_CONFIG.url}/about`,
     publisher: {
       "@type": "Organization",

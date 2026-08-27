@@ -4,7 +4,7 @@ export default function AboutHeroSection() {
       <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto text-left space-y-6">
         {/* Title */}
         <h1 className="font-degular text-3xl sm:text-4xl lg:text-5xl font-medium text-[#201515] tracking-tight leading-tight max-w-3xl">
-          Empowering E-Commerce Stores with Autonomous AI Sales Assistants
+          Empowering E-Commerce Stores with Autonomous AI Assistants
         </h1>
 
         {/* Description */}

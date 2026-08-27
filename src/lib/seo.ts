@@ -5,7 +5,7 @@ export const SITE_CONFIG = {
   title: "Labto AI — Next-Gen AI Shopping Concierge & E-Commerce Copilot",
   description:
     "Autonomous AI sales assistant and shopping concierge for e-commerce storefronts. Sub-second hybrid pgvector search, automated cart mutations, zero-hallucination FAQ resolution, and 1-click embed.",
-  url: process.env.NEXT_PUBLIC_APP_URL || "https://mako-frontend.vercel.app",
+  url: process.env.NEXT_PUBLIC_APP_URL || "https://labtoai.com",
   ogImage: "/og-image.jpg",
   twitterHandle: "@labto_ai",
   keywords: [
