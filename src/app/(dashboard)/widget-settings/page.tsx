@@ -7,7 +7,6 @@ import {
   Bot,
   Check,
   Copy,
-  ExternalLink,
   Loader2,
   MessageSquare,
   Plus,
@@ -451,23 +450,10 @@ export default function WidgetSettingsPage() {
             Widget Settings & Customization
           </h1>
           <p className="text-[#62646A] text-xs sm:text-sm mt-1">
-            Configure assistant branding, whitelisted domains, and test widget
-            live
+            Configure assistant branding, header theme, greeting message, and
+            test widget live
           </p>
         </div>
-
-        {/* Feature 3: Live Test Widget Button */}
-        <Button
-          href="/widget-test"
-          target="_blank"
-          variant="primary"
-          size="sm"
-          icon={<ExternalLink className="w-3.5 h-3.5" />}
-          iconPosition="right"
-          className="!font-normal text-xs shrink-0"
-        >
-          Test Widget Live in New Tab
-        </Button>
       </div>
 
       {/* Main Grid: Settings Controls + Live Interactive Preview */}
