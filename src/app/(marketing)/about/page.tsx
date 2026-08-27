@@ -1,8 +1,8 @@
-import { Metadata } from "next";
-import { constructMetadata, SITE_CONFIG } from "@/lib/seo";
 import AboutHeroSection from "@/components/about/AboutHeroSection";
 import AboutMissionSection from "@/components/about/AboutMissionSection";
 import AboutPillarsSection from "@/components/about/AboutPillarsSection";
+import { constructMetadata, SITE_CONFIG } from "@/lib/seo";
+import { Metadata } from "next";
 
 export const metadata: Metadata = constructMetadata({
   title: "About Labto AI — Autonomous AI Assistant",
