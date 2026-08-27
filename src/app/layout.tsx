@@ -64,6 +64,22 @@ export default function RootLayout({
           }}
         />
 
+        {/* Google Analytics (GA4) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-JSX991ZJDX"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-JSX991ZJDX', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
+
         <Script
           src={
             process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL ||
