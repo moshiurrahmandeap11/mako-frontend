@@ -3,13 +3,16 @@
 import Button from "@/components/Button";
 import { fetchApi } from "@/lib/api-client";
 import {
+  AlertTriangle,
   Bot,
   Check,
   Copy,
   ExternalLink,
   Loader2,
   MessageSquare,
+  Plus,
   RefreshCw,
+  ShieldAlert,
   Trash2,
   Upload,
   X,
@@ -53,6 +56,16 @@ export default function WidgetSettingsPage() {
   const [rescrapingDomain, setRescrapingDomain] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [selectedFramework, setSelectedFramework] = useState("HTML");
+
+  // Quick Create API Key Modal State
+  const [showCreateKeyModal, setShowCreateKeyModal] = useState(false);
+  const [newKeyName, setNewKeyName] = useState("");
+  const [newKeyBotName, setNewKeyBotName] = useState("");
+  const [newKeyDomain, setNewKeyDomain] = useState("");
+  const [newKeyTemplate, setNewKeyTemplate] = useState("Customer Support");
+  const [isCreatingKey, setIsCreatingKey] = useState(false);
+  const [createdKeySecret, setCreatedKeySecret] = useState<string | null>(null);
+  const [createdKeyCopied, setCreatedKeyCopied] = useState(false);
 
   const frameworks = [
     "HTML",
@@ -321,6 +334,72 @@ export default function WidgetSettingsPage() {
     setCopied(true);
     toast.success("Snippet copied to clipboard!");
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const openCreateKeyModal = () => {
+    setNewKeyName("My Web Widget");
+    setNewKeyBotName(config.botName || "AI Assistant");
+    setNewKeyDomain(domains[0] || "");
+    setCreatedKeySecret(null);
+    setCreatedKeyCopied(false);
+    setShowCreateKeyModal(true);
+  };
+
+  const handleQuickCreateKey = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsCreatingKey(true);
+    try {
+      // 1. Whitelist domain if provided
+      const cleanDomain = normalizeDomain(newKeyDomain);
+      if (cleanDomain && !domains.includes(cleanDomain)) {
+        const updatedDomains = [...domains, cleanDomain];
+        await fetchApi("/api/merchant/domains", {
+          method: "PATCH",
+          body: JSON.stringify({ allowedDomains: updatedDomains }),
+        });
+        setDomains(updatedDomains);
+      }
+
+      // 2. Generate API Key
+      const data = await fetchApi("/api/keys", {
+        method: "POST",
+        body: JSON.stringify({
+          name: newKeyName || "My Web Widget",
+          template: newKeyTemplate,
+          allowedDomains: cleanDomain ? [cleanDomain] : [],
+        }),
+      });
+
+      const fullSecret = data.apiKey?.fullKey;
+      if (fullSecret) {
+        setCreatedKeySecret(fullSecret);
+        setCustomKeyInput(fullSecret); // Auto-populates all snippet tabs immediately!
+      }
+
+      // 3. Sync Assistant Bot Name to widget config if changed
+      if (newKeyBotName.trim() && newKeyBotName.trim() !== config.botName) {
+        const updatedConfig = { ...config, botName: newKeyBotName.trim() };
+        setConfig(updatedConfig);
+        await fetchApi("/api/widget-config", {
+          method: "PATCH",
+          body: JSON.stringify(updatedConfig),
+        });
+      }
+
+      // 4. Reload API keys
+      const keysData = await fetchApi("/api/keys");
+      const activeKeys = (keysData.keys || []).filter((k: any) => k.isActive);
+      setApiKeys(activeKeys);
+      if (activeKeys.length > 0) {
+        setSelectedKeyPrefix(activeKeys[0].keyPrefix);
+      }
+
+      toast.success("API Key generated & snippet auto-populated!");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to generate API Key.");
+    } finally {
+      setIsCreatingKey(false);
+    }
   };
 
   const handleResetDefaults = async () => {
@@ -893,20 +972,34 @@ export default function WidgetSettingsPage() {
                 </h2>
               </div>
 
-              <Button
-                onClick={copyEmbedCode}
-                variant="primary"
-                className="!font-normal text-xs"
-              >
-                <span className="flex items-center gap-1.5">
-                  {copied ? (
-                    <Check className="w-3.5 h-3.5" strokeWidth={1.5} />
-                  ) : (
-                    <Copy className="w-3.5 h-3.5" strokeWidth={1.5} />
-                  )}
-                  <span>{copied ? "Copied!" : "Copy Code"}</span>
-                </span>
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  onClick={openCreateKeyModal}
+                  variant="outline"
+                  className="!font-normal text-xs border-[#1DBF73] text-[#1DBF73] hover:bg-[#1DBF73]/10"
+                >
+                  <span className="flex items-center gap-1.5">
+                    <Plus className="w-3.5 h-3.5" strokeWidth={1.5} />
+                    <span>Create API Key</span>
+                  </span>
+                </Button>
+
+                <Button
+                  onClick={copyEmbedCode}
+                  variant="primary"
+                  className="!font-normal text-xs"
+                >
+                  <span className="flex items-center gap-1.5">
+                    {copied ? (
+                      <Check className="w-3.5 h-3.5" strokeWidth={1.5} />
+                    ) : (
+                      <Copy className="w-3.5 h-3.5" strokeWidth={1.5} />
+                    )}
+                    <span>{copied ? "Copied!" : "Copy Code"}</span>
+                  </span>
+                </Button>
+              </div>
             </div>
 
             {/* API Key Input Option */}
@@ -1066,6 +1159,221 @@ export default function WidgetSettingsPage() {
           </div>
         </div>
       </div>
+
+      {/* 1-Click Quick Create API Key Modal */}
+      {showCreateKeyModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white border border-[#E4E5E7] rounded-lg shadow-xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#E4E5E7] bg-[#F8FAFC]">
+              <div className="flex items-center gap-2.5">
+                <div>
+                  <h3 className="text-sm text-[#0F172A]">
+                    {createdKeySecret
+                      ? "API Key Generated Successfully"
+                      : "Create & Integrate API Key"}
+                  </h3>
+                  <p className="text-[11px] text-[#64748B]">
+                    {createdKeySecret
+                      ? "Auto-populated into your widget snippets below"
+                      : "Generate an API key and instantly auto-populate your embed snippet"}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowCreateKeyModal(false)}
+                className="text-[#94A3B8] hover:text-[#0F172A] p-1 rounded-md hover:bg-[#E2E8F0] transition cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            {createdKeySecret ? (
+              <div className="p-5 space-y-4">
+                {/* One-Time Visibility Notice */}
+                <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-md flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                  <div className="text-xs text-amber-900 space-y-1">
+                    <p className="font-semibold">
+                      ⚠️ One-Time Visibility Notice:
+                    </p>
+                    <p className="text-[11.5px] leading-relaxed">
+                      For security, your full raw API Key is displayed{" "}
+                      <strong>ONLY ONCE</strong>. It has been automatically
+                      filled into the embed snippet on this page. Copy and store
+                      it safely if you need it elsewhere!
+                    </p>
+                  </div>
+                </div>
+
+                {/* Secret Key Display Box */}
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-medium text-[#404145]">
+                    Your Secret API Key:
+                  </label>
+                  <div className="flex items-center gap-2 bg-[#F1F5F9] border border-[#CBD5E1] p-2.5 rounded-md">
+                    <code className="text-xs font-mono text-[#0F172A] flex-1 break-all select-all">
+                      {createdKeySecret}
+                    </code>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(createdKeySecret);
+                        setCreatedKeyCopied(true);
+                        toast.success("API Key copied!");
+                        setTimeout(() => setCreatedKeyCopied(false), 2000);
+                      }}
+                      className="px-2.5 py-1.5 bg-white border border-[#CBD5E1] hover:border-[#1DBF73] text-xs text-[#0F172A] rounded flex items-center gap-1 shrink-0 font-medium transition cursor-pointer"
+                    >
+                      {createdKeyCopied ? (
+                        <Check className="w-3.5 h-3.5 text-[#1DBF73]" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )}
+                      <span>{createdKeyCopied ? "Copied" : "Copy"}</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="pt-2 flex gap-2">
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setShowCreateKeyModal(false);
+                      copyEmbedCode();
+                    }}
+                    variant="primary"
+                    className="w-full text-xs font-medium"
+                  >
+                    <span className="flex items-center justify-center gap-1.5">
+                      <Check className="w-3.5 h-3.5" />
+                      <span>Done & Copy Embed Snippet</span>
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleQuickCreateKey} className="p-5 space-y-3.5">
+                {/* Notice */}
+                <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-md flex items-start gap-2">
+                  <ShieldAlert className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                  <p className="text-[11.5px] text-blue-800 leading-snug">
+                    Creating an API key here will automatically inject it into
+                    all code snippets on this page and whitelist the domain
+                    instantly.
+                  </p>
+                </div>
+
+                {/* Key / Project Name */}
+                <div>
+                  <label className="block text-xs font-medium text-[#404145] mb-1">
+                    API Key / Project Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. My Next.js Store, Portfolio Widget"
+                    value={newKeyName}
+                    onChange={(e) => setNewKeyName(e.target.value)}
+                    className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] placeholder-[#94A3B8] focus:outline-none focus:border-[#1DBF73]"
+                  />
+                </div>
+
+                {/* Assistant Bot Name */}
+                <div>
+                  <label className="block text-xs font-medium text-[#404145] mb-1">
+                    Assistant Bot Name
+                  </label>
+                  <div className="relative">
+                    <Bot className="w-3.5 h-3.5 text-[#94A3B8] absolute left-3 top-2.5" />
+                    <input
+                      type="text"
+                      placeholder="e.g. AI Assistant, Shop Support Bot"
+                      value={newKeyBotName}
+                      onChange={(e) => setNewKeyBotName(e.target.value)}
+                      className="w-full pl-8 pr-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] placeholder-[#94A3B8] focus:outline-none focus:border-[#1DBF73]"
+                    />
+                  </div>
+                  <p className="text-[10.5px] text-[#94A3B8] mt-0.5">
+                    This name will appear as the bot title in the chat widget
+                    header.
+                  </p>
+                </div>
+
+                {/* Domain Whitelist */}
+                <div>
+                  <label className="block text-xs font-medium text-[#404145] mb-1">
+                    Website Domain to Whitelist
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. my-site.com or https://store.vercel.app"
+                    value={newKeyDomain}
+                    onChange={(e) => setNewKeyDomain(e.target.value)}
+                    className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] placeholder-[#94A3B8] focus:outline-none focus:border-[#1DBF73]"
+                  />
+                  <p className="text-[10.5px] text-[#94A3B8] mt-0.5">
+                    Authorized domain where the widget will be embedded.
+                  </p>
+                </div>
+
+                {/* Template Selection */}
+                <div>
+                  <label className="block text-xs font-medium text-[#404145] mb-1">
+                    Bot Persona / Template
+                  </label>
+                  <select
+                    value={newKeyTemplate}
+                    onChange={(e) => setNewKeyTemplate(e.target.value)}
+                    className="w-full px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] focus:outline-none focus:border-[#1DBF73]"
+                  >
+                    <option value="Customer Support">
+                      Customer Support & Sales Agent
+                    </option>
+                    <option value="FAQ / Knowledge Base">
+                      FAQ / Knowledge Base Assistant
+                    </option>
+                    <option value="Booking & Scheduling">
+                      Booking & Scheduling
+                    </option>
+                  </select>
+                </div>
+
+                {/* Modal Footer */}
+                <div className="pt-3 border-t border-[#E4E5E7] flex justify-end gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setShowCreateKeyModal(false)}
+                    className="text-xs font-normal"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    disabled={isCreatingKey || !newKeyName.trim()}
+                    className="text-xs font-medium"
+                  >
+                    {isCreatingKey ? (
+                      <span className="flex items-center gap-1.5">
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Generating...</span>
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1.5">
+                        <span>Generate & Auto-Populate</span>
+                      </span>
+                    )}
+                  </Button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

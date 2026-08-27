@@ -1,29 +1,39 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import Button from "@/components/Button";
+import { api } from "@/lib/axios";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  Send,
   CheckCircle,
   Mail,
   MessageSquare,
+  Send,
   ShieldCheck,
 } from "lucide-react";
-import Button from "@/components/Button";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function ContactClient() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await api.post("/api/contact", form);
       setSubmitted(true);
       setForm({ name: "", email: "", message: "" });
-    }, 1200);
+      toast.success("Inquiry sent successfully!");
+    } catch (err: any) {
+      toast.error(
+        err?.response?.data?.error ||
+          "Failed to submit message. Please try again.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -60,9 +70,7 @@ export default function ContactClient() {
               </div>
               <div>
                 <p className="font-bold text-text-main">Direct Email</p>
-                <p className="text-text-muted mt-0.5">
-                  hello@ahsanul.dev
-                </p>
+                <p className="text-text-muted mt-0.5">hello@ahsanul.dev</p>
               </div>
             </div>
             <div className="flex items-center gap-4 text-xs text-text-body">

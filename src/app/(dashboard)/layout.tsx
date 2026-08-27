@@ -1,7 +1,6 @@
 "use client";
 
 import DashPageHeader from "@/components/DashPageHeader";
-import Logo from "@/components/Logo";
 import Sidebar from "@/components/Sidebar";
 import { Skeleton } from "@/components/Skeleton";
 import { fetchApi } from "@/lib/api-client";
@@ -57,15 +56,8 @@ export default function DashboardLayout({
     email: session?.user?.email || merchant?.email,
     image: session?.user?.image || merchant?.image,
   };
-  const adminEmail = (
-    process.env.NEXT_PUBLIC_ADMIN_EMAIL || "admin@ahsanul.dev"
-  )
-    .trim()
-    .toLowerCase();
-  const userEmail = merchant?.email?.trim().toLowerCase();
   const isAdmin = Boolean(
-    merchant &&
-    (merchant.isAdmin === true || (userEmail && userEmail === adminEmail)),
+    merchant && (merchant.isAdmin === true || merchant.role === "ADMIN"),
   );
 
   // Automatically close mobile nav on route change
@@ -149,7 +141,11 @@ export default function DashboardLayout({
           isMobileNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <Sidebar merchant={merchant} isAdmin={isAdmin} onCloseMobileNav={() => setIsMobileNavOpen(false)} />
+        <Sidebar
+          merchant={merchant}
+          isAdmin={isAdmin}
+          onCloseMobileNav={() => setIsMobileNavOpen(false)}
+        />
       </div>
 
       {/* Main Page Area */}
@@ -169,4 +165,3 @@ export default function DashboardLayout({
     </div>
   );
 }
-
