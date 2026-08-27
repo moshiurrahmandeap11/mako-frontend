@@ -29,7 +29,7 @@ export default function AboutPage() {
     url: `${SITE_CONFIG.url}/about`,
     publisher: {
       "@type": "Organization",
-      name: "Labto AI Inc.",
+      name: "Labto AI",
       url: SITE_CONFIG.url,
       email: "support@labtoai.com",
     },
