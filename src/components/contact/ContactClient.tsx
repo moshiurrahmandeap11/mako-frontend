@@ -70,7 +70,7 @@ export default function ContactClient() {
               </div>
               <div>
                 <p className="font-bold text-text-main">Direct Email</p>
-                <p className="text-text-muted mt-0.5">hello@ahsanul.dev</p>
+                <p className="text-text-muted mt-0.5">support@labtoai.com</p>
               </div>
             </div>
             <div className="flex items-center gap-4 text-xs text-text-body">

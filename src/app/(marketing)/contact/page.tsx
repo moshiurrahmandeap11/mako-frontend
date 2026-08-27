@@ -24,8 +24,8 @@ export default function ContactPage() {
     url: `${SITE_CONFIG.url}/contact`,
     mainEntity: {
       "@type": "Organization",
-      name: "Labto AI Inc.",
-      email: "support@labto.ahsanul.dev",
+      name: "Labto AI",
+      email: "support@labtoai.com",
       url: SITE_CONFIG.url,
     },
   };

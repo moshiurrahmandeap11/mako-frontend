@@ -132,7 +132,7 @@ export function generateOrganizationSchema() {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer support",
-      email: "support@labto.ahsanul.dev",
+      email: "support@labtoai.com",
       availableLanguage: ["English"],
     },
   };

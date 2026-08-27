@@ -31,7 +31,7 @@ export default function AboutPage() {
       "@type": "Organization",
       name: "Labto AI Inc.",
       url: SITE_CONFIG.url,
-      email: "support@labto.ahsanul.dev",
+      email: "support@labtoai.com",
     },
   };
 
