@@ -37,7 +37,7 @@ export default function ContactClient() {
   };
 
   return (
-    <div className="relative min-h-screen bg-white text-text-main flex flex-col overflow-hidden">
+    <div className="relative flex-1 bg-white text-text-main flex flex-col overflow-hidden py-8 lg:py-0">
       <main className="relative z-10 flex-1 lg:max-w-9/12 mx-auto w-full px-6 lg:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         {/* Left Info Column */}
         <div className="lg:col-span-5 space-y-8 text-left">

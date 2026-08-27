@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import FeaturesSection from "@/components/home/FeaturesSection";
-import FooterSection from "@/components/home/FooterSection";
 import HeroSection from "@/components/home/HeroSection";
 import PlatformLogosBar from "@/components/home/PlatformLogosBar";
 import FaqSection from "@/components/home/FaqSection";
@@ -35,14 +34,13 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
       />
 
-      <div className="min-h-screen bg-white text-[#201515] flex flex-col overflow-x-hidden">
+      <div className="bg-white text-[#201515] flex flex-col overflow-x-hidden">
         <HeroSection />
         <PlatformLogosBar />
         <FeaturesSection />
         <HowItWorksSection />
         <PricingSection />
         <FaqSection />
-        <FooterSection />
       </div>
     </>
   );
