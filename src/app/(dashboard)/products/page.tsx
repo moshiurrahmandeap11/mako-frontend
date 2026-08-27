@@ -8,6 +8,7 @@ import {
   Check,
   Download,
   FileSpreadsheet,
+  Globe,
   Package,
   Plus,
   Search,
@@ -20,6 +21,8 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [selectedDomain, setSelectedDomain] = useState("all");
+  const [availableDomains, setAvailableDomains] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -50,10 +53,13 @@ export default function ProductsPage() {
     setLoading(true);
     try {
       const data = await fetchApi(
-        `/api/products?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+        `/api/products?page=${page}&limit=10&search=${encodeURIComponent(search)}&domain=${encodeURIComponent(selectedDomain)}`,
       );
       setProducts(data.products || []);
       setTotalPages(data.pagination?.totalPages || 1);
+      if (data.domains && Array.isArray(data.domains)) {
+        setAvailableDomains(data.domains);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -63,7 +69,7 @@ export default function ProductsPage() {
 
   useEffect(() => {
     loadProducts();
-  }, [page, search]);
+  }, [page, search, selectedDomain]);
 
   const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
