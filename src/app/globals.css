@@ -91,3 +91,77 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #1DBF73;
 }
+
+/* SweetAlert2 Clean White Dashboard Theme Overrides */
+div.swal2-container div.swal2-popup {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E4E5E7 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
+  padding: 24px !important;
+  font-family: inherit !important;
+}
+
+div.swal2-container div.swal2-title {
+  color: #222325 !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+  padding: 8px 0 4px 0 !important;
+}
+
+div.swal2-container div.swal2-html-container {
+  color: #62646A !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  margin: 6px 0 18px 0 !important;
+}
+
+div.swal2-container div.swal2-actions {
+  gap: 8px !important;
+  margin-top: 8px !important;
+}
+
+div.swal2-container button.swal2-confirm {
+  background-color: #1DBF73 !important;
+  color: #FFFFFF !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 8px 16px !important;
+  border-radius: 6px !important;
+  border: none !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  outline: none !important;
+}
+
+div.swal2-container button.swal2-confirm:hover {
+  background-color: #19A463 !important;
+}
+
+div.swal2-container button.swal2-cancel {
+  background-color: #FFFFFF !important;
+  color: #222325 !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  padding: 8px 16px !important;
+  border-radius: 6px !important;
+  border: 1px solid #E4E5E7 !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  outline: none !important;
+}
+
+div.swal2-container button.swal2-cancel:hover {
+  background-color: #F7F7F7 !important;
+}
+
+div.swal2-container .swal2-icon {
+  border-color: #E4E5E7 !important;
+  transform: scale(0.85) !important;
+  margin: 6px auto !important;
+}
+
