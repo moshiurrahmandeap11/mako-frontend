@@ -190,35 +190,52 @@ export default function PricingSection() {
         </div>
 
         {/* Billing Cycle Toggle */}
-        <div className="flex flex-wrap items-center gap-2 p-1 bg-[#F1F5F9] border border-[#E2E8F0] rounded-lg w-fit">
-          <button
-            type="button"
-            onClick={() => setBillingCycle("monthly")}
-            className={`px-4 py-1.5 text-xs font-medium rounded-md transition-all flex items-center gap-1.5 ${
-              billingCycle === "monthly"
-                ? "bg-white text-[#222325] shadow-sm border border-[#CBD5E1]"
-                : "text-[#64748B] hover:text-[#222325]"
-            }`}
-          >
-            <span>🔄 Monthly Subscription</span>
-            <span className="text-[10px] px-1.5 py-0.2 bg-[#E0F2FE] text-[#0369A1] rounded font-semibold">
-              Auto-Renew &amp; Rollover
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setBillingCycle("onetime")}
-            className={`px-4 py-1.5 text-xs font-medium rounded-md transition-all flex items-center gap-1.5 ${
-              billingCycle === "onetime"
-                ? "bg-white text-[#16A34A] shadow-sm border border-[#BBF7D0]"
-                : "text-[#64748B] hover:text-[#222325]"
-            }`}
-          >
-            <span>⚡ Pay As You Go (One-Time Refill)</span>
-            <span className="text-[10px] px-1.5 py-0.2 bg-[#DCFCE7] text-[#166534] rounded font-semibold">
-              No Recurring Fees
-            </span>
-          </button>
+        <div className="p-0.5 rounded-xl bg-gradient-to-r from-[#1DBF73] via-[#0284C7] to-[#1DBF73] shadow-sm w-fit">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-white rounded-[10px]">
+            {/* Monthly Option */}
+            <button
+              type="button"
+              onClick={() => setBillingCycle("monthly")}
+              className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-2 ${
+                billingCycle === "monthly"
+                  ? "bg-[#18181B] text-white shadow-md shadow-black/10"
+                  : "text-[#52525B] hover:text-[#18181B] hover:bg-[#F4F4F5]"
+              }`}
+            >
+              <span>Monthly Subscription</span>
+              <span
+                className={`text-[10px] px-2 py-0.5 rounded-full font-medium tracking-wide transition-colors ${
+                  billingCycle === "monthly"
+                    ? "bg-white/15 text-[#38BDF8] border border-white/10"
+                    : "bg-[#E0F2FE] text-[#0369A1] border border-[#BAE6FD]"
+                }`}
+              >
+                Auto-Renew &amp; Rollover
+              </span>
+            </button>
+
+            {/* One-Time Option */}
+            <button
+              type="button"
+              onClick={() => setBillingCycle("onetime")}
+              className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all flex items-center gap-2 ${
+                billingCycle === "onetime"
+                  ? "bg-[#18181B] text-white shadow-md shadow-black/10"
+                  : "text-[#52525B] hover:text-[#18181B] hover:bg-[#F4F4F5]"
+              }`}
+            >
+              <span>Pay As You Go (One-Time)</span>
+              <span
+                className={`text-[10px] px-2 py-0.5 rounded-full font-semibold tracking-wide transition-colors ${
+                  billingCycle === "onetime"
+                    ? "bg-[#10B981]/20 text-[#34D399] border border-[#10B981]/30"
+                    : "bg-[#ECFDF5] text-[#059669] border border-[#A7F3D0]"
+                }`}
+              >
+                No Recurring Fees
+              </span>
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
