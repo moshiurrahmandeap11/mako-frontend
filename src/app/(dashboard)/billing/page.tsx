@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { fetchApi } from '@/lib/api-client';
-import { CreditCard, ShieldAlert, Zap, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
-import toast from 'react-hot-toast';
-import Button from '@/components/Button';
-import { Skeleton } from '@/components/Skeleton';
+import Button from "@/components/Button";
+import { Skeleton } from "@/components/Skeleton";
+import { fetchApi } from "@/lib/api-client";
+import { ArrowRight, Loader2, ShieldAlert, ShieldCheck } from "lucide-react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function BillingPage() {
   const [merchant, setMerchant] = useState<any>(null);
@@ -13,15 +13,15 @@ export default function BillingPage() {
   const [loading, setLoading] = useState(true);
   const [loadingInvoices, setLoadingInvoices] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const loadProfile = async () => {
     setLoading(true);
     try {
-      const data = await fetchApi('/api/merchant/me');
+      const data = await fetchApi("/api/merchant/me");
       setMerchant(data.merchant);
     } catch (err: any) {
-      setError(err.message || 'Failed to fetch merchant details.');
+      setError(err.message || "Failed to fetch merchant details.");
     } finally {
       setLoading(false);
     }
@@ -30,10 +30,10 @@ export default function BillingPage() {
   const loadInvoices = async () => {
     setLoadingInvoices(true);
     try {
-      const data = await fetchApi('/api/billing/invoices');
+      const data = await fetchApi("/api/billing/invoices");
       setInvoices(data.invoices || []);
     } catch (err) {
-      console.error('Failed to load invoices:', err);
+      console.error("Failed to load invoices:", err);
     } finally {
       setLoadingInvoices(false);
     }
@@ -41,17 +41,19 @@ export default function BillingPage() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const sessionId = params.get('session_id');
-    const tier = params.get('tier');
+    const sessionId = params.get("session_id");
+    const tier = params.get("tier");
 
     if (sessionId || tier) {
-      fetchApi(`/api/billing/verify?session_id=${sessionId || ''}&tier=${tier || ''}`)
+      fetchApi(
+        `/api/billing/verify?session_id=${sessionId || ""}&tier=${tier || ""}`,
+      )
         .then(() => {
           if (tier) {
             toast.success(`Successfully upgraded to ${tier} Plan! 🎉`);
           }
           loadProfile();
-          window.history.replaceState({}, '', window.location.pathname);
+          window.history.replaceState({}, "", window.location.pathname);
         })
         .catch(() => {
           loadProfile();
@@ -64,20 +66,22 @@ export default function BillingPage() {
 
   const handleManageBilling = async () => {
     setActionLoading(true);
-    setError('');
-    const toastId = toast.loading('Opening Polar.sh Customer Portal...');
+    setError("");
+    const toastId = toast.loading("Opening Polar.sh Customer Portal...");
     try {
-      const data = await fetchApi('/api/billing/portal', { method: 'POST' });
+      const data = await fetchApi("/api/billing/portal", { method: "POST" });
       if (data.url) {
-        toast.success('Redirecting to billing portal...', { id: toastId });
+        toast.success("Redirecting to billing portal...", { id: toastId });
         window.location.href = data.url;
       } else {
-        toast.error('Billing portal session failed.', { id: toastId });
-        setError('Billing portal session failed.');
+        toast.error("Billing portal session failed.", { id: toastId });
+        setError("Billing portal session failed.");
       }
     } catch (err: any) {
-      toast.error(err.message || 'Failed to connect to billing server.', { id: toastId });
-      setError(err.message || 'Failed to connect to billing server.');
+      toast.error(err.message || "Failed to connect to billing server.", {
+        id: toastId,
+      });
+      setError(err.message || "Failed to connect to billing server.");
     } finally {
       setActionLoading(false);
     }
@@ -85,49 +89,49 @@ export default function BillingPage() {
 
   const planLimits: Record<string, { desc: string; features: string[] }> = {
     FREE: {
-      desc: 'Great for testing and development ($0 lifetime).',
+      desc: "Great for testing and development ($0 lifetime).",
       features: [
-        '1,500 AI Smart Credits (Lifetime)',
-        '1 Active API key',
-        '1 Whitelisted domain',
-        '4-Tier Web Crawler & Search',
-        'Labto AI branding footer',
+        "1,500 AI Smart Credits (Lifetime)",
+        "1 Active API key",
+        "1 Whitelisted domain",
+        "4-Tier Web Crawler & Search",
+        "Labto AI branding footer",
       ],
     },
     STARTER: {
-      desc: 'Perfect for growing boutique stores starting with AI ($2/mo).',
+      desc: "Perfect for growing boutique stores starting with AI ($2/mo).",
       features: [
-        '10,000 AI Smart Credits / month',
-        '🔄 100% Unused Credit Rollover',
-        '2 Active API keys',
-        '2 Whitelisted domains',
-        'pgvector Semantic AI Search',
-        'Custom widget appearance & styling',
-        '24-Hour support SLA',
+        "10,000 AI Smart Credits / month",
+        "🔄 100% Unused Credit Rollover",
+        "2 Active API keys",
+        "2 Whitelisted domains",
+        "pgvector Semantic AI Search",
+        "Custom widget appearance & styling",
+        "24-Hour support SLA",
       ],
     },
     PRO: {
-      desc: 'Our most popular plan for high-converting stores ($5/mo).',
+      desc: "Our most popular plan for high-converting stores ($5/mo).",
       features: [
-        '30,000 AI Smart Credits / month',
-        '🔄 100% Unused Credit Rollover',
-        '4 Active API keys',
-        '5 Whitelisted domains',
-        'Full pgvector Product RAG',
-        '1-Click Smart Cart Event Bridge',
-        'Priority SLA support (4h)',
-        '100% White-Labeled (No Branding)',
+        "30,000 AI Smart Credits / month",
+        "🔄 100% Unused Credit Rollover",
+        "4 Active API keys",
+        "5 Whitelisted domains",
+        "Full pgvector Product RAG",
+        "1-Click Smart Cart Event Bridge",
+        "Priority SLA support (4h)",
+        "100% White-Labeled (No Branding)",
       ],
     },
     ENTERPRISE: {
-      desc: 'Dedicated high-traffic infrastructure & custom SLAs.',
+      desc: "Dedicated high-traffic infrastructure & custom SLAs.",
       features: [
-        'Unlimited AI Turbo Credits',
-        'Unlimited API keys & domains',
-        'Dedicated LLM instance pool',
-        'Custom vector embeddings pipeline',
-        'Dedicated Account Manager',
-        '99.9% Uptime SLA guarantee',
+        "Unlimited AI Turbo Credits",
+        "Unlimited API keys & domains",
+        "Dedicated LLM instance pool",
+        "Custom vector embeddings pipeline",
+        "Dedicated Account Manager",
+        "99.9% Uptime SLA guarantee",
       ],
     },
   };
@@ -144,9 +148,9 @@ export default function BillingPage() {
     );
   }
 
-  const currentTier = merchant?.planTier || 'FREE';
+  const currentTier = merchant?.planTier || "FREE";
   const limits = planLimits[currentTier] || planLimits.FREE;
-  const isFree = currentTier === 'FREE';
+  const isFree = currentTier === "FREE";
 
   return (
     <div className="space-y-3">
@@ -156,7 +160,8 @@ export default function BillingPage() {
           <span>Billing & Subscription Plan</span>
         </h1>
         <p className="text-[#62646A] text-xs sm:text-sm mt-1">
-          Manage your Labto AI subscription, Polar.sh billing portal, and quota limits.
+          Manage your Labto AI subscription, Polar.sh billing portal, and quota
+          limits.
         </p>
       </div>
 
@@ -187,18 +192,26 @@ export default function BillingPage() {
               <div className="text-right">
                 <p className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-normal bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7] mt-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#1DBF73] animate-pulse" />
-                  {merchant?.subscriptionStatus || 'Active'}
+                  {merchant?.subscriptionStatus || "Active"}
                 </p>
               </div>
             </div>
 
             {/* Current Tier Features List */}
             <div className="mt-6 pt-6 border-t border-[#E4E5E7] space-y-3">
-              <h3 className="text-xs font-normal text-[#74767E]">Plan Inclusions:</h3>
+              <h3 className="text-xs font-normal text-[#74767E]">
+                Plan Inclusions:
+              </h3>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {limits.features.map((feat, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5 text-xs text-[#404145] leading-relaxed">
-                    <ShieldCheck className="w-4 h-4 text-[#74767E] shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <li
+                    key={idx}
+                    className="flex items-start gap-2.5 text-xs text-[#404145] leading-relaxed"
+                  >
+                    <ShieldCheck
+                      className="w-4 h-4 text-[#74767E] shrink-0 mt-0.5"
+                      strokeWidth={1.5}
+                    />
                     <span>{feat}</span>
                   </li>
                 ))}
@@ -208,36 +221,58 @@ export default function BillingPage() {
             {/* CTA Buttons */}
             <div className="mt-6 pt-6 border-t border-[#E4E5E7] flex flex-col sm:flex-row items-center gap-3">
               {isFree ? (
-                <Button href="/pricing" variant="primary" className="!font-normal text-xs sm:text-sm">
+                <Button
+                  href="/pricing"
+                  variant="primary"
+                  className="!font-normal text-xs sm:text-sm"
+                >
                   <span className="flex items-center gap-2">
                     <span>Upgrade Subscription</span>
                     <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
                   </span>
                 </Button>
               ) : (
-                <>
-                  <Button onClick={handleManageBilling} disabled={actionLoading} variant="outline" className="text-[#222325] border-[#E4E5E7] !font-normal text-xs sm:text-sm">
-                    <span className="flex items-center gap-2">
-                      {actionLoading ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin text-[#1DBF73]" />
-                          <span>Opening Portal...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Manage Polar.sh Subscription</span>
-                          <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
-                        </>
-                      )}
+                <div className="flex flex-col gap-2.5 w-full">
+                  <div className="flex flex-col sm:flex-row items-center gap-3">
+                    <Button
+                      onClick={handleManageBilling}
+                      disabled={actionLoading}
+                      variant="outline"
+                      className="text-[#222325] border-[#E4E5E7] hover:border-[#CBD5E1] !font-normal text-xs sm:text-sm"
+                    >
+                      <span className="flex items-center gap-2">
+                        {actionLoading ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin text-[#1DBF73]" />
+                            <span>Opening Portal...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Manage &amp; Cancel Subscription</span>
+                            <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
+                          </>
+                        )}
+                      </span>
+                    </Button>
+                    <Button
+                      href="/pricing"
+                      variant="secondary"
+                      className="text-[#222325] border-[#E4E5E7] !font-normal text-xs sm:text-sm"
+                    >
+                      <span className="flex items-center gap-2">
+                        <span>Change Plan / Upgrade</span>
+                        <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
+                      </span>
+                    </Button>
+                  </div>
+                  <p className="text-[11px] text-[#74767E] flex items-center gap-1.5 mt-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#1DBF73]" />
+                    <span>
+                      You can cancel your subscription or update payment methods
+                      anytime with 1-click via the secure Polar portal.
                     </span>
-                  </Button>
-                  <Button href="/pricing" variant="secondary" className="text-[#222325] border-[#E4E5E7] !font-normal text-xs sm:text-sm">
-                    <span className="flex items-center gap-2">
-                      <span>Change Plan / Upgrade</span>
-                      <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
-                    </span>
-                  </Button>
-                </>
+                  </p>
+                </div>
               )}
             </div>
           </div>
@@ -263,17 +298,34 @@ export default function BillingPage() {
               </div>
             ) : (
               invoices.map((inv) => {
-                const formattedDate = inv.dateFormatted || (typeof inv.created === 'number' ? new Date(inv.created * 1000).toLocaleDateString() : inv.created || 'N/A');
-                const formattedAmount = inv.amount || (typeof inv.amount_paid === 'number' ? (inv.amount_paid / 100).toFixed(2) : '0.00');
+                const formattedDate =
+                  inv.dateFormatted ||
+                  (typeof inv.created === "number"
+                    ? new Date(inv.created * 1000).toLocaleDateString()
+                    : inv.created || "N/A");
+                const formattedAmount =
+                  inv.amount ||
+                  (typeof inv.amount_paid === "number"
+                    ? (inv.amount_paid / 100).toFixed(2)
+                    : "0.00");
 
                 return (
-                  <div key={inv.id} className="py-3 flex items-center justify-between">
+                  <div
+                    key={inv.id}
+                    className="py-3 flex items-center justify-between"
+                  >
                     <div>
-                      <p className="text-xs font-normal text-[#222325]">{inv.number}</p>
-                      <p className="text-[10px] text-[#74767E]">{formattedDate}</p>
+                      <p className="text-xs font-normal text-[#222325]">
+                        {inv.number}
+                      </p>
+                      <p className="text-[10px] text-[#74767E]">
+                        {formattedDate}
+                      </p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xs font-medium text-[#222325]">${formattedAmount} {inv.currency || 'USD'}</span>
+                      <span className="text-xs font-medium text-[#222325]">
+                        ${formattedAmount} {inv.currency || "USD"}
+                      </span>
                       <span className="px-2 py-0.5 rounded-md text-[10px] font-normal bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7]">
                         {inv.status}
                       </span>
