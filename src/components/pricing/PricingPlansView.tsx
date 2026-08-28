@@ -143,12 +143,24 @@ export default function PricingPlansView({ className = "" }: { className?: strin
     }
   };
 
+  // Check if user has an active purchased plan (Starter, Pro, Enterprise)
+  const hasPurchasedPlan = !!(session && currentTier && currentTier !== "FREE");
+  const isStarterCurrent = !!(session && currentTier === "STARTER");
+  const isProCurrent = !!(session && currentTier === "PRO");
+  const isEnterpriseCurrent = !!(session && currentTier === "ENTERPRISE");
+  const isFreeCurrent = !!(session && currentTier === "FREE");
+
+  // Determine which card receives the green highlight border
+  const highlightStarter = isStarterCurrent;
+  const highlightPro = hasPurchasedPlan ? isProCurrent : true; // Highlight Pro by default when no plan purchased
+  const highlightEnterprise = isEnterpriseCurrent;
+
   return (
     <div className={`w-full ${className}`}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* 1. FREE PLAN */}
         <div className="p-6 rounded-md bg-white border border-border-light hover:border-[#DADBDD] hover:shadow-md flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left">
-          {currentTier === "FREE" && (
+          {isFreeCurrent && (
             <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white flex items-center gap-1 shadow-sm font-mono">
               <CheckCircle2 className="w-3 h-3 text-white" /> Current Plan
             </span>
@@ -199,15 +211,24 @@ export default function PricingPlansView({ className = "" }: { className?: strin
         {/* 2. STARTER PLAN ($2) */}
         <div
           className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left ${
-            currentTier === "STARTER" && starterCycle === "monthly"
+            highlightStarter
               ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30 bg-ai-green-tint/30"
               : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
           }`}
         >
           <div className="space-y-4">
-            {/* Header with Title + Animated Mini Toggle */}
+            {/* Header with Title + Current Plan Badge OR Mini Toggle */}
             <div className="flex items-center justify-between gap-2">
-              <h3 className="text-lg font-medium text-text-main">Starter</h3>
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-medium text-text-main">Starter</h3>
+                {isStarterCurrent && (
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1DBF73] text-white flex items-center gap-1 shadow-xs font-mono">
+                    <CheckCircle2 className="w-3 h-3 text-white" /> Current Plan
+                  </span>
+                )}
+              </div>
+
+              {/* Mini Toggle Pill */}
               <MiniPlanToggle
                 cycle={starterCycle}
                 onChange={setStarterCycle}
@@ -271,18 +292,18 @@ export default function PricingPlansView({ className = "" }: { className?: strin
               onClick={() => handleSelectPlan("STARTER", starterCycle, "/register")}
               isLoading={loadingPlan === "STARTER"}
               variant={
-                currentTier === "STARTER" && starterCycle === "monthly"
+                isStarterCurrent && starterCycle === "monthly"
                   ? "primary"
                   : "outline"
               }
               size="md"
               className={`w-full justify-center text-sm transition-all duration-200 ${
-                currentTier === "STARTER" && starterCycle === "monthly"
+                isStarterCurrent && starterCycle === "monthly"
                   ? "bg-[#1DBF73] text-black"
                   : "text-text-main border-border-light hover:bg-slate-50"
               }`}
             >
-              {currentTier === "STARTER" && starterCycle === "monthly"
+              {isStarterCurrent && starterCycle === "monthly"
                 ? "Current Plan (Manage)"
                 : starterCycle === "onetime"
                 ? "Buy 10,000 Credits ($2)"
@@ -295,16 +316,26 @@ export default function PricingPlansView({ className = "" }: { className?: strin
 
         {/* 3. PRO PLAN ($5) */}
         <div
-          className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30`}
+          className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left ${
+            highlightPro
+              ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30" + (isProCurrent ? " bg-ai-green-tint/30" : "")
+              : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
+          }`}
         >
           <div className="space-y-4">
-            {/* Header with Title + Most Popular + Animated Mini Toggle */}
+            {/* Header with Title + Badges + Animated Mini Toggle */}
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <h3 className="text-lg font-medium text-text-main">Pro</h3>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-xs">
-                  Popular
-                </span>
+                {isProCurrent ? (
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1DBF73] text-white flex items-center gap-1 shadow-xs font-mono">
+                    <CheckCircle2 className="w-3 h-3 text-white" /> Current Plan
+                  </span>
+                ) : !hasPurchasedPlan ? (
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-xs">
+                    Popular
+                  </span>
+                ) : null}
               </div>
 
               <MiniPlanToggle
@@ -369,11 +400,23 @@ export default function PricingPlansView({ className = "" }: { className?: strin
             <Button
               onClick={() => handleSelectPlan("PRO", proCycle, "/register")}
               isLoading={loadingPlan === "PRO"}
-              variant="primary"
+              variant={
+                isProCurrent && proCycle === "monthly"
+                  ? "primary"
+                  : highlightPro
+                  ? "primary"
+                  : "outline"
+              }
               size="md"
-              className="w-full justify-center text-sm transition-all duration-200"
+              className={`w-full justify-center text-sm transition-all duration-200 ${
+                isProCurrent && proCycle === "monthly"
+                  ? "bg-[#1DBF73] text-black"
+                  : !highlightPro
+                  ? "text-text-main border-border-light hover:bg-slate-50"
+                  : ""
+              }`}
             >
-              {currentTier === "PRO" && proCycle === "monthly"
+              {isProCurrent && proCycle === "monthly"
                 ? "Current Plan (Manage)"
                 : proCycle === "onetime"
                 ? "Buy 30,000 Credits ($5)"
@@ -385,8 +428,14 @@ export default function PricingPlansView({ className = "" }: { className?: strin
         </div>
 
         {/* 4. ENTERPRISE PLAN */}
-        <div className="p-6 rounded-md bg-white border border-border-light hover:border-[#DADBDD] hover:shadow-md flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left">
-          {currentTier === "ENTERPRISE" && (
+        <div
+          className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left ${
+            highlightEnterprise
+              ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30 bg-ai-green-tint/30"
+              : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
+          }`}
+        >
+          {isEnterpriseCurrent && (
             <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white flex items-center gap-1 shadow-sm font-mono">
               <CheckCircle2 className="w-3 h-3 text-white" /> Current Plan
             </span>
@@ -424,11 +473,15 @@ export default function PricingPlansView({ className = "" }: { className?: strin
           <div className="pt-6">
             <Button
               onClick={() => handleSelectPlan("ENTERPRISE", "monthly", "/contact")}
-              variant="outline"
+              variant={highlightEnterprise ? "primary" : "outline"}
               size="md"
-              className="w-full justify-center text-sm text-text-main border-border-light hover:bg-slate-50"
+              className={`w-full justify-center text-sm ${
+                highlightEnterprise
+                  ? "bg-[#1DBF73] text-black"
+                  : "text-text-main border-border-light hover:bg-slate-50"
+              }`}
             >
-              Contact Enterprise Sales
+              {isEnterpriseCurrent ? "Current Plan (Manage)" : "Contact Enterprise Sales"}
             </Button>
           </div>
         </div>
