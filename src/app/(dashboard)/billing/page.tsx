@@ -3,7 +3,13 @@
 import Button from "@/components/Button";
 import { Skeleton } from "@/components/Skeleton";
 import { fetchApi } from "@/lib/api-client";
-import { ArrowRight, Loader2, ShieldAlert, ShieldCheck } from "lucide-react";
+import {
+  ArrowRight,
+  Loader2,
+  ShieldAlert,
+  ShieldCheck,
+  Zap,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -13,6 +19,7 @@ export default function BillingPage() {
   const [loading, setLoading] = useState(true);
   const [loadingInvoices, setLoadingInvoices] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
+  const [topupLoading, setTopupLoading] = useState<string | null>(null);
   const [error, setError] = useState("");
 
   const loadProfile = async () => {
@@ -43,14 +50,22 @@ export default function BillingPage() {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get("session_id");
     const tier = params.get("tier");
+    const billingType = params.get("billingType");
 
     if (sessionId || tier) {
       fetchApi(
-        `/api/billing/verify?session_id=${sessionId || ""}&tier=${tier || ""}`,
+        `/api/billing/verify?session_id=${sessionId || ""}&tier=${tier || ""}&billingType=${billingType || ""}`,
       )
         .then(() => {
           if (tier) {
-            toast.success(`Successfully upgraded to ${tier} Plan! 🎉`);
+            if (billingType === "onetime") {
+              const credits = tier === "PRO" ? "30,000" : "10,000";
+              toast.success(
+                `Successfully added +${credits} AI Smart Credits! 🎉`,
+              );
+            } else {
+              toast.success(`Successfully upgraded to ${tier} Plan! 🎉`);
+            }
           }
           loadProfile();
           window.history.replaceState({}, "", window.location.pathname);
@@ -63,6 +78,34 @@ export default function BillingPage() {
     }
     loadInvoices();
   }, []);
+
+  const handleOneTimeTopup = async (tier: "STARTER" | "PRO") => {
+    setTopupLoading(tier);
+    const toastId = toast.loading(
+      `Starting $${tier === "PRO" ? "5" : "2"} refill checkout...`,
+    );
+    try {
+      const res = await fetch("/api/billing/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tier, billingType: "onetime" }),
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.url) {
+        toast.dismiss(toastId);
+        window.location.href = data.url;
+      } else {
+        toast.error(data.error || "Failed to initialize top-up.", {
+          id: toastId,
+        });
+      }
+    } catch (err: any) {
+      toast.error("Failed to connect to billing server.", { id: toastId });
+    } finally {
+      setTopupLoading(null);
+    }
+  };
 
   const handleManageBilling = async () => {
     setActionLoading(true);
@@ -278,62 +321,122 @@ export default function BillingPage() {
           </div>
         </div>
 
-        {/* Invoice & Payment History */}
-        <div className="lg:col-span-5 bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 space-y-3">
-          <div className="flex items-center justify-between border-b border-[#E4E5E7] pb-3">
-            <h2 className="text-base font-medium text-[#222325] flex items-center gap-2">
-              <span>Polar.sh Subscription Summary</span>
-            </h2>
+        {/* Right Column: Refill Packs & Invoices */}
+        <div className="lg:col-span-5 space-y-4">
+          {/* Instant Credit Refill Card */}
+          <div className="bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 space-y-3">
+            <div className="flex items-center justify-between border-b border-[#E4E5E7] pb-3">
+              <div>
+                <h2 className="text-sm font-medium text-[#222325] flex items-center gap-1.5">
+                  <Zap className="w-4 h-4 text-[#1DBF73]" />
+                  <span>Instant Credit Refill (Pay As You Go)</span>
+                </h2>
+                <p className="text-[11px] text-[#62646A] mt-0.5">
+                  Top up credits anytime without monthly commitments.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+              {/* $2 Starter Refill */}
+              <div className="p-3 border border-[#E4E5E7] rounded-md bg-[#F8FAFC] flex flex-col justify-between space-y-2">
+                <div>
+                  <div className="text-xs font-semibold text-[#222325]">
+                    $2 Refill Pack
+                  </div>
+                  <div className="text-[11px] text-[#16A34A] font-medium mt-0.5">
+                    +10,000 AI Credits
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleOneTimeTopup("STARTER")}
+                  disabled={!!topupLoading}
+                  className="w-full py-1.5 px-2 text-[11px] font-medium bg-white text-[#222325] border border-[#CBD5E1] rounded hover:bg-[#F1F5F9] transition-colors"
+                >
+                  {topupLoading === "STARTER" ? "Opening..." : "Buy 10k ($2)"}
+                </button>
+              </div>
+
+              {/* $5 Pro Refill */}
+              <div className="p-3 border border-[#BBF7D0] rounded-md bg-[#F0FDF4] flex flex-col justify-between space-y-2">
+                <div>
+                  <div className="text-xs font-semibold text-[#222325]">
+                    $5 Pro Refill
+                  </div>
+                  <div className="text-[11px] text-[#16A34A] font-medium mt-0.5">
+                    +30,000 AI Credits
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleOneTimeTopup("PRO")}
+                  disabled={!!topupLoading}
+                  className="w-full py-1.5 px-2 text-[11px] font-medium bg-[#1DBF73] text-white rounded hover:bg-[#16A34A] transition-colors"
+                >
+                  {topupLoading === "PRO" ? "Opening..." : "Buy 30k ($5)"}
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div className="divide-y divide-[#E4E5E7]">
-            {loadingInvoices ? (
-              <div className="space-y-2 py-2">
-                <Skeleton className="h-10 w-full rounded-md" />
-                <Skeleton className="h-10 w-full rounded-md" />
-              </div>
-            ) : invoices.length === 0 ? (
-              <div className="py-8 text-center text-xs text-[#74767E] font-normal">
-                No active subscription invoices found.
-              </div>
-            ) : (
-              invoices.map((inv) => {
-                const formattedDate =
-                  inv.dateFormatted ||
-                  (typeof inv.created === "number"
-                    ? new Date(inv.created * 1000).toLocaleDateString()
-                    : inv.created || "N/A");
-                const formattedAmount =
-                  inv.amount ||
-                  (typeof inv.amount_paid === "number"
-                    ? (inv.amount_paid / 100).toFixed(2)
-                    : "0.00");
+          {/* Invoice & Payment History */}
+          <div className="bg-white border border-[#E4E5E7] rounded-md p-4 sm:p-5 space-y-3">
+            <div className="flex items-center justify-between border-b border-[#E4E5E7] pb-3">
+              <h2 className="text-base font-medium text-[#222325] flex items-center gap-2">
+                <span>Polar.sh Subscription Summary</span>
+              </h2>
+            </div>
 
-                return (
-                  <div
-                    key={inv.id}
-                    className="py-3 flex items-center justify-between"
-                  >
-                    <div>
-                      <p className="text-xs font-normal text-[#222325]">
-                        {inv.number}
-                      </p>
-                      <p className="text-[10px] text-[#74767E]">
-                        {formattedDate}
-                      </p>
+            <div className="divide-y divide-[#E4E5E7]">
+              {loadingInvoices ? (
+                <div className="space-y-2 py-2">
+                  <Skeleton className="h-10 w-full rounded-md" />
+                  <Skeleton className="h-10 w-full rounded-md" />
+                </div>
+              ) : invoices.length === 0 ? (
+                <div className="py-8 text-center text-xs text-[#74767E] font-normal">
+                  No active subscription invoices found.
+                </div>
+              ) : (
+                invoices.map((inv) => {
+                  const formattedDate =
+                    inv.dateFormatted ||
+                    (typeof inv.created === "number"
+                      ? new Date(inv.created * 1000).toLocaleDateString()
+                      : inv.created || "N/A");
+                  const formattedAmount =
+                    inv.amount ||
+                    (typeof inv.amount_paid === "number"
+                      ? (inv.amount_paid / 100).toFixed(2)
+                      : "0.00");
+
+                  return (
+                    <div
+                      key={inv.id}
+                      className="py-3 flex items-center justify-between"
+                    >
+                      <div>
+                        <p className="text-xs font-normal text-[#222325]">
+                          {inv.number}
+                        </p>
+                        <p className="text-[10px] text-[#74767E]">
+                          {formattedDate}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs font-medium text-[#222325]">
+                          ${formattedAmount} {inv.currency || "USD"}
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-normal bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7]">
+                          {inv.status}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs font-medium text-[#222325]">
-                        ${formattedAmount} {inv.currency || "USD"}
-                      </span>
-                      <span className="px-2 py-0.5 rounded-md text-[10px] font-normal bg-[#F0F2F5] text-[#62646A] border border-[#E4E5E7]">
-                        {inv.status}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })
-            )}
+                  );
+                })
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -1,15 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
-import { fetchApi } from "@/lib/api-client";
-import toast from "react-hot-toast";
-import {
-  Check,
-  CheckCircle2,
-} from "lucide-react";
 import Button from "@/components/Button";
+import { fetchApi } from "@/lib/api-client";
+import { authClient } from "@/lib/auth-client";
+import { Check, CheckCircle2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export interface PricingPlan {
   name: string;
@@ -29,6 +26,9 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
   const { data: session } = authClient.useSession();
   const [currentTier, setCurrentTier] = useState<string | null>(null);
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "onetime">(
+    "monthly",
+  );
 
   useEffect(() => {
     if (session) {
@@ -51,7 +51,7 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
   const handleSelectPlan = async (planName: string, defaultHref: string) => {
     const tierKey = planName.toUpperCase();
 
-    if (tierKey === currentTier) {
+    if (tierKey === currentTier && billingCycle === "monthly") {
       if (tierKey === "FREE") {
         router.push("/dashboard");
       } else {
@@ -83,7 +83,7 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ tier: tierKey }),
+        body: JSON.stringify({ tier: tierKey, billingType: billingCycle }),
         credentials: "include",
       });
       const data = await res.json();
@@ -91,7 +91,7 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
         window.location.href = data.url;
       } else {
         toast.error(
-          data.error || "Failed to start checkout session. Please try again."
+          data.error || "Failed to start checkout session. Please try again.",
         );
       }
     } catch (err) {
@@ -110,33 +110,89 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
             Transparent, Scalable Plans
           </h1>
           <p className="text-[#62646A] text-xs sm:text-sm leading-relaxed">
-            Get thousands of AI Smart Credits with{" "}
-            <strong className="text-text-main font-semibold">100% Unused Credit Rollover</strong>. Your credits stay yours
-            as long as your subscription is active!
+            Choose between predictable monthly subscriptions with{" "}
+            <strong className="text-text-main font-semibold">
+              100% Unused Credit Rollover
+            </strong>{" "}
+            or flexible Pay-As-You-Go One-Time Top-Up packs.
           </p>
+        </div>
+
+        {/* Billing Cycle Toggle */}
+        <div className="flex flex-wrap items-center gap-2 p-1 bg-[#F1F5F9] border border-[#E2E8F0] rounded-lg w-fit">
+          <button
+            type="button"
+            onClick={() => setBillingCycle("monthly")}
+            className={`px-4 py-1.5 text-xs font-medium rounded-md transition-all flex items-center gap-1.5 ${
+              billingCycle === "monthly"
+                ? "bg-white text-[#222325] shadow-sm border border-[#CBD5E1]"
+                : "text-[#64748B] hover:text-[#222325]"
+            }`}
+          >
+            <span>🔄 Monthly Subscription</span>
+            <span className="text-[10px] px-1.5 py-0.2 bg-[#E0F2FE] text-[#0369A1] rounded font-semibold">
+              Auto-Renew &amp; Rollover
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setBillingCycle("onetime")}
+            className={`px-4 py-1.5 text-xs font-medium rounded-md transition-all flex items-center gap-1.5 ${
+              billingCycle === "onetime"
+                ? "bg-white text-[#16A34A] shadow-sm border border-[#BBF7D0]"
+                : "text-[#64748B] hover:text-[#222325]"
+            }`}
+          >
+            <span>⚡ Pay As You Go (One-Time Refill)</span>
+            <span className="text-[10px] px-1.5 py-0.2 bg-[#DCFCE7] text-[#166534] rounded font-semibold">
+              No Recurring Fees
+            </span>
+          </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {plans.map((p) => {
-            const isCurrentPlan = currentTier === p.tierKey;
+            const isCurrentPlan =
+              currentTier === p.tierKey && billingCycle === "monthly";
 
+            let displayPrice = p.price;
+            let displaySubtitle = "/ month";
+            let displayDesc = p.description;
             let buttonLabel = p.cta;
-            if (isCurrentPlan) {
-              buttonLabel =
-                p.tierKey === "FREE"
-                  ? "Current Plan (Dashboard)"
-                  : "Current Plan (Manage)";
-            } else if (currentTier) {
-              if (p.tierKey === "PRO" && currentTier === "STARTER") {
-                buttonLabel = "Upgrade to Pro ($5/mo)";
-              } else if (p.tierKey === "STARTER" && currentTier === "FREE") {
-                buttonLabel = "Upgrade for $2/mo";
-              } else if (p.tierKey === "PRO" && currentTier === "FREE") {
-                buttonLabel = "Upgrade to Pro ($5/mo)";
-              } else if (p.tierKey === "STARTER" && currentTier === "PRO") {
-                buttonLabel = "Switch to Starter ($2/mo)";
-              } else if (p.tierKey === "FREE") {
-                buttonLabel = "Base Free Plan";
+
+            if (p.tierKey === "FREE") {
+              displaySubtitle = "lifetime";
+              buttonLabel = session
+                ? "Current Plan (Dashboard)"
+                : "Get Started Free";
+            } else if (p.tierKey === "ENTERPRISE") {
+              displaySubtitle = "";
+              buttonLabel = "Contact Enterprise Sales";
+            } else if (billingCycle === "onetime") {
+              displaySubtitle = "one-time refill";
+              if (p.tierKey === "STARTER") {
+                displayDesc =
+                  "10,000 AI Credits top-up. No recurring fees, widget stays live until credits are used.";
+                buttonLabel = "Buy 10,000 Credits ($2)";
+              } else if (p.tierKey === "PRO") {
+                displayDesc =
+                  "30,000 AI Credits top-up with full Pro features, white-label, and priority support.";
+                buttonLabel = "Buy 30,000 Credits ($5)";
+              }
+            } else {
+              // Monthly Subscription
+              if (isCurrentPlan) {
+                buttonLabel = "Current Plan (Manage)";
+              } else if (currentTier) {
+                if (p.tierKey === "PRO" && currentTier === "STARTER") {
+                  buttonLabel = "Upgrade to Pro ($5/mo)";
+                } else if (p.tierKey === "STARTER" && currentTier === "FREE") {
+                  buttonLabel = "Upgrade for $2/mo";
+                } else if (p.tierKey === "PRO" && currentTier === "FREE") {
+                  buttonLabel = "Upgrade to Pro ($5/mo)";
+                } else if (p.tierKey === "STARTER" && currentTier === "PRO") {
+                  buttonLabel = "Switch to Starter ($2/mo)";
+                }
               }
             }
 
@@ -147,8 +203,8 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                   isCurrentPlan
                     ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30 bg-ai-green-tint/30"
                     : p.popular
-                    ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30"
-                    : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
+                      ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30"
+                      : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
                 }`}
               >
                 {/* Current Plan Badge or Most Popular Badge */}
@@ -158,8 +214,10 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                   </span>
                 ) : (
                   p.popular && (
-                    <span className="absolute top-3 right-3 text-sm font-medium tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-sm">
-                      Most Popular
+                    <span className="absolute top-3 right-3 text-xs font-medium tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-sm">
+                      {billingCycle === "onetime"
+                        ? "Best Value Refill"
+                        : "Most Popular"}
                     </span>
                   )
                 )}
@@ -169,26 +227,35 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                     <div className="flex items-center gap-2">
                       <h3 className="text-lg font-medium text-text-main">
                         {p.name}
+                        {billingCycle === "onetime" &&
+                          p.tierKey !== "FREE" &&
+                          p.tierKey !== "ENTERPRISE" && (
+                            <span className="ml-1.5 text-[10px] font-normal text-[#16A34A] bg-[#DCFCE7] px-2 py-0.5 rounded">
+                              Top-Up
+                            </span>
+                          )}
                       </h3>
                     </div>
                     <p className="text-xs text-[#62646A] mt-1 min-h-8">
-                      {p.description}
+                      {displayDesc}
                     </p>
                   </div>
 
                   <div className="flex items-baseline gap-1 py-1 border-b border-border-light">
-                    <span className="text-3xl sm:text-4xl text-text-main tracking-tight">
-                      {p.price}
+                    <span className="text-3xl sm:text-4xl text-text-main tracking-tight font-medium">
+                      {displayPrice}
                     </span>
-                    {p.tierKey !== "FREE" && p.price !== "Custom" && (
-                      <span className="text-sm text-text-muted">/ month</span>
+                    {displaySubtitle && (
+                      <span className="text-xs text-text-muted">
+                        {displaySubtitle}
+                      </span>
                     )}
                   </div>
 
                   <ul className="space-y-2.5 text-xs text-text-body">
                     {p.features.map((feat) => (
                       <li key={feat} className="flex items-center gap-2">
-                        <Check className="w-3.5 h-3.5 shrink-0" />
+                        <Check className="w-3.5 h-3.5 shrink-0 text-[#1DBF73]" />
                         <span>{feat}</span>
                       </li>
                     ))}
@@ -203,16 +270,16 @@ export default function PricingClient({ plans }: { plans: PricingPlan[] }) {
                       isCurrentPlan
                         ? "primary"
                         : p.popular
-                        ? "primary"
-                        : "outline"
+                          ? "primary"
+                          : "outline"
                     }
                     size="md"
                     className={`w-full justify-center text-sm ${
                       isCurrentPlan
                         ? "bg-[#1DBF73] text-black"
                         : !p.popular
-                        ? "text-text-main border-border-light hover:bg-slate-50"
-                        : ""
+                          ? "text-text-main border-border-light hover:bg-slate-50"
+                          : ""
                     }`}
                   >
                     <span className="flex items-center justify-center gap-1.5">
