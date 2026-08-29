@@ -16,7 +16,10 @@ export default function FooterSection() {
           <Link href="/blog" className="hover:text-[#1DBF73] transition">
             Blog
           </Link>
-          <Link href="/installation" className="hover:text-[#1DBF73] transition">
+          <Link
+            href="/installation"
+            className="hover:text-[#1DBF73] transition"
+          >
             Installation
           </Link>
           <Link href="/about" className="hover:text-[#1DBF73] transition">
