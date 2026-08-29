@@ -24,6 +24,7 @@ import {
   Store,
   Sparkles,
   MailCheck,
+  Newspaper,
 } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -62,6 +63,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { label: "Overview", href: "/admin", icon: LayoutDashboard, exact: true },
     { label: "Merchants & Users", href: "/admin/users", icon: Users },
     { label: "Subscribers", href: "/admin/subscribers", icon: MailCheck },
+    { label: "Blog Posts", href: "/admin/blogs", icon: Newspaper },
     { label: "Subscriptions", href: "/admin/subscriptions", icon: CreditCard },
     { label: "AI Tokens & Pools", href: "/admin/token-usage", icon: Cpu },
     { label: "Crawler Monitor", href: "/admin/scraper-jobs", icon: Globe2 },

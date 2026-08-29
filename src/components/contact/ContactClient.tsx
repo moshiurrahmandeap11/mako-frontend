@@ -42,13 +42,16 @@ export default function ContactClient() {
         {/* Left Info Column */}
         <div className="lg:col-span-5 space-y-8 text-left">
           <div>
+            <span className="inline-block text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full bg-[#1DBF73]/10 text-[#1DBF73] mb-3">
+              Contact Us
+            </span>
             <motion.h1
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-2xl sm:text-3xl lg:text-4xl font-medium text-text-main tracking-tight"
             >
-              Partner with Labto AI. <br />
+              Get in Touch with Labto AI. <br />
               Let’s scale together.
             </motion.h1>
             <motion.p
@@ -65,33 +68,41 @@ export default function ContactClient() {
 
           <div className="space-y-4">
             <div className="flex items-center gap-4 text-xs text-text-body">
-              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100">
+              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100 text-[#1DBF73]">
                 <Mail className="w-5 h-5" />
               </div>
               <div>
                 <p className="font-bold text-text-main">Direct Email</p>
-                <p className="text-text-muted mt-0.5">support@labtoai.com</p>
+                <a
+                  href="mailto:contact@labtoai.com"
+                  className="text-text-muted hover:text-[#1DBF73] transition-colors mt-0.5 block font-medium"
+                >
+                  contact@labtoai.com
+                </a>
               </div>
             </div>
             <div className="flex items-center gap-4 text-xs text-text-body">
-              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100">
+              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100 text-[#1DBF73]">
                 <MessageSquare className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-bold text-text-main">SLA Support</p>
+                <p className="font-bold text-text-main">Priority Support</p>
                 <p className="text-text-muted mt-0.5">
-                  under hour response guarantee for Enterprise clients
+                  Fast response guarantee for all merchants &amp; enterprise
+                  clients
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-4 text-xs text-text-body">
-              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100">
+              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100 text-[#1DBF73]">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-bold text-text-main">Data Privacy</p>
+                <p className="font-bold text-text-main">
+                  Data Privacy &amp; Security
+                </p>
                 <p className="text-text-muted mt-0.5">
-                  100% Isolated Data & Zero Camera Feed Retention
+                  100% Tenant-Isolated Data &amp; Zero Public LLM Training
                 </p>
               </div>
             </div>
