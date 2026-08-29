@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { Eye, EyeOff } from "lucide-react";
-import { authClient } from "@/lib/auth-client";
 import Button from "@/components/Button";
 import Logo from "@/components/Logo";
+import { authClient } from "@/lib/auth-client";
+import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function RegisterClient() {
   const router = useRouter();
@@ -194,12 +194,29 @@ export default function RegisterClient() {
           Google SSO
         </Button>
 
-        <p className="text-center text-xs text-[#62646A] mt-6 font-normal">
-          Already have an account?{" "}
+        <p className="text-center text-[11px] text-[#62646A] mt-6 leading-relaxed">
+          By creating an account, you agree to Labto AI&apos;s{" "}
           <Link
-            href="/login"
-            className="text-[#1DBF73] hover:underline"
+            href="/terms"
+            target="_blank"
+            className="text-[#1DBF73] hover:underline font-medium"
           >
+            Terms of Service
+          </Link>{" "}
+          and acknowledge our{" "}
+          <Link
+            href="/privacy"
+            target="_blank"
+            className="text-[#1DBF73] hover:underline font-medium"
+          >
+            Privacy Policy
+          </Link>
+          .
+        </p>
+
+        <p className="text-center text-xs text-[#62646A] mt-4 font-normal">
+          Already have an account?{" "}
+          <Link href="/login" className="text-[#1DBF73] hover:underline">
             Sign In
           </Link>
         </p>
