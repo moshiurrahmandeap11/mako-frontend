@@ -66,7 +66,7 @@ export default function RegisterClient() {
   };
 
   return (
-    <div className="relative min-h-screen bg-surface-light text-text-main flex items-center justify-center p-4">
+    <div className="relative w-full min-h-screen bg-surface-light text-text-main flex items-center justify-center p-4">
       {/* Header/Logo */}
       <div className="absolute top-6 left-6 md:top-8 md:left-8 z-20">
         <Logo href="/" size="md" />
