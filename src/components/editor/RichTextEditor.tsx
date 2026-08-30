@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useMemo } from "react";
 import dynamic from "next/dynamic";
+import { useMemo } from "react";
 import "react-quill-new/dist/quill.snow.css";
 
 // Dynamic import with SSR disabled to prevent hydration mismatch in Next.js
@@ -39,7 +39,7 @@ export default function RichTextEditor({
         ["clean"],
       ],
     }),
-    []
+    [],
   );
 
   const formats = [
@@ -49,7 +49,6 @@ export default function RichTextEditor({
     "underline",
     "strike",
     "list",
-    "bullet",
     "blockquote",
     "code-block",
     "color",
@@ -64,13 +63,13 @@ export default function RichTextEditor({
         .rich-text-editor-container .ql-toolbar {
           border-top-left-radius: 0.5rem;
           border-top-right-radius: 0.5rem;
-          border-color: #E4E5E7;
-          background: #F9FAFB;
+          border-color: #e4e5e7;
+          background: #f9fafb;
         }
         .rich-text-editor-container .ql-container {
           border-bottom-left-radius: 0.5rem;
           border-bottom-right-radius: 0.5rem;
-          border-color: #E4E5E7;
+          border-color: #e4e5e7;
           min-height: 280px;
           font-size: 14px;
           color: #222325;
@@ -81,7 +80,7 @@ export default function RichTextEditor({
           line-height: 1.7;
         }
         .rich-text-editor-container .ql-editor.ql-blank::before {
-          color: #9CA3AF;
+          color: #9ca3af;
           font-style: normal;
         }
       `}</style>

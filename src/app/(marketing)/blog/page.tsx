@@ -1,7 +1,5 @@
-import React from "react";
-import { Metadata } from "next";
 import BlogListClient from "@/components/blog/BlogListClient";
-import { Newspaper } from "lucide-react";
+import { Metadata } from "next";
 
 export const revalidate = 60; // ISR revalidate every 60 seconds
 
@@ -58,18 +56,17 @@ export default async function BlogPage() {
 
   return (
     <div className="bg-white min-h-screen py-12 lg:py-16 text-text-main">
-      <div className="w-11/12 lg:w-9/12 max-w-7xl mx-auto px-4 lg:px-0 space-y-12">
+      <div className="w-11/12 lg:w-9/12 max-w-9/12 mx-auto px-4 lg:px-0 space-y-6">
         {/* Header Hero */}
-        <div className="text-center max-w-2xl mx-auto space-y-4">
-          <span className="inline-block text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full bg-[#1DBF73]/10 text-[#1DBF73]">
-            Labto AI Blog &amp; Insights
-          </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#222325]">
+        <div className="max-w-2xl space-y-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl tracking-tight text-[#222325]">
             Insights, Guides &amp; <br />
             Product Updates.
           </h1>
           <p className="text-sm sm:text-base text-[#71717A] leading-relaxed">
-            Discover how modern e-commerce stores and fast-scaling brands use autonomous AI chatbots to turn casual visitors into paying customers.
+            Discover how modern e-commerce stores and fast-scaling brands use
+            autonomous AI chatbots to turn casual visitors into paying
+            customers.
           </p>
         </div>
 
