@@ -3,13 +3,7 @@
 import Button from "@/components/Button";
 import { api } from "@/lib/axios";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  CheckCircle,
-  Mail,
-  MessageSquare,
-  Send,
-  ShieldCheck,
-} from "lucide-react";
+import { CheckCircle, Send } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -38,13 +32,10 @@ export default function ContactClient() {
 
   return (
     <div className="relative flex-1 bg-white text-text-main flex flex-col overflow-hidden py-8 lg:py-0">
-      <main className="relative z-10 flex-1 lg:max-w-9/12 mx-auto w-full px-6 lg:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <main className="relative z-10 flex-1 lg:max-w-9/12 mx-auto w-full py-12 lg:py-16 px-6 lg:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         {/* Left Info Column */}
         <div className="lg:col-span-5 space-y-8 text-left">
           <div>
-            <span className="inline-block text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full bg-[#1DBF73]/10 text-[#1DBF73] mb-3">
-              Contact Us
-            </span>
             <motion.h1
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -68,9 +59,6 @@ export default function ContactClient() {
 
           <div className="space-y-4">
             <div className="flex items-center gap-4 text-xs text-text-body">
-              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100 text-[#1DBF73]">
-                <Mail className="w-5 h-5" />
-              </div>
               <div>
                 <p className="font-bold text-text-main">Direct Email</p>
                 <a
@@ -82,9 +70,6 @@ export default function ContactClient() {
               </div>
             </div>
             <div className="flex items-center gap-4 text-xs text-text-body">
-              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100 text-[#1DBF73]">
-                <MessageSquare className="w-5 h-5" />
-              </div>
               <div>
                 <p className="font-bold text-text-main">Priority Support</p>
                 <p className="text-text-muted mt-0.5">
@@ -94,9 +79,6 @@ export default function ContactClient() {
               </div>
             </div>
             <div className="flex items-center gap-4 text-xs text-text-body">
-              <div className="w-10 h-10 rounded-md flex items-center justify-center bg-gray-100 text-[#1DBF73]">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
               <div>
                 <p className="font-bold text-text-main">
                   Data Privacy &amp; Security
