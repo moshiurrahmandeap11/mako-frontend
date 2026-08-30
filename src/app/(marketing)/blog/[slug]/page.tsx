@@ -1,6 +1,5 @@
 import BlogDetailClient from "@/components/blog/BlogDetailClient";
-import Button from "@/components/Button";
-import { ArrowRight, ChevronRight, Clock } from "lucide-react";
+import { ChevronRight, Clock } from "lucide-react";
 import { Metadata, ResolvingMetadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -134,32 +133,38 @@ export default async function SingleBlogPage({ params }: Props) {
   };
 
   return (
-    <div className="bg-white min-h-screen py-10 lg:py-16 text-text-main">
+    <div className="bg-white min-h-screen py-10 lg:py-16 text-text-main overflow-x-hidden w-full">
       {/* Inject Google SEO Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <article className="w-11/12 lg:w-8/12 max-w-4xl mx-auto px-4 lg:px-0 text-left space-y-8">
+      <article className="w-11/12 lg:w-full max-w-9/12 mx-auto px-4 lg:px-0 text-left space-y-8 min-w-0">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-2 text-xs text-[#71717A]">
-          <Link href="/" className="hover:text-[#1DBF73] transition-colors">
+        <nav className="flex items-center flex-wrap gap-2 text-xs text-[#71717A] min-w-0">
+          <Link
+            href="/"
+            className="hover:text-[#1DBF73] transition-colors shrink-0"
+          >
             Home
           </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-[#A0A2A8]" />
-          <Link href="/blog" className="hover:text-[#1DBF73] transition-colors">
+          <ChevronRight className="w-3.5 h-3.5 text-[#A0A2A8] shrink-0" />
+          <Link
+            href="/blog"
+            className="hover:text-[#1DBF73] transition-colors shrink-0"
+          >
             Blog
           </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-[#A0A2A8]" />
-          <span className="text-[#222325] font-medium truncate max-w-xs sm:max-w-md">
+          <ChevronRight className="w-3.5 h-3.5 text-[#A0A2A8] shrink-0" />
+          <span className="text-[#222325] font-medium truncate max-w-[200px] sm:max-w-md">
             {blog.title}
           </span>
         </nav>
 
         {/* Article Header */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
+        <div className="space-y-4 min-w-0">
+          <div className="flex items-center flex-wrap gap-3">
             <span className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#F0FDF4] text-[#1DBF73] border border-[#1DBF73]/20">
               {blog.category}
             </span>
@@ -169,12 +174,12 @@ export default async function SingleBlogPage({ params }: Props) {
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight text-[#222325] leading-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight text-[#222325] leading-tight break-words">
             {blog.title}
           </h1>
 
           {blog.excerpt && (
-            <p className="text-sm sm:text-base text-[#71717A] leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-[#71717A] leading-relaxed font-normal break-words">
               {blog.excerpt}
             </p>
           )}
@@ -182,11 +187,11 @@ export default async function SingleBlogPage({ params }: Props) {
           {/* Author & Share Bar */}
           <div className="pt-4 border-t border-b border-[#F4F4F5] py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-[#1DBF73]/10 text-[#1DBF73] flex items-center justify-center font-medium text-xs">
+              <div className="w-9 h-9 rounded-full bg-[#1DBF73]/10 text-[#1DBF73] flex items-center justify-center font-medium text-xs shrink-0">
                 {blog.authorName.charAt(0)}
               </div>
-              <div>
-                <p className="text-xs font-medium text-[#222325]">
+              <div className="min-w-0">
+                <p className="text-xs font-medium text-[#222325] truncate">
                   {blog.authorName}
                 </p>
                 <p className="text-[11px] text-[#71717A]">
@@ -212,13 +217,13 @@ export default async function SingleBlogPage({ params }: Props) {
             <img
               src={blog.coverImage}
               alt={blog.title}
-              className="w-full h-full object-cover"
+              className="w-full h-auto max-h-120 object-cover"
             />
           </div>
         )}
 
-        {/* Rich Text Body Content */}
-        <div className="prose prose-neutral max-w-none prose-headings:font-normal prose-headings:text-[#222325] prose-h2:text-2xl prose-h3:text-xl prose-p:text-[#4B5563] prose-p:leading-relaxed prose-a:text-[#1DBF73] prose-a:font-medium hover:prose-a:underline prose-img:rounded-md prose-img:border prose-img:border-[#E4E5E7] prose-blockquote:border-l-[#1DBF73] prose-blockquote:text-[#374151] prose-blockquote:font-normal prose-code:bg-gray-100 prose-code:text-[#222325] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs">
+        {/* Rich Text Body Content with Responsive Overflow Guard */}
+        <div className="blog-rich-content prose prose-neutral max-w-none w-full min-w-0 break-words overflow-hidden prose-headings:font-normal prose-headings:text-[#222325] prose-h2:text-2xl prose-h3:text-xl prose-p:text-[#4B5563] prose-p:leading-relaxed prose-a:text-[#1DBF73] prose-a:font-medium hover:prose-a:underline prose-img:rounded-md prose-img:border prose-img:border-[#E4E5E7] prose-blockquote:border-l-[#1DBF73] prose-blockquote:text-[#374151] prose-blockquote:font-normal prose-code:bg-gray-100 prose-code:text-[#222325] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs">
           <div dangerouslySetInnerHTML={{ __html: blog.content }} />
         </div>
 
@@ -245,20 +250,20 @@ export default async function SingleBlogPage({ params }: Props) {
             <h3 className="text-lg font-normal text-[#222325]">
               Related Articles
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {relatedBlogs.map((rel: any) => (
                 <Link
                   key={rel.id}
                   href={`/blog/${rel.slug}`}
-                  className="group block bg-white border border-[#E4E5E7] rounded-md p-4 hover:border-[#1DBF73]/60 transition-colors text-left space-y-2"
+                  className="group block bg-white border border-[#E4E5E7] rounded-md p-4 hover:border-[#1DBF73]/60 transition-colors text-left space-y-2 min-w-0"
                 >
                   <span className="text-[10px] font-medium text-[#1DBF73] bg-[#F0FDF4] border border-[#1DBF73]/20 px-2 py-0.5 rounded-md">
                     {rel.category}
                   </span>
-                  <h4 className="text-xs font-medium text-[#222325] group-hover:text-[#1DBF73] transition-colors line-clamp-2 leading-snug">
+                  <h4 className="text-xs font-medium text-[#222325] group-hover:text-[#1DBF73] transition-colors line-clamp-2 leading-snug break-words">
                     {rel.title}
                   </h4>
-                  <p className="text-[11px] text-[#71717A] line-clamp-2">
+                  <p className="text-[11px] text-[#71717A] line-clamp-2 break-words">
                     {rel.excerpt}
                   </p>
                 </Link>
@@ -266,29 +271,6 @@ export default async function SingleBlogPage({ params }: Props) {
             </div>
           </div>
         )}
-
-        {/* Bottom CTA Card */}
-        <div className="mt-10 p-6 sm:p-8 rounded-md bg-[#18181B] border border-[#E4E5E7] text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="space-y-1.5">
-            <h3 className="text-base sm:text-lg font-normal text-white">
-              Ready to Turn Store Visitors into Paying Customers?
-            </h3>
-            <p className="text-xs text-gray-400 max-w-md">
-              Install the Labto AI storefront assistant in 2 minutes and start
-              closing sales 24/7.
-            </p>
-          </div>
-          <Button
-            href="/register"
-            variant="primary"
-            size="md"
-            icon={<ArrowRight className="w-4 h-4" />}
-            iconPosition="right"
-            className="whitespace-nowrap shrink-0"
-          >
-            Get Started Free
-          </Button>
-        </div>
       </article>
     </div>
   );

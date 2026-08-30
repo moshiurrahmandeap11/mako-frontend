@@ -1,15 +1,16 @@
-import { Metadata } from "next";
+import CtaSection from "@/components/home/CtaSection";
+import FaqSection from "@/components/home/FaqSection";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import HeroSection from "@/components/home/HeroSection";
-import PlatformLogosBar from "@/components/home/PlatformLogosBar";
-import FaqSection from "@/components/home/FaqSection";
-import PricingSection from "@/components/home/PricingSection";
 import HowItWorksSection from "@/components/home/HowItWorksSection";
+import PlatformLogosBar from "@/components/home/PlatformLogosBar";
+import PricingSection from "@/components/home/PricingSection";
 import {
   constructMetadata,
   generateOrganizationSchema,
   generateSoftwareSchema,
 } from "@/lib/seo";
+import { Metadata } from "next";
 
 export const metadata: Metadata = constructMetadata({
   title: "Labto AI — Autonomous AI Sales Assistant & Shopping Concierge",
@@ -41,6 +42,7 @@ export default function LandingPage() {
         <HowItWorksSection />
         <PricingSection />
         <FaqSection />
+        <CtaSection />
       </div>
     </>
   );
