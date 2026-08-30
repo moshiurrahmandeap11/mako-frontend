@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Check,
@@ -8,7 +9,7 @@ import {
   FileCode,
   Globe,
   Layers,
-  ShoppingBag
+  ShoppingBag,
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -146,8 +147,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </div>
 
       {/* Universal Embed Snippet Box */}
-      <div className="bg-white border border-[#E4E5E7] rounded-md p-4  space-y-4">
-        <div className="flex items-center justify-between">
+      <div className="bg-white border border-[#E4E5E7] rounded-md p-4 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-1">
             <h3 className="text-lg font-medium text-[#222325] flex items-center gap-2">
               Script
@@ -156,23 +157,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Compatible with any website builder, CMS, or custom framework.
             </p>
           </div>
-          <button
+          <Button
             onClick={() => handleCopy(genericScript, "generic")}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm rounded-md bg-[#1DBF73] text-white hover:bg-[#19A463] transition-colors cursor-pointer"
+            variant="primary"
+            size="sm"
+            className="shrink-0 self-start sm:self-auto"
+            icon={
+              copiedIndex === "generic" ? (
+                <Check className="w-4 h-4" />
+              ) : (
+                <Copy className="w-4 h-4" />
+              )
+            }
           >
-            {copiedIndex === "generic" ? (
-              <>
-                <Check className="w-4 h-4" /> Copied!
-              </>
-            ) : (
-              <>
-                <Copy className="w-4 h-4" /> Copy Snippet
-              </>
-            )}
-          </button>
+            {copiedIndex === "generic" ? "Copied!" : "Copy Snippet"}
+          </Button>
         </div>
 
-        <div className="relative rounded-xl overflow-hidden bg-[#18181B] text-white p-4 font-mono text-xs leading-relaxed border border-gray-800">
+        <div className="relative rounded-md overflow-hidden bg-[#18181B] text-white p-4 font-mono text-xs leading-relaxed border border-gray-800">
           <pre className="overflow-x-auto">{genericScript}</pre>
         </div>
         <p className="text-[11px] text-[#A0A2A8]">
@@ -199,25 +201,35 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         {/* Platform Selector Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-          {platforms.map((p) => {
-            const Icon = p.icon;
-            const isActive = activePlatform === p.id;
-            return (
-              <button
-                key={p.id}
-                onClick={() => setActivePlatform(p.id)}
-                className={
-                  "flex items-center gap-2 px-4 py-2.5 rounded-md text-sm transition-all whitespace-nowrap cursor-pointer " +
-                  (isActive
-                    ? "bg-[#18181B] text-white shadow-xs"
-                    : "bg-[#F4F4F5] text-[#71717A] hover:text-[#18181B] hover:bg-[#E4E4E7]")
-                }
-              >
-                {p.name}
-              </button>
-            );
-          })}
+        <div className="flex items-center overflow-x-auto pb-1 scrollbar-none">
+          <div className="inline-flex items-center gap-1 p-1 bg-[#F4F4F5] border border-[#E4E5E7] rounded-md shrink-0">
+            {platforms.map((p) => {
+              const Icon = p.icon;
+              const isActive = activePlatform === p.id;
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setActivePlatform(p.id)}
+                  className={`relative z-10 flex items-center gap-2 px-3.5 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 shrink-0 whitespace-nowrap cursor-pointer select-none focus:outline-none ${
+                    isActive
+                      ? "text-white font-semibold"
+                      : "text-[#71717A] hover:text-[#18181B]"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="platformActiveTabPill"
+                      className="absolute inset-0 bg-[#18181B] rounded-md -z-10"
+                      transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                    />
+                  )}
+                  <Icon className="w-4 h-4 shrink-0" />
+                  <span>{p.name}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Active Platform Content Card */}
@@ -274,20 +286,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </ol>
 
                 <div className="relative rounded-md overflow-hidden bg-[#18181B] text-white p-4 text-sm leading-relaxed mt-4">
-                  <button
+                  <Button
                     onClick={() => handleCopy(shopifyLiquidCode, "shopify")}
-                    className="absolute top-3 right-3 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold flex items-center gap-1.5 transition-colors"
+                    size="sm"
+                    className="absolute top-3 right-3 !px-3 !py-1.5 !rounded-md !bg-white/10 hover:!bg-white/20 !text-white !text-[11px] !font-normal !shadow-none !border-none shrink-0 z-10"
+                    icon={
+                      copiedIndex === "shopify" ? (
+                        <Check className="w-3.5 h-3.5 text-[#1DBF73]" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )
+                    }
                   >
-                    {copiedIndex === "shopify" ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-[#1DBF73]" /> Copied
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5" /> Copy Code
-                      </>
-                    )}
-                  </button>
+                    {copiedIndex === "shopify" ? "Copied" : "Copy Code"}
+                  </Button>
                   <pre className="overflow-x-auto">{shopifyLiquidCode}</pre>
                 </div>
               </motion.div>
@@ -329,20 +341,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </ol>
 
                 <div className="relative rounded-md overflow-hidden bg-[#18181B] text-white p-4 font-mono text-xs leading-relaxed mt-4">
-                  <button
+                  <Button
                     onClick={() => handleCopy(wordpressCode, "wordpress")}
-                    className="absolute top-3 right-3 px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-[11px]  flex items-center gap-1.5 transition-colors"
+                    size="sm"
+                    className="absolute top-3 right-3 !px-3 !py-1.5 !rounded-md !bg-white/10 hover:!bg-white/20 !text-white !text-[11px] !font-normal !shadow-none !border-none shrink-0 z-10"
+                    icon={
+                      copiedIndex === "wordpress" ? (
+                        <Check className="w-3.5 h-3.5 text-[#1DBF73]" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )
+                    }
                   >
-                    {copiedIndex === "wordpress" ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-[#1DBF73]" /> Copied
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5" /> Copy Code
-                      </>
-                    )}
-                  </button>
+                    {copiedIndex === "wordpress" ? "Copied" : "Copy Code"}
+                  </Button>
                   <pre className="overflow-x-auto">{wordpressCode}</pre>
                 </div>
               </motion.div>
@@ -368,20 +380,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </p>
 
                 <div className="relative rounded-md overflow-hidden bg-[#18181B] text-white p-4 text-sm leading-relaxed mt-4">
-                  <button
+                  <Button
                     onClick={() => handleCopy(genericScript, "html")}
-                    className="absolute top-3 right-3 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold flex items-center gap-1.5 transition-colors"
+                    size="sm"
+                    className="absolute top-3 right-3 !px-3 !py-1.5 !rounded-md !bg-white/10 hover:!bg-white/20 !text-white !text-[11px] !font-normal !shadow-none !border-none shrink-0 z-10"
+                    icon={
+                      copiedIndex === "html" ? (
+                        <Check className="w-3.5 h-3.5 text-[#1DBF73]" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )
+                    }
                   >
-                    {copiedIndex === "html" ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-[#1DBF73]" /> Copied
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5" /> Copy Code
-                      </>
-                    )}
-                  </button>
+                    {copiedIndex === "html" ? "Copied" : "Copy Code"}
+                  </Button>
                   <pre className="overflow-x-auto">{genericScript}</pre>
                 </div>
               </motion.div>
@@ -407,20 +419,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </p>
 
                 <div className="relative rounded-md overflow-hidden bg-[#18181B] text-white p-4 font-mono text-xs leading-relaxed mt-4">
-                  <button
+                  <Button
                     onClick={() => handleCopy(nextjsCode, "nextjs")}
-                    className="absolute top-3 right-3 px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-[11px] flex items-center gap-1.5 transition-colors"
+                    size="sm"
+                    className="absolute top-3 right-3 !px-3 !py-1.5 !rounded-md !bg-white/10 hover:!bg-white/20 !text-white !text-[11px] !font-normal !shadow-none !border-none shrink-0 z-10"
+                    icon={
+                      copiedIndex === "nextjs" ? (
+                        <Check className="w-3.5 h-3.5 text-[#1DBF73]" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )
+                    }
                   >
-                    {copiedIndex === "nextjs" ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-[#1DBF73]" /> Copied
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5" /> Copy Code
-                      </>
-                    )}
-                  </button>
+                    {copiedIndex === "nextjs" ? "Copied" : "Copy Code"}
+                  </Button>
                   <pre className="overflow-x-auto">{nextjsCode}</pre>
                 </div>
               </motion.div>
@@ -456,20 +468,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </ol>
 
                 <div className="relative rounded-md overflow-hidden bg-[#18181B] text-white p-4 font-mono text-xs leading-relaxed mt-4">
-                  <button
+                  <Button
                     onClick={() => handleCopy(webflowCode, "webflow")}
-                    className="absolute top-3 right-3 px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-[11px] flex items-center gap-1.5 transition-colors"
+                    size="sm"
+                    className="absolute top-3 right-3 !px-3 !py-1.5 !rounded-md !bg-white/10 hover:!bg-white/20 !text-white !text-[11px] !font-normal !shadow-none !border-none shrink-0 z-10"
+                    icon={
+                      copiedIndex === "webflow" ? (
+                        <Check className="w-3.5 h-3.5 text-[#1DBF73]" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )
+                    }
                   >
-                    {copiedIndex === "webflow" ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-[#1DBF73]" /> Copied
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5" /> Copy Code
-                      </>
-                    )}
-                  </button>
+                    {copiedIndex === "webflow" ? "Copied" : "Copy Code"}
+                  </Button>
                   <pre className="overflow-x-auto">{webflowCode}</pre>
                 </div>
               </motion.div>

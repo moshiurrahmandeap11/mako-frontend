@@ -44,7 +44,7 @@ export default function Button({
         : variant;
 
   const baseStyle =
-    "inline-flex items-center justify-center gap-2 tracking-wide rounded-md transition-all duration-200 select-none text-center focus:outline-none focus:ring-2 focus:ring-[#1DBF73]/40 disabled:opacity-50 disabled:pointer-events-none cursor-pointer font-medium";
+    "inline-flex items-center justify-center gap-2 tracking-wide rounded-md transition-all duration-200 select-none text-center focus:outline-none focus:ring-2 focus:ring-[#1DBF73]/40 disabled:opacity-50 disabled:pointer-events-none cursor-pointer font-medium whitespace-nowrap";
 
   const sizeStyles = {
     sm: "px-3.5 py-1.5 text-xs",
@@ -82,7 +82,12 @@ export default function Button({
 
   if (href && !disabled) {
     return (
-      <Link href={href} target={target} onClick={onClick} className={combinedClass}>
+      <Link
+        href={href}
+        target={target}
+        onClick={onClick}
+        className={combinedClass}
+      >
         {content}
       </Link>
     );
