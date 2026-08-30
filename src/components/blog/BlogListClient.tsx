@@ -1,5 +1,6 @@
 "use client";
 
+import { LogoMark } from "@/components/Logo";
 import { motion } from "framer-motion";
 import { ArrowRight, Clock, Newspaper, Search } from "lucide-react";
 import Link from "next/link";
@@ -170,10 +171,8 @@ export default function BlogListClient({
                     </div>
 
                     <div className="pt-3.5 border-t border-[#F0F2F5] flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full bg-[#1DBF73]/10 text-[#1DBF73] flex items-center justify-center font-medium text-xs">
-                          {featuredBlog.authorName.charAt(0)}
-                        </div>
+                      <div className="flex items-center gap-2.5">
+                        <LogoMark size="sm" />
                         <div>
                           <p className="text-xs font-medium text-[#222325]">
                             {featuredBlog.authorName}

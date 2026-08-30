@@ -1,4 +1,5 @@
 import BlogDetailClient from "@/components/blog/BlogDetailClient";
+import { LogoMark } from "@/components/Logo";
 import { ChevronRight, Clock } from "lucide-react";
 import { Metadata, ResolvingMetadata } from "next";
 import Link from "next/link";
@@ -187,9 +188,7 @@ export default async function SingleBlogPage({ params }: Props) {
           {/* Author & Share Bar */}
           <div className="pt-4 border-t border-b border-[#F4F4F5] py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-[#1DBF73]/10 text-[#1DBF73] flex items-center justify-center font-medium text-xs shrink-0">
-                {blog.authorName.charAt(0)}
-              </div>
+              <LogoMark size="sm" />
               <div className="min-w-0">
                 <p className="text-xs font-medium text-[#222325] truncate">
                   {blog.authorName}
