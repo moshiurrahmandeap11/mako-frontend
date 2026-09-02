@@ -40,7 +40,7 @@ export default function HeroSection() {
           >
             Find the right AI assistant for your{" "}
             <span className="relative inline-block text-[#1DBF73]">
-              E-Commerce Store
+              Website
             </span>{" "}
             in 60 seconds
           </motion.h1>
@@ -51,7 +51,7 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-base sm:text-lg text-[#62646A] max-w-2xl mx-auto font-normal leading-relaxed"
           >
-            Turn store visitors into buyers with instant AI product recommendations, 24/7 automated support, and direct 1-click cart additions.
+            Turn website visitors into buyers with instant AI product recommendations, 24/7 automated support, and direct 1-click cart additions.
           </motion.p>
         </div>
 

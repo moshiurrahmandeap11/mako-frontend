@@ -6,9 +6,9 @@ export default function HowItWorksSection() {
   const steps = [
     {
       step: "01",
-      title: "Connect Your Storefront",
+      title: "Connect Your Website",
       description:
-        "Paste your store URL or insert our 1-line script tag into Shopify, WooCommerce, Webflow, or custom Next.js storefronts.",
+        "Paste your website URL or insert our 1-line script tag into Shopify, WooCommerce, Webflow, or custom Next.js websites.",
       icon: Code2,
       gridSpan: "lg:col-span-7",
     },
