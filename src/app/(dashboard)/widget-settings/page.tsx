@@ -315,7 +315,7 @@ export default function WidgetSettingsPage() {
 
   const scriptHost =
     process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL ||
-    "http://localhost:4000/widget.js";
+    "http://localhost:5005/widget.js";
   const [customKeyInput, setCustomKeyInput] = useState("");
   const apiKeyToUse = customKeyInput.trim() || "YOUR_API_KEY_SECRET";
 

@@ -84,7 +84,7 @@ export default function RootLayout({
           src={
             process.env.NEXT_PUBLIC_WIDGET_SCRIPT_URL ||
             "https://api.labtoai.com/widget.js" ||
-            "http://localhost:4000/widget.js"
+            "http://localhost:5005/widget.js"
           }
           data-api-key="aiw_live_7ad54fe45b4d6742248ba9a23aeac3aef15c7604448f10d8"
           strategy="lazyOnload"
