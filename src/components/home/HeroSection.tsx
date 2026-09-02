@@ -40,7 +40,7 @@ export default function HeroSection() {
           >
             Find the right AI assistant for your{" "}
             <span className="relative inline-block text-[#1DBF73]">
-              E-Commerce Store
+              Website
             </span>{" "}
             in 60 seconds
           </motion.h1>
@@ -51,7 +51,7 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-base sm:text-lg text-[#62646A] max-w-2xl mx-auto font-normal leading-relaxed"
           >
-            Turn store visitors into buyers with instant AI product recommendations, 24/7 automated support, and direct 1-click cart additions.
+            Turn website visitors into buyers with instant AI product recommendations, 24/7 automated support, and direct 1-click cart additions.
           </motion.p>
         </div>
 
@@ -87,7 +87,7 @@ export default function HeroSection() {
 
 
         {/* Full-Width Showcase Video Frame with Scroll-Driven Expand */}
-        <div className="w-full pt-4 pb-4 flex justify-center">
+        {/* <div className="w-full pt-4 pb-4 flex justify-center">
           <motion.div
             style={{
               scale: videoScale,
@@ -95,7 +95,6 @@ export default function HeroSection() {
             }}
             className="relative w-full rounded-md overflow-hidden p-2 bg-white text-left"
           >
-            {/* HTML5 Showcase Video */}
             <video
               ref={videoRef}
               src="/hero.mp4"
@@ -106,14 +105,12 @@ export default function HeroSection() {
               className="w-full aspect-video object-cover rounded-xl"
             />
 
-            {/* Video Bottom Left Live Status Pill */}
             <div className="absolute bottom-6 left-6 z-20 hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-xl border border-border-light">
               <span className="text-xs font-semibold text-text-main">
                 Live AI Assistant
               </span>
             </div>
 
-            {/* Sound Mute/Unmute Toggle Button */}
             <button
               onClick={toggleSound}
               className="absolute bottom-6 right-6 z-20 p-3 rounded-full bg-white/95 text-text-main hover:text-[#1DBF73] transition-all backdrop-blur-md shadow-lg border border-border-light flex items-center gap-2 group cursor-pointer"
@@ -126,7 +123,7 @@ export default function HeroSection() {
               )}
             </button>
           </motion.div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

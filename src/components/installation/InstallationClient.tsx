@@ -89,8 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="w-full space-y-16 text-left">
       {/* Video Guide Card Section */}
-      <div className="bg-white border border-[#E4E5E7] rounded-md p-4 space-y-6">
-        {/* Responsive YouTube Player Container */}
+      {/* <div className="bg-white border border-[#E4E5E7] rounded-md p-4 space-y-6">
         <div className="relative w-full aspect-video rounded-md overflow-hidden bg-black border border-[#E4E5E7]">
           <iframe
             className="w-full h-full"
@@ -104,7 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             allowFullScreen
           />
         </div>
-      </div>
+      </div> */}
 
       {/* Quick 3-Step Overview */}
       <div className="space-y-6">
