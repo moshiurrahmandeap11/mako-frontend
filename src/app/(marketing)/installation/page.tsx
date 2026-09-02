@@ -27,10 +27,10 @@ export default function InstallationPage() {
             How to Install <br />
             Labto AI Assistant.
           </h1>
-          <p className="text-sm sm:text-base text-[#71717A] leading-relaxed">
+          {/* <p className="text-sm sm:text-base text-[#71717A] leading-relaxed">
             Follow our 2-minute video guide or use the copy-paste snippets below
             to embed your autonomous AI storefront assistant on any platform.
-          </p>
+          </p> */}
         </div>
 
         {/* Main Installation Interactive Client */}
