@@ -13,9 +13,9 @@ import {
 import { Metadata } from "next";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Labto AI — Autonomous AI Sales Assistant & Shopping Concierge",
+  title: "Labto AI — Custom AI Chatbot & Website Copilot",
   description:
-    "Empower your e-commerce storefront with autonomous AI sales agents. Sub-second pgvector search, automated cart injections, zero-hallucination policy answers, and 1-minute embed.",
+    "Transform any website with an autonomous 24/7 AI assistant. Instantly answer visitor questions, crawl knowledge bases, capture leads, recommend products, and embed in 1 minute.",
   canonicalUrl: "/",
 });
 

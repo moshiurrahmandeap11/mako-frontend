@@ -2,9 +2,9 @@ import { Metadata } from "next";
 
 export const SITE_CONFIG = {
   name: "Labto AI",
-  title: "Labto AI — Next-Gen AI Assistant & Autonomous Website Copilot",
+  title: "Labto AI — Custom AI Chatbot & Website Copilot",
   description:
-    "Autonomous AI sales assistant, shopping concierge, and intelligent customer support agent for websites and storefronts. Sub-second hybrid pgvector search, automated actions, zero-hallucination knowledge grounding, and 1-click embed.",
+    "Transform any website with an autonomous 24/7 AI assistant. Instantly answer visitor questions, crawl knowledge bases, capture leads, recommend products, and embed in 1 minute.",
   url: process.env.NEXT_PUBLIC_APP_URL || "https://labtoai.com",
   ogImage: "/og-image.jpg",
   twitterHandle: "@labto_ai",
@@ -278,6 +278,14 @@ export function constructMetadata({
         "max-image-preview": "large",
         "max-snippet": -1,
       },
+    },
+    icons: {
+      icon: [
+        { url: "/icon.svg", type: "image/svg+xml" },
+        { url: "/favicon.ico", sizes: "48x48" },
+      ],
+      shortcut: ["/icon.svg"],
+      apple: [{ url: "/icon.svg" }],
     },
   };
 }
