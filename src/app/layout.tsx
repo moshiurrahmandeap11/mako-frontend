@@ -86,7 +86,7 @@ export default function RootLayout({
             "https://api.labtoai.com/widget.js" ||
             "http://localhost:5005/widget.js"
           }
-          data-api-key="aiw_live_7ad54fe45b4d6742248ba9a23aeac3aef15c7604448f10d8"
+          data-api-key="aiw_live_02626d43ec0add07fb12343815623e278b99925eb64af8a9"
           strategy="lazyOnload"
         />
       </body>
