@@ -44,9 +44,9 @@ export default function PlatformLogosBar() {
   ];
 
   return (
-    <section className="py-12 sm:py-16 bg-surface-light border-y border-border-light overflow-hidden w-full">
+    <section className="pt-6 sm:pt-8 pb-12 sm:pb-16 bg-bg overflow-hidden w-full">
       <div className="w-full space-y-6 text-center">
-        <h2 className="font-degular text-xl sm:text-2xl lg:text-3xl font-medium text-[#201515] tracking-tight max-w-2xl mx-auto px-4 mb-10">
+        <h2 className="font-heading text-xl sm:text-2xl lg:text-3xl font-normal text-[#1f2429] tracking-tight max-w-2xl mx-auto px-4 mb-10">
           Integrates Into Any Storefront in 2 Minutes
         </h2>
 
