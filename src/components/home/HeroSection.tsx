@@ -28,18 +28,18 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative pt-12 sm:pt-16 pb-12 sm:pb-20 overflow-hidden bg-white">
+    <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-16 sm:pb-24 overflow-hidden bg-transparent">
       <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto space-y-10 text-center">
-        {/* Commanding Fiverr-Style Headline */}
+        {/* Commanding Headline */}
         <div className="max-w-4xl mx-auto space-y-4 pt-4 sm:pt-6">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-degular text-2xl sm:text-4xl lg:text-5xl font-medium text-[#201515] tracking-tight leading-[1.15]"
+            className="font-heading text-3xl sm:text-5xl lg:text-6xl font-medium text-[#1f2429] tracking-tight leading-[1.15]"
           >
             Find the right AI assistant for your{" "}
-            <span className="relative inline-block text-[#1DBF73]">
+            <span className="relative inline-block text-[#1dbf73]">
               Website
             </span>{" "}
             in 60 seconds
@@ -49,7 +49,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-base sm:text-lg text-[#62646A] max-w-2xl mx-auto font-normal leading-relaxed"
+            className="font-inter text-base sm:text-lg text-[#6e797b] max-w-2xl mx-auto font-normal leading-relaxed"
           >
             Turn website visitors into buyers with instant AI product recommendations, 24/7 automated support, and direct 1-click cart additions.
           </motion.p>

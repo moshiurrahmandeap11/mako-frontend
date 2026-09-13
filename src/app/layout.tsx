@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
-import { Inter, Montserrat, Plus_Jakarta_Sans } from "next/font/google";
+import { Cormorant_Garamond, Inter, Montserrat, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const fontSans = Plus_Jakarta_Sans({
+const fontCormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-sans",
-  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-cormorant",
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
 const fontInter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const fontSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
   weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
@@ -42,7 +49,7 @@ export default function RootLayout({
     <html lang="en" className="h-full light" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`${fontSans.className} ${fontSans.variable} ${fontInter.variable} ${fontMontserrat.variable} min-h-full bg-white text-text-main antialiased`}
+        className={`${fontInter.className} ${fontInter.variable} ${fontCormorant.variable} ${fontSans.variable} ${fontMontserrat.variable} min-h-full bg-background text-text-main antialiased`}
       >
         <QueryProvider>
           <MaintenanceProvider>{children}</MaintenanceProvider>
