@@ -55,7 +55,7 @@ export default function Navbar() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-300 pointer-events-none ${
-          isScrolled ? "pt-3 sm:pt-4 px-4 sm:px-6" : "pt-0 sm:pt-2 px-4 sm:px-8 lg:px-12"
+          isScrolled ? "pt-3 sm:pt-4 px-4 sm:px-6" : "pt-3 sm:pt-5 lg:pt-6 px-4 sm:px-8 lg:px-12"
         }`}
       >
         <motion.div
@@ -63,7 +63,7 @@ export default function Navbar() {
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           className={`pointer-events-auto flex items-center justify-between transition-all duration-300 w-full ${
             isScrolled
-              ? "max-w-5xl h-14 sm:h-15 px-4 sm:px-6 rounded-2xl bg-white/80 backdrop-blur-xl border border-[#1f2429]/[0.08] shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
+              ? "max-w-5xl h-14 pl-3.5 sm:pl-4 pr-1.5 sm:pr-2 rounded-lg bg-white/80 backdrop-blur-xl border border-[#1f2429]/[0.08] shadow-none"
               : "max-w-7xl h-20 px-2 sm:px-4 bg-transparent border border-transparent shadow-none"
           }`}
         >
@@ -79,16 +79,16 @@ export default function Navbar() {
           </div>
 
           {/* Centered Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2 font-inter text-[13.5px] lg:text-[14px] font-medium text-[#1f2429]">
+          <nav className="hidden md:flex items-center gap-1 lg:gap-2 font-inter text-[13.5px] lg:text-[14px] font-normal text-[#1f2429]">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-3 py-1.5 rounded-lg transition-colors duration-150 ${
+                  className={`px-3 py-1.5 rounded-lg font-normal transition-colors duration-150 ${
                     isActive
-                      ? "text-[#1dbf73] font-semibold"
+                      ? "text-[#1dbf73] font-medium"
                       : "text-[#1f2429] hover:text-[#1dbf73] hover:bg-black/[0.03]"
                   }`}
                 >
@@ -219,13 +219,13 @@ export default function Navbar() {
               <div className="flex items-center gap-2 lg:gap-3 font-inter">
                 <Link
                   href="/login"
-                  className="px-3.5 py-1.5 text-[13.5px] lg:text-[14px] font-medium text-[#1f2429] hover:text-[#1dbf73] transition-colors"
+                  className="px-3.5 py-1.5 text-[13.5px] lg:text-[14px] font-normal text-[#1f2429] hover:text-[#1dbf73] transition-colors"
                 >
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="px-4 py-2 rounded-xl bg-[#1dbf73] text-white font-medium text-[13px] lg:text-[14px] hover:bg-[#19a463] shadow-sm active:scale-[0.98] transition-all"
+                  className="px-4 py-2 rounded-lg bg-[#1dbf73] text-white font-medium text-[13px] lg:text-[14px] hover:bg-[#19a463] shadow-xs active:scale-[0.98] transition-all"
                 >
                   Get started
                 </Link>
@@ -357,14 +357,14 @@ export default function Navbar() {
                       <Link
                         href="/login"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="py-3 text-center border border-[#1f2429]/15 rounded-xl font-medium text-[#1f2429] hover:bg-black/5 transition"
+                        className="py-3 text-center border border-[#1f2429]/15 rounded-lg font-medium text-[#1f2429] hover:bg-black/5 transition"
                       >
                         Login
                       </Link>
                       <Link
                         href="/register"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="py-3 text-center bg-[#1dbf73] rounded-xl font-medium text-white hover:bg-[#19a463] transition shadow-sm"
+                        className="py-3 text-center bg-[#1dbf73] rounded-lg font-medium text-white hover:bg-[#19a463] transition shadow-xs"
                       >
                         Get started
                       </Link>
