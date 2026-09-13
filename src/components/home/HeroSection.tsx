@@ -23,7 +23,7 @@ export default function HeroSection() {
       {/* White Hero Container (Full Height 100vh flexbox) */}
       <div className="w-full h-full bg-white rounded-2xl overflow-hidden shadow-xs relative flex flex-col justify-between">
         {/* Top Text & CTA Section */}
-        <div className="w-11/12 lg:w-9/12 max-w-5xl mx-auto pt-28 sm:pt-36 lg:pt-40 text-center space-y-3 sm:space-y-4 shrink-0 z-20">
+        <div className="w-11/12 lg:w-9/12 max-w-5xl mx-auto pt-48 sm:pt-36 lg:pt-40 text-center space-y-3 sm:space-y-4 shrink-0 z-20">
           {/* Main Cormorant Garamond Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -51,7 +51,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-2 sm:pt-3 pb-1 flex justify-center"
+            className="pt-4 sm:pt-3 pb-1 flex justify-center"
           >
             <form
               onSubmit={handleGetStarted}
