@@ -7,80 +7,72 @@ export default function PlatformLogosBar() {
     {
       name: "Shopify",
       logo: "/ecommerce-platforms/shopify.svg",
-      heightClass: "h-7 sm:h-8",
+      heightClass: "h-7 sm:h-8 md:h-9",
     },
     {
       name: "WooCommerce",
       logo: "/ecommerce-platforms/WooCommerce_logo_(2015).svg",
-      heightClass: "h-6 sm:h-7",
+      heightClass: "h-6 sm:h-7 md:h-8",
     },
     {
       name: "Webflow",
       logo: "/ecommerce-platforms/Webflow_logo_2023.svg",
-      heightClass: "h-5 sm:h-6",
+      heightClass: "h-5 sm:h-6 md:h-7",
     },
     {
       name: "BigCommerce",
       logo: "/ecommerce-platforms/bigcommerce-ar21.svg",
-      heightClass: "h-7 sm:h-8",
+      heightClass: "h-9 sm:h-12 md:h-13",
     },
     {
       name: "Next.js",
       logo: "/ecommerce-platforms/Nextjs-logo.svg",
-      heightClass: "h-5 sm:h-6",
+      heightClass: "h-4 sm:h-5 md:h-6",
     },
   ];
 
-  // Repeat logos 8x (40 logo items) to ensure ultra-wide screens & zoomed-out viewports never see empty gaps
-  const marqueeLogos = [
-    ...platforms,
-    ...platforms,
-    ...platforms,
-    ...platforms,
-    ...platforms,
-    ...platforms,
-    ...platforms,
-    ...platforms,
-  ];
-
   return (
-    <section className="pt-6 sm:pt-8 pb-12 sm:pb-16 bg-bg overflow-hidden w-full">
-      <div className="w-full space-y-6 text-center">
-        <h2 className="font-heading text-xl sm:text-2xl lg:text-3xl font-normal text-[#1f2429] tracking-tight max-w-2xl mx-auto px-4 mb-10">
-          Integrates Into Any Storefront in 2 Minutes
-        </h2>
+    <section className="py-12 sm:py-16 bg-bg w-full">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-8 text-center">
+        {/* Title & Description */}
+        <div className="space-y-2 max-w-2xl mx-auto">
+          <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal text-[#1f2429] tracking-tight">
+            Integrates Into Any Storefront in 2 Minutes
+          </h2>
+          <p className="font-inter text-xs sm:text-sm text-[#6e797b] font-normal leading-relaxed">
+            Connect your AI assistant to your existing e-commerce storefront or custom tech stack with zero complex engineering.
+          </p>
+        </div>
 
-        {/* Outer Marquee Container with Gradient Side Fades */}
-        <div className="relative w-full overflow-hidden py-3">
-          {/* Left & Right Smooth Side Fades */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-48 z-10 bg-gradient-to-r from-surface-light via-surface-light/80 to-transparent pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-48 z-10 bg-gradient-to-l from-surface-light via-surface-light/80 to-transparent pointer-events-none" />
-
-          {/* 100% Gap-Free Framer Motion Track */}
-          <motion.div
-            className="flex items-center gap-14 sm:gap-20 w-max"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{
-              ease: "linear",
-              duration: 35,
-              repeat: Infinity,
-            }}
-          >
-            {marqueeLogos.map((platform, i) => (
+        {/* Single Row Container without Borders */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="bg-transparent rounded-2xl overflow-hidden"
+        >
+          <div className="grid grid-cols-5">
+            {platforms.map((platform) => (
               <div
-                key={`${platform.name}-${i}`}
-                className="flex items-center justify-center shrink-0 opacity-80 hover:opacity-100 transition-opacity duration-200 group cursor-default"
+                key={platform.name}
+                className="h-20 sm:h-24 md:h-28 flex items-center justify-center p-2 sm:p-4 md:p-6 group cursor-default"
               >
                 <img
                   src={platform.logo}
                   alt={platform.name}
-                  className={`${platform.heightClass} w-auto object-contain transition-transform duration-200 group-hover:scale-105`}
+                  className={`${platform.heightClass} max-w-full w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-200`}
                 />
               </div>
             ))}
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
 }
+
+
+
+
+

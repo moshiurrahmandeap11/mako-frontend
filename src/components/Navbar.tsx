@@ -63,7 +63,7 @@ export default function Navbar() {
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           className={`pointer-events-auto flex items-center justify-between transition-all duration-300 w-full ${
             isScrolled
-              ? "max-w-5xl h-14 pl-3.5 sm:pl-4 pr-1.5 sm:pr-2 rounded-lg bg-white/80 backdrop-blur-xl border border-[#1f2429]/[0.08] shadow-none"
+              ? "max-w-5xl h-14 pl-3.5 sm:pl-4 pr-1.5 sm:pr-2 rounded-lg bg-white/50 backdrop-blur-xl border border-[#1f2429]/[0.05] shadow-none"
               : "max-w-7xl h-20 px-2 sm:px-4 bg-transparent border border-transparent shadow-none"
           }`}
         >
