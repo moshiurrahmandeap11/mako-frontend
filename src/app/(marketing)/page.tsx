@@ -1,4 +1,3 @@
-import CtaSection from "@/components/home/CtaSection";
 import FaqSection from "@/components/home/FaqSection";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import HeroSection from "@/components/home/HeroSection";
@@ -35,14 +34,13 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
       />
 
-      <div className="bg-white text-[#201515] flex flex-col overflow-x-hidden">
+      <div className="bg-bg text-text-color flex flex-col overflow-x-hidden min-h-screen">
         <HeroSection />
         <PlatformLogosBar />
         <FeaturesSection />
         <HowItWorksSection />
         <PricingSection />
         <FaqSection />
-        <CtaSection />
       </div>
     </>
   );

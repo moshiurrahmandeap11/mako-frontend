@@ -1,56 +1,94 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #222325;
+  /* User Defined Base Colors */
+  --primary: #1dbf73;
+  --bg: #f2f7f7;
+  --gray-text: #6e797b;
+  --text-color: #1f2429;
+  --dark-bg: #1f2429;
+  --text-white: #ffffff;
+
+  /* Theme Variable Mappings */
+  --background: #f2f7f7;
+  --foreground: #1f2429;
   --surface-white: #ffffff;
-  --surface-light: #f7f7f7;
-  --surface-hover: #f0f2f5;
+  --surface-light: #f2f7f7;
+  --surface-hover: #e6eeee;
+  --surface-dark: #1f2429;
   --border-light: #e4e5e7;
   --border-subtle: #ededed;
+  
   --ai-green: #1dbf73;
   --ai-green-dark: #19a463;
   --ai-green-darker: #14844e;
   --ai-green-glow: rgba(29, 191, 115, 0.15);
   --ai-green-tint: #e8f8f0;
-  --text-main: #201515;
-  --text-body: #404145;
-  --text-muted: #74767e;
+  
+  --text-main: #1f2429;
+  --text-body: #1f2429;
+  --text-muted: #6e797b;
   --fiverr-green: #1dbf73;
   --fiverr-dark: #19a463;
 }
 
 @theme inline {
+  --color-primary: #1dbf73;
+  --color-bg: #f2f7f7;
+  --color-gray-text: #6e797b;
+  --color-text-color: #1f2429;
+  --color-dark-bg: #1f2429;
+  --color-text-white: #ffffff;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface-white: #ffffff;
-  --color-surface-light: #f7f7f7;
-  --color-surface-hover: #f0f2f5;
+  --color-surface-light: #f2f7f7;
+  --color-surface-hover: #e6eeee;
+  --color-surface-dark: #1f2429;
   --color-border-light: #e4e5e7;
+  --color-border-subtle: #ededed;
+  
   --color-ai-green: #1dbf73;
   --color-ai-green-dark: #19a463;
   --color-ai-green-darker: #14844e;
   --color-ai-green-glow: rgba(29, 191, 115, 0.15);
   --color-ai-green-tint: #e8f8f0;
-  --color-text-main: #201515;
-  --color-text-body: #404145;
-  --color-text-muted: #74767e;
+  
+  --color-text-main: #1f2429;
+  --color-text-body: #1f2429;
+  --color-text-muted: #6e797b;
   --color-fiverr-green: #1dbf73;
   --color-fiverr-dark: #19a463;
-  --font-sans: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Font Families */
+  --font-heading: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-cormorant: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-inter), Inter, sans-serif;
   --font-inter: var(--font-inter), Inter, sans-serif;
+  --font-montserrat: var(--font-montserrat), Montserrat, sans-serif;
+  --font-jakarta: var(--font-sans), "Plus Jakarta Sans", sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
-.font-degular,
-.font-montserrat,
-.font-heading {
-  font-family: var(--font-montserrat), Montserrat, sans-serif;
-  font-weight: 500;
+.font-heading,
+.font-cormorant,
+.font-degular {
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
 }
 
-.font-inter {
+.font-inter,
+.font-body,
+.font-sans {
   font-family: var(--font-inter), Inter, sans-serif;
+}
+
+.font-montserrat {
+  font-family: var(--font-montserrat), Montserrat, sans-serif;
+}
+
+.font-jakarta {
+  font-family: var(--font-sans), "Plus Jakarta Sans", sans-serif;
 }
 
 @keyframes marquee {
@@ -72,24 +110,8 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-inter), Inter, sans-serif;
   min-height: 100vh;
-}
-
-/* Custom Scrollbar for Fiverr Theme */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #f7f7f7;
-}
-::-webkit-scrollbar-thumb {
-  background: #dadbdd;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #1dbf73;
 }
 
 /* SweetAlert2 Clean White Dashboard Theme Overrides */

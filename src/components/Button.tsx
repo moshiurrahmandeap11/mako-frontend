@@ -44,7 +44,7 @@ export default function Button({
         : variant;
 
   const baseStyle =
-    "inline-flex items-center justify-center gap-2 tracking-wide rounded-md transition-all duration-200 select-none text-center focus:outline-none focus:ring-2 focus:ring-[#1DBF73]/40 disabled:opacity-50 disabled:pointer-events-none cursor-pointer font-medium whitespace-nowrap";
+    "inline-flex items-center justify-center gap-2 tracking-wide rounded-lg transition-all duration-200 select-none text-center focus:outline-none focus:ring-2 focus:ring-[#1dbf73]/40 disabled:opacity-50 disabled:pointer-events-none cursor-pointer font-medium whitespace-nowrap";
 
   const sizeStyles = {
     sm: "px-3.5 py-1.5 text-xs",
@@ -54,13 +54,13 @@ export default function Button({
 
   const variantStyles = {
     primary:
-      "bg-[#1DBF73] text-[#ffffff] hover:bg-[#19A463] shadow-md shadow-[#1DBF73]/20 active:scale-[0.98] font-semibold",
+      "bg-[#1dbf73] text-white hover:bg-[#19a463] shadow-xs active:scale-[0.98] font-medium",
     secondary:
-      "bg-transparent text-[#1DBF73] border border-[#1DBF73]/50 hover:border-[#1DBF73] hover:bg-[#1DBF73]/10 active:scale-[0.98] font-semibold",
+      "bg-transparent text-[#1f2429] border border-[#1f2429]/15 hover:border-[#1dbf73] hover:text-[#1dbf73] hover:bg-black/[0.02] active:scale-[0.98] font-medium",
     ghost:
-      "bg-transparent text-slate-300 hover:text-[#1DBF73] hover:bg-[#1DBF73]/10 border border-transparent",
+      "bg-transparent text-[#6e797b] hover:text-[#1dbf73] hover:bg-black/[0.03] border border-transparent",
     danger:
-      "bg-rose-500/10 text-rose-400 border border-rose-500/30 hover:bg-rose-500 hover:text-white active:scale-[0.98]",
+      "bg-rose-500/10 text-rose-500 border border-rose-500/30 hover:bg-rose-500 hover:text-white active:scale-[0.98]",
   };
 
   const combinedClass = `${baseStyle} ${sizeStyles[size]} ${variantStyles[normalizedVariant]} ${className}`;

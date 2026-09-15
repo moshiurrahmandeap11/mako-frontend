@@ -39,7 +39,7 @@ export default function HowItWorksSection() {
   ];
 
   return (
-    <section id="how-it-works" className="py-16 sm:py-24 bg-white border-y border-border-light relative overflow-hidden">
+    <section id="how-it-works" className="py-16 sm:py-24 bg-white relative overflow-hidden">
       <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto space-y-12 relative z-10">
         {/* Section Title */}
         <div className="text-left space-y-2 max-w-3xl">
@@ -58,22 +58,22 @@ export default function HowItWorksSection() {
             return (
               <div
                 key={item.step}
-                className={`${item.gridSpan} rounded-xl bg-white border border-border-light p-6 sm:p-8 flex flex-col justify-between hover:bg-[#1DBF73] hover:border-[#1DBF73] transition-all duration-300 group cursor-pointer text-left space-y-4`}
+                className={`${item.gridSpan} rounded-3xl bg-[#F7F7F7] p-6 sm:p-8 flex flex-col justify-between hover:bg-[#1f2429] transition-all duration-300 group cursor-pointer text-left space-y-4`}
               >
                 {/* Step Header */}
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl sm:text-3xl font-bold font-degular text-[#1DBF73] group-hover:!text-white transition-colors duration-300">
+                  <span className="text-xl sm:text-2xl font-normal font-inter text-[#222325] group-hover:text-white transition-colors duration-300">
                     {item.step}
                   </span>
-                  <Icon className="w-6 sm:w-7 h-6 sm:h-7 text-[#201515] group-hover:!text-white transition-colors duration-300" strokeWidth={1.25} />
+                  <Icon className="w-6 sm:w-7 h-6 sm:h-7 text-[#62646A] group-hover:text-white transition-colors duration-300" strokeWidth={1.25} />
                 </div>
 
                 {/* Title & Description */}
                 <div className="space-y-2">
-                  <h3 className="font-degular text-lg sm:text-xl font-medium text-[#201515] group-hover:!text-white tracking-tight transition-colors duration-300">
+                  <h3 className="font-inter text-lg sm:text-xl lg:text-2xl font-normal text-[#62646A] group-hover:text-white tracking-tight transition-colors duration-300">
                     {item.title}
                   </h3>
-                  <p className="text-[#62646A] group-hover:!text-white text-xs sm:text-sm leading-relaxed transition-colors duration-300">
+                  <p className="text-[#62646A] group-hover:text-white text-xs sm:text-sm leading-relaxed transition-colors duration-300">
                     {item.description}
                   </p>
                 </div>

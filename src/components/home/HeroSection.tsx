@@ -1,130 +1,96 @@
 "use client";
 
-import Button from "@/components/Button";
-import {
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-import {
-  ArrowRight,
-  Volume2,
-  VolumeX,
-} from "lucide-react";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function HeroSection() {
-  const [isMuted, setIsMuted] = useState(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  // Track scroll from top of page (0px) to scrolled down (420px)
-  const { scrollY } = useScroll();
-  const videoScale = useTransform(scrollY, [0, 420], [0.7, 1]);
+  const [email, setEmail] = useState("");
+  const router = useRouter();
 
-  const toggleSound = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
+  const handleGetStarted = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      router.push(`/register?email=${encodeURIComponent(email.trim())}`);
+    } else {
+      router.push("/register");
     }
   };
 
   return (
-    <section className="relative pt-12 sm:pt-16 pb-12 sm:pb-20 overflow-hidden bg-white">
-      <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto space-y-10 text-center">
-        {/* Commanding Fiverr-Style Headline */}
-        <div className="max-w-4xl mx-auto space-y-4 pt-4 sm:pt-6">
+    <section className="w-full h-screen p-2 sm:p-3 flex flex-col box-border">
+      {/* White Hero Container (Full Height 100vh flexbox) */}
+      <div className="w-full h-full bg-white rounded-2xl overflow-hidden shadow-xs relative flex flex-col justify-between">
+        {/* Top Text & CTA Section */}
+        <div className="w-11/12 lg:w-9/12 max-w-5xl mx-auto pt-48 sm:pt-36 lg:pt-40 text-center space-y-3 sm:space-y-4 shrink-0 z-20">
+          {/* Main Cormorant Garamond Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-degular text-2xl sm:text-4xl lg:text-5xl font-medium text-[#201515] tracking-tight leading-[1.15]"
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="font-heading text-3xl sm:text-5xl lg:text-6xl xl:text-[68px] font-normal text-[#1f2429] tracking-tight leading-[1.08]"
           >
-            Find the right AI assistant for your{" "}
-            <span className="relative inline-block text-[#1DBF73]">
-              Website
-            </span>{" "}
-            in 60 seconds
+            AI agents shoppers love.
+            <br />
+            Sales you can prove.
           </motion.h1>
 
+          {/* Subtitle Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-base sm:text-lg text-[#62646A] max-w-2xl mx-auto font-normal leading-relaxed"
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="font-inter text-xs sm:text-sm lg:text-base text-[#6e797b] max-w-xl mx-auto font-normal leading-relaxed"
           >
-            Turn website visitors into buyers with instant AI product recommendations, 24/7 automated support, and direct 1-click cart additions.
+            The autonomous AI assistant that helps e-commerce teams own every customer interaction, from question resolution to 1-click cart checkout.
           </motion.p>
+
+          {/* Floating Email CTA Pill Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="pt-4 sm:pt-3 pb-1 flex justify-center"
+          >
+            <form
+              onSubmit={handleGetStarted}
+              className="w-full max-w-md bg-white rounded-xl p-1.5 sm:p-2 border border-[#1f2429]/10 flex items-center justify-between gap-2"
+            >
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="What's your work email?"
+                className="w-full px-3 sm:px-4 py-2 text-xs sm:text-sm text-[#1f2429] placeholder:text-[#6e797b]/70 outline-none bg-transparent font-inter"
+              />
+              <button
+                type="submit"
+                className="px-5 sm:px-6 py-2.5 rounded-lg bg-[#1dbf73] hover:bg-[#19a463] text-white font-inter font-medium text-xs sm:text-sm whitespace-nowrap transition-all active:scale-[0.98] cursor-pointer shrink-0"
+              >
+                Get started
+              </button>
+            </form>
+          </motion.div>
         </div>
 
-        {/* Fiverr-Style Action Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-wrap items-center justify-center gap-3"
-        >
-          <Button
-            href="/pricing"
-            variant="primary"
-            size="lg"
-            className="px-8 py-3.5 text-sm font-bold shadow-md shadow-[#1DBF73]/20"
-          >
-            <span className="flex items-center gap-2">
-              Start Free Trial
-              <ArrowRight className="w-4 h-4" />
-            </span>
-          </Button>
+        {/* Hero Image Container (Flex-1 to fill the remaining 100vh height seamlessly) */}
+        <div className="relative w-full flex-1 min-h-[220px] overflow-hidden rounded-b-2xl mt-2">
+          {/* Top Gradient Fade to blend seamlessly with pure white container */}
+          <div className="absolute inset-x-0 top-0 h-24 sm:h-36 bg-gradient-to-b from-white via-white/80 to-transparent pointer-events-none z-10" />
 
-          <Button
-            href="/contact"
-            variant="secondary"
-            size="lg"
-            className="px-7 py-3.5 text-sm font-bold bg-white text-text-main border-border-light hover:border-[#1DBF73] hover:text-[#1DBF73]"
-          >
-            Partner with us
-          </Button>
-        </motion.div>
-
-
-
-        {/* Full-Width Showcase Video Frame with Scroll-Driven Expand */}
-        {/* <div className="w-full pt-4 pb-4 flex justify-center">
-          <motion.div
-            style={{
-              scale: videoScale,
-              transformOrigin: "center top",
-            }}
-            className="relative w-full rounded-md overflow-hidden p-2 bg-white text-left"
-          >
-            <video
-              ref={videoRef}
-              src="/hero.mp4"
-              autoPlay
-              loop
-              muted={isMuted}
-              playsInline
-              className="w-full aspect-video object-cover rounded-xl"
-            />
-
-            <div className="absolute bottom-6 left-6 z-20 hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-xl border border-border-light">
-              <span className="text-xs font-semibold text-text-main">
-                Live AI Assistant
-              </span>
-            </div>
-
-            <button
-              onClick={toggleSound}
-              className="absolute bottom-6 right-6 z-20 p-3 rounded-full bg-white/95 text-text-main hover:text-[#1DBF73] transition-all backdrop-blur-md shadow-lg border border-border-light flex items-center gap-2 group cursor-pointer"
-              title={isMuted ? "Unmute Audio" : "Mute Audio"}
-            >
-              {isMuted ? (
-                <VolumeX className="w-4 h-4" />
-              ) : (
-                <Volume2 className="w-4 h-4 text-[#1DBF73]" />
-              )}
-            </button>
-          </motion.div>
-        </div> */}
+          {/* Background Hero Image - Anchored at the bottom */}
+          <Image
+            src="/hero-bgg.jpg"
+            alt="AI Storefront Assistant Preview"
+            fill
+            priority
+            quality={95}
+            className="object-cover object-bottom"
+          />
+        </div>
       </div>
     </section>
   );
 }
+
