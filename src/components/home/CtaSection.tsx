@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 
 export default function CtaSection() {
   return (
-    <section className="py-12 sm:py-16 bg-surface-light">
+    <section className="py-12 sm:py-16 bg-white">
       <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto">
         <div className="relative overflow-hidden rounded-3xl bg-[#1DBF73] p-8 sm:p-12 lg:p-14 text-white flex flex-col justify-center min-h-[300px]">
           {/* Concentric Circles Right Graphic Pattern (Anchored at Right Edge) */}

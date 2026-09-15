@@ -19,7 +19,7 @@ interface MiniToggleProps {
 
 function MiniPlanToggle({ cycle, onChange, id }: MiniToggleProps) {
   return (
-    <div className="relative inline-flex items-center p-0.5 bg-white border border-border-light rounded-lg text-[10px] sm:text-[11px] select-none whitespace-nowrap shrink-0">
+    <div className="relative inline-flex items-center p-0.5 bg-[#F7F7F7] border border-border-light rounded-lg text-[10px] sm:text-[11px] select-none whitespace-nowrap shrink-0">
       {/* Monthly Button */}
       <button
         type="button"
@@ -159,7 +159,7 @@ export default function PricingPlansView({ className = "" }: { className?: strin
     <div className={`w-full ${className}`}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* 1. FREE PLAN */}
-        <div className="p-6 rounded-2xl bg-[#F7F7F7] border border-border-light hover:border-[#DADBDD] hover:shadow-md flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter">
+        <div className="p-6 rounded-2xl bg-white border border-border-light hover:border-[#DADBDD] flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter">
           {isFreeCurrent && (
             <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white flex items-center gap-1 shadow-sm font-mono">
               <CheckCircle2 className="w-3 h-3 text-white" /> Current Plan
@@ -210,10 +210,10 @@ export default function PricingPlansView({ className = "" }: { className?: strin
 
         {/* 2. STARTER PLAN ($2) */}
         <div
-          className={`p-6 rounded-2xl bg-[#F7F7F7] flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter ${
+          className={`p-6 rounded-2xl bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter ${
             highlightStarter
               ? "border-2 border-[#1DBF73]" + (isStarterCurrent ? " bg-ai-green-tint/30" : "")
-              : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
+              : "border border-border-light hover:border-[#DADBDD]"
           }`}
         >
           <div className="space-y-4">
@@ -316,10 +316,10 @@ export default function PricingPlansView({ className = "" }: { className?: strin
 
         {/* 3. PRO PLAN ($5) */}
         <div
-          className={`p-6 rounded-2xl bg-[#F7F7F7] flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter ${
+          className={`p-6 rounded-2xl bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter ${
             highlightPro
               ? "border-2 border-[#1DBF73]" + (isProCurrent ? " bg-ai-green-tint/30" : "")
-              : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
+              : "border border-border-light hover:border-[#DADBDD]"
           }`}
         >
           <div className="space-y-4">
@@ -427,10 +427,10 @@ export default function PricingPlansView({ className = "" }: { className?: strin
 
         {/* 4. ENTERPRISE PLAN */}
         <div
-          className={`p-6 rounded-2xl bg-[#F7F7F7] flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter ${
+          className={`p-6 rounded-2xl bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter ${
             highlightEnterprise
               ? "border-2 border-[#1DBF73]" + (isEnterpriseCurrent ? " bg-ai-green-tint/30" : "")
-              : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
+              : "border border-border-light hover:border-[#DADBDD]"
           }`}
         >
           {isEnterpriseCurrent && (

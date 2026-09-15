@@ -40,7 +40,7 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="py-16 sm:py-24 bg-surface-light">
+    <section id="faq" className="py-16 sm:py-24 bg-white">
       <div className="w-11/12 lg:w-9/12 max-w-4xl mx-auto space-y-10">
         <div className="text-center space-y-3">
           <h2 className="font-degular text-2xl sm:text-4xl font-medium text-[#201515] tracking-tight">
@@ -57,17 +57,17 @@ export default function FaqSection() {
             return (
               <div
                 key={index}
-                className="border border-border-light rounded-xl overflow-hidden bg-white transition-all"
+                className="rounded-xl overflow-hidden bg-[#F7F7F7] transition-all"
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="w-full px-6 py-4 flex items-center justify-between text-left cursor-pointer hover:bg-slate-50 transition-colors"
+                  className="w-full px-6 py-4 flex items-center justify-between text-left cursor-pointer"
                 >
-                  <span className="text-sm font-semibold text-text-main pr-4">
+                  <span className="text-base font-normal text-[#62646A] pr-4">
                     {faq.question}
                   </span>
                   <ChevronDown
-                    className={`w-4 h-4 text-text-muted transition-transform duration-200 shrink-0 ${
+                    className={`w-5 h-5 text-[#62646A] transition-transform duration-200 shrink-0 ${
                       isOpen ? "rotate-180 text-[#1DBF73]" : ""
                     }`}
                   />
@@ -82,7 +82,7 @@ export default function FaqSection() {
                       transition={{ duration: 0.2 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-5 pt-1 text-xs sm:text-sm text-[#62646A] leading-relaxed border-t border-slate-100">
+                      <div className="px-6 pb-5 pt-1 text-xs sm:text-sm text-[#62646A] leading-relaxed">
                         {faq.answer}
                       </div>
                     </motion.div>

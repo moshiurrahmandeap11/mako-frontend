@@ -1,17 +1,18 @@
 "use client";
 
 import BugReportButton from "@/components/BugReportButton";
+import { LogoMark } from "@/components/Logo";
 import Link from "next/link";
 
 export default function FooterSection() {
   return (
-    <footer className="mt-auto relative bg-[#1f2429] text-white">
+    <footer className="mt-auto relative bg-[#1f2429] text-white font-inter">
       {/* Wave SVG Transition Graphic */}
-      <div className="w-full overflow-hidden leading-none bg-surface-light">
+      <div className="w-full overflow-hidden leading-none bg-white">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1440 320"
-          className="w-full h-10 sm:h-16 md:h-20 block"
+          className="w-full h-12 sm:h-20 md:h-24 block"
           preserveAspectRatio="none"
         >
           <path
@@ -22,50 +23,115 @@ export default function FooterSection() {
         </svg>
       </div>
 
-      <div className="pt-2 pb-6 sm:pt-3 sm:pb-8">
-        <div className="w-11/12 lg:w-9/12 mx-auto flex flex-col md:flex-row items-center justify-between gap-5 md:gap-6 text-xs">
-          <p className="text-center md:text-left order-2 md:order-1 text-[#9D9DA6]">
-            © {new Date().getFullYear()} Labto AI Inc. All rights reserved.
-          </p>
+      <div className="pt-4 pb-8 sm:pt-6 sm:pb-12">
+        <div className="w-11/12 lg:w-9/12 mx-auto space-y-10">
+          {/* Top Mega Grid Columns */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10">
+            {/* Brand Column (Spans 2 columns on lg screens) */}
+            <div className="lg:col-span-2 space-y-4 text-left">
+              <Link href="/" className="inline-flex items-center gap-2.5">
+                <LogoMark size="md" />
+                <span className="text-xl font-semibold font-inter text-white tracking-tight">
+                  Labto AI
+                </span>
+              </Link>
+              <p className="text-sm text-[#9D9DA6] leading-relaxed max-w-sm">
+                Empowering modern e-commerce stores with sub-second AI sales assistants, 100% credit rollover, intelligent product RAG search, and 1-click cart event bridge.
+              </p>
+            </div>
 
-          <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-5 sm:gap-x-6 gap-y-2.5 font-normal text-white order-1 md:order-2">
-            <BugReportButton className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-normal border border-white/20 rounded-md transition cursor-pointer" />
-            <Link
-              href="/blog"
-              className="hover:text-[#1DBF73] transition-colors whitespace-nowrap py-1 text-white/90 font-normal"
-            >
-              Blog
-            </Link>
-            <Link
-              href="/installation"
-              className="hover:text-[#1DBF73] transition-colors whitespace-nowrap py-1 text-white/90 font-normal"
-            >
-              Installation
-            </Link>
-            <Link
-              href="/about"
-              className="hover:text-[#1DBF73] transition-colors whitespace-nowrap py-1 text-white/90 font-normal"
-            >
-              About Us
-            </Link>
-            <Link
-              href="/contact"
-              className="hover:text-[#1DBF73] transition-colors whitespace-nowrap py-1 text-white/90 font-normal"
-            >
-              Contact
-            </Link>
-            <Link
-              href="/privacy"
-              className="hover:text-[#1DBF73] transition-colors whitespace-nowrap py-1 text-white/90 font-normal"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              className="hover:text-[#1DBF73] transition-colors whitespace-nowrap py-1 text-white/90 font-normal"
-            >
-              Terms of Service
-            </Link>
+            {/* Product Column */}
+            <div className="space-y-3 text-left">
+              <h4 className="text-xs font-medium uppercase tracking-wider text-white">
+                Product
+              </h4>
+              <ul className="space-y-2 text-xs text-[#9D9DA6] font-normal">
+                <li>
+                  <Link href="#features" className="hover:text-[#1DBF73] transition-colors">
+                    RAG Smart Search
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#features" className="hover:text-[#1DBF73] transition-colors">
+                    Cart Event Bridge
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#features" className="hover:text-[#1DBF73] transition-colors">
+                    Web Policy Scraper
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#features" className="hover:text-[#1DBF73] transition-colors">
+                    Widget Customizer
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#pricing" className="hover:text-[#1DBF73] transition-colors">
+                    Pricing &amp; Refills
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Resources Column */}
+            <div className="space-y-3 text-left">
+              <h4 className="text-xs font-medium uppercase tracking-wider text-white">
+                Resources
+              </h4>
+              <ul className="space-y-2 text-xs text-[#9D9DA6] font-normal">
+                <li>
+                  <Link href="/installation" className="hover:text-[#1DBF73] transition-colors">
+                    Installation Guide
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blog" className="hover:text-[#1DBF73] transition-colors">
+                    Blog &amp; Insights
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className="hover:text-[#1DBF73] transition-colors">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="hover:text-[#1DBF73] transition-colors">
+                    Contact Support
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal & Action Column */}
+            <div className="space-y-3 text-left">
+              <h4 className="text-xs font-medium uppercase tracking-wider text-white">
+                Legal &amp; Support
+              </h4>
+              <ul className="space-y-2 text-xs text-[#9D9DA6] font-normal">
+                <li>
+                  <Link href="/privacy" className="hover:text-[#1DBF73] transition-colors">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms" className="hover:text-[#1DBF73] transition-colors">
+                    Terms of Service
+                  </Link>
+                </li>
+              </ul>
+              <div className="pt-2">
+                <BugReportButton className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-normal border border-white/20 rounded-md transition cursor-pointer" />
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Copyright Divider */}
+          <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#9D9DA6] font-normal">
+            <p>© {new Date().getFullYear()} Labto AI Inc. All rights reserved.</p>
+            <p className="text-white/80">
+              Built for modern e-commerce storefronts.
+            </p>
           </div>
         </div>
       </div>
