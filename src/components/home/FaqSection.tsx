@@ -40,7 +40,7 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="py-16 sm:py-24 bg-white border-t border-border-light">
+    <section id="faq" className="py-16 sm:py-24 bg-surface-light">
       <div className="w-11/12 lg:w-9/12 max-w-4xl mx-auto space-y-10">
         <div className="text-center space-y-3">
           <h2 className="font-degular text-2xl sm:text-4xl font-medium text-[#201515] tracking-tight">

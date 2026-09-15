@@ -19,12 +19,12 @@ interface MiniToggleProps {
 
 function MiniPlanToggle({ cycle, onChange, id }: MiniToggleProps) {
   return (
-    <div className="relative inline-flex items-center p-0.5 bg-[#F1F5F9] border border-[#E2E8F0] rounded-lg text-[11px] select-none">
+    <div className="relative inline-flex items-center p-0.5 bg-white border border-border-light rounded-lg text-[10px] sm:text-[11px] select-none whitespace-nowrap shrink-0">
       {/* Monthly Button */}
       <button
         type="button"
         onClick={() => onChange("monthly")}
-        className={`relative z-10 px-2.5 py-0.5 rounded-md font-medium transition-colors duration-200 cursor-pointer focus:outline-none ${
+        className={`relative z-10 px-2 py-0.5 rounded-md font-medium transition-colors duration-200 cursor-pointer focus:outline-none whitespace-nowrap ${
           cycle === "monthly"
             ? "text-white font-semibold"
             : "text-[#64748B] hover:text-[#18181B]"
@@ -44,7 +44,7 @@ function MiniPlanToggle({ cycle, onChange, id }: MiniToggleProps) {
       <button
         type="button"
         onClick={() => onChange("onetime")}
-        className={`relative z-10 px-2.5 py-0.5 rounded-md font-medium transition-colors duration-200 cursor-pointer focus:outline-none ${
+        className={`relative z-10 px-2 py-0.5 rounded-md font-medium transition-colors duration-200 cursor-pointer focus:outline-none whitespace-nowrap ${
           cycle === "onetime"
             ? "text-white font-semibold"
             : "text-[#64748B] hover:text-[#18181B]"
@@ -159,7 +159,7 @@ export default function PricingPlansView({ className = "" }: { className?: strin
     <div className={`w-full ${className}`}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* 1. FREE PLAN */}
-        <div className="p-6 rounded-md bg-white border border-border-light hover:border-[#DADBDD] hover:shadow-md flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left">
+        <div className="p-6 rounded-2xl bg-[#F7F7F7] border border-border-light hover:border-[#DADBDD] hover:shadow-md flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter">
           {isFreeCurrent && (
             <span className="absolute top-3 right-3 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#1DBF73] text-white flex items-center gap-1 shadow-sm font-mono">
               <CheckCircle2 className="w-3 h-3 text-white" /> Current Plan
@@ -168,18 +168,18 @@ export default function PricingPlansView({ className = "" }: { className?: strin
 
           <div className="space-y-4">
             <div>
-              <h3 className="text-lg font-medium text-text-main">Free</h3>
+              <h3 className="text-lg font-medium text-[#201515] font-inter">Free</h3>
               <p className="text-xs text-[#62646A] mt-1 min-h-8">
                 Ideal for testing and launching your first AI storefront assistant.
               </p>
             </div>
 
             <div className="flex items-baseline gap-1 py-1 border-b border-border-light">
-              <span className="text-3xl sm:text-4xl text-text-main tracking-tight font-medium">$0</span>
-              <span className="text-xs text-text-muted">lifetime</span>
+              <span className="text-3xl sm:text-4xl text-[#201515] tracking-tight font-medium font-inter">$0</span>
+              <span className="text-xs text-[#62646A]">lifetime</span>
             </div>
 
-            <ul className="space-y-2.5 text-xs text-text-body">
+            <ul className="space-y-2.5 text-xs text-[#62646A]">
               {[
                 "1,500 AI Smart Credits (Lifetime)",
                 "1 Active API key",
@@ -201,7 +201,7 @@ export default function PricingPlansView({ className = "" }: { className?: strin
               onClick={() => handleSelectPlan("FREE", "monthly", "/register")}
               variant="outline"
               size="md"
-              className="w-full justify-center text-sm text-text-main border-border-light hover:bg-slate-50"
+              className="w-full justify-center text-sm text-[#201515] border-border-light hover:bg-[#F7F7F7]"
             >
               {session ? "Current Plan (Dashboard)" : "Get Started Free"}
             </Button>
@@ -210,19 +210,19 @@ export default function PricingPlansView({ className = "" }: { className?: strin
 
         {/* 2. STARTER PLAN ($2) */}
         <div
-          className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left ${
+          className={`p-6 rounded-2xl bg-[#F7F7F7] flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter ${
             highlightStarter
-              ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30 bg-ai-green-tint/30"
+              ? "border-2 border-[#1DBF73]" + (isStarterCurrent ? " bg-ai-green-tint/30" : "")
               : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
           }`}
         >
           <div className="space-y-4">
             {/* Header with Title + Current Plan Badge OR Mini Toggle */}
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg font-medium text-text-main">Starter</h3>
+            <div className="flex items-center justify-between gap-1.5">
+              <div className="flex items-center gap-1.5 shrink-0">
+                <h3 className="text-lg font-medium text-[#201515] font-inter">Starter</h3>
                 {isStarterCurrent && (
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1DBF73] text-white flex items-center gap-1 shadow-xs font-mono">
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1DBF73] text-white flex items-center gap-1 shadow-xs font-mono whitespace-nowrap">
                     <CheckCircle2 className="w-3 h-3 text-white" /> Current Plan
                   </span>
                 )}
@@ -253,7 +253,7 @@ export default function PricingPlansView({ className = "" }: { className?: strin
             </div>
 
             <div className="flex items-baseline gap-1 py-1 border-b border-border-light">
-              <span className="text-3xl sm:text-4xl text-text-main tracking-tight font-medium">$2</span>
+              <span className="text-3xl sm:text-4xl text-[#201515] tracking-tight font-medium font-inter">$2</span>
               <AnimatePresence mode="wait">
                 <motion.span
                   key={starterCycle}
@@ -261,14 +261,14 @@ export default function PricingPlansView({ className = "" }: { className?: strin
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15 }}
-                  className="text-xs text-text-muted"
+                  className="text-xs text-[#62646A]"
                 >
                   {starterCycle === "monthly" ? "/ month" : "one-time refill"}
                 </motion.span>
               </AnimatePresence>
             </div>
 
-            <ul className="space-y-2.5 text-xs text-text-body">
+            <ul className="space-y-2.5 text-xs text-[#62646A]">
               {[
                 "10,000 AI Smart Credits",
                 starterCycle === "monthly" ? "100% Unused Credit Rollover" : "No Recurring Commitment",
@@ -299,8 +299,8 @@ export default function PricingPlansView({ className = "" }: { className?: strin
               size="md"
               className={`w-full justify-center text-sm transition-all duration-200 ${
                 isStarterCurrent && starterCycle === "monthly"
-                  ? "bg-[#1DBF73] text-black"
-                  : "text-text-main border-border-light hover:bg-slate-50"
+                  ? "bg-[#1DBF73] text-white hover:bg-[#19a463]"
+                  : "text-[#201515] border-border-light hover:bg-[#F7F7F7]"
               }`}
             >
               {isStarterCurrent && starterCycle === "monthly"
@@ -316,23 +316,23 @@ export default function PricingPlansView({ className = "" }: { className?: strin
 
         {/* 3. PRO PLAN ($5) */}
         <div
-          className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left ${
+          className={`p-6 rounded-2xl bg-[#F7F7F7] flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter ${
             highlightPro
-              ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30" + (isProCurrent ? " bg-ai-green-tint/30" : "")
+              ? "border-2 border-[#1DBF73]" + (isProCurrent ? " bg-ai-green-tint/30" : "")
               : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
           }`}
         >
           <div className="space-y-4">
             {/* Header with Title + Badges + Animated Mini Toggle */}
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg font-medium text-text-main">Pro</h3>
+            <div className="flex items-center justify-between gap-1.5">
+              <div className="flex items-center gap-1.5 shrink-0">
+                <h3 className="text-lg font-medium text-[#201515] font-inter">Pro</h3>
                 {isProCurrent ? (
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1DBF73] text-white flex items-center gap-1 shadow-xs font-mono">
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1DBF73] text-white flex items-center gap-1 shadow-xs font-mono whitespace-nowrap">
                     <CheckCircle2 className="w-3 h-3 text-white" /> Current Plan
                   </span>
                 ) : !hasPurchasedPlan ? (
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-xs">
+                  <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-[#1DBF73] text-white shadow-xs whitespace-nowrap">
                     Popular
                   </span>
                 ) : null}
@@ -362,7 +362,7 @@ export default function PricingPlansView({ className = "" }: { className?: strin
             </div>
 
             <div className="flex items-baseline gap-1 py-1 border-b border-border-light">
-              <span className="text-3xl sm:text-4xl text-text-main tracking-tight font-medium">$5</span>
+              <span className="text-3xl sm:text-4xl text-[#201515] tracking-tight font-medium font-inter">$5</span>
               <AnimatePresence mode="wait">
                 <motion.span
                   key={proCycle}
@@ -370,14 +370,14 @@ export default function PricingPlansView({ className = "" }: { className?: strin
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15 }}
-                  className="text-xs text-text-muted"
+                  className="text-xs text-[#62646A]"
                 >
                   {proCycle === "monthly" ? "/ month" : "one-time refill"}
                 </motion.span>
               </AnimatePresence>
             </div>
 
-            <ul className="space-y-2.5 text-xs text-text-body">
+            <ul className="space-y-2.5 text-xs text-[#62646A]">
               {[
                 "30,000 AI Smart Credits",
                 proCycle === "monthly" ? "100% Unused Credit Rollover" : "No Recurring Commitment",
@@ -409,11 +409,9 @@ export default function PricingPlansView({ className = "" }: { className?: strin
               }
               size="md"
               className={`w-full justify-center text-sm transition-all duration-200 ${
-                isProCurrent && proCycle === "monthly"
-                  ? "bg-[#1DBF73] text-black"
-                  : !highlightPro
-                  ? "text-text-main border-border-light hover:bg-slate-50"
-                  : ""
+                highlightPro || (isProCurrent && proCycle === "monthly")
+                  ? "bg-[#1DBF73] text-white hover:bg-[#19a463]"
+                  : "text-[#201515] border-border-light hover:bg-[#F7F7F7]"
               }`}
             >
               {isProCurrent && proCycle === "monthly"
@@ -429,9 +427,9 @@ export default function PricingPlansView({ className = "" }: { className?: strin
 
         {/* 4. ENTERPRISE PLAN */}
         <div
-          className={`p-6 rounded-md bg-white flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left ${
+          className={`p-6 rounded-2xl bg-[#F7F7F7] flex flex-col justify-between relative overflow-hidden transition-all duration-200 text-left font-inter ${
             highlightEnterprise
-              ? "border-2 border-[#1DBF73] shadow-xl shadow-[#1DBF73]/10 ring-1 ring-[#1DBF73]/30 bg-ai-green-tint/30"
+              ? "border-2 border-[#1DBF73]" + (isEnterpriseCurrent ? " bg-ai-green-tint/30" : "")
               : "border border-border-light hover:border-[#DADBDD] hover:shadow-md"
           }`}
         >
@@ -443,17 +441,17 @@ export default function PricingPlansView({ className = "" }: { className?: strin
 
           <div className="space-y-4">
             <div>
-              <h3 className="text-lg font-medium text-text-main">Enterprise</h3>
+              <h3 className="text-lg font-medium text-[#201515] font-inter">Enterprise</h3>
               <p className="text-xs text-[#62646A] mt-1 min-h-8">
                 Dedicated high-throughput AI orchestration for large enterprise retailers.
               </p>
             </div>
 
             <div className="flex items-baseline gap-1 py-1 border-b border-border-light">
-              <span className="text-3xl sm:text-4xl text-text-main tracking-tight font-medium">Custom</span>
+              <span className="text-3xl sm:text-4xl text-[#201515] tracking-tight font-medium font-inter">Custom</span>
             </div>
 
-            <ul className="space-y-2.5 text-xs text-text-body">
+            <ul className="space-y-2.5 text-xs text-[#62646A]">
               {[
                 "Unlimited AI Turbo Credits",
                 "Unlimited API keys & domains",
@@ -477,8 +475,8 @@ export default function PricingPlansView({ className = "" }: { className?: strin
               size="md"
               className={`w-full justify-center text-sm ${
                 highlightEnterprise
-                  ? "bg-[#1DBF73] text-black"
-                  : "text-text-main border-border-light hover:bg-slate-50"
+                  ? "bg-[#1DBF73] text-white hover:bg-[#19a463]"
+                  : "text-[#201515] border-border-light hover:bg-[#F7F7F7]"
               }`}
             >
               {isEnterpriseCurrent ? "Current Plan (Manage)" : "Contact Enterprise Sales"}

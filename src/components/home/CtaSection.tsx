@@ -5,9 +5,9 @@ import { ArrowRight } from "lucide-react";
 
 export default function CtaSection() {
   return (
-    <section className="py-12 sm:py-16 bg-white">
+    <section className="py-12 sm:py-16 bg-surface-light">
       <div className="w-11/12 lg:w-9/12 lg:max-w-9/12 mx-auto">
-        <div className="relative overflow-hidden rounded-md bg-[#1DBF73] p-8 sm:p-12 lg:p-14 text-white shadow-lg flex flex-col justify-center min-h-[300px]">
+        <div className="relative overflow-hidden rounded-3xl bg-[#1DBF73] p-8 sm:p-12 lg:p-14 text-white flex flex-col justify-center min-h-[300px]">
           {/* Concentric Circles Right Graphic Pattern (Anchored at Right Edge) */}
           <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 pointer-events-none flex items-center justify-center opacity-90">
             <div className="w-[500px] h-[500px] sm:w-[680px] sm:h-[680px] rounded-full bg-white/10 flex items-center justify-center">
@@ -36,7 +36,7 @@ export default function CtaSection() {
             <div className="flex flex-wrap items-center gap-3 pt-3">
               <Link
                 href="/register"
-                className="inline-flex items-center justify-between gap-6 sm:gap-8 pl-5 pr-2 py-2 rounded-md bg-[#111111] text-white font-medium text-xs sm:text-sm hover:bg-black transition-all shadow-md group cursor-pointer"
+                className="inline-flex items-center justify-between gap-6 sm:gap-8 pl-5 pr-2 py-2 rounded-md bg-[#111111] text-white font-medium text-xs sm:text-sm hover:bg-black transition-all group cursor-pointer"
               >
                 <span>Get Started Free</span>
                 <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-white/20 group-hover:bg-white text-white group-hover:text-black flex items-center justify-center transition-colors shrink-0">

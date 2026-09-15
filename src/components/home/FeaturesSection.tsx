@@ -244,13 +244,13 @@ export default function FeaturesSection() {
             <div className="absolute inset-0 bg-black/10 backdrop-brightness-95 pointer-events-none" />
 
             {/* Static Floating Glass UI Card (Does not fade on slide change) */}
-            <div className="relative z-10 w-full h-full rounded-2xl bg-white/85 backdrop-blur-md border border-white/80 shadow-2xl p-4 sm:p-6 md:p-8 flex flex-col justify-between overflow-hidden">
-              <div className="flex items-center justify-between border-b border-border-light pb-3 mb-2 shrink-0">
+            <div className="relative z-10 w-full h-full rounded-2xl bg-white/85 backdrop-blur-md border border-white/80 shadow-2xl p-2 sm:p-3.5 flex flex-col justify-between overflow-hidden">
+              <div className="flex items-center justify-between border-b border-border-light pb-2 mb-1 shrink-0">
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-rose-400" />
                   <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                  <span className="text-xs sm:text-sm font-semibold text-[#201515] pl-2">
+                  <span className="text-xs sm:text-sm font-semibold text-[#201515] pl-1.5">
                     {activeFeature.previewDetails.heading}
                   </span>
                 </div>
