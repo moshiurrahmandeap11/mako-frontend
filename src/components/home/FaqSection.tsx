@@ -63,7 +63,7 @@ export default function FaqSection() {
                   onClick={() => toggleFaq(index)}
                   className="w-full px-6 py-4 flex items-center justify-between text-left cursor-pointer"
                 >
-                  <span className="text-base font-normal text-[#62646A] pr-4">
+                  <span className="text-base sm:text-lg font-normal text-[#62646A] pr-4">
                     {faq.question}
                   </span>
                   <ChevronDown
@@ -82,7 +82,7 @@ export default function FaqSection() {
                       transition={{ duration: 0.2 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-5 pt-1 text-xs sm:text-sm text-[#62646A] leading-relaxed">
+                      <div className="px-6 pb-5 pt-1 text-sm sm:text-base text-[#62646A] leading-relaxed">
                         {faq.answer}
                       </div>
                     </motion.div>
