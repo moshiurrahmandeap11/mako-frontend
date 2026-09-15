@@ -243,34 +243,35 @@ export default function FeaturesSection() {
             {/* Subtle Overlay */}
             <div className="absolute inset-0 bg-black/10 backdrop-brightness-95 pointer-events-none" />
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeFeature.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="relative z-10 w-full h-full"
-              >
-                {/* Full Width & Height Floating UI Card with 16px (p-4) Outer Gap */}
-                <div className="w-full h-full rounded-2xl bg-white/85 backdrop-blur-md border border-white/80 shadow-2xl p-4 sm:p-6 md:p-8 flex flex-col justify-between overflow-hidden">
-                  <div className="flex items-center justify-between border-b border-border-light pb-3 mb-2 shrink-0">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-rose-400" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                      <span className="text-xs sm:text-sm font-semibold text-[#201515] pl-2">
-                        {activeFeature.previewDetails.heading}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="py-2 flex-1 flex flex-col justify-center items-center overflow-y-auto">
-                    <FeatureVisualPreview slug={activeFeature.slug} />
-                  </div>
+            {/* Static Floating Glass UI Card (Does not fade on slide change) */}
+            <div className="relative z-10 w-full h-full rounded-2xl bg-white/85 backdrop-blur-md border border-white/80 shadow-2xl p-4 sm:p-6 md:p-8 flex flex-col justify-between overflow-hidden">
+              <div className="flex items-center justify-between border-b border-border-light pb-3 mb-2 shrink-0">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-rose-400" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                  <span className="text-xs sm:text-sm font-semibold text-[#201515] pl-2">
+                    {activeFeature.previewDetails.heading}
+                  </span>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+              </div>
+
+              {/* Only Inner Content Fades on Slide Switch */}
+              <div className="py-2 flex-1 relative overflow-hidden flex flex-col justify-center items-center">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeFeature.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="w-full h-full flex flex-col justify-center items-center"
+                  >
+                    <FeatureVisualPreview slug={activeFeature.slug} />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
           </div>
         </div>
       </div>
