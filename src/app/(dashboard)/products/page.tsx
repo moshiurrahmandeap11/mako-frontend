@@ -25,6 +25,8 @@ export default function ProductsPage() {
   const [availableDomains, setAvailableDomains] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [deletingBulk, setDeletingBulk] = useState(false);
 
   // Add Product Modal State
   const [showAddModal, setShowAddModal] = useState(false);
@@ -68,6 +70,7 @@ export default function ProductsPage() {
   };
 
   useEffect(() => {
+    setSelectedIds([]);
     loadProducts();
   }, [page, search, selectedDomain]);
 
@@ -104,6 +107,106 @@ export default function ProductsPage() {
     }
   };
 
+  const isAllSelected =
+    products.length > 0 && products.every((p) => selectedIds.includes(p.id));
+
+  const handleToggleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedIds((prev) =>
+        prev.filter((id) => !products.some((p) => p.id === id)),
+      );
+    } else {
+      const newIds = new Set([...selectedIds, ...products.map((p) => p.id)]);
+      setSelectedIds(Array.from(newIds));
+    }
+  };
+
+  const handleToggleSelect = (id: string) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedIds.length === 0) return;
+    const count = selectedIds.length;
+    const result = await swal.fire({
+      icon: "warning",
+      title: `Delete ${count} Products?`,
+      text: `Are you sure you want to delete ${count} selected products? They will be permanently removed from your catalog and AI recommendations.`,
+      showCancelButton: true,
+      confirmButtonText: `Delete ${count} Products`,
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#e11d48",
+    });
+    if (!result.isConfirmed) return;
+
+    setDeletingBulk(true);
+    try {
+      await fetchApi("/api/products/bulk", {
+        method: "DELETE",
+        body: JSON.stringify({ ids: selectedIds }),
+      });
+      setSelectedIds([]);
+      loadProducts();
+      swal.fire({
+        icon: "success",
+        title: "Products Deleted",
+        text: `${count} products have been removed from your catalog.`,
+        timer: 1800,
+        showConfirmButton: false,
+      });
+    } catch (err: any) {
+      swal.fire({
+        icon: "error",
+        title: "Delete Failed",
+        text: err.message || "Failed to delete selected products",
+        confirmButtonText: "OK",
+      });
+    } finally {
+      setDeletingBulk(false);
+    }
+  };
+
+  const handleClearAllProducts = async () => {
+    const domainLabel =
+      selectedDomain === "all" ? "entire catalog" : selectedDomain;
+    const result = await swal.fire({
+      icon: "warning",
+      title: `Clear ${domainLabel}?`,
+      text: `Are you sure you want to permanently delete ALL products in ${domainLabel}? This cannot be undone.`,
+      showCancelButton: true,
+      confirmButtonText: "Yes, Clear All",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#e11d48",
+    });
+    if (!result.isConfirmed) return;
+
+    try {
+      const query =
+        selectedDomain !== "all"
+          ? `?domain=${encodeURIComponent(selectedDomain)}`
+          : "";
+      await fetchApi(`/api/products/clear-all${query}`, { method: "DELETE" });
+      setSelectedIds([]);
+      loadProducts();
+      swal.fire({
+        icon: "success",
+        title: "Catalog Cleared",
+        text: `All products in ${domainLabel} have been removed.`,
+        timer: 1800,
+        showConfirmButton: false,
+      });
+    } catch (err: any) {
+      swal.fire({
+        icon: "error",
+        title: "Clear Failed",
+        text: err.message || "Failed to clear catalog.",
+        confirmButtonText: "OK",
+      });
+    }
+  };
+
   const handleDeleteProduct = async (id: string) => {
     const result = await swal.fire({
       icon: "warning",
@@ -112,18 +215,20 @@ export default function ProductsPage() {
       showCancelButton: true,
       confirmButtonText: "Delete Product",
       cancelButtonText: "Cancel",
+      confirmButtonColor: "#e11d48",
     });
     if (!result.isConfirmed) return;
 
     try {
       await fetchApi(`/api/products/${id}`, { method: "DELETE" });
+      setSelectedIds((prev) => prev.filter((item) => item !== id));
       loadProducts();
       swal.fire({
         icon: "success",
         title: "Product Deleted",
         text: "The product has been removed from catalog.",
-        confirmButtonText: "OK",
-        timer: 2000,
+        timer: 1800,
+        showConfirmButton: false,
       });
     } catch (err: any) {
       swal.fire({
@@ -249,7 +354,18 @@ export default function ProductsPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 flex-wrap">
+          {products.length > 0 && (
+            <button
+              onClick={handleClearAllProducts}
+              className="px-3 py-1.5 rounded-md border border-rose-200 bg-rose-50/50 hover:bg-rose-50 text-rose-600 text-xs sm:text-sm font-normal transition flex items-center gap-1.5 cursor-pointer"
+              title="Clear all products in catalog"
+            >
+              <Trash2 className="w-4 h-4 text-rose-600" strokeWidth={1.5} />
+              <span>Clear All</span>
+            </button>
+          )}
+
           <Button
             onClick={() => setShowImportModal(true)}
             variant="outline"
@@ -277,47 +393,73 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* Search & Domain Filter Controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-        <div className="relative flex-1">
-          <Search
-            className="w-4 h-4 text-[#74767E] absolute left-3.5 top-1/2 -translate-y-1/2"
-            strokeWidth={1.5}
-          />
-          <input
-            type="text"
-            placeholder="Search products by title, category, or description..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            className="w-full pl-10 pr-4 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73] transition"
-          />
-        </div>
-
-        {/* Domain Filter Dropdown */}
-        <div className="flex items-center gap-2 shrink-0">
-          <div className="flex items-center gap-1.5 px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325]">
-            <Globe className="w-3.5 h-3.5 text-[#1DBF73]" />
-            <select
-              value={selectedDomain}
+      {/* Search & Domain Filter & Bulk Action Controls */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-3 flex-1">
+          <div className="relative flex-1">
+            <Search
+              className="w-4 h-4 text-[#74767E] absolute left-3.5 top-1/2 -translate-y-1/2"
+              strokeWidth={1.5}
+            />
+            <input
+              type="text"
+              placeholder="Search products by title, category, or description..."
+              value={search}
               onChange={(e) => {
-                setSelectedDomain(e.target.value);
+                setSearch(e.target.value);
                 setPage(1);
               }}
-              aria-label="Filter products by domain"
-              className="bg-transparent text-xs text-[#222325] focus:outline-none cursor-pointer pr-1 font-medium"
-            >
-              <option value="all">All Websites & Domains</option>
-              {availableDomains.map((d) => (
-                <option key={d} value={d}>
-                  {d}
-                </option>
-              ))}
-            </select>
+              className="w-full pl-10 pr-4 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325] placeholder-[#74767E] focus:outline-none focus:border-[#1DBF73] transition"
+            />
+          </div>
+
+          {/* Domain Filter Dropdown */}
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1.5 px-3 py-2 bg-white border border-[#E4E5E7] rounded-md text-xs text-[#222325]">
+              <Globe className="w-3.5 h-3.5 text-[#1DBF73]" />
+              <select
+                value={selectedDomain}
+                onChange={(e) => {
+                  setSelectedDomain(e.target.value);
+                  setPage(1);
+                }}
+                aria-label="Filter products by domain"
+                className="bg-transparent text-xs text-[#222325] focus:outline-none cursor-pointer pr-1 font-medium"
+              >
+                <option value="all">All Websites & Domains</option>
+                {availableDomains.map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
+
+        {/* Bulk Selection Action Button */}
+        {selectedIds.length > 0 && (
+          <div className="flex items-center gap-2.5 px-3 py-1.5 bg-rose-50 border border-rose-200 rounded-md animate-in fade-in duration-150 shrink-0">
+            <span className="text-xs font-medium text-rose-700">
+              {selectedIds.length} {selectedIds.length === 1 ? "product" : "products"} selected
+            </span>
+            <div className="h-3.5 w-px bg-rose-200" />
+            <button
+              onClick={handleDeleteSelected}
+              disabled={deletingBulk}
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-rose-700 hover:text-rose-900 transition cursor-pointer disabled:opacity-50"
+            >
+              <Trash2 className="w-3.5 h-3.5" strokeWidth={1.5} />
+              <span>{deletingBulk ? "Deleting..." : "Delete Selected"}</span>
+            </button>
+            <button
+              onClick={() => setSelectedIds([])}
+              className="text-[11px] text-[#74767E] hover:text-[#222325] underline cursor-pointer ml-1"
+            >
+              Deselect
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Product Table List */}
@@ -326,6 +468,15 @@ export default function ProductsPage() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-[#E4E5E7] bg-[#F7F7F7] text-xs font-normal text-[#74767E]">
+                <th className="py-3.5 px-3 w-10 text-center">
+                  <input
+                    type="checkbox"
+                    checked={isAllSelected}
+                    onChange={handleToggleSelectAll}
+                    aria-label="Select all products on this page"
+                    className="w-4 h-4 rounded border-[#E4E5E7] text-[#1DBF73] focus:ring-[#1DBF73] accent-[#1DBF73] cursor-pointer align-middle"
+                  />
+                </th>
                 <th className="py-3.5 px-4 font-normal">Product</th>
                 <th className="py-3.5 px-4 font-normal">Category</th>
                 <th className="py-3.5 px-4 font-normal">Price</th>
@@ -337,15 +488,15 @@ export default function ProductsPage() {
             <tbody className="divide-y divide-[#E4E5E7] text-xs text-[#404145]">
               {loading ? (
                 <>
-                  <TableRowSkeleton columns={6} />
-                  <TableRowSkeleton columns={6} />
-                  <TableRowSkeleton columns={6} />
-                  <TableRowSkeleton columns={6} />
+                  <TableRowSkeleton columns={7} />
+                  <TableRowSkeleton columns={7} />
+                  <TableRowSkeleton columns={7} />
+                  <TableRowSkeleton columns={7} />
                 </>
               ) : products.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="text-center py-12 text-[#74767E] text-xs font-normal"
                   >
                     <Package
@@ -362,8 +513,22 @@ export default function ProductsPage() {
                     hostname = new URL(p.productUrl).hostname;
                   } catch {}
 
+                  const isSelected = selectedIds.includes(p.id);
+
                   return (
-                    <tr key={p.id} className="hover:bg-[#F7F7F7] transition">
+                    <tr
+                      key={p.id}
+                      className={`transition ${isSelected ? "bg-[#1DBF73]/5 hover:bg-[#1DBF73]/10" : "hover:bg-[#F7F7F7]"}`}
+                    >
+                      <td className="py-3.5 px-3 w-10 text-center">
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => handleToggleSelect(p.id)}
+                          aria-label={`Select product ${p.title}`}
+                          className="w-4 h-4 rounded border-[#E4E5E7] text-[#1DBF73] focus:ring-[#1DBF73] accent-[#1DBF73] cursor-pointer align-middle"
+                        />
+                      </td>
                       <td className="py-3.5 px-4 flex items-center gap-3">
                         {p.imageUrl ? (
                           <img
